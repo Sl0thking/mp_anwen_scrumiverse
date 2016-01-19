@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>160</y>
+      <w>168</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Category
+
+--
+-id: Long
+-name: String
+-color: Color
+--
++Getter / Setter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>552</x>
+      <y>88</y>
+      <w>248</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>User Story
+--
+-description: String
+-usid: int
+-businessValue: int
+-effortValue: int
+-isFinished: bool
+-category: Category
+-tasks: List&lt;Task&gt;
+-dueDate: Date
+-acceptanceCriteria: List&lt;String&gt;
+-history: List&lt;HistoryEntry&gt;
+--
++getResponsibleUsers(): List&lt;User&gt;
++getPlannedHours(): int
++getCurrentHours(): int
++getRemainingHours(): int
++Getter / Setter
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>424</x>
+      <y>152</y>
+      <w>144</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>hat
+m1=0-1
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>552</x>
+      <y>328</y>
+      <w>248</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>Task
+--
+-history: List&lt;HistoryEntry&gt;
+-description: String
+-tid: int
+-workLogs: List&lt;WorkLog&gt;
+-plannedMinutes: int
+-responsibleUsers: List&lt;User&gt;
+-userTimePlans: Map&lt;User, TimePlan&gt;
+-tags: List&lt;String&gt;
+-isFinished: bool
+--
++setPlannedMin(): int
++setPlannedHours(): int
++getTimePlanOfUser(User: String): TimePlan
++getAllTimePlans(): List&lt;TimePlan&gt;
++logWork(workLog: WorkLog): void
++Getter / Setter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>184</y>
+      <w>64</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>hat
+m1=0..n
+lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;190.0;10.0;190.0;10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>856</x>
+      <y>368</y>
+      <w>152</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>WorkLog
+--
+-user: User
+-loggedMinutes: int
+-logText: String
+--
++Getter / Setter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>368</y>
+      <w>80</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>856</x>
+      <y>176</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>HistoryEntry
+--
+-user: User
+-changeEvent: ChangeEvent
+-date: Date
+--
++Getter / Setter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>224</y>
+      <w>80</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>272</y>
+      <w>152</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+lt=&lt;-</panel_attributes>
+    <additional_attributes>150.0;10.0;150.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>312</x>
+      <y>408</y>
+      <w>176</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>TimePlan
+--
+-user: User
+-estimatedMin: int
+-currentMin: int
+--
++getRemainingMin(): int
++Getter / Setter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>424</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+</diagram>
