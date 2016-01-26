@@ -27,7 +27,7 @@ fg=red</panel_attributes>
     </coordinates>
     <panel_attributes>
 --
-com.scrumiverse.persistence.DAO.hibernate
+com.scrumiverse.persistence.DAO.interfaces
 bg=white
 fg=black</panel_attributes>
     <additional_attributes/>
@@ -91,17 +91,6 @@ com.scrumiverse.model
 bg=white
 fg=black</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>770</x>
-      <y>720</y>
-      <w>30</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -385,5 +374,16 @@ fg=black</panel_attributes>
 style=wordwrap
 layer=1</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>720</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
