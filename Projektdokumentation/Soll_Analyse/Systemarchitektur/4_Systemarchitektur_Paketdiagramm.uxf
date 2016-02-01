@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.1.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>580</x>
-      <y>800</y>
-      <w>350</w>
-      <h>120</h>
+      <x>424</x>
+      <y>632</y>
+      <w>296</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO.interfaces
 --
@@ -20,10 +20,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>600</x>
-      <y>90</y>
-      <w>480</w>
-      <h>160</h>
+      <x>440</x>
+      <y>64</y>
+      <w>384</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>webcontent.WEB-INF
 --
@@ -36,10 +36,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>810</x>
-      <y>470</y>
-      <w>360</w>
-      <h>120</h>
+      <x>608</x>
+      <y>368</y>
+      <w>304</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.web
 --
@@ -52,10 +52,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>580</x>
-      <y>610</y>
-      <w>340</w>
-      <h>130</h>
+      <x>424</x>
+      <y>488</y>
+      <w>272</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO
 --
@@ -68,10 +68,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1010</x>
-      <y>700</y>
-      <w>340</w>
-      <h>140</h>
+      <x>768</x>
+      <y>560</y>
+      <w>272</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.model
 --
@@ -84,34 +84,34 @@ group=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>800</x>
-      <y>580</y>
-      <w>190</w>
-      <h>70</h>
+      <x>600</x>
+      <y>456</y>
+      <w>152</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
-    <additional_attributes>10.0;50.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;170.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1090</x>
-      <y>580</y>
-      <w>140</w>
-      <h>160</h>
+      <x>832</x>
+      <y>456</y>
+      <w>112</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
-    <additional_attributes>120.0;140.0;10.0;10.0</additional_attributes>
+    <additional_attributes>120.0;150.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>560</x>
-      <y>440</y>
-      <w>880</w>
-      <h>510</h>
+      <x>408</x>
+      <y>344</y>
+      <w>704</w>
+      <h>408</h>
     </coordinates>
     <panel_attributes>src
 --
@@ -122,10 +122,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>640</x>
-      <y>130</y>
-      <w>150</w>
-      <h>90</h>
+      <x>472</x>
+      <y>96</y>
+      <w>120</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>
 --
@@ -139,10 +139,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>890</x>
-      <y>130</y>
-      <w>150</w>
-      <h>90</h>
+      <x>672</x>
+      <y>96</y>
+      <w>120</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>
 --
@@ -156,10 +156,10 @@ group=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>990</x>
-      <y>240</y>
-      <w>40</w>
-      <h>240</h>
+      <x>752</x>
+      <y>184</y>
+      <w>32</w>
+      <h>192</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
@@ -168,10 +168,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>60</x>
-      <y>10</y>
-      <w>320</w>
-      <h>360</h>
+      <x>0</x>
+      <y>0</y>
+      <w>256</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>external libraries
 --
@@ -182,10 +182,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>70</x>
-      <y>40</y>
-      <w>140</w>
-      <h>70</h>
+      <x>8</x>
+      <y>24</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -199,10 +199,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>220</x>
-      <y>40</y>
-      <w>140</w>
-      <h>70</h>
+      <x>128</x>
+      <y>24</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -216,10 +216,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>70</x>
-      <y>150</y>
-      <w>140</w>
-      <h>70</h>
+      <x>8</x>
+      <y>112</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -233,10 +233,10 @@ group=3</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
-      <y>170</y>
-      <w>130</w>
-      <h>30</h>
+      <x>584</x>
+      <y>128</y>
+      <w>104</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
@@ -244,10 +244,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>490</x>
-      <y>10</y>
-      <w>1020</w>
-      <h>950</h>
+      <x>352</x>
+      <y>0</y>
+      <w>816</w>
+      <h>760</h>
     </coordinates>
     <panel_attributes>scrumiverse
 --
@@ -258,10 +258,10 @@ group=2</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>820</x>
-      <y>160</y>
-      <w>100</w>
-      <h>70</h>
+      <x>616</x>
+      <y>120</y>
+      <w>80</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;use&gt;&gt;
 style=wordwrap
@@ -272,10 +272,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>70</x>
-      <y>250</y>
-      <w>140</w>
-      <h>70</h>
+      <x>8</x>
+      <y>192</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -289,10 +289,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>220</x>
-      <y>150</y>
-      <w>140</w>
-      <h>70</h>
+      <x>128</x>
+      <y>112</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -306,10 +306,10 @@ group=3</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>410</x>
-      <y>170</y>
-      <w>100</w>
-      <h>70</h>
+      <x>288</x>
+      <y>128</y>
+      <w>80</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;import&gt;&gt;
 style=wordwrap</panel_attributes>
@@ -318,21 +318,21 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>180</y>
-      <w>290</w>
-      <h>30</h>
+      <x>248</x>
+      <y>136</y>
+      <w>240</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;270.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>220</x>
-      <y>250</y>
-      <w>140</w>
-      <h>70</h>
+      <x>128</x>
+      <y>192</y>
+      <w>112</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>
 --
@@ -346,10 +346,10 @@ group=3</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>210</y>
-      <w>30</w>
-      <h>250</h>
+      <x>488</x>
+      <y>160</y>
+      <w>24</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
@@ -358,10 +358,10 @@ group=2</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>670</x>
-      <y>330</y>
-      <w>100</w>
-      <h>70</h>
+      <x>496</x>
+      <y>256</y>
+      <w>80</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;use&gt;&gt;
 style=wordwrap
@@ -372,10 +372,10 @@ group=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>730</y>
-      <w>30</w>
-      <h>90</h>
+      <x>520</x>
+      <y>576</y>
+      <w>24</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
@@ -384,10 +384,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>650</y>
-      <w>100</w>
-      <h>30</h>
+      <x>432</x>
+      <y>512</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserDAO
 layer=1
@@ -397,10 +397,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>650</y>
-      <w>100</w>
-      <h>30</h>
+      <x>520</x>
+      <y>512</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>RoleDAO
 layer=1
@@ -410,10 +410,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>650</y>
-      <w>100</w>
-      <h>30</h>
+      <x>608</x>
+      <y>512</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>ProjektDAO
 layer=1
@@ -423,10 +423,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>700</y>
-      <w>100</w>
-      <h>30</h>
+      <x>432</x>
+      <y>552</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAO
 layer=1
@@ -436,10 +436,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>700</y>
-      <w>100</w>
-      <h>30</h>
+      <x>520</x>
+      <y>552</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAO
 layer=1
@@ -449,10 +449,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>830</y>
-      <w>100</w>
-      <h>30</h>
+      <x>432</x>
+      <y>656</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserDAOImpl
 layer=1
@@ -462,10 +462,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>830</y>
-      <w>100</w>
-      <h>30</h>
+      <x>520</x>
+      <y>656</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>RoleDAOImpl
 layer=1
@@ -475,10 +475,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>830</y>
-      <w>110</w>
-      <h>30</h>
+      <x>608</x>
+      <y>656</y>
+      <w>88</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>ProjektDAOImpl
 layer=1
@@ -488,10 +488,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>880</y>
-      <w>100</w>
-      <h>30</h>
+      <x>432</x>
+      <y>696</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAOImpl
 layer=1
@@ -501,10 +501,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>880</y>
-      <w>130</w>
-      <h>30</h>
+      <x>520</x>
+      <y>696</y>
+      <w>104</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAOImpl
 layer=1
@@ -514,10 +514,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>820</x>
-      <y>500</y>
-      <w>100</w>
-      <h>30</h>
+      <x>616</x>
+      <y>392</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserController
 layer=1
@@ -527,10 +527,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>500</y>
-      <w>100</w>
-      <h>30</h>
+      <x>704</x>
+      <y>392</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>RoleController
 layer=1
@@ -540,10 +540,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1040</x>
-      <y>500</y>
-      <w>110</w>
-      <h>30</h>
+      <x>792</x>
+      <y>392</y>
+      <w>88</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>ProjektController
 layer=1
@@ -553,10 +553,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>550</y>
-      <w>140</w>
-      <h>30</h>
+      <x>704</x>
+      <y>432</y>
+      <w>112</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryController
 layer=1
@@ -566,10 +566,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>820</x>
-      <y>550</y>
-      <w>100</w>
-      <h>30</h>
+      <x>616</x>
+      <y>432</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>SprintController
 layer=1
@@ -579,10 +579,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1020</x>
-      <y>740</y>
-      <w>100</w>
-      <h>30</h>
+      <x>776</x>
+      <y>584</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>User
 layer=1
@@ -592,10 +592,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1130</x>
-      <y>740</y>
-      <w>100</w>
-      <h>30</h>
+      <x>864</x>
+      <y>584</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Role
 layer=1
@@ -605,10 +605,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1240</x>
-      <y>740</y>
-      <w>100</w>
-      <h>30</h>
+      <x>952</x>
+      <y>584</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Projekt
 layer=1
@@ -618,10 +618,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1130</x>
-      <y>790</y>
-      <w>100</w>
-      <h>30</h>
+      <x>864</x>
+      <y>624</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>UserStory
 layer=1
@@ -631,14 +631,62 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1020</x>
-      <y>790</y>
-      <w>100</w>
-      <h>30</h>
+      <x>776</x>
+      <y>624</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Sprint
 layer=1
 group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>824</x>
+      <y>432</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>TaskController
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>952</x>
+      <y>624</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Task
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>608</x>
+      <y>552</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>TaskDAO
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>696</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>TaskDAOImpl
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
