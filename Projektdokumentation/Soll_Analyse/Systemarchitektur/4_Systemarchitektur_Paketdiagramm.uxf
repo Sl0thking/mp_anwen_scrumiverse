@@ -7,7 +7,7 @@
       <x>424</x>
       <y>632</y>
       <w>296</w>
-      <h>96</h>
+      <h>136</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO.interfaces
 --
@@ -38,7 +38,7 @@ group=2</panel_attributes>
     <coordinates>
       <x>608</x>
       <y>368</y>
-      <w>304</w>
+      <w>392</w>
       <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.web
@@ -55,7 +55,7 @@ group=2</panel_attributes>
       <x>424</x>
       <y>488</y>
       <w>272</w>
-      <h>96</h>
+      <h>128</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO
 --
@@ -71,7 +71,7 @@ group=2</panel_attributes>
       <x>768</x>
       <y>560</y>
       <w>272</w>
-      <h>96</h>
+      <h>136</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.model
 --
@@ -111,7 +111,7 @@ group=2</panel_attributes>
       <x>408</x>
       <y>344</y>
       <w>704</w>
-      <h>408</h>
+      <h>440</h>
     </coordinates>
     <panel_attributes>src
 --
@@ -247,7 +247,7 @@ group=3</panel_attributes>
       <x>352</x>
       <y>0</y>
       <w>816</w>
-      <h>760</h>
+      <h>800</h>
     </coordinates>
     <panel_attributes>scrumiverse
 --
@@ -373,13 +373,13 @@ group=2</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>520</x>
-      <y>576</y>
+      <y>608</y>
       <w>24</w>
-      <h>72</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 group=2</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -686,6 +686,78 @@ layer=1</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>TaskDAOImpl
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>584</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageDAO
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>736</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageDAOImpl
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>888</x>
+      <y>392</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageController
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>776</x>
+      <y>664</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Message
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>584</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>NotificationDAO
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>536</x>
+      <y>736</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>NotificationDAOImpl
 layer=1</panel_attributes>
     <additional_attributes/>
   </element>
