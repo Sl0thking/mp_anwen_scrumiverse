@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.2">
+<diagram program="umlet" version="14.1.1">
   <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>623</x>
-      <y>280</y>
+      <y>259</y>
       <w>196</w>
-      <h>126</h>
+      <h>147</h>
     </coordinates>
     <panel_attributes>Message
 --
 -date: Date
 -from: User
--to: User
+-to: List&lt;User&gt;
 -content: String
 --
 Getter/Setter
@@ -46,8 +46,8 @@ Getter/Setter
       <w>175</w>
       <h>28</h>
     </coordinates>
-    <panel_attributes>m1=2
-m2=0..n</panel_attributes>
+    <panel_attributes>lt=&lt;-
+m1=2</panel_attributes>
     <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
   </element>
   <element>
@@ -55,12 +55,29 @@ m2=0..n</panel_attributes>
     <coordinates>
       <x>469</x>
       <y>427</y>
-      <w>133</w>
+      <w>147</w>
       <h>77</h>
     </coordinates>
-    <panel_attributes>Beim Nachrichten senden empfangenden Benutzer laden und Nachrichten hinzufügen.
-Handled in User Controller (User Interaction)
+    <panel_attributes>Beim Nachrichten senden 
+empfangenden Benutzer laden 
+und Nachrichten hinzufügen in MessageDAO.
+Handled in MessageController (User Interaction)
 bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>623</x>
+      <y>119</y>
+      <w>196</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Notification
+--
+-changeEvent: ChangeEvent
+-to: List&lt;User&gt;
+--</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
