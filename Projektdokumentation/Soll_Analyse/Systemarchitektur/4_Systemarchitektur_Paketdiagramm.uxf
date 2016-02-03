@@ -7,7 +7,7 @@
       <x>424</x>
       <y>632</y>
       <w>296</w>
-      <h>96</h>
+      <h>136</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO.interfaces
 --
@@ -36,7 +36,7 @@ bg=white</panel_attributes>
     <coordinates>
       <x>608</x>
       <y>368</y>
-      <w>304</w>
+      <w>392</w>
       <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.web
@@ -52,7 +52,7 @@ fg=black</panel_attributes>
       <x>424</x>
       <y>488</y>
       <w>272</w>
-      <h>96</h>
+      <h>128</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO
 --
@@ -67,7 +67,11 @@ fg=black</panel_attributes>
       <x>864</x>
       <y>544</y>
       <w>272</w>
+<<<<<<< HEAD
       <h>88</h>
+=======
+      <h>136</h>
+>>>>>>> origin/master
     </coordinates>
     <panel_attributes>com.scrumiverse.model.scrumCore
 --
@@ -104,8 +108,13 @@ group=5</panel_attributes>
     <coordinates>
       <x>408</x>
       <y>344</y>
+<<<<<<< HEAD
       <w>856</w>
       <h>408</h>
+=======
+      <w>704</w>
+      <h>440</h>
+>>>>>>> origin/master
     </coordinates>
     <panel_attributes>src
 --
@@ -236,8 +245,13 @@ group=3</panel_attributes>
     <coordinates>
       <x>352</x>
       <y>0</y>
+<<<<<<< HEAD
       <w>928</w>
       <h>760</h>
+=======
+      <w>816</w>
+      <h>800</h>
+>>>>>>> origin/master
     </coordinates>
     <panel_attributes>scrumiverse
 --
@@ -360,12 +374,18 @@ layer=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>520</x>
-      <y>576</y>
+      <y>608</y>
       <w>24</w>
-      <h>72</h>
+      <h>40</h>
     </coordinates>
+<<<<<<< HEAD
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+=======
+    <panel_attributes>lt=&lt;&lt;.
+group=2</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
+>>>>>>> origin/master
   </element>
   <element>
     <id>UMLClass</id>
@@ -664,6 +684,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>960</x>
       <y>504</y>
       <w>80</w>
@@ -672,11 +693,21 @@ layer=1</panel_attributes>
     <panel_attributes>Rights
 layer=1
 group=6</panel_attributes>
+=======
+      <x>432</x>
+      <y>584</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageDAO
+layer=1</panel_attributes>
+>>>>>>> origin/master
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>1048</x>
       <y>664</y>
       <w>80</w>
@@ -724,11 +755,21 @@ group=4</panel_attributes>
     <panel_attributes>PlanElement
 layer=1
 group=5</panel_attributes>
+=======
+      <x>432</x>
+      <y>736</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageDAOImpl
+layer=1</panel_attributes>
+>>>>>>> origin/master
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>1048</x>
       <y>568</y>
       <w>80</w>
@@ -737,24 +778,43 @@ group=5</panel_attributes>
     <panel_attributes>PlanState
 layer=1
 group=5</panel_attributes>
+=======
+      <x>888</x>
+      <y>392</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MessageController
+layer=1</panel_attributes>
+>>>>>>> origin/master
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>960</x>
+=======
+      <x>776</x>
+>>>>>>> origin/master
       <y>664</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
+<<<<<<< HEAD
     <panel_attributes>ChangeEvent
 layer=1
 group=4</panel_attributes>
+=======
+    <panel_attributes>Message
+layer=1</panel_attributes>
+>>>>>>> origin/master
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>1048</x>
       <y>696</y>
       <w>80</w>
@@ -797,11 +857,21 @@ bg=white
 fg=black
 layer=1
 group=4</panel_attributes>
+=======
+      <x>520</x>
+      <y>584</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>NotificationDAO
+layer=1</panel_attributes>
+>>>>>>> origin/master
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
+<<<<<<< HEAD
       <x>960</x>
       <y>696</y>
       <w>80</w>
@@ -835,4 +905,15 @@ group=4</panel_attributes>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>80.0;300.0;10.0;10.0</additional_attributes>
   </element>
+=======
+      <x>536</x>
+      <y>736</y>
+      <w>104</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>NotificationDAOImpl
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+>>>>>>> origin/master
 </diagram>

@@ -108,7 +108,7 @@ m1=0..n</panel_attributes>
       <w>189</w>
       <h>333</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;enum&gt;&gt;
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
 Rights
 --
 Create UserStory
@@ -123,8 +123,6 @@ Create Sprint
 Delete Sprint
 Edit Sprint
 Read Sprint
-CRUD Sprint
-CRUD Project
 inviteToProject
 deleteFromProject
 viewReview
