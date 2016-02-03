@@ -13,8 +13,7 @@
 --
 
 bg=white
-fg=black
-group=2</panel_attributes>
+fg=black</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -29,8 +28,7 @@ group=2</panel_attributes>
 --
 
 fg=black
-bg=white
-group=2</panel_attributes>
+bg=white</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -45,8 +43,7 @@ group=2</panel_attributes>
 --
 
 bg=white
-fg=black
-group=2</panel_attributes>
+fg=black</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -61,24 +58,23 @@ group=2</panel_attributes>
 --
 
 bg=white
-fg=black
-group=2</panel_attributes>
+fg=black</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>768</x>
-      <y>560</y>
+      <x>864</x>
+      <y>544</y>
       <w>272</w>
-      <h>96</h>
+      <h>88</h>
     </coordinates>
-    <panel_attributes>com.scrumiverse.model
+    <panel_attributes>com.scrumiverse.model.scrumCore
 --
 
 bg=white
 fg=black
-group=2</panel_attributes>
+group=5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -89,34 +85,31 @@ group=2</panel_attributes>
       <w>152</w>
       <h>64</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-group=2</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;60.0;170.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>832</x>
+      <x>800</x>
       <y>456</y>
-      <w>112</w>
-      <h>136</h>
+      <w>80</w>
+      <h>152</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-group=2</panel_attributes>
-    <additional_attributes>120.0;150.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;170.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
       <x>408</x>
       <y>344</y>
-      <w>704</w>
+      <w>856</w>
       <h>408</h>
     </coordinates>
     <panel_attributes>src
 --
-bg=orange
-group=2</panel_attributes>
+bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -132,8 +125,7 @@ group=2</panel_attributes>
 .lib
 bg=white
 fg=black
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -149,20 +141,18 @@ group=2</panel_attributes>
 .jsp
 bg=white
 fg=black
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>752</x>
+      <x>768</x>
       <y>184</y>
       <w>32</w>
       <h>192</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-group=2</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>12.0;220.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -246,13 +236,13 @@ group=3</panel_attributes>
     <coordinates>
       <x>352</x>
       <y>0</y>
-      <w>816</w>
+      <w>928</w>
       <h>760</h>
     </coordinates>
     <panel_attributes>scrumiverse
 --
 bg=gray
-group=2</panel_attributes>
+layer=-1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -265,8 +255,7 @@ group=2</panel_attributes>
     </coordinates>
     <panel_attributes>&lt;&lt;use&gt;&gt;
 style=wordwrap
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -351,8 +340,7 @@ group=3</panel_attributes>
       <w>24</w>
       <h>200</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-group=2</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
   </element>
   <element>
@@ -365,8 +353,7 @@ group=2</panel_attributes>
     </coordinates>
     <panel_attributes>&lt;&lt;use&gt;&gt;
 style=wordwrap
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -377,8 +364,7 @@ group=2</panel_attributes>
       <w>24</w>
       <h>72</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-group=2</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -390,8 +376,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserDAO
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -403,8 +388,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>RoleDAO
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -415,9 +399,8 @@ group=2</panel_attributes>
       <w>80</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>ProjektDAO
-layer=1
-group=2</panel_attributes>
+    <panel_attributes>ProjectDAO
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -429,8 +412,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAO
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -442,8 +424,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAO
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -455,8 +436,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserDAOImpl
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -468,8 +448,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>RoleDAOImpl
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -480,9 +459,8 @@ group=2</panel_attributes>
       <w>88</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>ProjektDAOImpl
-layer=1
-group=2</panel_attributes>
+    <panel_attributes>ProjectDAOImpl
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -494,8 +472,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAOImpl
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -507,8 +484,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAOImpl
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -520,8 +496,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserController
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -533,8 +508,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>RoleController
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -545,9 +519,8 @@ group=2</panel_attributes>
       <w>88</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>ProjektController
-layer=1
-group=2</panel_attributes>
+    <panel_attributes>ProjectController
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -559,8 +532,7 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryController
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -572,73 +544,72 @@ group=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintController
-layer=1
-group=2</panel_attributes>
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>776</x>
-      <y>584</y>
+      <x>872</x>
+      <y>504</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>User
 layer=1
-group=2</panel_attributes>
+group=6</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>864</x>
-      <y>584</y>
+      <x>1048</x>
+      <y>504</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>Role
 layer=1
-group=2</panel_attributes>
+group=6</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>952</x>
-      <y>584</y>
+      <x>872</x>
+      <y>568</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>Projekt
+    <panel_attributes>Project
 layer=1
-group=2</panel_attributes>
+group=5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>864</x>
-      <y>624</y>
+      <x>960</x>
+      <y>600</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStory
 layer=1
-group=2</panel_attributes>
+group=5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>776</x>
-      <y>624</y>
+      <x>960</x>
+      <y>568</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>Sprint
 layer=1
-group=2</panel_attributes>
+group=5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -656,13 +627,14 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>952</x>
-      <y>624</y>
+      <x>872</x>
+      <y>600</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>Task
-layer=1</panel_attributes>
+layer=1
+group=5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -688,5 +660,179 @@ layer=1</panel_attributes>
     <panel_attributes>TaskDAOImpl
 layer=1</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>504</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Rights
+layer=1
+group=6</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1048</x>
+      <y>664</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Category
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>872</x>
+      <y>664</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>MoscowState
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>872</x>
+      <y>696</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>WorkLog
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1048</x>
+      <y>600</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>PlanElement
+layer=1
+group=5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1048</x>
+      <y>568</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>PlanState
+layer=1
+group=5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>664</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>ChangeEvent
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1048</x>
+      <y>696</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>HistoryEntry
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>864</x>
+      <y>480</y>
+      <w>272</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>com.scrumiverse.model.account
+--
+
+bg=white
+fg=black
+layer=1
+group=6</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>864</x>
+      <y>640</y>
+      <w>272</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>com.scrumiverse.model.scrumFeatures
+--
+
+bg=white
+fg=black
+layer=1
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>696</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Message
+layer=2
+
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>456</y>
+      <w>80</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>456</y>
+      <w>80</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;300.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
