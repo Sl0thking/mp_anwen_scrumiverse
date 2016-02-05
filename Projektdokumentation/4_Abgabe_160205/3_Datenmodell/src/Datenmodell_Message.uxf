@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>623</x>
+      <y>259</y>
+      <w>196</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>Message
+--
+-date: Date
+-from: User
+-to: List&lt;User&gt;
+-content: String
+--
+Getter/Setter
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>259</y>
+      <w>301</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>User
+--
+-messages: List&lt;Message&gt;
+--
+-addMessage(Project project, String message, User user): void
+-getMessages(Project project): List&lt;Message&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>462</x>
+      <y>315</y>
+      <w>175</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=2</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>469</x>
+      <y>427</y>
+      <w>147</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Beim Nachrichten senden 
+empfangenden Benutzer laden 
+und Nachrichten hinzufügen in MessageDAO.
+Handled in MessageController (User Interaction)
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>623</x>
+      <y>119</y>
+      <w>196</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Notification
+--
+-changeEvent: ChangeEvent
+-to: List&lt;User&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
