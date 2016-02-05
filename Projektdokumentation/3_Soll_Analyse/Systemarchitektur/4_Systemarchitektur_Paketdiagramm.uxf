@@ -4,9 +4,9 @@
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>496</x>
+      <x>480</x>
       <y>672</y>
-      <w>296</w>
+      <w>312</w>
       <h>96</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO.impl
@@ -34,10 +34,10 @@ bg=white</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>608</x>
+      <x>472</x>
       <y>368</y>
-      <w>304</w>
-      <h>96</h>
+      <w>352</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.web
 --
@@ -49,9 +49,9 @@ fg=black</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>496</x>
-      <y>520</y>
-      <w>272</w>
+      <x>480</x>
+      <y>512</y>
+      <w>312</w>
       <h>104</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence.DAO
@@ -83,31 +83,31 @@ group=5
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>672</x>
-      <y>456</y>
+      <x>640</x>
+      <y>448</y>
       <w>24</w>
-      <h>96</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>800</x>
-      <y>456</y>
+      <y>544</y>
       <w>56</w>
-      <h>184</h>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>50.0;210.0;10.0;210.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;100.0;10.0;100.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>480</x>
+      <x>456</x>
       <y>344</y>
-      <w>664</w>
+      <w>688</w>
       <h>448</h>
     </coordinates>
     <panel_attributes>src
@@ -362,13 +362,13 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>592</x>
-      <y>616</y>
+      <x>640</x>
+      <y>608</y>
       <w>24</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -379,7 +379,7 @@ layer=1</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserDAO
-layer=2
+layer=3
 fg=black</panel_attributes>
     <additional_attributes/>
   </element>
@@ -393,7 +393,7 @@ fg=black</panel_attributes>
     </coordinates>
     <panel_attributes>RoleDAO
 fg=black
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -406,7 +406,7 @@ layer=2</panel_attributes>
     </coordinates>
     <panel_attributes>ProjectDAO
 fg=black
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -418,7 +418,7 @@ layer=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAO
-layer=2
+layer=3
 fg=black</panel_attributes>
     <additional_attributes/>
   </element>
@@ -431,76 +431,76 @@ fg=black</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAO
-layer=2
+layer=3
 fg=black</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
+      <x>488</x>
       <y>696</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>592</x>
+      <x>584</x>
       <y>696</y>
-      <w>80</w>
+      <w>104</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>RoleDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
+      <x>696</x>
       <y>696</y>
       <w>88</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>ProjectDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
+      <x>488</x>
       <y>736</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>592</x>
+      <x>584</x>
       <y>736</y>
       <w>104</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserStoryDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
+      <x>480</x>
       <y>392</y>
-      <w>80</w>
+      <w>96</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>UserController
@@ -510,9 +510,9 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
+      <x>584</x>
       <y>392</y>
-      <w>80</w>
+      <w>112</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>RoleController
@@ -522,7 +522,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
+      <x>704</x>
       <y>392</y>
       <w>88</w>
       <h>24</h>
@@ -534,8 +534,8 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
-      <y>432</y>
+      <x>584</x>
+      <y>424</y>
       <w>112</w>
       <h>24</h>
     </coordinates>
@@ -546,9 +546,9 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>432</y>
-      <w>80</w>
+      <x>480</x>
+      <y>424</y>
+      <w>96</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>SprintController
@@ -623,9 +623,9 @@ layer=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>824</x>
-      <y>432</y>
-      <w>80</w>
+      <x>704</x>
+      <y>424</y>
+      <w>88</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>TaskController
@@ -654,20 +654,20 @@ layer=2</panel_attributes>
       <h>24</h>
     </coordinates>
     <panel_attributes>TaskDAO
-layer=2
+layer=3
 fg=black</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
+      <x>696</x>
       <y>736</y>
-      <w>80</w>
+      <w>88</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>TaskDAOImpl
-layer=2</panel_attributes>
+layer=3</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -826,23 +826,23 @@ group=4</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>800</x>
-      <y>456</y>
+      <y>448</y>
       <w>56</w>
-      <h>104</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>50.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;120.0;10.0;120.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>800</x>
-      <y>456</y>
+      <y>616</y>
       <w>56</w>
-      <h>280</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>50.0;330.0;10.0;330.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
@@ -863,9 +863,9 @@ layer=1
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>488</x>
+      <x>472</x>
       <y>480</y>
-      <w>312</w>
+      <w>328</w>
       <h>296</h>
     </coordinates>
     <panel_attributes>com.scrumiverse.persistence
