@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<context:component-scan base-package="com.scrumiverse.web" />
+	<context:annotation-config />
+	<bean id="viewResolver"   
+           class="org.springframework.web.servlet.view.InternalResourceViewResolver"    
+           p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
+		<property name="url" value="jdbc:hsqldb:mem:testdb"/>
+		<property name="username" value="SA"/>
+		<property name="password" value=""/>
+	</bean>
+	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.scrumiverse.model.account.User</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="UserDAO" class="com.scrumiverse.DAO.UserDAOImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+</beans>
+
