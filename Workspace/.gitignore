@@ -1,1 +1,5 @@
 /build/
+/Servers/
+/.metadata/
+/.recommenders/
+/.settings/
