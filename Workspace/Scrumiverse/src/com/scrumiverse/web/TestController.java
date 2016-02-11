@@ -23,4 +23,11 @@ public class TestController {
 		map.addAttribute("user", new User());
 		return new ModelAndView("register", map);
 	}
+	
+	@RequestMapping("/backlog.htm")
+	public ModelAndView backlog(){
+		ModelMap map=new ModelMap();
+		map.addAttribute("user", new User());
+		return new ModelAndView("backlog", map);
+	}
 }

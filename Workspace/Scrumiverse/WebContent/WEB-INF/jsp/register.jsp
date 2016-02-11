@@ -15,6 +15,7 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link href="<c:url value="/resources/css/login.css" />" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+//Vergleicht die Inputs "email" und "name", auf Änderungen vom Default.
 function checkInputs(){
 	var email = $("#email").val();
 	var name = $("#name").val();
@@ -24,21 +25,21 @@ function checkInputs(){
 		return true;
 	}
 }
-	$(document).ready(function(){
-		$(".form-group").keyup(function(){
-			var password = $("#password").val();
-			var check = $("#passwordcheck").val();
-			if($("button").is(":disabled")){
-				if(password == check && password != "password" && checkInputs()){
-					$("button").prop('disabled', false);
-				}
-			} else {
-				if(password == check || password != "password" || checkInputs()){
-					$("button").prop('disabled', true);
-				}
+$(document).ready(function(){
+	$(".form-group").keyup(function(){
+		var password = $("#password").val();
+		var check = $("#passwordcheck").val();
+		if($("button").is(":disabled")){
+			if(password == check && password != "password" && checkInputs()){
+				$("button").prop('disabled', false);
 			}
-		});
+		} else {
+			if(password == check || password != "password" || checkInputs()){
+				$("button").prop('disabled', true);
+			}
+		}
 	});
+});
 </script>
 </head>
 <body class="bg">
