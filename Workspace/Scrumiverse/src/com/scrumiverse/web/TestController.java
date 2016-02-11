@@ -11,9 +11,16 @@ import com.scrumiverse.model.account.User;
 public class TestController {
 	
 	@RequestMapping("/login.htm")
-	public ModelAndView test(){
+	public ModelAndView login(){
 		ModelMap map=new ModelMap();
-		map.addAttribute("dummy", new User());
-		return new ModelAndView("test", map);
+		map.addAttribute("user", new User());
+		return new ModelAndView("login", map);
+	}
+	
+	@RequestMapping("/register.htm")
+	public ModelAndView register(){
+		ModelMap map=new ModelMap();
+		map.addAttribute("user", new User());
+		return new ModelAndView("register", map);
 	}
 }

@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Scrumiverse / WIP</title>
-<link href="<c:url value="/resources/css/login.css" />" rel="stylesheet" type="text/css">
 <link rel="shortcut icon" type="image/x-icon"  href="<c:url value="/resources/images/scrumiverse_fave_icon.png"/>">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -14,22 +13,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link href="<c:url value="/resources/css/login.css" />" rel="stylesheet" type="text/css">
 </head>
 <body class="bg">
 <div class="background">
 	<div class="login">
-        <form role="form">
+        <form>
             <div class="form-group">
-                <input data-toggle="tooltip" data-placement="right" title="Insert Mail" type="email" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}">
+            	E-Mail:
+                <input type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}">
             </div>
             <div class="form-group">
-                <input data-toggle="tooltip" data-placement="right" title="Insert Password" type="password" class="form-control" id="pwd" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
+            	Password:
+                <input type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
             <div class="checkbox">
                 <label><input type="checkbox"> Remember me</label>
             </div>
-            <button id="loginbutton" type="button" class="btn btn-default">login</button>
-            <p>Haven't an account yet? <a href="">Register</a> now!</p>
+            <button type="button" id="largebutton" class="btn btn-default">login</button>
+            <p>Haven't an account yet? <a href="./register.htm">Register</a> now!</p>
         </form>
     </div>
 </div>
