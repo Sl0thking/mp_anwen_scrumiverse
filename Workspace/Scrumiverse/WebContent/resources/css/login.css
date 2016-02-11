@@ -1,0 +1,21 @@
+.bg {
+    background-color: black;
+    color: white;
+}
+
+.background {
+    margin: auto;
+    width: 594px;
+    height: 700px;
+    background-image: url(../images/login.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login {
+    position: relative;
+    height: 200px;
+    width: 300px;
+    margin: auto;
+    top: 250px;
+}

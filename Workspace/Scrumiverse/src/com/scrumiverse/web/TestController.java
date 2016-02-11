@@ -10,7 +10,7 @@ import com.scrumiverse.model.account.User;
 @Controller
 public class TestController {
 	
-	@RequestMapping("/machmal.htm")
+	@RequestMapping("/login.htm")
 	public ModelAndView test(){
 		ModelMap map=new ModelMap();
 		map.addAttribute("dummy", new User());
