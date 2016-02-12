@@ -17,7 +17,6 @@ public class UserDAOImpl implements UserDAO{
 	
 	@Override
 	public void addUser(User user) {
-		System.out.println(user.getName());
 		hibernateTemplate.saveOrUpdate(user);
 		
 	}

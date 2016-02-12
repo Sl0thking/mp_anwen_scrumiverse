@@ -32,8 +32,6 @@ public class UserController {
 	@RequestMapping("/register_user.htm")
 	public ModelAndView addUser(User user){
 		//Add user to db
-		System.out.println(user.getName());
-		System.out.println(user);
 		userDAO.addUser(user);
 		return new ModelAndView("redirect:login.htm");
 	}
