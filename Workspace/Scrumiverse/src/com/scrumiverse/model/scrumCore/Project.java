@@ -3,10 +3,16 @@ package com.scrumiverse.model.scrumCore;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import com.scrumiverse.model.account.*;
 import com.scrumiverse.model.scrumCore.*;
 import com.scrumiverse.model.scrumFeatures.*;
 
+@Entity
 public class Project {
 	
 	private int projectID;
@@ -18,18 +24,9 @@ public class Project {
 	private List<UserStory> userstories;
 	private List<Category> categories;
 	
-	public Project(int projectID, String name, String description, List<Role> roles, Map<Role, User> users,
-			List<Sprint> sprints, List<UserStory> userstories, List<Category> categories) {
-		super();
-		this.projectID = projectID;
-		this.name = name;
-		this.description = description;
-		this.roles = roles;
-		this.users = users;
-		this.sprints = sprints;
-		this.userstories = userstories;
-		this.categories = categories;
-	}
+		
+	@Id
+	@GeneratedValue
 	public int getProjectID() {
 		return projectID;
 	}
@@ -80,46 +77,53 @@ public class Project {
 	}
 	
 	public void addCategory(Category c) {		
-		categories.add(c);				
+		this.categories.add(c);				
 	}
 	
-	public void deleteCategory(int CategoryID) {		
-		categories.remove(CategoryID);		
+	public void deleteCategory(int CategoryID) {
+		this.categories.remove(CategoryID);		
 	}
 	
 	public void addUser(User u) {		
-		users.put(null, u);		
+		this.users.put(null, u);		
 	}
 	
 	public void removeUser(int userID) {
-		users.remove(userID);		
+		this.users.remove(userID);		
 	}
 	
 	public void setRole(int userID, Role r) {
-		roles.set(userID, r);
+		this.roles.set(userID, r);
 	}
 	
 	public void deleteRole(int RoleID) {
-		roles.remove(RoleID);
+		this.roles.remove(RoleID);
 	}
 	
 	public void addRole(Role r) {
-		roles.add(r);
+		this.roles.add(r);
 	}
 	
 	public void addSprint(Sprint s) {
-		sprints.add(s);
+		this.sprints.add(s);
 	}
 	
 	public void removeSprint(int sprintID) {
-		sprints.remove(sprintID);
+		this.sprints.remove(sprintID);
 	}
 	
 	public void addUserStory(UserStory u) {
-		userstories.add(u);
+		this.userstories.add(u);
 	}
 	
 	public void removeUserStory(int UserStoryID) {
-		userstories.remove(UserStoryID);
+		this.userstories.remove(UserStoryID);
+	}
+	
+	@Override
+	public String toString() {
+		return "Project [projectID=" + projectID + ", name=" + name + ", description=" + description + ", roles="
+				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
+				+ categories + "]";
 	}
 }
