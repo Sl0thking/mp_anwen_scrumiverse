@@ -52,7 +52,7 @@ $(document).ready(function(){
             </div>
             <div class="form-group">
             	Name:
-                <form:input path="name" type="text" class="form-control" id="name" value="Fristname Lastname" onblur="if (this.value==' '){this.vlaue = 'Fristname Lastname';}" onfocus="if (this.value == 'Fristname Lastname') {this.value = ''}"/>
+                <form:input path="name" type="text" class="form-control" id="name" value="Firstname Lastname" onblur="if (this.value==' '){this.vlaue = 'Firstname Lastname';}" onfocus="if (this.value == 'Firstname Lastname') {this.value = ''}"/>
             </div>
             <div class="form-group">
             	Password:
