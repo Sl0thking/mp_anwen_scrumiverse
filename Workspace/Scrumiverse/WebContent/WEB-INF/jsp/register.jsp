@@ -34,33 +34,33 @@ $(document).ready(function(){
 				$("button").prop('disabled', false);
 			}
 		} else {
-			if(password == check || password != "password" || checkInputs()){
+			if(password == check || password == "password" || checkInputs()){
 				$("button").prop('disabled', true);
 			}
 		}
 	});
-});
+}); 
 </script>
 </head>
 <body class="bg">
 <div class="background">
 	<div class="login">
-        <form role="form">
+        <form:form role="form" action="register_user.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <input type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}">
+                <form:input path="email" type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
             </div>
             <div class="form-group">
             	Name:
-                <input type="text" class="form-control" id="name" value="Fristname Lastname" onblur="if (this.value==' '){this.vlaue = 'Fristname Lastname';}" onfocus="if (this.value == 'Fristname Lastname') {this.value = ''}">
+                <form:input path="name" type="text" class="form-control" id="name" value="Fristname Lastname" onblur="if (this.value==' '){this.vlaue = 'Fristname Lastname';}" onfocus="if (this.value == 'Fristname Lastname') {this.value = ''}"/>
             </div>
             <div class="form-group">
             	Password:
-                <input type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
+                <form:input path="password" type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}"/>
             	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
-            <button type="button" name="register" class="btn btn-default" id="largebutton" disabled>register</button>
-        </form>
+            <button type="submit" name="register" class="btn btn-default" id="largebutton" > register</button>
+        </form:form>
     </div>
 </div>
 <div class="information">

@@ -18,7 +18,7 @@
 <body class="bg">
 <div class="background">
 	<div class="login">
-        <form>
+        <form action="login_check.htm">
             <div class="form-group">
             	E-Mail:
                 <input type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}">
@@ -30,7 +30,7 @@
             <div class="checkbox">
                 <label><input type="checkbox"> Remember me</label>
             </div>
-            <button type="button" id="largebutton" class="btn btn-default">login</button>
+            <button type="submit" id="largebutton" class="btn btn-default">login</button>
             <p>Haven't an account yet? <a href="./register.htm">Register</a> now!</p>
         </form>
     </div>
