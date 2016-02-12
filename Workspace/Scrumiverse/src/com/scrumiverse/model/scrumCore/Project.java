@@ -120,10 +120,10 @@ public class Project {
 //		this.userstories.remove(UserStoryID);
 //	}
 //	
-	@Override
-	public String toString() {
-		return "Project [projectID=" + projectID + ", name=" + name + ", description=" + description + ", roles="
-				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
-				+ categories + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Project [projectID=" + projectID + ", name=" + name + ", description=" + description + ", roles="
+//				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
+//				+ categories + "]";
+//	}
 }

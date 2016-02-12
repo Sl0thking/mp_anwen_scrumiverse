@@ -12,11 +12,6 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
 @Controller
 public class ProjectController {
 	
-	@Autowired
-	ProjectDAO projectDAO;
-	
-	
-	
-	
+		
 
 }
