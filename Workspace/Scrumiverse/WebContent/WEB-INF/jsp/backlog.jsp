@@ -14,6 +14,10 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link href="<c:url value="/resources/css/login.css" />" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+
+</script>
 </head>
 <body class="bg">
 <div class="button-container">

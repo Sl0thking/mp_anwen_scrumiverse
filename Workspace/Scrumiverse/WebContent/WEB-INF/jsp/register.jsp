@@ -34,7 +34,7 @@ $(document).ready(function(){
 				$("button").prop('disabled', false);
 			}
 		} else {
-			if(password == check || password == "password" || checkInputs()){
+			if(password != check || password == "password" || !checkInputs()){
 				$("button").prop('disabled', true);
 			}
 		}
@@ -59,7 +59,7 @@ $(document).ready(function(){
                 <form:input path="password" type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}"/>
             	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
-            <button type="submit" name="register" class="btn btn-default" id="largebutton" > register</button>
+            <button type="submit" name="register" class="btn btn-default" id="largebutton" disabled> register</button>
         </form:form>
     </div>
 </div>
