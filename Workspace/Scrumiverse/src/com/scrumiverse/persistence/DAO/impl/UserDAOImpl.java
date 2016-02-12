@@ -1,5 +1,7 @@
 package com.scrumiverse.persistence.DAO.impl;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -22,7 +24,11 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public boolean checkLogin(User user, String hashedPW) {
-		return false;	
+	public User getUserByEmail(String email) throws NoSuchUserException {
+		List<User> users = hibernateTemplate.find("from User where email='" + email + "'");
+		if(users.size() == 0) {
+			throw new NoSuchUserException();
+		}
+		return users.get(0);
 	}
 }

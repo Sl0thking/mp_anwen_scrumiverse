@@ -1,8 +1,9 @@
 package com.scrumiverse.persistence.DAO;
 
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.persistence.DAO.impl.NoSuchUserException;
 
 public interface UserDAO {
 	public void addUser(User user); 
-	public boolean checkLogin(User user, String hashedPW);
+	public User getUserByEmail(String email) throws NoSuchUserException;
 }
