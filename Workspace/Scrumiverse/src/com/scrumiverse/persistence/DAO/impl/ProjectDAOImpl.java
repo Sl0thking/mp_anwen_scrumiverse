@@ -10,29 +10,25 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
 
 public class ProjectDAOImpl implements ProjectDAO {
 	
-//	private HibernateTemplate hibernateTemplate;
-//	
-//	public void setSessionFactory(SessionFactory sessionFactoryProject) {
-//		this.hibernateTemplate = 
-//               new HibernateTemplate(sessionFactoryProject); }
-//
-//	@Override
-//	public void addProject(Project project) {
-//		hibernateTemplate.saveOrUpdate(project);	
-//	}
-//
-//	@Override
-//	public List<Project> getAllProjects() throws NoProjectsFoundException{
-//		
-//		List<Project> projects = hibernateTemplate.find("from Project");
-//		
-//		if(projects.size() == 0) {
-//			throw new NoProjectsFoundException();
-//		}
-//		return projects;
-//			
-//	}
-//	
+	private HibernateTemplate hibernateTemplate;
+	
+	public void setSessionFactory(SessionFactory sessionFactoryProject) {
+		this.hibernateTemplate = 
+               new HibernateTemplate(sessionFactoryProject); }
+
+	@Override
+	public void addProject(Project p) {
+		hibernateTemplate.saveOrUpdate(p);
+		
+	}
+
+	@Override
+	public List<Project> getAllProjects() {
+		return hibernateTemplate.find("from Project");
+		
+		
+	}
+	
 	
 
 }
