@@ -16,8 +16,8 @@ import com.scrumiverse.model.scrumFeatures.*;
 public class Project {
 	
 	private int projectID;
-	private String name;
-	private String description;
+	private String projectName;
+	private String projectDescription;
 	//private List<Role> roles;
 	//private Map<Role, User> users;
 	//private List<Sprint> sprints;
@@ -34,16 +34,16 @@ public class Project {
 		this.projectID = projectID;
 	}
 	public String getName() {
-		return name;
+		return projectName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.projectName = name;
 	}
 	public String getDescription() {
-		return description;
+		return projectDescription;
 	}
 	public void setDescription(String description) {
-		this.description = description;
+		this.projectDescription = description;
 	}
 //	public List<Role> getRoles() {
 //		return roles;
@@ -120,10 +120,8 @@ public class Project {
 //		this.userstories.remove(UserStoryID);
 //	}
 //	
-//	@Override
-//	public String toString() {
-//		return "Project [projectID=" + projectID + ", name=" + name + ", description=" + description + ", roles="
-//				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
-//				+ categories + "]";
-//	}
+	@Override
+	public String toString() {
+		return "Project [projectID=" + projectID + ", name=" + projectName + ", description=" + projectDescription +  "]";
+	}
 }
