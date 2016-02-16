@@ -2,6 +2,8 @@ package com.scrumiverse.web;
 
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,29 +14,41 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.persistence.DAO.impl.NoSuchUserException;
 import com.scrumiverse.utility.Security;
+import com.scrumiverse.utility.Utility;
 
+/**
+ * Controller for user account interactions
+ * 
+ * @author Kevin Jolitz
+ * @version 16.02.2016
+ *
+ */
 @Controller
 public class UserController {
 	
 	@Autowired
 	UserDAO userDAO;
-	
+
 	@RequestMapping("/login.htm")
 	public ModelAndView login(){
-		ModelMap map=new ModelMap();
+		ModelMap map = new ModelMap();
 		map.addAttribute("user", new User());
 		map.addAttribute("action", Action.login);
 		return new ModelAndView("index", map);
 	}
 	
 	@RequestMapping("/login_check.htm")
-	public ModelAndView checkLogin(User user) throws NoSuchAlgorithmException{
-		ModelMap map=new ModelMap();
+	public ModelAndView checkLogin(User user, HttpSession session) throws NoSuchAlgorithmException{
+		ModelMap map = new ModelMap();
 		try {
 			User relatedUser = userDAO.getUserByEmail(user.getEmail().toLowerCase());
 			String userHash = Security.hashString(user.getPassword());
 			if(userHash.equals(relatedUser.getPassword())) {
 				//Successfull login!
+				session.setAttribute("loggedUser", relatedUser);
+				//now use from Utility generated map with needed data
+				//and active user
+				map = Utility.generateModelMap(session);
 				map.addAttribute("action", Action.backlog);
 			} else {
 				//Failed login!
@@ -49,7 +63,7 @@ public class UserController {
 	
 	@RequestMapping("/register_user.htm")
 	public ModelAndView addUser(User user){
-		ModelMap map=new ModelMap();
+		ModelMap map = new ModelMap();
 		try {
 			String password = user.getPassword();
 			user.setPassword(Security.hashString(password));
@@ -72,7 +86,7 @@ public class UserController {
 
 	@RequestMapping("/register.htm")
 	public ModelAndView register(){
-		ModelMap map=new ModelMap();
+		ModelMap map = new ModelMap();
 		map.addAttribute("user", new User());
 		return new ModelAndView("register", map);
 	}

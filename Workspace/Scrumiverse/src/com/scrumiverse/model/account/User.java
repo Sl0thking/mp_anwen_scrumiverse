@@ -20,6 +20,14 @@ public class User {
 //	private List<Project> projects;
 	private String password;
 	
+	public User() {
+		email = "";
+		name = "";
+		emailNotification = false;
+		password = "";
+	}
+	
+	
 	@Id
 	@GeneratedValue
 	public int getUserID() {

@@ -8,6 +8,13 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
+/**
+ * Implementation of the dao for user objects.
+ * 
+ * @author Kevin Jolitz
+ * @version 16.02.2016
+ *
+ */
 public class UserDAOImpl implements UserDAO{
 
 	private HibernateTemplate hibernateTemplate;
@@ -15,12 +22,10 @@ public class UserDAOImpl implements UserDAO{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.hibernateTemplate = 
                new HibernateTemplate(sessionFactory); }
-
 	
 	@Override
 	public void addUser(User user) {
 		hibernateTemplate.saveOrUpdate(user);
-		
 	}
 
 	@Override

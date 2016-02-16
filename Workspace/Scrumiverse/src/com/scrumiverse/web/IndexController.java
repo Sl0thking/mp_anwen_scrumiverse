@@ -1,11 +1,14 @@
 package com.scrumiverse.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.utility.Utility;
 
 @Controller
 public class IndexController {		
@@ -14,9 +17,9 @@ public class IndexController {
 	 * @return The index page
 	 */
 	@RequestMapping("/index.htm")
-	public ModelAndView test() 
+	public ModelAndView test(HttpSession session) 
 	{
-		ModelMap map = new ModelMap();
+		ModelMap map = Utility.generateModelMap(session);
 		map.addAttribute("user", new User());
 		map.addAttribute("action", Action.backlog);
 		return new ModelAndView("index", map);
