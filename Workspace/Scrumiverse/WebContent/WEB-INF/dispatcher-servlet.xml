@@ -26,7 +26,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.scrumiverse.model.account.User</value>
-			<!--<value>com.scrumiverse.model.scrumCore.Project</value>  -->	
+				<value>com.scrumiverse.model.scrumCore.Project</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -39,8 +39,8 @@
 	<bean id="userDAO" class="com.scrumiverse.persistence.DAO.impl.UserDAOImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
-	<!--  <bean id="projectDAO" class="com.scrumiverse.persistence.DAO.impl.ProjectDAOImpl">
-		<property name="sessionFactoryProject" ref="mySessionFactory"/>
-	</bean>-->
+	<bean id="projectDAO" class="com.scrumiverse.persistence.DAO.impl.ProjectDAOImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
 	
 </beans>
