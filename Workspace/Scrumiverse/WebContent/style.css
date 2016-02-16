@@ -1,1 +1,48 @@
 @CHARSET "ISO-8859-1";
+body {
+    background-color: black;
+    color: white;
+}	
+
+/*button-div and childs*/
+.button-container{
+    position: absolute;
+    bottom: 7px;
+    right: 10px;
+    height: 30px;
+    width: 500px;
+    color: black;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.create-entity-btn {
+    position: relative;
+    float: right;
+}
+
+.create-entity-btn .head-btn {
+    position: relative;
+    padding: 4px 2px;
+    float: left;
+    color: black;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: green;
+    z-index: 1;
+}
+
+.create-entity-btn .user-btn{
+    position: relative;
+    float: left;
+    margin: 0px 0px 0px -8px;
+    padding: 5px 5px 0px 10px;
+    color: black;
+    display: none;
+    height: 30px;
+    background-color: lightgreen;
+    border-radius: 5px;
+    white-space: nowrap;
+}

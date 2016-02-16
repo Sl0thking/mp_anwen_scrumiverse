@@ -1,8 +1,3 @@
-body {
-    background-color: black;
-    color: white;
-}	
-
 /* loginpage */
 .background {
     margin: auto;
@@ -47,42 +42,4 @@ body {
 	font-weight: 500;
 	line-height: 1.1;
 	color: inherit;
-}
-
-/* backlog */
-.button-container{
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    height: 30px;
-    width: 500px;
-    background-color: grey;
-}
-
-.button-container > .btn{
-    position: relative;
-    float: right;
-    right: 2px;
-    color: black;
-    background-color: white;
-    display: inline-block;
-    padding: 3px 5px;
-    font-size: 14px;
-    font-weight: 800;
-    text-align: center;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-      touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-    border: 1px solid transparent;
-    border-radius: 5px;
-}
-
-.button-container > .btn:hover{
-    width: 150px;
-    text-align: left;
 }

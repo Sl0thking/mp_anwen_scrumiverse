@@ -4,27 +4,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Scrumiverse / WIP</title>
-<link rel="shortcut icon" type="image/x-icon"  href="<c:url value="/resources/images/scrumiverse_fave_icon.png"/>">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<link href="<c:url value="/resources/css/login.css" />" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-
-
+<link href="<c:url value="/resources/css/backlog.css" />" rel="stylesheet" type="text/css">
+<script>
+$(document).ready(function(){
+    $(".create-entity-btn").mouseenter(function(){
+        $(this).children(".user-btn").animate({width: "toggle"});
+    });
+    $(".user-btn").mouseleave(function(){
+        $(this).animate({width: "toggle"});
+    });
+});
 </script>
 </head>
 <body class="bg">
+<div class="userstory-backlog">
+TEST
+</div>
+    
 <div class="button-container">
-	<a href="index.html" class="btn">P</a>
-    <a href="index.html" class="btn">S</a>
-    <a href="index.html" class="btn">T</a>
-    <a href="index.html" class="btn">US</a>
+    <a class="create-entity-btn" href="#">
+        <div class="head-btn">P</div>
+        <div class="user-btn">new Story</div>
+    </a>
+    <a class="create-entity-btn" href="#">
+        <div class="head-btn">S</div>
+        <div class="user-btn">new Story</div>
+    </a> 
+    <a class="create-entity-btn" href="#">
+        <div class="head-btn">T</div>
+        <div class="user-btn">new Story</div>
+    </a> 
+    <a class="create-entity-btn" href="#">
+        <div class="head-btn">US</div>
+        <div class="user-btn">new Story</div>
+    </a> 
 </div>
 </body>
 </html>
