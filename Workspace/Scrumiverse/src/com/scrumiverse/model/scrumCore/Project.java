@@ -94,14 +94,14 @@ public class Project {
 //	public void deleteCategory(int CategoryID) {
 //		this.categories.remove(CategoryID);		
 //	}
-//	
-//	public void addUser(User u) {		
-//		this.users.put(null, u);		
-//	}
-//	
-//	public void removeUser(int userID) {
-//		this.users.remove(userID);		
-//	}
+	
+	public void addUser(User u) {		
+		this.users.put(u, null);		
+	}
+	
+	public void removeUser(int userID) {
+		this.users.remove(userID);		
+	}
 //	
 //	public void setRole(int userID, Role r) {
 //		this.roles.set(userID, r);
