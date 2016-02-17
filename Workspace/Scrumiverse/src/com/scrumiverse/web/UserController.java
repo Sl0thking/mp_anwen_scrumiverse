@@ -88,6 +88,7 @@ public class UserController {
 	public ModelAndView register(){
 		ModelMap map = new ModelMap();
 		map.addAttribute("user", new User());
-		return new ModelAndView("register", map);
+		map.addAttribute("action", Action.register);
+		return new ModelAndView("index", map);
 	}
 }
