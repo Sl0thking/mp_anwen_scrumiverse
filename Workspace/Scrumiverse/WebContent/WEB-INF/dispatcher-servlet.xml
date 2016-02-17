@@ -27,6 +27,7 @@
 			<list>
 				<value>com.scrumiverse.model.account.User</value>
 				<value>com.scrumiverse.model.scrumCore.Project</value>
+				<value>com.scrumiverse.model.account.Role</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

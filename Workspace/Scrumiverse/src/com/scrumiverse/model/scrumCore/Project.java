@@ -3,14 +3,19 @@ package com.scrumiverse.model.scrumCore;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.scrumiverse.model.account.*;
 import com.scrumiverse.model.scrumCore.*;
 import com.scrumiverse.model.scrumFeatures.*;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Project {
@@ -19,7 +24,7 @@ public class Project {
 	private String name;
 	private String description;
 	//private List<Role> roles;
-	//private Map<Role, User> users;
+	private Map<User, Role> users;
 	//private List<Sprint> sprints;
 	//private List<UserStory> userstories;
 	//private List<Category> categories;
@@ -27,6 +32,7 @@ public class Project {
 		
 	@Id
 	@GeneratedValue
+	@Column(name="ProjectID")
 	public int getProjectID() {
 		return projectID;
 	}
@@ -51,12 +57,17 @@ public class Project {
 //	public void setRoles(List<Role> roles) {
 //		this.roles = roles;
 //	}
-//	public Map<Role, User> getUsers() {
-//		return users;
-//	}
-//	public void setUsers(Map<Role, User> users) {
-//		this.users = users;
-//	}
+	
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(name="Project_User", joinColumns={@JoinColumn(name="UserID")}, inverseJoinColumns={@JoinColumn(name="ProjectID")})
+	public Map<User, Role> getUsers() {
+		return users;
+	}
+	
+	public void setUsers(Map<User, Role> users) {
+		this.users = users;
+	}
+	
 //	public List<Sprint> getSprints() {
 //		return sprints;
 //	}

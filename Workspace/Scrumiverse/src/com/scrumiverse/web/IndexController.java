@@ -21,7 +21,6 @@ public class IndexController {
 	{
 		ModelMap map = Utility.generateModelMap(session);
 		map.addAttribute("user", new User());
-		map.addAttribute("action", Action.backlog);
 		return new ModelAndView("index", map);
 	}
 }

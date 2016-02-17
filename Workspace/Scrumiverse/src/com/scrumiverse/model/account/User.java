@@ -2,9 +2,11 @@ package com.scrumiverse.model.account;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 
@@ -17,7 +19,7 @@ public class User {
 	private String email;
 	private String name;
 	private boolean emailNotification;
-//	private List<Project> projects;
+	private List<Project> projects;
 	private String password;
 	
 	public User() {
@@ -30,6 +32,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue
+	@Column(name="UserID")
 	public int getUserID() {
 		return userID;
 	}
@@ -62,6 +65,8 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
+	
+	
 	//Needs a check for already existing projects
 //	public void addProject(Project p) {
 //		this.projects.add(p);
@@ -82,6 +87,17 @@ public class User {
 //			this.projects.remove(targetProject);
 //		}
 //	}
+
+	@ManyToMany(mappedBy="users")
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
 
 	public String getPassword() {
 		return password;
