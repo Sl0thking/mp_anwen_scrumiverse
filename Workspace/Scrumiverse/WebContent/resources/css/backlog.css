@@ -37,11 +37,15 @@
 .backlog .userstory .userstory-titel {
     position: absolute;
     left: 1%;
-    font-size: 20px;
+    font-size: 14px;
     width: 44%;
     height: 55px;
     overflow-y: scroll;
     display: inline-block;
+}
+
+.backlog .userstory .userstory-titel::-webkit-scrollbar { 
+    display: none; 
 }
 
 .backlog .userstory .userstory-sandclock{
@@ -89,10 +93,14 @@
     left: 55.5%;
     height: 25px;
     width: 30%;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     display: inline-block;
     overflow-y: scroll;
+}
+
+.backlog .userstory .userstory-category::-webkit-scrollbar { 
+    display: none; 
 }
 
 .backlog .userstory .userstory-sprint {
@@ -101,10 +109,14 @@
     top: 30px;
     height: 25px;
     width: 30%;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     overflow-y: scroll;
     display: inline-block;
+}
+
+.backlog .userstory .userstory-sprint::-webkit-scrollbar { 
+    display: none; 
 }
 
 .backlog .userstory .userstory-timestats{
@@ -152,7 +164,7 @@
     position: absolute;
     left: 94.3%;
     top: 14px;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     font-weight: 500;
     width: 50px;
