@@ -1,6 +1,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="background">
 	<div class="login">
+	<div class="error-container">
+            	<c:if test="${loginError }">
+            		<div class="alert alert-danger alert-dismissible error">Login failed. Check eamil and/or password.</div>
+            	</c:if>
+            	<form:errors cssClass="alert alert-danger alert-dismissible error" path="email" element="div"/>
+            	<form:errors cssClass="alert alert-danger alert-dismissible error" path="name" element="div"/>
+            	<form:errors cssClass="alert alert-danger alert-dismissible error" path="password" element="div"/>
+            </div>
         <form:form action="loginCheck.htm" commandName="user">
             <div class="form-group">
             	E-Mail:

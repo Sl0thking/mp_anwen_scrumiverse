@@ -31,7 +31,6 @@
     margin-bottom: 15px;
 }
 
-/* register */
 .error-container{
     position: fixed;
     top: 0px;
@@ -45,6 +44,7 @@
     padding: 10px 35px 5px 10px;
 }
 
+/* register */
 .information{
 	position: relative;
 	text-align: justify;

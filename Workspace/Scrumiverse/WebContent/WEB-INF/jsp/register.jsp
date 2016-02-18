@@ -46,6 +46,9 @@ $(document).ready(function(){
             	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
             <div class="error-container">
+            	<c:if test="${registrationError }">
+            		<div class="alert alert-danger alert-dismissible error">email already used.</div>
+            	</c:if>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="email" element="div"/>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="name" element="div"/>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="password" element="div"/>
