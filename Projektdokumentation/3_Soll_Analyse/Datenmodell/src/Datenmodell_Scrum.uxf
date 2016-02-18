@@ -70,18 +70,19 @@ lt=&lt;-</panel_attributes>
     <panel_attributes>Task
 --
 -workLogs: List&lt;WorkLog&gt;
--userTimePlans: Map&lt;User, int&gt;
+-plannedTimeInMin: Map&lt;User, int&gt;
 -tags: List&lt;String&gt;
 --
-+getTimePlanOfUser(User: String): TimePlan
-+getAllTimePlans(): List&lt;TimePlan&gt;
-+setTimePlanOfUser(user: User, estimatedTime: int): void
++getPlannedTimeOfUser(User: String): int
++getAllPlannedTime(): int
++setPlannedTimeOfUser(user: User, estimatedTime: int): void
 +logWork(user: User, workLog: WorkLog): void
 +delWorkLog(user: User, logId: int): void
 +getWorkLogsOfUser(user: User): WorkLog
 +getAllWorkLogs(): List&lt;WorkLog&gt;
 +getResponsibleUsers(): List&lt;Users&gt;
-+getRemainingMin(): int
++getAllRemainingMin(): int
++getAllWorkedMin(): int
 +Getter / Setter</panel_attributes>
     <additional_attributes/>
   </element>

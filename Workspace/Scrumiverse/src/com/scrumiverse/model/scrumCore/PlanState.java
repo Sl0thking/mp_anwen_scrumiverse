@@ -1,5 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
-public enum PlanState {
 
+public enum PlanState {
+	Planning, InProgress, Done
 }

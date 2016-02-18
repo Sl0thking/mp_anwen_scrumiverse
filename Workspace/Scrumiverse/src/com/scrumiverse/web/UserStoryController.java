@@ -15,6 +15,14 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 import com.scrumiverse.persistence.DAO.impl.NoUserStoriesException;
 import com.scrumiverse.utility.Utility;
 
+/**
+ * Controller for User Story interactions.
+ * 
+ * @author Lasse Jacobs
+ * @version 18.02.16
+ *
+ */
+
 @Controller
 public class UserStoryController {
 	
@@ -35,8 +43,6 @@ public class UserStoryController {
 		ModelMap map = Utility.generateModelMap(session);
 		userStoryDAO.addUserStory(userstory);
 		map.addAttribute("action", Action.backlog);
-		// ??
-		map.addAttribute("userstory", new UserStory());
 		return new ModelAndView("index", map);
 	}
 	

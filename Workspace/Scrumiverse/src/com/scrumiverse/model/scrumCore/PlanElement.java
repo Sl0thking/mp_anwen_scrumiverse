@@ -11,13 +11,22 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
+/**
+ * Plan Element Model for Scrum Projects.
+ * 
+ * @author Lasse Jacobs
+ * @version 18.02.16
+ *
+ */
+
 @Entity
 public abstract class PlanElement {
 	private String description;
 	private int id;
 //	private List<HistoryEntry> history;
-//	private PlanState planState;
+	private PlanState planState;
 	private String acceptanceCriteria;
+	
 	
 	public String getDescription() {
 		return description;
@@ -25,27 +34,30 @@ public abstract class PlanElement {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name="ID")
-	public int getId() {
+	public int getId(){
 		return id;
 	}
-	public void setId(int id) {
+	
+	public void setId(int id){
 		this.id = id;
 	}
+	
 //	public List<HistoryEntry> getHistory() {
 //		return history;
 //	}
 //	public void setHistory(List<HistoryEntry> history) {
 //		this.history = history;
 //	}
-//	public PlanState getPlanState() {
-//		return planState;
-//	}
-//	public void setPlanState(PlanState planState) {
-//		this.planState = planState;
-//	}
+	public PlanState getPlanState() {
+		return planState;
+	}
+	public void setPlanState(PlanState planState) {
+		this.planState = planState;
+	}
 	public String getAcceptanceCriteria() {
 		return acceptanceCriteria;
 	}

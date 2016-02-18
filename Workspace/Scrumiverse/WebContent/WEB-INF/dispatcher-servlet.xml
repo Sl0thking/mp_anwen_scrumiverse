@@ -29,6 +29,8 @@
 				<value>com.scrumiverse.model.account.User</value>
 				<value>com.scrumiverse.model.scrumCore.Project</value>
 				<value>com.scrumiverse.model.scrumCore.UserStory</value>
+				<value>com.scrumiverse.model.scrumCore.PlanElement</value>
+				<value>com.scrumiverse.model.scrumFeatures.Category</value>
 				<value>com.scrumiverse.model.account.Role</value>
 			</list>
 		</property>

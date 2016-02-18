@@ -9,6 +9,15 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
+/**
+ * Implementation of Interface UserStoryDAO for handling 
+ * the database for User Story interactions
+ * 
+ * @author Lasse Jacobs
+ * @version 18.02.16
+ *
+ */
+
 public class UserStoryDAOImpl implements UserStoryDAO {
 	
 	private HibernateTemplate hibernateTemplate;
@@ -20,7 +29,6 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	@Override
 	public void addUserStory(UserStory userStory) {
 		hibernateTemplate.saveOrUpdate(userStory);
-		
 	}
 
 	@Override
