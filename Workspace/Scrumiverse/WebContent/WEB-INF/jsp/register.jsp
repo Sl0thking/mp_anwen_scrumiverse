@@ -34,11 +34,11 @@ $(document).ready(function(){
         <form:form role="form" action="registerUser.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <form:input path="email" type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
+                <form:input path="email" type="text" class="form-control" id="email" value="${user.email}" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
             </div>
             <div class="form-group">
             	Name:
-                <form:input path="name" type="text" class="form-control" id="name" value="Firstname Lastname" onblur="if (this.value==' '){this.vlaue = 'Firstname Lastname';}" onfocus="if (this.value == 'Firstname Lastname') {this.value = ''}"/>
+                <form:input path="name" type="text" class="form-control" id="name" value="${user.name}" onblur="if (this.value==' '){this.vlaue = 'Firstname Lastname';}" onfocus="if (this.value == 'Firstname Lastname') {this.value = ''}"/>
             </div>
             <div class="form-group">
             	Password:
@@ -46,7 +46,7 @@ $(document).ready(function(){
             	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
             <div class="error-container">
-            	<c:if test="${registrationError }">
+            	<c:if test="${regError}">
             		<div class="alert alert-danger alert-dismissible error">email already used.</div>
             	</c:if>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="email" element="div"/>

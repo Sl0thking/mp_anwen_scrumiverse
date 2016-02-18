@@ -1,8 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="background">
 	<div class="login">
 	<div class="error-container">
-            	<c:if test="${loginError }">
+            	<c:if test="${loginError}">
             		<div class="alert alert-danger alert-dismissible error">Login failed. Check eamil and/or password.</div>
             	</c:if>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="email" element="div"/>

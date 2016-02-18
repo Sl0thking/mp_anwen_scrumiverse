@@ -43,6 +43,7 @@ public class UserController {
 		ModelMap map = new ModelMap();
 		map.addAttribute("user", new User());
 		map.addAttribute("action", Action.login);
+		map.addAttribute("loginError", false);
 		return new ModelAndView("index", map);
 	}
 	
@@ -61,17 +62,13 @@ public class UserController {
 			//login successful when no exception is thrown
 			comparePasswords(formLoginUser, loadedUser);
 			session.setAttribute("loggedUser", loadedUser);
-			//now use from Utility generated map with needed data
-			//and active user
-			map = Utility.generateModelMap(session);
-			map.addAttribute("loginError", false);
-			map.addAttribute("action", Action.backlog);
+			return new ModelAndView("redirect:backlog.htm");
 		//No User with given email address, wrong password or fatal algorithm exception
 		} catch (NoSuchUserException | WrongPasswordException | NoSuchAlgorithmException e) {
 			map.addAttribute("loginError", true);
 			map.addAttribute("action", Action.login);
+			return new ModelAndView("index", map);
 		} 
-		return new ModelAndView("index", map);
 	}
 	
 	/**
@@ -113,14 +110,16 @@ public class UserController {
 		//Expect this exception
 		} catch (NoSuchUserException e) {
 			userDAO.addUser(formRegUser);
-			map.addAttribute("user", new User());
-			map.addAttribute("action", Action.login);
+			return new ModelAndView("redirect:login.htm");
+		} catch (ValidationException e) {
+			//validation failed
+			map.addAttribute("regError", false);
 		} catch (Exception e) {
 			//User is already there, hash or validation failed 
-			map.addAttribute("user", formRegUser);
-			map.addAttribute("registrationError", true);
-			map.addAttribute("action", Action.register);
+			map.addAttribute("regError", true);
 		}
+		map.addAttribute("action", Action.register);
+		map.addAttribute("user", formRegUser);
 		return new ModelAndView("index", map);
 	}
 
@@ -131,8 +130,19 @@ public class UserController {
 	@RequestMapping("/register.htm")
 	public ModelAndView register(){
 		ModelMap map = new ModelMap();
-		map.addAttribute("user", new User());
+		map.addAttribute("user", createExampleUser());
 		map.addAttribute("action", Action.register);
 		return new ModelAndView("index", map);
+	}
+	
+	/**
+	 * Create example user for display in registration
+	 * @return User user
+	 */
+	private User createExampleUser() {
+		User exampleUser = new User();
+		exampleUser.setEmail("example@mail.com");
+		exampleUser.setName("Firstname Lastname");
+		return exampleUser;
 	}
 }

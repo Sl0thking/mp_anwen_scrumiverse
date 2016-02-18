@@ -19,8 +19,6 @@ public class IndexController {
 	@RequestMapping("/index.htm")
 	public ModelAndView test(HttpSession session) 
 	{
-		ModelMap map = Utility.generateModelMap(session);
-		map.addAttribute("user", new User());
-		return new ModelAndView("index", map);
+		return new ModelAndView("redirect:login.htm");
 	}
 }
