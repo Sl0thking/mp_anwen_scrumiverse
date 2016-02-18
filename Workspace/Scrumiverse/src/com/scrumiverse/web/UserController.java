@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.persistence.DAO.impl.NoSuchUserException;
-import com.scrumiverse.utility.Security;
 import com.scrumiverse.utility.Utility;
 
 /**
@@ -81,7 +80,7 @@ public class UserController {
 	 * @throws NoSuchAlgorithmException 
 	 */
 	private void comparePasswords(User formLoginUser, User loadedUser) throws WrongPasswordException, NoSuchAlgorithmException {
-		String userHash = Security.hashString(formLoginUser.getPassword());
+		String userHash = Utility.hashString(formLoginUser.getPassword());
 		if(!userHash.equals(loadedUser.getPassword())) {
 			throw new WrongPasswordException();
 		}
@@ -103,7 +102,7 @@ public class UserController {
 			}
 			String password = formRegUser.getPassword();
 			//try to hash pw and save in object
-			formRegUser.setPassword(Security.hashString(password));
+			formRegUser.setPassword(Utility.hashString(password));
 			//set and save lowerCase email for non case-sensitive comparison
 			String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
 			formRegUser.setEmail(lowerCaseEmail);

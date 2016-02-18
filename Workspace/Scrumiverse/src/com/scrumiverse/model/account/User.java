@@ -7,13 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 import com.scrumiverse.model.scrumCore.Project;
 
+/**
+ * Datamodell for a scrumiverse user account
+ * 
+ * @author Kevin Jolitz
+ * @version 18.02.2016
+ */
 @Entity
 public class User {
 	private int userID;
@@ -49,7 +54,7 @@ public class User {
 	public int getUserID() {
 		return userID;
 	}
-	
+
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
