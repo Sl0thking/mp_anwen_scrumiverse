@@ -23,7 +23,7 @@ import com.scrumiverse.utility.Utility;
  * Controller for user account interactions
  * 
  * @author Kevin Jolitz
- * @version 16.02.2016
+ * @version 18.02.2016
  *
  */
 @Controller
@@ -35,6 +35,10 @@ public class UserController {
 	@Autowired
 	private UserDAO userDAO;
 
+	/**
+	 * show login site and prepare form object
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/login.htm")
 	public ModelAndView login(){
 		ModelMap map = new ModelMap();
@@ -43,60 +47,88 @@ public class UserController {
 		return new ModelAndView("index", map);
 	}
 	
-	@RequestMapping("/login_check.htm")
-	public ModelAndView checkLogin(User user, HttpSession session) throws NoSuchAlgorithmException{
+	/**
+	 * Check the given login data
+	 * @param formLoginUser Send data of login formular
+	 * @param session Current Session
+	 * @return ModelAndView
+	 * @throws NoSuchAlgorithmException
+	 */
+	@RequestMapping("/loginCheck.htm")
+	public ModelAndView checkLogin(User formLoginUser, HttpSession session) {
 		ModelMap map = new ModelMap();
 		try {
-			User relatedUser = userDAO.getUserByEmail(user.getEmail().toLowerCase());
-			String userHash = Security.hashString(user.getPassword());
-			if(userHash.equals(relatedUser.getPassword())) {
-				//Successfull login!
-				session.setAttribute("loggedUser", relatedUser);
-				//now use from Utility generated map with needed data
-				//and active user
-				map = Utility.generateModelMap(session);
-				map.addAttribute("action", Action.backlog);
-			} else {
-				//Failed login!
-				map.addAttribute("action", Action.login);
-			}
-		} catch (NoSuchUserException e) {
-			e.printStackTrace();
+			User loadedUser = userDAO.getUserByEmail(formLoginUser.getEmail().toLowerCase());
+			//login successful when no exception is thrown
+			comparePasswords(formLoginUser, loadedUser);
+			session.setAttribute("loggedUser", loadedUser);
+			//now use from Utility generated map with needed data
+			//and active user
+			map = Utility.generateModelMap(session);
+			map.addAttribute("loginError", false);
+			map.addAttribute("action", Action.backlog);
+		//No User with given email address, wrong password or fatal algorithm exception
+		} catch (NoSuchUserException | WrongPasswordException | NoSuchAlgorithmException e) {
+			map.addAttribute("loginError", true);
 			map.addAttribute("action", Action.login);
-		}
+		} 
 		return new ModelAndView("index", map);
 	}
 	
-	@RequestMapping("/register_user.htm")
-	public ModelAndView addUser(User user, BindingResult result){
+	/**
+	 * Compares formular password data with database password of user
+	 * @throws WrongPasswordException
+	 * @throws NoSuchAlgorithmException 
+	 */
+	private void comparePasswords(User formLoginUser, User loadedUser) throws WrongPasswordException, NoSuchAlgorithmException {
+		String userHash = Security.hashString(formLoginUser.getPassword());
+		if(!userHash.equals(loadedUser.getPassword())) {
+			throw new WrongPasswordException();
+		}
+	}
+	
+	/**
+	 * Save user from formular and direct to login
+	 * @param user
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping("/registerUser.htm")
+	public ModelAndView addUser(User formRegUser, BindingResult result){
 		ModelMap map = new ModelMap();
 		try {
-			validator.validate(user, result);
+			validator.validate(formRegUser, result);
 			if(result.hasErrors()) {
 				throw new ValidationException("");
 			}
-			String password = user.getPassword();
-			user.setPassword(Security.hashString(password));
-			String lowerCaseEmail = user.getEmail().toLowerCase();
-			user.setEmail(lowerCaseEmail);
+			String password = formRegUser.getPassword();
+			//try to hash pw and save in object
+			formRegUser.setPassword(Security.hashString(password));
+			//set and save lowerCase email for non case-sensitive comparison
+			String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
+			formRegUser.setEmail(lowerCaseEmail);
 			userDAO.getUserByEmail(lowerCaseEmail);
-			//user already there, throw exception
+			//expects NoSuchUserException
+			//when user already in database, throw exception
 			throw new Exception();
 		//Expect this exception
 		} catch (NoSuchUserException e) {
-			userDAO.addUser(user);
-			map.addAttribute("action", Action.login);
+			userDAO.addUser(formRegUser);
 			map.addAttribute("user", new User());
-		} catch (ValidationException e) {
-			map.addAttribute("user", user);
-			map.addAttribute("action", Action.register);
-		} catch (Exception e) {
-			//Other page? display error?
 			map.addAttribute("action", Action.login);
+		} catch (Exception e) {
+			//User is already there, hash or validation failed 
+			map.addAttribute("user", formRegUser);
+			map.addAttribute("registrationError", true);
+			map.addAttribute("action", Action.register);
 		}
 		return new ModelAndView("index", map);
 	}
 
+	/**
+	 * Prepare registration formular
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/register.htm")
 	public ModelAndView register(){
 		ModelMap map = new ModelMap();
