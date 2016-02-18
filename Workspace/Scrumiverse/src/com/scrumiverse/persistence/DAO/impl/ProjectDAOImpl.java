@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 
@@ -18,22 +19,20 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void addProject(Project p) {
-		hibernateTemplate.saveOrUpdate(p);
-		
+		hibernateTemplate.saveOrUpdate(p);		
 	}
 
 	@Override
-	public List<Project> getAllProjects() throws NoProjectsFoundException {
+	public List<Project> getAllProjects() {
 		List<Project> projects = hibernateTemplate.find("from Project");
-		
-		if(projects.size() == 0) {
-			throw new NoProjectsFoundException();		
-		}
-		
-		return projects;
-		
-		
+			
+		return projects;	
 	}
+	
+//	@Override
+//	public void addUser(Project p, User u){
+//		hibernateTemplat
+//	}
 	
 	
 
