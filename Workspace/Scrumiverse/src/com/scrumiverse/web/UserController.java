@@ -3,10 +3,13 @@ package com.scrumiverse.web;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +30,10 @@ import com.scrumiverse.utility.Utility;
 public class UserController {
 	
 	@Autowired
-	UserDAO userDAO;
+	private Validator validator;
+	
+	@Autowired
+	private UserDAO userDAO;
 
 	@RequestMapping("/login.htm")
 	public ModelAndView login(){
@@ -62,9 +68,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/register_user.htm")
-	public ModelAndView addUser(User user){
+	public ModelAndView addUser(User user, BindingResult result){
 		ModelMap map = new ModelMap();
 		try {
+			validator.validate(user, result);
+			if(result.hasErrors()) {
+				throw new ValidationException("");
+			}
 			String password = user.getPassword();
 			user.setPassword(Security.hashString(password));
 			String lowerCaseEmail = user.getEmail().toLowerCase();
@@ -77,6 +87,9 @@ public class UserController {
 			userDAO.addUser(user);
 			map.addAttribute("action", Action.login);
 			map.addAttribute("user", new User());
+		} catch (ValidationException e) {
+			map.addAttribute("user", user);
+			map.addAttribute("action", Action.register);
 		} catch (Exception e) {
 			//Other page? display error?
 			map.addAttribute("action", Action.login);
@@ -88,7 +101,6 @@ public class UserController {
 	public ModelAndView register(){
 		ModelMap map = new ModelMap();
 		map.addAttribute("user", new User());
-		map.addAttribute("action", Action.register);
-		return new ModelAndView("index", map);
+		return new ModelAndView("register", map);
 	}
 }

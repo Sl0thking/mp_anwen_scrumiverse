@@ -35,14 +35,17 @@ $(document).ready(function(){
             <div class="form-group">
             	E-Mail:
                 <form:input path="email" type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
+                <form:errors path="email"/>
             </div>
             <div class="form-group">
             	Name:
                 <form:input path="name" type="text" class="form-control" id="name" value="Firstname Lastname" onblur="if (this.value==' '){this.vlaue = 'Firstname Lastname';}" onfocus="if (this.value == 'Firstname Lastname') {this.value = ''}"/>
+            	<form:errors path="name"/>
             </div>
             <div class="form-group">
             	Password:
                 <form:input path="password" type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}"/>
+            	<form:errors path="password"/>
             	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
             </div>
             <button type="submit" name="register" class="btn btn-default" id="largebutton" disabled> register</button>
