@@ -10,7 +10,7 @@
 
 .login {
     position: relative;
-    height: 200px;
+    height: 300px;
     width: 300px;
     margin: auto;
     top: 220px;
@@ -32,6 +32,19 @@
 }
 
 /* register */
+.error-container{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+}
+
+.error{
+    width: 100vw;
+    margin: 0px;
+    padding: 10px 35px 5px 10px;
+}
+
 .information{
 	position: relative;
 	text-align: justify;

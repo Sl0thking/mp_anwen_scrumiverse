@@ -1,7 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="background">
 	<div class="login">
-        <form:form action="login_check.htm" commandName="user">
+        <form:form action="loginCheck.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
                 <form:input path="email" type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
