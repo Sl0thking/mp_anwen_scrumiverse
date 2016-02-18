@@ -10,10 +10,4 @@ import com.scrumiverse.model.account.User;
 @Controller
 public class TestController {
 
-	@RequestMapping("/backlog.htm")
-	public ModelAndView backlog(){
-		ModelMap map=new ModelMap();
-		map.addAttribute("user", new User());
-		return new ModelAndView("backlog", map);
-	}
 }

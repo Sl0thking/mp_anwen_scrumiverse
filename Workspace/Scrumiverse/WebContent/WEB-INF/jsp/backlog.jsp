@@ -17,8 +17,70 @@ $(document).ready(function(){
 </script>
 </head>
 <body class="bg">
-<div class="userstory-backlog">
-TEST
+<div class="backlog">
+    <div class="userstory">
+        <div class="userstory-state-aktive"></div>
+        <div class="userstory-titel">[US0001] Titel der User Story zur Testansicht des Backlogs made by GUI (Lasse Nein nicht Lasse) made by me me is me ahhahahahahahaah</div>
+        <div class="userstory-sandclock"></div>
+        <div class="userstory-time">TIME</div>
+        <div class="userstory-memberbox">
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+        </div>
+        <div class="userstory-category">CATEGORY FOR THE USER STORY FOR THE USER STORY</div>
+        <div class="userstory-sprint">SPRINT FOR THE CURRENT USER STORY</div>
+        <div class="userstory-timestats">### / ### / ###</div>
+        <div class="userstory-moscow">MO</div>
+        <div class="userstory-value">100</div>
+        <div class="userstory-risk">100</div>
+        <div class="userstory-effort">100</div>
+        <div class="userstory-settings-aktive"></div>
+    </div>
+    <div class="userstory">
+    <div class="userstory-state-aktive"></div>
+        <div class="userstory-titel">[US0002] Titel der User Story zur Testansicht des Backlogs made by GUI (Lasse Nein nicht Lasse) made by me me is me ahhahahahahahaah</div>
+        <div class="userstory-sandclock"></div>
+        <div class="userstory-time">TIME</div>
+        <div class="userstory-memberbox">
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+        </div>
+        <div class="userstory-category">CATEGORY FOR THE USER STORY FOR THE USER STORY</div>
+        <div class="userstory-sprint">SPRINT FOR THE CURRENT USER STORY</div>
+        <div class="userstory-timestats">### / ### / ###</div>
+        <div class="userstory-moscow">MO</div>
+        <div class="userstory-value">100</div>
+        <div class="userstory-risk">100</div>
+        <div class="userstory-effort">100</div>
+        <div class="userstory-settings-aktive"></div>
+    </div>
+    <div class="userstory">
+    <div class="userstory-state-aktive"></div>
+        <div class="userstory-titel">[US0003] Titel der User Story zur Testansicht des Backlogs made by GUI (Lasse Nein nicht Lasse) made by me me is me ahhahahahahahaah</div>
+        <div class="userstory-sandclock"></div>
+        <div class="userstory-time">TIME</div>
+        <div class="userstory-memberbox">
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+            <div class="userstory-member-bubble"></div>
+        </div>
+        <div class="userstory-category">CATEGORY FOR THE USER STORY FOR THE USER STORY</div>
+        <div class="userstory-sprint">SPRINT FOR THE CURRENT USER STORY</div>
+        <div class="userstory-timestats">### / ### / ###</div>
+        <div class="userstory-moscow">MO</div>
+        <div class="userstory-value">100</div>
+        <div class="userstory-risk">100</div>
+        <div class="userstory-effort">100</div>
+        <div class="userstory-settings-aktive"></div>
+    </div>
 </div>
     
 <div class="button-container">
