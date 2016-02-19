@@ -118,6 +118,9 @@
 .backlog .userstory .userstory-sprint::-webkit-scrollbar { 
     display: none; 
 }
+.backlog .userstory .userstory-sprint::-moz-scrollbar { 
+    display: none; 
+}
 
 .backlog .userstory .userstory-timestats{
     position: absolute;
