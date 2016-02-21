@@ -30,6 +30,11 @@ public class TaskDAOImpl implements TaskDAO{
 	public void updateTask(Task task) {
 		hibernateTemplate.saveOrUpdate(task);
 	}
+	
+	@Override
+	public void deleteTask(Task task) {
+		hibernateTemplate.delete(task);
+	}
 
 	@Override
 	public List<Task> getAllTasks() {
@@ -39,6 +44,5 @@ public class TaskDAOImpl implements TaskDAO{
 	@Override
 	public Task getTask(int taskID) {
 		return (Task)(hibernateTemplate.find("from Task where id='" + taskID + "'").get(0));
-		
 	}
 }
