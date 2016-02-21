@@ -15,4 +15,5 @@ public interface TaskDAO {
 	public void saveTask(Task task);
 	public void updateTask(Task task);
 	public List<Task> getAllTasks();
+	public Task getTask(int taskID);
 }
