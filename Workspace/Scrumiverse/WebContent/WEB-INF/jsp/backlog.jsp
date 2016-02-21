@@ -85,18 +85,6 @@ $(document).ready(function(){
     
 <div class="button-container">
     <a class="create-entity-btn" href="#">
-        <div class="head-btn">P</div>
-        <div class="user-btn">new Story</div>
-    </a>
-    <a class="create-entity-btn" href="#">
-        <div class="head-btn">S</div>
-        <div class="user-btn">new Story</div>
-    </a> 
-    <a class="create-entity-btn" href="#">
-        <div class="head-btn">T</div>
-        <div class="user-btn">new Story</div>
-    </a> 
-    <a class="create-entity-btn" href="#">
         <div class="head-btn">US</div>
         <div class="user-btn">new Story</div>
     </a> 

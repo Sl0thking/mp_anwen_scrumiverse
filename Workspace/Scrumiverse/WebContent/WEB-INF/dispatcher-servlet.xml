@@ -1,54 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="
-	http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-	<context:component-scan base-package="com.scrumiverse.web" />
-	<context:annotation-config />
-	<bean id="viewResolver"   
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+        <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+        <context:component-scan base-package="com.scrumiverse.web" />
+        <context:annotation-config />
+        <bean id="viewResolver"   
            class="org.springframework.web.servlet.view.InternalResourceViewResolver"    
            p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
     <bean id="configurationLoader" class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>  
-   	<bean id="validator" class="org.springmodules.validation.bean.BeanValidator"  p:configurationLoader-ref="configurationLoader"/>   
+           <bean id="validator" class="org.springmodules.validation.bean.BeanValidator"  p:configurationLoader-ref="configurationLoader"/>   
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
-		<property name="url" value="jdbc:hsqldb:mem:db"/>
-		<property name="username" value="SA"/>
-		<property name="password" value=""/>
-	</bean>
-	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="myDataSource" />
-		<property name="annotatedClasses">
-			<list>
-				<value>com.scrumiverse.model.account.User</value>
-				<value>com.scrumiverse.model.scrumCore.Project</value>
-				<value>com.scrumiverse.model.scrumCore.UserStory</value>
-				<value>com.scrumiverse.model.scrumCore.PlanElement</value>
-				<value>com.scrumiverse.model.scrumFeatures.Category</value>
-				<value>com.scrumiverse.model.account.Role</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
-			</props></property>
-	</bean>
-	<bean id="userDAO" class="com.scrumiverse.persistence.DAO.impl.UserDAOImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	<bean id="projectDAO" class="com.scrumiverse.persistence.DAO.impl.ProjectDAOImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	<bean id="userStoryDAO" class="com.scrumiverse.persistence.DAO.impl.UserStoryDAOImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	
+                <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/scrumiverseDB"/>
+                <property name="username" value="Scrumi"/>
+                <property name="password" value="root"/>
+        </bean>
+        <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+                <property name="dataSource" ref="myDataSource" />
+                <property name="annotatedClasses">
+                        <list>
+                                <value>com.scrumiverse.model.account.User</value>
+                                <value>com.scrumiverse.model.scrumCore.Project</value>
+                                <value>com.scrumiverse.model.scrumCore.UserStory</value>
+                                <value>com.scrumiverse.model.scrumFeatures.Category</value>
+                                <value>com.scrumiverse.model.scrumCore.Task</value>
+                                <value>com.scrumiverse.model.account.Role</value>
+                                <value>com.scrumiverse.model.scrumFeatures.WorkLog</value>
+                        </list>
+                </property>
+                <property name="hibernateProperties">
+                        <props>
+                                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                                <prop key="hibernate.show_sql">true</prop>
+                                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                        </props></property>
+        </bean>
+        <bean id="userDAO" class="com.scrumiverse.persistence.DAO.impl.UserDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
+        <bean id="projectDAO" class="com.scrumiverse.persistence.DAO.impl.ProjectDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
+        <bean id="userStoryDAO" class="com.scrumiverse.persistence.DAO.impl.UserStoryDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
+        <bean id="taskDAO" class="com.scrumiverse.persistence.DAO.impl.TaskDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
+        <bean id="roleDAO" class="com.scrumiverse.persistence.DAO.impl.RoleDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
 </beans>
