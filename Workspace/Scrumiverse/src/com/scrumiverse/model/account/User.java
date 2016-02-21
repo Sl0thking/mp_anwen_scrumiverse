@@ -1,9 +1,11 @@
 package com.scrumiverse.model.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -17,7 +19,7 @@ import com.scrumiverse.model.scrumCore.Project;
  * Datamodell for a scrumiverse user account
  * 
  * @author Kevin Jolitz
- * @version 18.02.2016
+ * @version 21.02.2016
  */
 @Entity
 public class User {
@@ -46,6 +48,7 @@ public class User {
 		name = "";
 		emailNotification = false;
 		password = "";
+		projects = new ArrayList<Project>();
 	}
 	
 	@Id
@@ -83,14 +86,17 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	//Needs a check for already existing projects
-	@ManyToMany(mappedBy="users")
+	@ManyToMany(mappedBy="users", fetch=FetchType.EAGER)
 	public List<Project> getProjects() {
 		return projects;
 	}
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}
+	
+	public void addProject(Project project) {
+		this.projects.add(project);
 	}
 
 	public String getPassword() {

@@ -1,24 +1,25 @@
 package com.scrumiverse.model.scrumCore;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
-import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 @Entity
 public abstract class PlanElement {
 	private String description;
 	private int id;
 //	private List<HistoryEntry> history;
-//	private PlanState planState;
+	private PlanState planState;
 	private String acceptanceCriteria;
-	
+		
 	public String getDescription() {
 		return description;
 	}
@@ -40,12 +41,6 @@ public abstract class PlanElement {
 //	public void setHistory(List<HistoryEntry> history) {
 //		this.history = history;
 //	}
-//	public PlanState getPlanState() {
-//		return planState;
-//	}
-//	public void setPlanState(PlanState planState) {
-//		this.planState = planState;
-//	}
 	public String getAcceptanceCriteria() {
 		return acceptanceCriteria;
 	}
@@ -56,10 +51,17 @@ public abstract class PlanElement {
 	public void addHistoryEntry(ChangeEvent event, User user){
 		
 	}
-	public void changeState(PlanState state){
-		
-	}
 	public void setCriteria(String criteria){
 		
+	}
+	
+	@JoinColumn(name = "planState")
+	@Enumerated(EnumType.STRING)
+	public PlanState getPlanState() {
+		return planState;
+	}
+	
+	public void setPlanState(PlanState planState) {
+		this.planState = planState;
 	}
 }

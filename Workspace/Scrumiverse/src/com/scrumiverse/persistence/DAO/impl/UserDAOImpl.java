@@ -36,4 +36,9 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return users.get(0);
 	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return hibernateTemplate.find("from User");
+	}
 }

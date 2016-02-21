@@ -1,12 +1,15 @@
 package com.scrumiverse.model.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CollectionOfElements;
 
@@ -23,8 +26,14 @@ public class Role {
 	private String name;
 	private List<Right> rights;
 
+	public Role() {
+		name = "Unknown Role";
+		rights = new ArrayList<Right>();
+	}
+	
 	@Id
 	@GeneratedValue
+	@Column(name = "RoleID")
 	public int getRoleID() {
 		return roleID;
 	}
@@ -64,7 +73,8 @@ public class Role {
 		return copyRole;
 	}
 	
-	@CollectionOfElements(targetElement = Right.class)
+	@CollectionOfElements
+	@Column(name = "right_name")
 	@Enumerated(EnumType.STRING)
 	public List<Right> getRights() {
 		return rights;
