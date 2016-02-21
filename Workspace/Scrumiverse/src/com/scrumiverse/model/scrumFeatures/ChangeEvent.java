@@ -1,5 +1,5 @@
 package com.scrumiverse.model.scrumFeatures;
 
-public class ChangeEvent {
-
+public enum ChangeEvent {
+	USER_STORY_DELETED
 }

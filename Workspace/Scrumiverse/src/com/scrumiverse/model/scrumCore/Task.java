@@ -2,10 +2,12 @@ package com.scrumiverse.model.scrumCore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.MapKeyManyToMany;
@@ -31,13 +34,13 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
 public class Task extends PlanElement {
 	private List<WorkLog> workLogs;
 	private Map<User, Integer> estimatedWorkMinOfUsers;
-	private List<String> tags;
+	private Set<String> tags;
 	
 	public Task() {
 		this.setDescription("New Task");
 		this.setPlanState(PlanState.Planning);
 		estimatedWorkMinOfUsers = new HashMap<User, Integer>();
-		tags = new ArrayList<String>();
+		tags = new HashSet<String>();
 	}
 	
 	public int getEstimatedWorkTimeOfUser(User user) {
@@ -66,14 +69,14 @@ public class Task extends PlanElement {
 		this.estimatedWorkMinOfUsers = estimatedWorkMinOfUsers;
 	}
 
-	@CollectionOfElements(fetch = FetchType.EAGER)
+	@CollectionOfElements(fetch = FetchType.EAGER, targetElement = String.class)
 	@JoinTable(name = "Task_Tags", joinColumns = @JoinColumn(name = "TaskID"))
-	@Column(name = "Tag")
-	public List<String> getTags() {
+	@Column(name = "Tag", nullable=false)
+	public Set<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(Set<String> tags) {
 		this.tags = tags;
 	}
 

@@ -1,7 +1,7 @@
 package com.scrumiverse.model.account;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CollectionOfElements;
 
@@ -24,11 +25,11 @@ public class Role {
 	
 	private int roleID;
 	private String name;
-	private List<Right> rights;
+	private Set<Right> rights;
 
 	public Role() {
 		name = "Unknown Role";
-		rights = new ArrayList<Right>();
+		rights = new HashSet<Right>();
 	}
 	
 	@Id
@@ -74,13 +75,14 @@ public class Role {
 	}
 	
 	@CollectionOfElements
-	@Column(name = "right_name")
+	@JoinTable(joinColumns={@JoinColumn(name = "RoleID")})
+	@Column(name = "right_name", nullable = false)
 	@Enumerated(EnumType.STRING)
-	public List<Right> getRights() {
+	public Set<Right> getRights() {
 		return rights;
 	}
 
-	public void setRights(List<Right> rights) {
+	public void setRights(Set<Right> rights) {
 		this.rights = rights;
 	}
 }

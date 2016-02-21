@@ -1,11 +1,13 @@
 package com.scrumiverse.persistence.DAO.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.scrumiverse.model.scrumCore.Task;
+import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 
 /**
@@ -44,5 +46,12 @@ public class TaskDAOImpl implements TaskDAO{
 	@Override
 	public Task getTask(int taskID) {
 		return (Task)(hibernateTemplate.find("from Task where id='" + taskID + "'").get(0));
+	}
+	
+	@Override
+	public List<Task> getTasksOfUserStory(int userStoryID) {
+		UserStory us = (UserStory) hibernateTemplate.find("from UserStory where id='" + userStoryID + "'").get(0);
+		//us.getTasks();
+		return new ArrayList<Task>();
 	}
 }

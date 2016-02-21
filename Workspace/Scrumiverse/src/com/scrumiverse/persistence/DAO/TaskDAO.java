@@ -17,4 +17,5 @@ public interface TaskDAO {
 	public List<Task> getAllTasks();
 	public Task getTask(int taskID);
 	public void deleteTask(Task task);
+	List<Task> getTasksOfUserStory(int userStoryID);
 }

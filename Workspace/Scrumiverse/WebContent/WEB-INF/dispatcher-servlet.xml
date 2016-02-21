@@ -30,6 +30,7 @@
                                 <value>com.scrumiverse.model.scrumCore.Project</value>
                                 <value>com.scrumiverse.model.scrumCore.UserStory</value>
                                 <value>com.scrumiverse.model.scrumFeatures.Category</value>
+								<value>com.scrumiverse.model.scrumFeatures.HistoryEntry</value>
                                 <value>com.scrumiverse.model.scrumCore.Task</value>
                                 <value>com.scrumiverse.model.account.Role</value>
                                 <value>com.scrumiverse.model.scrumFeatures.WorkLog</value>
