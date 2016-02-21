@@ -11,6 +11,8 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 
+
+
 public class ProjectDAOImpl implements ProjectDAO {
 	
 	private HibernateTemplate hibernateTemplate;
@@ -18,6 +20,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public void setSessionFactory(SessionFactory sessionFactoryProject) {
 		this.hibernateTemplate = 
 					new HibernateTemplate(sessionFactoryProject); }
+	
+	public static ProjectDAOImpl instance;
+	
+	public static ProjectDAOImpl getInstance() {
+		if (instance == null) {
+			instance=new ProjectDAOImpl();
+		}
+		return instance;
+		
+	}
 
 	@Override
 	public void addProject(Project p) {
@@ -25,8 +37,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getAllProjects() {
-		List<Project> projects = hibernateTemplate.find("from Project");
+	public List<Project> getAllProjects(int userID) {
+		List<Project> projects = hibernateTemplate.find("select", userID, "from Project_User");
 			
 		return projects;	
 	}
@@ -52,6 +64,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 		
 	}
 	
+	@Override
+	public void removeUser(Project p, int userID) {
+		p.removeUser(userID);
+		hibernateTemplate.update(p);
+	}
+	
+	@Override
+	public void removeProject(Project p) {
+		hibernateTemplate.delete(p);
+	}
 	
 
 }
