@@ -56,5 +56,4 @@
 	<bean id="roleDAO" class="com.scrumiverse.persistence.DAO.impl.RoleDAOImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
-	
 </beans>

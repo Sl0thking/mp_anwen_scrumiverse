@@ -8,6 +8,12 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 
+/**
+ * Hibernate based implementation of task persistence functions 
+ * 
+ * @author Kevin Jolitz
+ * @version 21.02.2016
+ */
 public class TaskDAOImpl implements TaskDAO{
 	private HibernateTemplate hibernateTemplate;
 	
@@ -16,9 +22,8 @@ public class TaskDAOImpl implements TaskDAO{
 					new HibernateTemplate(sessionFactoryProject); }
 	
 	@Override
-	public void addTask(Task task) {
-		hibernateTemplate.saveOrUpdate(task);
-		
+	public void saveTask(Task task) {
+		hibernateTemplate.save(task);
 	}
 
 	@Override
