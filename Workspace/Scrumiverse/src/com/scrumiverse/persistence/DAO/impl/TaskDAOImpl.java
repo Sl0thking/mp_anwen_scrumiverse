@@ -35,4 +35,10 @@ public class TaskDAOImpl implements TaskDAO{
 	public List<Task> getAllTasks() {
 		return hibernateTemplate.find("from Task");
 	}
+
+	@Override
+	public Task getTask(int taskID) {
+		return (Task)(hibernateTemplate.find("from Task where id='" + taskID + "'").get(0));
+		
+	}
 }

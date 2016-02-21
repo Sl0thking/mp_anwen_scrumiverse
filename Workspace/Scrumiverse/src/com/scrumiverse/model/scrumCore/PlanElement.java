@@ -23,9 +23,11 @@ public abstract class PlanElement {
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name="ID")
