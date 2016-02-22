@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.scrumiverse.model.account.User;
@@ -33,7 +34,7 @@ public class UserStory extends PlanElement {
 	private int effortValue;
 	private MoscowState moscow;
 	private Category category;
-//	private List<Task> tasks;
+	private List<Task> tasks;
 	private Date dueDate;
 //	private Sprint relatedSprint;
 	
@@ -41,7 +42,7 @@ public class UserStory extends PlanElement {
 		businessValue = 0;
 		effortValue = 0;
 		moscow = MoscowState.Wont;
-//		tasks = new ArrayList<Task>();
+		tasks = new ArrayList<Task>();
 		//Standartwert?!
 		category = null;
 		dueDate = null;
@@ -80,14 +81,16 @@ public class UserStory extends PlanElement {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	@OneToMany
+	@JoinColumn(name="UserStoryID")
+	public List<Task> getTasks() {
+		return tasks;
+	}
 
-//	public List<Task> getTasks() {
-//		return tasks;
-//	}
-//
-//	public void setTasks(List<Task> tasks) {
-//		this.tasks = tasks;
-//	}
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 
 	public Date getDueDate() {
 		return dueDate;
@@ -106,49 +109,59 @@ public class UserStory extends PlanElement {
 //	public void setRelatedSprint(Sprint relatedSprint) {
 //		this.relatedSprint = relatedSprint;
 //	}
-//task not implemented
-//	public List<User> getResponsibleUsers(){
-//		List userlist = new ArrayList<User>();
-//		for(Task task: tasks){
-//			for(User user: task.getResponsibleUsers()){
-//				if(!userlist.contains(user)){
-//					userlist.add(user);
-//				}
-//			}
-//		}
-//		return userlist;
-//	}
-//	public int getPlannedMinutes(){
-//		int result = 0;
-//		for(Task task: tasks){
+	public List<User> getResponsibleUsers(){
+		List userlist = new ArrayList<User>();
+		for(Task task: tasks){
+			for(User user: task.getResponsibleUsers()){
+				if(!userlist.contains(user)){
+					userlist.add(user);
+				}
+			}
+		}
+		return userlist;
+	}
+	public int getPlannedMinutes(){
+		int result = 0;
+		for(Task task: tasks){
+			for(User user:task.getResponsibleUsers()){
+				result += task.getEstimatedWorkTimeOfUser(user);
+			}
 //			result += task.getAllPlannedTime();
-//		}
-//		return result;
-//	}
-//	public int getRemainingMinutes(){
-//		int result = 0;
-//		for(Task task: tasks){
+		}
+		return result;
+	}
+	public int getRemainingMinutes(){
+		int result = 0;
+		for(Task task: tasks){
+			for(User user: task.getResponsibleUsers()){
+				result += task.getRemainingMinOfUser(user);
+			}
 //			result += task.getAllRemainingMin();
-//		}
-//		return result;
-//	}
-//	public int getWorkedMinutes(){
-//		int result = 0;
-//		for(Task task: tasks){
+		}
+		return result;
+	}
+	public int getWorkedMinutes(){
+		int result = 0;
+		for(Task task: tasks){
+			for(User user: task.getResponsibleUsers()){
+				result += task.getLoggedTimeOfUser(user);
+			}
 //			result += task.getAllWorkedMin();
-//		}
-//		return result;
-//	}
+		}
+		return result;
+	}
 //needs sorting
-//	public List<WorkLog> getWorkLogs(){
-//		List result = new ArrayList();
-//		for(Task task: tasks){
+	public List<WorkLog> getWorkLogs(){
+		List result = new ArrayList();
+		for(Task task: tasks){
 //			for(WorkLog work: task.getAllWorkLogs()){
-//				result.add(work);
-//			}
-//		}
-//		return (List<WorkLog>) result;
-//	}
+			for(WorkLog work: task.getWorkLogs()){
+
+				result.add(work);
+			}
+		}
+		return (List<WorkLog>) result;
+	}
 	
 
 }

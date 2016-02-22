@@ -120,7 +120,7 @@ public class Task extends PlanElement {
 	 * @return List of users
 	 */
 	@Transient
-	public Set<User> getResponsibleUser() {
+	public Set<User> getResponsibleUsers() {
 		return this.estimatedWorkMinOfUsers.keySet();
 	}
 	
