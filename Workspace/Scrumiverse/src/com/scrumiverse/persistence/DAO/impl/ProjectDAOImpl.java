@@ -39,7 +39,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectsFromUser(int userID) {
 		List<Project> projects = hibernateTemplate.find("from Project where id='"+ userID +"'");
-			
 		return projects;	
 	}
 	

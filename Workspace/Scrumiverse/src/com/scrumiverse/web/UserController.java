@@ -62,7 +62,7 @@ public class UserController {
 			//login successful when no exception is thrown
 			comparePasswords(formLoginUser, loadedUser);
 			session.setAttribute("loggedUser", loadedUser);
-			return new ModelAndView("redirect:backlog.htm");
+			return new ModelAndView("redirect:projectOverview.htm");
 		//No User with given email address, wrong password or fatal algorithm exception
 		} catch (NoSuchUserException | WrongPasswordException | NoSuchAlgorithmException e) {
 			map.addAttribute("loginError", true);

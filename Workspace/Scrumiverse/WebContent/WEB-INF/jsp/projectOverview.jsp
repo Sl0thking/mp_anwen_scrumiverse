@@ -23,7 +23,7 @@ $(document).ready(function(){
 		<div class="project-date">Duedate: ##.##.####</div>
 		<div class="project-control">
 			<a class="glyphicon glyphicon-cog project-settings" href="./projectSettings.htm?id=${project.projectID }"></a>
-			<a class="glyphicon glyphicon-triangle-right project-link" href="#"></a>
+			<a class="glyphicon glyphicon-triangle-right project-link" href="./selectProject.htm?id=${project.projectID }"></a>
 		</div>
 		</div>
 	</c:forEach>
