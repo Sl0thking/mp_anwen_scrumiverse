@@ -1,0 +1,250 @@
+.sprintpage {
+    position: absolute;
+    width: 100%;
+    padding: 20px 30px 20px 40px;
+    height: 95vh;
+    overflow-y: scroll;
+}
+
+.sprintpage .sprint{
+    position: relative;
+    background-color: #000000;
+    margin-bottom: 5px;
+    color: white;
+    height: 120px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.sprintpage .sprint .sprint-state-active{
+    background-color: green;
+    width: 5px;
+    height: 120px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-state-planed{
+    background-color: darkgrey;
+    width: 5px;
+    height: 120px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-content{
+    width: 90%;
+    height: 120px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-name{
+    height: 30px;
+    width: 100%;
+    min-width: 20%;
+    font-size: 20px;
+    font-weight: 500;
+    overflow: hidden;
+}
+
+.sprintpage .sprint .sprint-stats{
+    width: 100%;
+    height: 90px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-time-overview{
+    width: 159px;
+    height: 90px;
+    padding: 5px 5px 0px 0px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-time-overview .sprint-sandclock{
+    background-color: white;
+    height: 60px;
+    width: 50px;
+    overflow-y: hidden;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-time-overview .sprint-time{
+    height: 20px;
+    width: 50px;
+    font-weight: 500;
+    text-align: center;
+    overflow-y: hidden;
+}
+
+.sprintpage .sprint .sprint-date{
+    width: 100px;
+    height: 44px;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-data{
+    position: relative;
+    bottom: 40px;
+    width: 75%;
+    height: 70px;
+    padding-top: 10px;
+    display: inline-block;
+    
+}
+
+.sprintpage .sprint .sprint-userstory-container{
+    position: relative;
+    padding: 0% 2% 0% 0%;
+    width: 25%;
+    height: 60px;
+    line-height: 16px;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-userstory-container .count{
+    position: relative;
+    height: 20px;
+    width: 100%;
+}
+
+.sprintpage .sprint .sprint-userstory-container .sprint-userstory-progressbar{
+    position: relative;
+    background-color: grey;
+    height: 10px;
+    width: 100%;
+}
+.sprintpage .sprint .sprint-userstory-container .sprint-userstory-progress{
+    position: relative;
+    bottom: 10px;
+    background-color: green;
+    height: 10px;
+    width: 40%;
+}
+
+.sprintpage .sprint .sprint-time-container{
+    position: relative;
+    padding: 0% 2% 0% 0%;
+    width: 25%;
+    height: 60px;
+    line-height: 16px;
+    display: inline-block
+}
+
+.sprintpage .sprint .sprint-time-container .count{
+    position: relative;
+    height: 20px;
+    width: 100%;
+}
+
+.sprintpage .sprint .sprint-time-container .sprint-time-progressbar{
+    position: relative;
+    background-color: grey;
+    height: 10px;
+    width: 100%;
+}
+.sprintpage .sprint .sprint-time-container .sprint-time-progress{
+    position: relative;
+    bottom: 10px;
+    background-color: green;
+    height: 10px;
+    width: 40%;
+}
+
+.sprintpage .sprint .sprint-effort-container{
+    position: relative;
+    padding: 0% 2% 0% 0%;
+    width: 25%;
+    height: 60px;
+    line-height: 16px;
+    display: inline-block;
+}
+.sprintpage .sprint .sprint-effort-container .count{
+    position: relative;
+    height: 20px;
+    width: 100%;
+}
+
+.sprintpage .sprint .sprint-effort-container .sprint-effort-progressbar{
+    position: relative;
+    background-color: grey;
+    height: 10px;
+    width: 100%;
+}
+.sprintpage .sprint .sprint-effort-container .sprint-effort-progress{
+    position: relative;
+    bottom: 10px;
+    background-color: green;
+    height: 10px;
+    width: 40%;
+}
+
+.sprintpage .sprint .sprint-value-container{
+    position: relative;
+    padding: 0% 2% 0% 0%;
+    width: 23%;
+    height: 60px;
+    line-height: 16px;
+    display: inline-block;
+}
+.sprintpage .sprint .sprint-value-container .count{
+    position: relative;
+    height: 20px;
+    width: 100%;
+}
+
+.sprintpage .sprint .sprint-value-container .sprint-value-progressbar{
+    position: relative;
+    background-color: grey;
+    height: 10px;
+    width: 100%;
+}
+
+.sprintpage .sprint .sprint-value-container .sprint-value-progress{
+    position: relative;
+    bottom: 10px;
+    background-color: green;
+    height: 10px;
+    width: 40%;
+}
+
+.sprintpage .sprint .sprint-control{
+    height: 120px;
+    float: right;
+    width: 50px;
+    font-weight: 500;
+    background-color: green;
+    display: inline-block;
+}
+
+.sprintpage .sprint .sprint-settings{
+    height: 40px;
+    width: 50px;
+    margin-bottom: 6px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.sprintpage .sprint .sprint-link{
+    position: relative;
+    left: 5px;
+    height: 40px;
+    width: 50px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+.sprintpage .sprint .sprint-dropdown{
+    height: 40px;
+    width: 50px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    background-color: inherit;
+    color: white;
+    text-decoration: none;
+}
