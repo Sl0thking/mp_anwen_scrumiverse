@@ -1,0 +1,115 @@
+.projectpage {
+    width: 100%;
+    padding: 20px 30px 20px 40px;
+    height: 95vh;
+    overflow-y: scroll;
+}
+
+.projectpage .project{
+    position: relative;
+    background-color: #000000;
+    color: white;
+    height: 120px;
+    width: 100%;
+    padding: 10px 0px 10px 5px;
+    overflow: hidden;
+}
+
+.projectpage .project .project-logo{
+    height: 100px;
+    width: 100px;
+    background-color: #666666;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.projectpage .project .project-name{
+    position: absolute;
+    left: 110px;
+    height: 30px;
+    width: 35%;
+    min-width: 20%;
+    font-size: 20px;
+    font-weight: 500;
+    display: inline-block;
+    overflow: auto;
+}
+
+.projectpage .project .project-desc{
+    position: absolute;
+    bottom: 10px;
+    left: 110px;
+    height: 70px;
+    width: 42%;
+    min-width: 20%;
+    color: #999999;
+    line-height: 15px;
+    display: inline-block;
+    overflow: scroll;
+}
+
+.projectpage .project .project-desc:-webkit-scrollbar { 
+    display: none; 
+}
+.projectpage .project .project-desc:-moz-scrollbar { 
+    display: none; 
+}
+
+.projectpage .project .project-member{
+    position: absolute;
+    left: 60%;
+    top: 50px;
+    height: 20px;
+    color: #999999;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.projectpage .project .project-date{
+    position: absolute;
+    left: 60%;
+    top: 80px;
+    height: 20px;
+    color: #999999;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.projectpage .project .project-control{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    height: 120px;
+    width: 50px;
+    font-weight: 500;
+    display: inline-block;
+    background-color: #666666;
+}
+
+.projectpage .project .project-settings{
+    position: absolute;
+    top: 10px;
+    height: 45px;
+    width: 50px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    background-color: inherit;
+    color: white;
+    text-decoration: none;
+}
+
+
+.projectpage .project .project-link{
+    position: absolute;
+    top: 70px;
+    left: 5px;
+    height: 45px;
+    width: 50px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    background-color: inherit;
+    color: white;
+    text-decoration: none;
+}
