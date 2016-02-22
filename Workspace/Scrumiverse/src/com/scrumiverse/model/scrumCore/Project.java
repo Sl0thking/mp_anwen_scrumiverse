@@ -1,7 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -12,14 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.MapKey;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.MapKeyManyToMany;
-
 import com.scrumiverse.model.account.*;
-import com.scrumiverse.model.scrumCore.*;
-import com.scrumiverse.model.scrumFeatures.*;
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -35,7 +31,6 @@ public class Project {
 	//private List<Category> categories;
 	
 	public Project() {
-		projectID = 0;
 		name = "New Project";
 		description = "Project Description";
 		users = new HashMap<User, Role>();
@@ -69,11 +64,9 @@ public class Project {
 //		this.roles = roles;
 //	}
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="Project_User", 
-			joinColumns={@JoinColumn(name="ProjectID")}, 
-			inverseJoinColumns={@JoinColumn(name="RoleID")})
-	@MapKeyManyToMany(joinColumns={@JoinColumn(name="UserID")})
+			joinColumns={@JoinColumn(name="ProjectID")})
 	public Map<User, Role> getUsers() {
 		return users;
 	}
@@ -109,8 +102,8 @@ public class Project {
 //		this.categories.remove(CategoryID);		
 //	}
 	
-	public void addUser(User u) {		
-		this.users.put(u, null);		
+	public void addUser(User u, Role r) {		
+		this.users.put(u, r);		
 	}
 	
 	public void removeUser(int userID) {

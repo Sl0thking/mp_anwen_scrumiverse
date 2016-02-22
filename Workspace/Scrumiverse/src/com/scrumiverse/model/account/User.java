@@ -3,12 +3,14 @@ package com.scrumiverse.model.account;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
@@ -86,10 +88,10 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@ManyToMany(mappedBy="users", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="users", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	public List<Project> getProjects() {
-		return projects;
-	}
+		return projects;	
+}
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;

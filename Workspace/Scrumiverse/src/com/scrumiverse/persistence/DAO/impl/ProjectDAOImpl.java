@@ -51,7 +51,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	
 	@Override
 	public void addUser(Project p, User u){
-		p.addUser(u);
+		//p.addUser(u);
 		hibernateTemplate.update(p);
 	}
 	

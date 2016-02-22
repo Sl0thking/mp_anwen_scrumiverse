@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.ProjectBinder;
+import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
+import com.scrumiverse.persistence.DAO.RoleDAO;
+import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.utility.Utility;
 
 @Controller
@@ -26,6 +29,12 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectDAO projectDAO;
+	
+	@Autowired
+	private RoleDAO roleDAO;
+	
+	@Autowired
+	private UserDAO userDAO;
 	
 //	@InitBinder
 //	protected void initBinder(ServletRequestDataBinder binder) {
@@ -45,10 +54,20 @@ public class ProjectController {
 	@RequestMapping("/addProject.htm")
 	public ModelAndView addProject(HttpSession session) {		
 		Project project = new Project();
-		project.addUser((User) session.getAttribute("loggedUser"));
 		projectDAO.addProject(project);
-
-		return new ModelAndView("redirect:/projectOverview.htm");		 		 
+		Role role = new Role();
+		User user = (User) session.getAttribute("loggedUser");
+		
+		//awesome function for creating admin/product owner role
+		role.setName("ProductOwner");
+		role.addRight(Right.Invite_To_Project);
+		roleDAO.addRole(role);
+		project.addUser(user, role);
+		user.addProject(project);
+		userDAO.addUser(user);
+		projectDAO.addProject(project);
+		projectDAO.removeProject(project);
+		return new ModelAndView("redirect:projectOverview.htm");		 		 
 	 }
 	
 	@RequestMapping("/selectProject.htm")
@@ -59,7 +78,6 @@ public class ProjectController {
 	
 	@RequestMapping("/projectSettings.htm")
 	public ModelAndView projectSettings(Project project, HttpSession session)  {
-		
 		ModelMap map = Utility.generateModelMap(session);
 		int projectID = project.getProjectID();
 		Project selectedProject = projectDAO.getProject(projectID);
