@@ -1,11 +1,14 @@
 package com.scrumiverse.persistence.DAO.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
@@ -14,7 +17,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * the database for User Story interactions
  * 
  * @author Lasse Jacobs
- * @version 18.02.16
+ * @version 22.02.16
  *
  */
 
@@ -27,14 +30,35 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	}
 
 	@Override
-	public void addUserStory(UserStory userStory) {
+	public void saveUserStory(UserStory userStory) {
+		hibernateTemplate.save(userStory);
+	}
+	
+	@Override
+	public void updateUserStory(UserStory userStory){
 		hibernateTemplate.saveOrUpdate(userStory);
+	}
+	
+	@Override
+	public void deleteUserStory(UserStory userStory){
+		hibernateTemplate.delete(userStory);
 	}
 
 	@Override
 	public List<UserStory> getAllUserstories() {
-		List<UserStory> userstories = hibernateTemplate.find("from UserStory");
-		return userstories;
+		return hibernateTemplate.find("from UserStory");
+	}
+	
+	@Override
+	public UserStory getUserStory(int userStoryID){
+		return (UserStory) (hibernateTemplate.find("from UserStory where id'" + userStoryID + "'").get(0));
+	}
+	
+	@Override
+	public List<UserStory> getUserStoriesOfProject(int projectID){
+		Project proj = (Project) hibernateTemplate.find("from Project where id='" + projectID + "'").get(0);
+//		return proj.getUserstories();
+		return new ArrayList<UserStory>();
 	}
 
 }

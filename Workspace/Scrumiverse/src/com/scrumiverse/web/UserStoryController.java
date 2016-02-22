@@ -41,7 +41,7 @@ public class UserStoryController {
 	@RequestMapping("/add_userstory.htm")
 	public ModelAndView addUserStory(UserStory userstory, HttpSession session){
 		ModelMap map = Utility.generateModelMap(session);
-		userStoryDAO.addUserStory(userstory);
+		userStoryDAO.saveUserStory(userstory);
 		map.addAttribute("action", Action.backlog);
 		return new ModelAndView("index", map);
 	}

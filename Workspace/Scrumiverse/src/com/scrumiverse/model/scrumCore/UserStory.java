@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Category;
@@ -24,7 +25,7 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * User Story Model for Scrum Projects.
  * 
  * @author Lasse Jacobs
- * @version 18.02.16
+ * @version 22.02.16
  *
  */
 
@@ -109,6 +110,7 @@ public class UserStory extends PlanElement {
 //	public void setRelatedSprint(Sprint relatedSprint) {
 //		this.relatedSprint = relatedSprint;
 //	}
+	@Transient
 	public List<User> getResponsibleUsers(){
 		List userlist = new ArrayList<User>();
 		for(Task task: tasks){
@@ -120,41 +122,41 @@ public class UserStory extends PlanElement {
 		}
 		return userlist;
 	}
+	@Transient
 	public int getPlannedMinutes(){
 		int result = 0;
 		for(Task task: tasks){
 			for(User user:task.getResponsibleUsers()){
 				result += task.getEstimatedWorkTimeOfUser(user);
 			}
-//			result += task.getAllPlannedTime();
 		}
 		return result;
 	}
+	@Transient
 	public int getRemainingMinutes(){
 		int result = 0;
 		for(Task task: tasks){
 			for(User user: task.getResponsibleUsers()){
 				result += task.getRemainingMinOfUser(user);
 			}
-//			result += task.getAllRemainingMin();
 		}
 		return result;
 	}
+	@Transient
 	public int getWorkedMinutes(){
 		int result = 0;
 		for(Task task: tasks){
 			for(User user: task.getResponsibleUsers()){
 				result += task.getLoggedTimeOfUser(user);
 			}
-//			result += task.getAllWorkedMin();
 		}
 		return result;
 	}
 //needs sorting
+	@Transient
 	public List<WorkLog> getWorkLogs(){
 		List result = new ArrayList();
 		for(Task task: tasks){
-//			for(WorkLog work: task.getAllWorkLogs()){
 			for(WorkLog work: task.getWorkLogs()){
 
 				result.add(work);
