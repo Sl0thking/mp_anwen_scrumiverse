@@ -24,6 +24,14 @@ import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.utility.Utility;
 
+/**
+ * Controller for project interactions
+ * 
+ * @author Toni Serfling
+ * @version 22.02.2016
+ *
+ */
+
 @Controller
 public class ProjectController {
 	
@@ -41,7 +49,11 @@ public class ProjectController {
 //			binder.registerCustomEditor(Project.class, new ProjectBinder(projectDAO));
 //		}
 
-	
+	/**
+	 * Overview over all projects of current user
+	 * @param session
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/projectOverview.htm")
 	public ModelAndView project_overview(HttpSession session) {
 		ModelMap map = Utility.generateModelMap(session);
@@ -51,6 +63,11 @@ public class ProjectController {
 		return new ModelAndView("index", map);
 	}
 	
+	/**
+	 * Add a project and redirect to Overview
+	 * @param session
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/addProject.htm")
 	public ModelAndView addProject(HttpSession session) {		
 		Project project = new Project();
@@ -70,11 +87,25 @@ public class ProjectController {
 		return new ModelAndView("redirect:projectOverview.htm");		 		 
 	 }
 	
+	/**
+	 * select specific project and redirect to backlog
+	 * @param id
+	 * @param session
+	 * @return ModelAndView
+	 */
+	
 	@RequestMapping("/selectProject.htm")
 	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {		
 		session.setAttribute("currentProject", projectDAO.getProject(id));		
-		return new ModelAndView("redirect:/backlog.htm");
+		return new ModelAndView("redirect:backlog.htm");
 	}
+	
+	/**
+	 * Opens settings of selected project
+	 * @param project
+	 * @param session
+	 * @return ModelAndView
+	 */
 	
 	@RequestMapping("/projectSettings.htm")
 	public ModelAndView projectSettings(Project project, HttpSession session)  {
@@ -87,33 +118,59 @@ public class ProjectController {
 		
 	}
 	
+	/**
+	 * Add a user to a project and redirect to settings
+	 * @param project
+	 * @param user
+	 * @return ModelAndView
+	 */
+	
 	@RequestMapping("/addUserToProject.htm")
 	public ModelAndView addUser(Project project, User user) {
 		projectDAO.addUser(project, user);
 		
-		return new ModelAndView("redirect/projectSettings.htm");
+		return new ModelAndView("redirect:projectSettings.htm");
 		
 	}
+	
+	/**
+	 * Remove a user from a project and redirect to settings
+	 * @param project
+	 * @param user
+	 * @return ModelAndView
+	 */
 	
 	@RequestMapping("/removeUserFromProject.htm")
 	public ModelAndView removeUser(Project project, User user) {
 		projectDAO.removeUser(project, user.getUserID());
 		
-		return new ModelAndView("redirect/projectSettings.htm");
+		return new ModelAndView("redirect:projectSettings.htm");
 	}
+	
+	/**
+	 * Removes a project and return to Overview
+	 * @param project
+	 * @return ModelAndView
+	 */
 	
 	@RequestMapping("/removeProject.htm")
 	public ModelAndView removeProject(Project project) {
 		projectDAO.removeProject(project);
 		
-		return new ModelAndView("redirect/projectSettings.htm");
+		return new ModelAndView("redirect:projectOverview.htm");
 	}
 	
+	/**
+	 * Rename a project and return to Settings
+	 * @param project
+	 * @param name
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/renameProject.htm")
 	public ModelAndView renameProject(Project project, String name) {
 		projectDAO.renameProject(project, name);
 		
-		return new ModelAndView("redirect/projectSettings.htm");
+		return new ModelAndView("redirect:projectSettings.htm");
 	}
 	
 }

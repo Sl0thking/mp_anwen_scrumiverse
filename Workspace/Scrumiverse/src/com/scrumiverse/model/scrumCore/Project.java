@@ -18,6 +18,13 @@ import org.hibernate.annotations.MapKeyManyToMany;
 import com.scrumiverse.model.account.*;
 import javax.persistence.JoinColumn;
 
+/**
+ * Datamodel for a scrumiverse project
+ * 
+ * @author Toni Serfling, Kevin Jolitz
+ * @version 22.02.2016
+ */
+
 @Entity
 public class Project {
 	
