@@ -22,6 +22,13 @@ import com.scrumiverse.model.scrumCore.*;
 import com.scrumiverse.model.scrumFeatures.*;
 import javax.persistence.JoinColumn;
 
+/**
+ * Datamodel for a scrumiverse project
+ * 
+ * @author Toni Serfling, Kevin Jolitz
+ * @version 22.02.2016
+ */
+
 @Entity
 public class Project {
 	

@@ -11,7 +11,13 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 
-
+/**
+ * Implementation of the dao for project objects.
+ * 
+ * @author Toni Serfling
+ * @version 22.02.2016
+ *
+ */
 
 public class ProjectDAOImpl implements ProjectDAO {
 	
@@ -21,15 +27,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 		this.hibernateTemplate = 
 					new HibernateTemplate(sessionFactoryProject); }
 	
-	public static ProjectDAOImpl instance;
-	
-	public static ProjectDAOImpl getInstance() {
-		if (instance == null) {
-			instance=new ProjectDAOImpl();
-		}
-		return instance;
-		
-	}
+//	public static ProjectDAOImpl instance;
+//	
+//	public static ProjectDAOImpl getInstance() {
+//		if (instance == null) {
+//			instance=new ProjectDAOImpl();
+//		}
+//		return instance;
+//		
+//	}
 
 	@Override
 	public void addProject(Project p) {
@@ -45,7 +51,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Project getProject(int projectID){
 		Project project = (Project) hibernateTemplate.find("from Project where id='" + projectID +"'");
-		
+//		Project project = (Project) hibernateTemplate.get(Project.class, projectID);
 		return project;
 	}
 	
@@ -77,6 +83,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public void renameProject(Project p, String name) {
 		p.setName(name);
+		hibernateTemplate.update(p);
+	}
+	
+	public void updateProject(Project p) {
 		hibernateTemplate.update(p);
 	}
 }
