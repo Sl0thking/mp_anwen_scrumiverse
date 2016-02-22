@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.ProjectBinder;
@@ -36,7 +37,7 @@ public class ProjectController {
 	public ModelAndView project_overview(HttpSession session) {
 		ModelMap map = Utility.generateModelMap(session);
 		User user = ((User) session.getAttribute("loggedUser"));
-		map.addAttribute("projectList", projectDAO.getAllProjects(user.getUserID()));
+		map.addAttribute("projectList", projectDAO.getProjectsFromUser(user.getUserID()));
 		map.addAttribute("action", Action.projectOverview);
 		return new ModelAndView("index", map);
 	}
@@ -49,6 +50,12 @@ public class ProjectController {
 
 		return new ModelAndView("redirect:/projectOverview.htm");		 		 
 	 }
+	
+	@RequestMapping("/selectProject.htm")
+	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {		
+		session.setAttribute("currentProject", projectDAO.getProject(id));		
+		return new ModelAndView("redirect:/backlog.htm");
+	}
 	
 	@RequestMapping("/projectSettings.htm")
 	public ModelAndView projectSettings(Project project, HttpSession session)  {
@@ -78,11 +85,17 @@ public class ProjectController {
 	}
 	
 	@RequestMapping("/removeProject.htm")
-	public ModelAndView removeProject(Project project, HttpSession session) {
+	public ModelAndView removeProject(Project project) {
 		projectDAO.removeProject(project);
 		
 		return new ModelAndView("redirect/projectSettings.htm");
 	}
 	
+	@RequestMapping("/renameProject.htm")
+	public ModelAndView renameProject(Project project, String name) {
+		projectDAO.renameProject(project, name);
+		
+		return new ModelAndView("redirect/projectSettings.htm");
+	}
 	
 }

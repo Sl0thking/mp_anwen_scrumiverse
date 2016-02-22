@@ -37,15 +37,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getAllProjects(int userID) {
-		List<Project> projects = hibernateTemplate.find("select", userID, "from Project_User");
+	public List<Project> getProjectsFromUser(int userID) {
+		List<Project> projects = hibernateTemplate.find("from Project where id='"+ userID +"'");
 			
 		return projects;	
 	}
 	
 	@Override
 	public Project getProject(int projectID){
-		Project project = (Project) hibernateTemplate.find("select", projectID, "from Project");
+		Project project = (Project) hibernateTemplate.find("from Project where id='" + projectID +"'");
 		
 		return project;
 	}
@@ -58,7 +58,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	
 	@Override
 	public Map<User, Role> getAllUsers(int projectID) {
-		Map<User, Role> users = (Map<User, Role>) hibernateTemplate.find("select User from", projectID);
+		Map<User, Role> users = (Map<User, Role>) hibernateTemplate.find("from User where id='"+ projectID + "'");
 		
 		return users;
 		
@@ -75,5 +75,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 		hibernateTemplate.delete(p);
 	}
 	
-
+	@Override
+	public void renameProject(Project p, String name) {
+		p.setName(name);
+		hibernateTemplate.update(p);
+	}
 }
