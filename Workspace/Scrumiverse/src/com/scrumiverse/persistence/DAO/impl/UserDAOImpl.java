@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO{
                new HibernateTemplate(sessionFactory); }
 	
 	@Override
-	public void addUser(User user) {
+	public void saveUser(User user) {
 		hibernateTemplate.saveOrUpdate(user);
 	}
 

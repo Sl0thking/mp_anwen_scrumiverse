@@ -6,26 +6,24 @@ import java.util.Map;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.scrumCore.Project;
-import com.scrumiverse.persistence.DAO.impl.ProjectDAOImpl;
+import com.scrumiverse.persistence.DAO.impl.NoProjectFoundException;
 
 /**
  * 
  * Interface of DAO of project objects
  * 
- * @author Toni Serfling
+ * @author Toni Serfling, Kevin Jolitz
  * @version 22.02.2016
  */
-
 public interface ProjectDAO {
 	
-	public void addProject(Project p);
-	public List<Project> getProjectsFromUser(int userID);
-	public Project getProject(int projectID);
-	public void addUser(Project p, User u);
-	public Map<User, Role> getAllUsers(int projectID);
-	public void removeUser(Project p, int userID);
-	public void removeProject(Project p);
-	public void renameProject(Project p, String name);
+	public void saveProject(Project p);
 	public void updateProject(Project p);
+	public void deleteProject(Project p) throws Exception;
+	public List<Project> getProjectsFromUser(int userID);
+	public Project getProject(int projectID) throws NoProjectFoundException;
+	public Map<User, Role> getAllUsers(int projectID);
+
+
 
 }

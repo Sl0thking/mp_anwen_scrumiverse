@@ -1,15 +1,12 @@
 package com.scrumiverse.model.account;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
@@ -21,7 +18,7 @@ import com.scrumiverse.model.scrumCore.Project;
  * Datamodell for a scrumiverse user account
  * 
  * @author Kevin Jolitz
- * @version 21.02.2016
+ * @version 22.02.2016
  */
 @Entity
 public class User {
@@ -38,7 +35,7 @@ public class User {
 	private String name;
 	
 	private boolean emailNotification;
-	private List<Project> projects;
+	private Set<Project> projects;
 	
 	@NotBlank(message="must enter a valid password.")
 	@RegExp(value="^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])[\\w\\d!@#$%_]{6,40}$",
@@ -50,7 +47,7 @@ public class User {
 		name = "";
 		emailNotification = false;
 		password = "";
-		projects = new ArrayList<Project>();
+		projects = new HashSet<Project>();
 	}
 	
 	@Id
@@ -88,12 +85,12 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@OneToMany(mappedBy="users", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	public List<Project> getProjects() {
+	@OneToMany(mappedBy="users", fetch=FetchType.EAGER)
+	public Set<Project> getProjects() {
 		return projects;	
 }
 
-	public void setProjects(List<Project> projects) {
+	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
 	
@@ -113,5 +110,31 @@ public class User {
 	public String toString() {
 		return "User [userID=" + userID + ", email=" + email + ", name=" + name + ", emailNotification="
 				+ emailNotification + ", password=" + password + "]";
+	}
+
+	public void leaveProject(Project p) {
+		this.projects.remove(p);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + userID;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userID != other.userID)
+			return false;
+		return true;
 	}	
 }

@@ -14,7 +14,7 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
 /**
  * Implementation of the dao for project objects.
  * 
- * @author Toni Serfling
+ * @author Toni Serfling, Kevin Jolitz
  * @version 22.02.2016
  *
  */
@@ -38,7 +38,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 //	}
 
 	@Override
-	public void addProject(Project p) {
+	public void saveProject(Project p) {
 		hibernateTemplate.saveOrUpdate(p);		
 	}
 
@@ -49,44 +49,34 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 	
 	@Override
-	public Project getProject(int projectID){
-		Project project = (Project) hibernateTemplate.find("from Project where id='" + projectID +"'");
-//		Project project = (Project) hibernateTemplate.get(Project.class, projectID);
-		return project;
+	public Project getProject(int projectID) throws NoProjectFoundException{
+		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
+		if(projects.size() != 0) {
+			return projects.get(0);
+		}
+		throw new NoProjectFoundException();
 	}
 	
 	@Override
-	public void addUser(Project p, User u){
-		//p.addUser(u);
+	public void updateProject(Project p){
 		hibernateTemplate.update(p);
 	}
 	
 	@Override
 	public Map<User, Role> getAllUsers(int projectID) {
 		Map<User, Role> users = (Map<User, Role>) hibernateTemplate.find("from User where id='"+ projectID + "'");
-		
 		return users;
 		
 	}
-	
+
 	@Override
-	public void removeUser(Project p, int userID) {
-		p.removeUser(userID);
-		hibernateTemplate.update(p);
+	public void deleteProject(Project p) throws Exception {
+		if(p.getUsers().keySet().size() == 0) {
+			hibernateTemplate.delete(p);
+		} else {
+			throw new Exception();
+		}
 	}
-	
-	@Override
-	public void removeProject(Project p) {
-		hibernateTemplate.delete(p);
-	}
-	
-	@Override
-	public void renameProject(Project p, String name) {
-		p.setName(name);
-		hibernateTemplate.update(p);
-	}
-	
-	public void updateProject(Project p) {
-		hibernateTemplate.update(p);
-	}
+
+
 }

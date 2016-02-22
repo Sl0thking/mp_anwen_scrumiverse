@@ -109,7 +109,7 @@ public class UserController {
 			throw new Exception();
 		//Expect this exception
 		} catch (NoSuchUserException e) {
-			userDAO.addUser(formRegUser);
+			userDAO.saveUser(formRegUser);
 			return new ModelAndView("redirect:login.htm");
 		} catch (ValidationException e) {
 			//validation failed

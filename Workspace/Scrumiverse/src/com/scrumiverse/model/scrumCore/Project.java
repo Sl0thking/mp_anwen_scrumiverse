@@ -113,8 +113,8 @@ public class Project {
 		this.users.put(u, r);		
 	}
 	
-	public void removeUser(int userID) {
-		this.users.remove(userID);		
+	public void removeUser(User u) {
+		this.users.remove(u);		
 	}
 //	
 //	public void setRole(int userID, Role r) {
@@ -151,4 +151,28 @@ public class Project {
 //				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
 //				+ categories + "]";
 //	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + projectID;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (projectID != other.projectID)
+			return false;
+		return true;
+	}
+	
+	
 }

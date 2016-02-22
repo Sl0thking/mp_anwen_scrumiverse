@@ -19,7 +19,7 @@ $(document).ready(function(){
 		<div class="project-logo"></div>
 		<div class="project-name">${project.name }</div>
 		<div class="project-desc">${project.description }</div>
-		<div class="project-member">Projectmembers: ${project.users.size }</div>
+		<div class="project-member">Projectmembers: ${project.users.size()}</div>
 		<div class="project-date">Duedate: ##.##.####</div>
 		<div class="project-control">
 			<a class="glyphicon glyphicon-cog project-settings" href="./projectSettings.htm?id=${project.projectID }"></a>

@@ -1,27 +1,21 @@
 package com.scrumiverse.web;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.scrumiverse.binder.ProjectBinder;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
-import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
+import com.scrumiverse.persistence.DAO.impl.NoProjectFoundException;
 import com.scrumiverse.utility.Utility;
 
 /**
@@ -37,9 +31,6 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectDAO projectDAO;
-	
-	@Autowired
-	private RoleDAO roleDAO;
 	
 	@Autowired
 	private UserDAO userDAO;
@@ -71,19 +62,17 @@ public class ProjectController {
 	@RequestMapping("/addProject.htm")
 	public ModelAndView addProject(HttpSession session) {		
 		Project project = new Project();
-		projectDAO.addProject(project);
-		Role role = new Role();
 		User user = (User) session.getAttribute("loggedUser");
-		
+		projectDAO.saveProject(project);
 		//awesome function for creating admin/product owner role
+		Role role = new Role();
 		role.setName("ProductOwner");
 		role.addRight(Right.Invite_To_Project);
-		roleDAO.addRole(role);
+		//-----------------------------------------------------
 		project.addUser(user, role);
 		user.addProject(project);
-		userDAO.addUser(user);
-		projectDAO.addProject(project);
-		projectDAO.removeProject(project);
+		userDAO.saveUser(user);
+		projectDAO.saveProject(project);
 		return new ModelAndView("redirect:projectOverview.htm");		 		 
 	 }
 	
@@ -95,8 +84,14 @@ public class ProjectController {
 	 */
 	
 	@RequestMapping("/selectProject.htm")
-	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {		
-		session.setAttribute("currentProject", projectDAO.getProject(id));		
+	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {	
+		try {
+			Project project = projectDAO.getProject(id);
+			session.setAttribute("currentProject", project);	
+		} catch(NoProjectFoundException e) {
+			//zukünftig vll mit Fehler über param
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
 		return new ModelAndView("redirect:backlog.htm");
 	}
 	
@@ -111,11 +106,15 @@ public class ProjectController {
 	public ModelAndView projectSettings(Project project, HttpSession session)  {
 		ModelMap map = Utility.generateModelMap(session);
 		int projectID = project.getProjectID();
-		Project selectedProject = projectDAO.getProject(projectID);
-		map.addAttribute("project", selectedProject);
-		map.addAttribute("action", Action.projectSettings);
+		Project selectedProject;
+		try {
+			selectedProject = projectDAO.getProject(projectID);
+			map.addAttribute("project", selectedProject);
+			map.addAttribute("action", Action.projectSettings);
+		} catch (NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
 		return new ModelAndView("index", map);
-		
 	}
 	
 	/**
@@ -127,7 +126,10 @@ public class ProjectController {
 	
 	@RequestMapping("/addUserToProject.htm")
 	public ModelAndView addUser(Project project, User user) {
-		projectDAO.addUser(project, user);
+		project.addUser(user, new Role());
+		user.addProject(project);
+		projectDAO.updateProject(project);
+		userDAO.saveUser(user);
 		
 		return new ModelAndView("redirect:projectSettings.htm");
 		
@@ -142,8 +144,7 @@ public class ProjectController {
 	
 	@RequestMapping("/removeUserFromProject.htm")
 	public ModelAndView removeUser(Project project, User user) {
-		projectDAO.removeUser(project, user.getUserID());
-		
+		//todo
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
 	
@@ -151,12 +152,19 @@ public class ProjectController {
 	 * Removes a project and return to Overview
 	 * @param project
 	 * @return ModelAndView
+	 * @throws Exception 
 	 */
 	
 	@RequestMapping("/removeProject.htm")
-	public ModelAndView removeProject(Project project) {
-		projectDAO.removeProject(project);
-		
+	public ModelAndView removeProject(HttpSession session, @RequestParam int id) throws Exception {
+		User user =(User) session.getAttribute("loggedUser");
+		Project p = projectDAO.getProject(id);
+		user.leaveProject(p);
+		p.removeUser(user);
+		System.out.println("Is Empty " + p.getUsers().isEmpty());
+		projectDAO.updateProject(p);
+		userDAO.saveUser(user);
+		projectDAO.deleteProject(p);
 		return new ModelAndView("redirect:projectOverview.htm");
 	}
 	
@@ -168,7 +176,7 @@ public class ProjectController {
 	 */
 	@RequestMapping("/renameProject.htm")
 	public ModelAndView renameProject(Project project, String name) {
-		projectDAO.renameProject(project, name);
+		//projectDAO.renameProject(project, name);
 		
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
