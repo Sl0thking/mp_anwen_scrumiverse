@@ -1,5 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,13 @@ public class Project {
 	//private List<UserStory> userstories;
 	//private List<Category> categories;
 	
-		
+	public Project() {
+		projectID = 0;
+		name = "New Project";
+		description = "Project Description";
+		users = new HashMap<User, Role>();
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name="ProjectID")
