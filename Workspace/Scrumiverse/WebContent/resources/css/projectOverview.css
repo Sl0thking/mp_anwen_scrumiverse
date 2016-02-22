@@ -4,6 +4,8 @@
     height: 95vh;
     overflow-y: scroll;
 }
+.projectpage::-webkit-scrollbar {display: none;}
+.projectpage::-moz-scrollbar {display: none;}
 
 .projectpage .project{
     position: relative;
@@ -48,12 +50,8 @@
     overflow: scroll;
 }
 
-.projectpage .project .project-desc:-webkit-scrollbar { 
-    display: none; 
-}
-.projectpage .project .project-desc:-moz-scrollbar { 
-    display: none; 
-}
+.projectpage .project .project-desc::-webkit-scrollbar {display: none;}
+.projectpage .project .project-desc::-moz-scrollbar {display: none;}
 
 .projectpage .project .project-member{
     position: absolute;
