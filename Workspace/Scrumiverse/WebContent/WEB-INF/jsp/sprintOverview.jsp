@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<script>
+$(document).ready(function(){
+    $( ".sprint-dropdown" ).click(function() {
+        if($(this).hasClass("glyphicon-triangle-bottom")){
+            $( this ).removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+            $( this ).parents(".sprint").addClass("sprint-openlog");
+        } else {
+            $( this ).removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+            $( this ).parents(".sprint").removeClass("sprint-openlog");
+        }
+    });
+});
+</script>
 <div class="sprintpage">
     <div class="sprint">
         <div class="sprint-state-active"></div>
@@ -44,7 +55,126 @@
         <div class="sprint-control">
             <a class="glyphicon glyphicon-cog sprint-settings" href="#"></a>
             <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
-            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown" href="#"></span>
+            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
+        </div>
+        <div class="sprintlog">
+            <div class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time:   ###/###/###</br>
+                    Effort: ###</br>
+                    Value:  ###
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DUMMY -->
+    <div class="sprint">
+        <div class="sprint-state-active"></div>
+        <div class="sprint-content">
+            <div class="sprint-name">Sprint # - Sprintname Sprintname Sprintname Spasdasdfasdadaadadas</div>
+            <div class="sprint-stats">
+                <div class="sprint-time-overview">
+                    <div class="sprint-sandclock"></div>
+                    <div class="sprint-date">##.##.#### -</br>##.##.####</div>
+                    <div class="sprint-time">TIME</div>
+                </div>
+                <div class="sprint-data">
+                    <div class="sprint-userstory-container">
+                        USERSTORIES
+                        <div class="count">### / ###</div>
+                        <div class="sprint-userstory-progressbar"></div>
+                        <div class="sprint-userstory-progress"></div>
+                    </div>
+                    <div class="sprint-time-container">
+                        TIME
+                        <div class="count">### / ###</div>
+                        <div class="sprint-time-progressbar"></div>
+                        <div class="sprint-time-progress"></div>
+                    </div>
+                    <div class="sprint-effort-container">
+                        EFFORT
+                        <div class="count">### / ###</div>
+                        <div class="sprint-effort-progressbar"></div>
+                        <div class="sprint-effort-progress"></div>
+                    </div>
+                    <div class="sprint-value-container">
+                        VALUE
+                        <div class="count">### / ###</div>
+                        <div class="sprint-value-progressbar"></div>
+                        <div class="sprint-value-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sprint-control">
+            <a class="glyphicon glyphicon-cog sprint-settings" href="#"></a>
+            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
+            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
+        </div>
+        <div class="sprintlog">
+            <div class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time:   ###/###/###</br>
+                    Effort: ###</br>
+                    Value:  ###
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sprint">
+        <div class="sprint-state-active"></div>
+        <div class="sprint-content">
+            <div class="sprint-name">Sprint # - Sprintname Sprintname Sprintname Spasdasdfasdadaadadas</div>
+            <div class="sprint-stats">
+                <div class="sprint-time-overview">
+                    <div class="sprint-sandclock"></div>
+                    <div class="sprint-date">##.##.#### -</br>##.##.####</div>
+                    <div class="sprint-time">TIME</div>
+                </div>
+                <div class="sprint-data">
+                    <div class="sprint-userstory-container">
+                        USERSTORIES
+                        <div class="count">### / ###</div>
+                        <div class="sprint-userstory-progressbar"></div>
+                        <div class="sprint-userstory-progress"></div>
+                    </div>
+                    <div class="sprint-time-container">
+                        TIME
+                        <div class="count">### / ###</div>
+                        <div class="sprint-time-progressbar"></div>
+                        <div class="sprint-time-progress"></div>
+                    </div>
+                    <div class="sprint-effort-container">
+                        EFFORT
+                        <div class="count">### / ###</div>
+                        <div class="sprint-effort-progressbar"></div>
+                        <div class="sprint-effort-progress"></div>
+                    </div>
+                    <div class="sprint-value-container">
+                        VALUE
+                        <div class="count">### / ###</div>
+                        <div class="sprint-value-progressbar"></div>
+                        <div class="sprint-value-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sprint-control">
+            <a class="glyphicon glyphicon-cog sprint-settings" href="#"></a>
+            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
+            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
+        </div>
+        <div class="sprintlog">
+            <div class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time:   ###/###/###</br>
+                    Effort: ###</br>
+                    Value:  ###
+                </div>
+            </div>
         </div>
     </div>
 </div>
