@@ -1,21 +1,21 @@
 package com.scrumiverse.persistence.DAO.impl;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
-import com.scrumiverse.model.account.Role;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 
 /**
  * Implementation of the dao for project objects.
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 22.02.2016
+ * @version 23.02.2016
  *
  */
 
@@ -43,9 +43,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getProjectsFromUser(int userID) {
-		List<Project> projects = hibernateTemplate.find("from Project where id='"+ userID +"'");
-		return projects;	
+	public Set<Project> getProjectsFromUser(int userID) {
+		User relatedUser = (User) hibernateTemplate.find("from User where id='"+ userID +"'").get(0);
+		return relatedUser.getProjects();
 	}
 	
 	@Override
@@ -61,22 +61,13 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public void updateProject(Project p){
 		hibernateTemplate.update(p);
 	}
-	
-	@Override
-	public Map<User, Role> getAllUsers(int projectID) {
-		Map<User, Role> users = (Map<User, Role>) hibernateTemplate.find("from User where id='"+ projectID + "'");
-		return users;
-		
-	}
 
 	@Override
 	public void deleteProject(Project p) throws Exception {
-		if(p.getUsers().keySet().size() == 0) {
+		if(p.getProjectUsers().size() == 0) {
 			hibernateTemplate.delete(p);
 		} else {
 			throw new Exception();
 		}
 	}
-
-
 }

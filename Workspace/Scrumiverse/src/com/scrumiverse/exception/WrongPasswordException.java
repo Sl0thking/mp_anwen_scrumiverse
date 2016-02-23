@@ -1,4 +1,4 @@
-package com.scrumiverse.web;
+package com.scrumiverse.exception;
 
 public class WrongPasswordException extends Exception {
 

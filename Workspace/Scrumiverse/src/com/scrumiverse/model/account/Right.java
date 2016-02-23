@@ -8,6 +8,12 @@ package com.scrumiverse.model.account;
  *
  */
 public enum Right {
+	//Project specific
+	Invite_To_Project,
+	Remove_From_Project,
+	Manage_Project,
+	Delete_Project,
+	
 	Create_UserStory,
 	Delete_UserStory,
 	Edit_UserStory,
@@ -20,10 +26,8 @@ public enum Right {
 	Delete_Sprint,
 	Edit_Sprint,
 	Read_Sprint,
-	Invite_To_Project,
-	Delete_From_Project,
+	
 	View_Review,
 	AlertAllNotifications_From_CurrentSprint,
-	Define_Role,
-	Change_Role
+
 }

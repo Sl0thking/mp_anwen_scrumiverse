@@ -1,4 +1,4 @@
-package com.scrumiverse.persistence.DAO.impl;
+package com.scrumiverse.exception;
 
 public class NoProjectFoundException extends Exception {
 

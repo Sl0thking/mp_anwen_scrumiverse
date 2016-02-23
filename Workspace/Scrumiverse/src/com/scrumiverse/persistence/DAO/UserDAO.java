@@ -2,8 +2,8 @@ package com.scrumiverse.persistence.DAO;
 
 import java.util.List;
 
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.User;
-import com.scrumiverse.persistence.DAO.impl.NoSuchUserException;
 
 public interface UserDAO {
 	public void saveUser(User user); 

@@ -13,9 +13,10 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.WrongPasswordException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
-import com.scrumiverse.persistence.DAO.impl.NoSuchUserException;
 import com.scrumiverse.utility.Utility;
 
 /**

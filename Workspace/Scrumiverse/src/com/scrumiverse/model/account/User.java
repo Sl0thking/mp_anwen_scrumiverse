@@ -18,7 +18,7 @@ import com.scrumiverse.model.scrumCore.Project;
  * Datamodell for a scrumiverse user account
  * 
  * @author Kevin Jolitz
- * @version 22.02.2016
+ * @version 23.02.2016
  */
 @Entity
 public class User {
@@ -85,7 +85,7 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@OneToMany(mappedBy="users", fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER)
 	public Set<Project> getProjects() {
 		return projects;	
 }

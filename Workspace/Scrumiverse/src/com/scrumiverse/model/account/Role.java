@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -18,20 +19,28 @@ import org.hibernate.annotations.CollectionOfElements;
  * Role of a scrumiverse user
  * 
  * @author Kevin Jolitz
- * @version 18.02.2016
+ * @version 23.02.2016
  */
 @Entity
 public class Role {
 	
 	private int roleID;
 	private String name;
+	private boolean changeable;
 	private Set<Right> rights;
 
 	public Role() {
 		name = "Unknown Role";
 		rights = new HashSet<Right>();
+		changeable = true;
 	}
 	
+	public Role(String name) {
+		this.name = name;
+		this.rights = new HashSet<Right>();
+		this.changeable = true;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "RoleID")
@@ -74,7 +83,7 @@ public class Role {
 		return copyRole;
 	}
 	
-	@CollectionOfElements
+	@CollectionOfElements(fetch=FetchType.EAGER)
 	@JoinTable(joinColumns={@JoinColumn(name = "RoleID")})
 	@Column(name = "right_name", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -84,5 +93,13 @@ public class Role {
 
 	public void setRights(Set<Right> rights) {
 		this.rights = rights;
+	}
+
+	public boolean isChangeable() {
+		return changeable;
+	}
+
+	public void setChangeable(boolean changeable) {
+		this.changeable = changeable;
 	}
 }

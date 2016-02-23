@@ -10,9 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.NoUserStoriesException;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
-import com.scrumiverse.persistence.DAO.impl.NoUserStoriesException;
 import com.scrumiverse.utility.Utility;
 
 /**

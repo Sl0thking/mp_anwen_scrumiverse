@@ -1,7 +1,10 @@
 package com.scrumiverse.model.scrumCore;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,11 +13,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.MapKeyManyToMany;
+import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.NotChangeableRoleException;
+import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.triedToRemoveLastAdminException;
 import com.scrumiverse.model.account.*;
 import javax.persistence.JoinColumn;
 
@@ -22,7 +27,7 @@ import javax.persistence.JoinColumn;
  * Datamodel for a scrumiverse project
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 22.02.2016
+ * @version 23.02.2016
  */
 
 @Entity
@@ -31,8 +36,9 @@ public class Project {
 	private int projectID;
 	private String name;
 	private String description;
-	//private List<Role> roles;
-	private Map<User, Role> users;
+	private Set<Role> roles;
+	private Set<ProjectUser> projectUsers;
+	private Date dueDate;
 	//private List<Sprint> sprints;
 	//private List<UserStory> userstories;
 	//private List<Category> categories;
@@ -40,46 +46,68 @@ public class Project {
 	public Project() {
 		name = "New Project";
 		description = "Project Description";
-		users = new HashMap<User, Role>();
+		projectUsers = new LinkedHashSet<ProjectUser>();
+		roles = new LinkedHashSet<Role>();
+		dueDate = new Date();
+		prepareStdRoles(roles);
 	}
 	
+	private void prepareStdRoles(Set<Role> roles) {
+		Role productOwner = new Role("ProductOwner");
+		productOwner.setChangeable(false);
+		productOwner.addRight(Right.Invite_To_Project);
+		productOwner.addRight(Right.Manage_Project);
+		Role stdRole = new Role("StdRole");
+		stdRole.setChangeable(false);
+		roles.add(productOwner);
+		roles.add(stdRole);
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name="ProjectID")
 	public int getProjectID() {
 		return projectID;
 	}
+	
 	public void setProjectID(int projectID) {
 		this.projectID = projectID;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
-//	public List<Role> getRoles() {
-//		return roles;
-//	}
-//	public void setRoles(List<Role> roles) {
-//		this.roles = roles;
-//	}
 	
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="Project_User", 
-			joinColumns={@JoinColumn(name="ProjectID")})
-	public Map<User, Role> getUsers() {
-		return users;
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	public Set<Role> getRoles() {
+		return roles;
 	}
 	
-	public void setUsers(Map<User, Role> users) {
-		this.users = users;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(name="Project_ProjectUser", 
+			joinColumns={@JoinColumn(name="ProjectID")})
+	public Set<ProjectUser> getProjectUsers() {
+		return projectUsers;
+	}
+	
+	public void setProjectUsers(Set<ProjectUser> projectUsers) {
+		this.projectUsers = projectUsers;
 	}
 	
 //	public List<Sprint> getSprints() {
@@ -109,22 +137,92 @@ public class Project {
 //		this.categories.remove(CategoryID);		
 //	}
 	
-	public void addUser(User u, Role r) {		
-		this.users.put(u, r);		
+	public void addProjectUser(User u, Role r) {
+		ProjectUser projectUser = new ProjectUser(u,r);
+		projectUsers.add(projectUser);		
 	}
 	
-	public void removeUser(User u) {
-		this.users.remove(u);		
+	public void removeProjectUser(User u) throws NoSuchUserException {
+		ProjectUser pu = getProjectUserFromUser(u);
+		projectUsers.remove(pu);		
 	}
-//	
-//	public void setRole(int userID, Role r) {
-//		this.roles.set(userID, r);
-//	}
-//	
-//	public void deleteRole(int RoleID) {
-//		this.roles.remove(RoleID);
-//	}
-//	
+	
+	@Transient
+	public ProjectUser getProjectUserFromUser(User u) throws NoSuchUserException {
+		ProjectUser requestedProjectUser = null;
+		for(ProjectUser pu : this.projectUsers) {
+			if(pu.getUser().equals(u)) {
+				requestedProjectUser = pu;
+			}
+		}
+		if(requestedProjectUser != null) {
+			return requestedProjectUser;
+		} else {
+			throw new NoSuchUserException();
+		}
+	}
+	
+	public boolean hasUserRight(Right right, User user) {
+		try {
+			System.out.println("CALL OF HASUSERRIGHT WITH: " + user.getEmail());
+			ProjectUser pUser = getProjectUserFromUser(user);
+			System.out.println("CHECK RIGHT: " + pUser.getRole().hasRights(right));
+			return pUser.getRole().hasRights(right);
+		} catch (NoSuchUserException e) {
+			return false;
+		}
+	}
+	
+	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, triedToRemoveLastAdminException, NoSuchUserException {
+		if(!roles.contains(r)) {
+			throw new RoleNotInProjectException();
+		} 
+		ProjectUser pUser = getProjectUserFromUser(user);
+		if(countAdmins() == 1 || !containsAdminRights(pUser.getRole())) {
+			throw new triedToRemoveLastAdminException();
+		}
+		pUser.setRole(r);
+	}
+	
+	//Move to role?
+	private boolean containsAdminRights(Role r) {
+		Set<Right> rights = r.getRights();
+		return rights.contains(Right.Invite_To_Project) &&
+			   rights.contains(Right.Manage_Project);
+	}
+
+	private int countAdmins() {
+		int adminCount = 0;
+		for(ProjectUser pUser : projectUsers) {
+			if(containsAdminRights(pUser.getRole())) {
+				adminCount++;
+			}
+		}
+		return adminCount;
+	}
+	
+	private List<ProjectUser> getProjectUsersWithRole(Role r) {
+		List<ProjectUser> pUsers = new ArrayList<ProjectUser>();
+		for(ProjectUser projectUser : projectUsers) {
+			if(projectUser.getRole().equals(r)) {
+				pUsers.add(projectUser);
+			}
+		}
+		return pUsers;
+	}
+
+	public void deleteRole(Role r) throws RoleNotInProjectException, NotChangeableRoleException {
+		if(!roles.contains(r)) {
+			throw new RoleNotInProjectException();
+		} else if(!r.isChangeable()) {
+			throw new NotChangeableRoleException();
+		}
+		for(ProjectUser pUser : getProjectUsersWithRole(r)) {
+			pUser.setRole((Role) roles.toArray()[1]);
+		}
+		this.roles.remove(r);
+	}
+	
 //	public void addRole(Role r) {
 //		this.roles.add(r);
 //	}
@@ -173,6 +271,17 @@ public class Project {
 			return false;
 		return true;
 	}
-	
-	
+
+	public void addProjectUser(User user) {
+		Role role = (Role) roles.toArray()[1];
+		this.addProjectUser(user, role);
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
 }

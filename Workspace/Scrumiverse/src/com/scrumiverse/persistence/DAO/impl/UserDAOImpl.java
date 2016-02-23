@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 

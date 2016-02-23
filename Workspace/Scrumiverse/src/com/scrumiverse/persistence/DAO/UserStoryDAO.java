@@ -3,9 +3,9 @@ package com.scrumiverse.persistence.DAO;
 import java.util.List;
 
 import com.scrumiverse.binder.ProjectBinder;
+import com.scrumiverse.exception.NoUserStoriesException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.UserStory;
-import com.scrumiverse.persistence.DAO.impl.NoUserStoriesException;
 
 public interface UserStoryDAO {
 	public List<UserStory> getAllUserstories();

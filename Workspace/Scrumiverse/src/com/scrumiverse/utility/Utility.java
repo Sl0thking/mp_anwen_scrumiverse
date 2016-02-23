@@ -52,4 +52,9 @@ public class Utility {
 		byte md5ByteHash[] = md.digest();
 		return DatatypeConverter.printHexBinary(md5ByteHash);
 	}
+
+	public static boolean isSessionValid(HttpSession session) {
+		return session.getAttribute("loggedUser") != null 
+			&& session.getAttribute("isLogged") != null;
+	}
 }
