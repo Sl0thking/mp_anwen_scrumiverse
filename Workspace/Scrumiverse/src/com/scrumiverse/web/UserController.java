@@ -40,8 +40,8 @@ public class UserController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/login.htm")
-	public ModelAndView login(){
-		ModelMap map = new ModelMap();
+	public ModelAndView login(HttpSession session){
+		ModelMap map = Utility.generateModelMap(session);
 		map.addAttribute("user", new User());
 		map.addAttribute("action", Action.login);
 		map.addAttribute("loginError", false);
