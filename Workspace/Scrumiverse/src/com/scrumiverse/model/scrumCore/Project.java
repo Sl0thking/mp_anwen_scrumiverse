@@ -290,4 +290,13 @@ public class Project {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
+
+	public boolean isUserMember(User user) {
+		for(ProjectUser pUser : projectUsers) {
+			if(pUser.getUser().equals(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
