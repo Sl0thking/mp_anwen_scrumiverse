@@ -15,9 +15,8 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		
 		<!-- Scrumiverse -->
-		<c:set var="actionName" value="${action.name()}" />
 		<link rel="stylesheet" type="text/css" href="style.css" />
-		<link rel="stylesheet" type="text/css" href="resources/css/${actionName}.css" />		
+		<link rel="stylesheet" type="text/css" href="resources/css/${action.name()}.css" />		
 		<link rel="shortcut icon" type="image/x-icon"  href="<c:url value="/resources/images/scrumiverse_fave_icon.png"/>">
 		<title>Scrumiverse</title>
 	</head>
@@ -28,9 +27,14 @@
 			<div id="logo">
 				<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
 				<div class="extra-menu">
-					<a class="extra-menuitem" href="#">DASHBOARD</a>	
-					<a class="extra-menuitem" href="#">SETTINGS</a>	
-					<a class="extra-menuitem" href="#">PROJECT OVERVIEW</a>	
+					<a class="extra-menuitem" href="#">
+						<span class="glyphicon glyphicon-th-large"></span>
+						DASHBOARD
+					</a>		
+					<a class="extra-menuitem" href="#">
+						<span class="glyphicon glyphicon-th-list"></span>
+						PROJECT OVERVIEW
+					</a>	
 				</div>
 			</div>
 			<div id="menubar">
@@ -82,32 +86,19 @@
 					<img alt="user messages" src="resources/images/index/icon_user_messages.png">
 					<span class="badge">?</span>
 				</div>
-				<a class="user-icon" href="#">
-					<img alt="user icon" src="resources/userPictures/default.png">
-				</a>
+				<div id="user-menu">
+					<img alt="user-icon" src="resources/userPictures/default.png">
+					<div class="extra-menu">
+						<a class="extra-menuitem" href="#">LOGOUT</a>	
+						<a class="extra-menuitem" href="#">ACCOUNT SETTINGS</a>	
+					</div>
+				</div>
 			</div>
 			<img alt="test" src="resources/images/index/scrumiverse_sidestripe_right.png">
 		</div>
 		</c:if>
 		<div id="action_content">
-			<c:choose>
-				<c:when test="${isLogged && actionName != 'login' && actionName != 'register'}">
-					<jsp:include page="${action.name()}.jsp" />
-				</c:when>
-				<c:when test="${!isLogged}">				
-					<c:choose>
-						<c:when test="${(actionName == 'login') || (actionName == 'register')}">
-							<jsp:include page="${actionName}.jsp" />						
-						</c:when>
-						<c:otherwise>
-							<jsp:include page="login.jsp" />
-						</c:otherwise>
-					</c:choose>
-				</c:when>
-				<c:otherwise>
-					<jsp:include page="projectOverview.jsp" />
-				</c:otherwise>
-			</c:choose>			
+			<jsp:include page="${action.name()}.jsp" />
 		</div>
 	</body>
 </html>
