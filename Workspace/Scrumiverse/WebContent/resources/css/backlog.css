@@ -3,9 +3,9 @@
     padding: 20px 20px 20px 20px;
     height: 95vh;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .backlog::-webkit-scrollbar {display: none;}
-.backlog::-moz-scrollbar {display: none;}
 
 .backlog .userstory{
     position: relative;
@@ -42,12 +42,10 @@
     font-size: 14px;
     width: 44%;
     height: 55px;
-    overflow-y: scroll;
+    overflow: hidden;
+	text-overflow: ellipsis;
     display: inline-block;
 }
-
-.backlog .userstory .userstory-titel::-webkit-scrollbar {display: none;}
-.backlog .userstory .userstory-titel::-moz-scrollbar {display: none;}
 
 .backlog .userstory .userstory-sandclock{
     position: absolute;
@@ -97,10 +95,9 @@
     font-size: 12px;
     font-weight: 500;
     display: inline-block;
-    overflow-y: scroll;
+    overflow: hidden;
+	text-overflow: ellipsis;
 }
-.backlog .userstory .userstory-category::-webkit-scrollbar {display: none;}
-.backlog .userstory .userstory-category::-moz-scrollbar {display: none;}
 
 .backlog .userstory .userstory-sprint {
     position: absolute;
@@ -110,11 +107,10 @@
     width: 30%;
     font-size: 12px;
     font-weight: 500;
-    overflow-y: scroll;
+    overflow: hidden;
+	text-overflow: ellipsis;
     display: inline-block;
 }
-.backlog .userstory .userstory-sprint::-webkit-scrollbar {display: none;}
-.backlog .userstory .userstory-sprint::-moz-scrollbar {display: none;}
 
 .backlog .userstory .userstory-timestats{
     position: absolute;

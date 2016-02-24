@@ -3,9 +3,9 @@
     padding: 20px 30px 20px 40px;
     height: 95vh;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .projectpage::-webkit-scrollbar {display: none;}
-.projectpage::-moz-scrollbar {display: none;}
 
 .projectpage .project{
     position: relative;
@@ -14,8 +14,10 @@
     height: 120px;
     width: 100%;
     padding: 10px 0px 10px 5px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
+.projectpage .project::-webkit-scrollbar {display: none;}
 
 .projectpage .project .project-logo{
     height: 100px;
@@ -34,7 +36,8 @@
     font-size: 20px;
     font-weight: 500;
     display: inline-block;
-    overflow: auto;
+    overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .projectpage .project .project-desc{
@@ -47,11 +50,10 @@
     color: #999999;
     line-height: 15px;
     display: inline-block;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
-
 .projectpage .project .project-desc::-webkit-scrollbar {display: none;}
-.projectpage .project .project-desc::-moz-scrollbar {display: none;}
 
 .projectpage .project .project-member{
     position: absolute;
@@ -96,7 +98,6 @@
     color: white;
     text-decoration: none;
 }
-
 
 .projectpage .project .project-link{
     position: absolute;
