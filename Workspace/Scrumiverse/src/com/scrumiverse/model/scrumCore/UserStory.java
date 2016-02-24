@@ -25,10 +25,9 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * User Story Model for Scrum Projects.
  * 
  * @author Lasse Jacobs
- * @version 22.02.16
+ * @version 24.02.16
  *
  */
-
 @Entity
 public class UserStory extends PlanElement {
 	private int businessValue;
@@ -37,7 +36,7 @@ public class UserStory extends PlanElement {
 	private Category category;
 	private List<Task> tasks;
 	private Date dueDate;
-//	private Sprint relatedSprint;
+	private Sprint relatedSprint;
 	
 	public UserStory(){
 		businessValue = 0;
@@ -47,7 +46,7 @@ public class UserStory extends PlanElement {
 		//Standartwert?!
 		category = null;
 		dueDate = null;
-//		relatedSprint = null;
+		relatedSprint = null;
 	}
 
 	public int getBusinessValue() {
@@ -100,16 +99,20 @@ public class UserStory extends PlanElement {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-//sprint not implemented
-//	@OneToOne
-//	@JoinColumn(name="Sprint_ID")
-//	public Sprint getRelatedSprint() {
-//		return relatedSprint;
-//	}
-//
-//	public void setRelatedSprint(Sprint relatedSprint) {
-//		this.relatedSprint = relatedSprint;
-//	}
+
+	@OneToOne
+	@JoinColumn(name="Sprint_ID")
+	public Sprint getRelatedSprint() {
+		return relatedSprint;
+	}
+
+	public void setRelatedSprint(Sprint relatedSprint) {
+		this.relatedSprint = relatedSprint;
+	}
+	/**
+	 * Returns Users working on Tasks in this UserStory
+	 * @return List Users from this UserStory
+	 */
 	@Transient
 	public List<User> getResponsibleUsers(){
 		List userlist = new ArrayList<User>();
@@ -122,6 +125,10 @@ public class UserStory extends PlanElement {
 		}
 		return userlist;
 	}
+	/**
+	 * Returns all planned minutes from tasks in this UseStory
+	 * @return Number of planned minutes
+	 */
 	@Transient
 	public int getPlannedMinutes(){
 		int result = 0;
@@ -132,6 +139,10 @@ public class UserStory extends PlanElement {
 		}
 		return result;
 	}
+	/**
+	 * Returns all remaining minutes from tasks in this UseStory
+	 * @return Number of remaining minutes
+	 */
 	@Transient
 	public int getRemainingMinutes(){
 		int result = 0;
@@ -142,6 +153,10 @@ public class UserStory extends PlanElement {
 		}
 		return result;
 	}
+	/**
+	 * Returns all logged minutes of work from tasks in this UseStory
+	 * @return Number of worked minutes
+	 */
 	@Transient
 	public int getWorkedMinutes(){
 		int result = 0;
@@ -152,7 +167,11 @@ public class UserStory extends PlanElement {
 		}
 		return result;
 	}
-//needs sorting
+	/**
+	 * Returns a list of work logs from all tasks in this UserStory
+	 * @return List of work logs sorted by time
+	 */
+	// needs sorting
 	@Transient
 	public List<WorkLog> getWorkLogs(){
 		List result = new ArrayList();
@@ -164,6 +183,9 @@ public class UserStory extends PlanElement {
 		}
 		return (List<WorkLog>) result;
 	}
-	
+	@Override
+	public String toString(){
+		return "UserStory "+getId()+" - Description: "+getDescription();
+	}
 
 }

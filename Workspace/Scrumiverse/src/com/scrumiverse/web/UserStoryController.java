@@ -20,7 +20,7 @@ import com.scrumiverse.utility.Utility;
  * Controller for User Story interactions.
  * 
  * @author Lasse Jacobs
- * @version 22.02.16
+ * @version 24.02.16
  *
  */
 @Controller
@@ -29,7 +29,10 @@ public class UserStoryController {
 	@Autowired
 	UserStoryDAO userStoryDAO;
 	
-	
+	/**
+	 * Create new empty UserStory in database
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/newUserStory.htm")
 	public ModelAndView createNewUserStory(){
 		UserStory userStory = new UserStory();
@@ -37,6 +40,11 @@ public class UserStoryController {
 		return new ModelAndView("redirect:backlog.htm");
 	}
 	
+	/**
+	 * Shows backlog site with all UserStories
+	 * @param session
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/backlog.htm")
 	public ModelAndView backlog(HttpSession session){
 		ModelMap map = Utility.generateModelMap(session);
@@ -46,13 +54,28 @@ public class UserStoryController {
 		return new ModelAndView("index", map);
 	}
 	
+	/**
+	 * Updates a UserStory in database
+	 * @param userStory
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/saveUserStory.htm")
 	public ModelAndView updateUserStory(UserStory userStory){
-		userStoryDAO.updateUserStory(userStory);
+		if(userStory.getId() == 0){
+			System.out.println("Userstory not found");
+		}else{
+			userStoryDAO.updateUserStory(userStory);
+		}
 		return new ModelAndView("redirect:backlog.htm");
 		
 	}
 	
+	/**
+	 * Show details for a UserStory
+	 * @param userStoryID id of the UserStory
+	 * @param session
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/showUserStoryDetails.htm")
 	public ModelAndView showUserStoryDetails(@RequestParam int userStoryID, HttpSession session){
 		ModelMap map = Utility.generateModelMap(session);
@@ -60,6 +83,4 @@ public class UserStoryController {
 		map.addAttribute("detailUserStory", loadedUserStory);
 		return new ModelAndView("redirect:backlog.htm");
 	}
-	
-
 }

@@ -70,8 +70,7 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 			e.printStackTrace();
 			return new ArrayList<UserStory>();
 		}
-//		return proj.getUserstories();
-		return new ArrayList<UserStory>();
+		return (List<UserStory>) proj.getUserstories();
 	}
 
 }

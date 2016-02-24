@@ -19,10 +19,9 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  * Plan Element Model for Scrum Projects.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 21.02.16
+ * @version 24.02.16
  *
  */
-
 @Entity
 public abstract class PlanElement {
 	private String description;
@@ -84,5 +83,9 @@ public abstract class PlanElement {
 	
 	public void setPlanState(PlanState planState) {
 		this.planState = planState;
+	}
+	
+	public boolean equals(PlanElement pelement){
+		return getId() == pelement.getId();
 	}
 }
