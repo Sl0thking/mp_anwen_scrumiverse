@@ -7,12 +7,13 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
+import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * DAO Implementation of Sprints
- * @author DoctorWhose
- * @version 23.02.2016
+ * @author DoctorWhose, Lasse Jacobs
+ * @version 24.02.2016
  */
 
 public class SprintDAOImpl implements SprintDAO {
@@ -27,6 +28,28 @@ public class SprintDAOImpl implements SprintDAO {
 	public void saveSprint(Sprint s) {
 		hibernateTemplate.save(s);
 		
+	}
+	
+	@Override
+	public void updateSprint(Sprint sprint){
+		hibernateTemplate.update(sprint);
+	}
+	
+	@Override
+	public void deleteSprint(Sprint sprint){
+		hibernateTemplate.delete(sprint);
+	}
+	
+	@Override
+	public Sprint getSprint(int sprintID){
+		Sprint sprint = new Sprint();
+		try{
+			sprint = (Sprint) (hibernateTemplate.find("from UserStory where id'" + sprintID + "'").get(0));
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			System.out.println("Sprint ist nicht in der Datenbank zu finden mit id" + sprintID);
+		}
+		return sprint;
 	}
 
 	@Override
