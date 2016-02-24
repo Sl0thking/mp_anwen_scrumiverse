@@ -16,6 +16,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
@@ -122,23 +126,24 @@ public class Project {
 	}
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	public Set<Role> getRoles() {
-		return roles;
-	}
-	
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinTable(name="Project_ProjectUser", 
-			joinColumns={@JoinColumn(name="ProjectID")})
+	//Warum auch immer... Ich werd wahnsinnig, meine Fresse
+	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN) 
+	@JoinColumn(name = "ProjectID", nullable=false)
 	public Set<ProjectUser> getProjectUsers() {
 		return projectUsers;
 	}
 	
 	public void setProjectUsers(Set<ProjectUser> projectUsers) {
 		this.projectUsers = projectUsers;
+	}
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -328,5 +333,18 @@ public class Project {
 			}
 		}
 		return false;
+	}
+
+	@Transient
+	public List<User> getAllUsers() {
+		List<User> users = new ArrayList<User>();
+		for(ProjectUser pUser : projectUsers) {
+			users.add(pUser.getUser());
+		}
+		return users;
+	}
+	
+	public void removeAllProjectMember() {
+		this.projectUsers.clear();
 	}
 }

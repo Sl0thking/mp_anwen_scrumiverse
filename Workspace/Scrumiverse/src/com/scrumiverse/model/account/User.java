@@ -2,6 +2,8 @@ package com.scrumiverse.model.account;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -85,7 +87,7 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.REFRESH)
 	public Set<Project> getProjects() {
 		return projects;	
 }
