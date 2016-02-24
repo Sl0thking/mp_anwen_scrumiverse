@@ -89,8 +89,14 @@
 				<div id="user-menu">
 					<img alt="user-icon" src="resources/userPictures/default.png">
 					<div class="extra-menu">
-						<a class="extra-menuitem" href="#">LOGOUT</a>	
-						<a class="extra-menuitem" href="#">ACCOUNT SETTINGS</a>	
+						<a class="extra-menuitem" href="./logout.htm">
+							<span class="glyphicon glyphicon-log-out"></span>
+							LOGOUT
+						</a>	
+						<a class="extra-menuitem" href="#">
+							<span class="glyphicon glyphicon-cog"></span>
+							ACCOUNT SETTINGS
+						</a>	
 					</div>
 				</div>
 			</div>
