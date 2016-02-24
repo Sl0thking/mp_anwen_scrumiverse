@@ -30,7 +30,7 @@ public class TaskDAOImpl implements TaskDAO{
 
 	@Override
 	public void updateTask(Task task) {
-		hibernateTemplate.saveOrUpdate(task);
+		hibernateTemplate.update(task);
 	}
 	
 	@Override

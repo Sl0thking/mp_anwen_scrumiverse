@@ -39,7 +39,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void saveProject(Project p) {
-		hibernateTemplate.saveOrUpdate(p);		
+		hibernateTemplate.save(p);		
 	}
 
 	@Override

@@ -26,7 +26,12 @@ public class UserDAOImpl implements UserDAO{
 	
 	@Override
 	public void saveUser(User user) {
-		hibernateTemplate.saveOrUpdate(user);
+		hibernateTemplate.save(user);
+	}
+	
+	@Override
+	public void updateUser(User user){
+		hibernateTemplate.update(user);
 	}
 
 	@Override

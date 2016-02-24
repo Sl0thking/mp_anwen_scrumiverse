@@ -15,8 +15,8 @@ public class RoleDAOImpl implements RoleDAO {
 					new HibernateTemplate(sessionFactoryProject); }
 	
 	@Override
-	public void addRole(Role r) {
-		hibernateTemplate.saveOrUpdate(r);
+	public void saveRole(Role r) {
+		hibernateTemplate.save(r);
 		
 	}
 
