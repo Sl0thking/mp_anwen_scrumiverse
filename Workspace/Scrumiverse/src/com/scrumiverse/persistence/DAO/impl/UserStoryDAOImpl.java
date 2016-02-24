@@ -36,7 +36,7 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	
 	@Override
 	public void updateUserStory(UserStory userStory){
-		hibernateTemplate.saveOrUpdate(userStory);
+		hibernateTemplate.update(userStory);
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 			userStory = (UserStory) (hibernateTemplate.find("from UserStory where id'" + userStoryID + "'").get(0));
 		}catch(NullPointerException e){
 			e.printStackTrace();
-			return new UserStory();
+			System.out.println("User Story ist nicht in Datenbank zu finden mit id: " + userStoryID);
 		}
 		return userStory;
 	}
