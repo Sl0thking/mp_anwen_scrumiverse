@@ -1,0 +1,255 @@
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #333333;
+    padding: 10px 10px 10px 10px;
+}
+
+table, th, td{
+    border: 1px solid black;
+}
+.taskboard-heading{
+    width: 100%;
+    height: 95%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow-y: scroll;
+}
+.taskboard{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow-y: scroll;
+}
+
+.taskboard::-webkit-scrollbar{
+    display: none;
+}
+
+.taskboard-heading{
+    color: white;
+    text-align: center;
+}
+
+.userstory-section{
+    width: 28%;
+    text-align: inherit;
+}
+.task-section{
+    width: 24%;
+    text-align: inherit;
+}
+.item-section{
+    height: auto;
+    vertical-align: top;
+    padding: 5px 5px 5px 5px;
+}
+
+.userstory{
+    position: relative;
+    background-color: grey;
+    height: 160px;
+    width: 100%;
+    color: white;
+}
+.userstory > .userstory-state{
+    width: 1.5%;
+    min-width: 5px;
+    height: 100%;
+    float: left;
+    background-color: lightgray;
+    display: inline-block;
+}
+#done{
+    background-color: green;
+}
+#aktive{
+    background-color: orange;
+}
+
+.userstory > .userstory-content{
+    width: 92%;
+    height: 100%;
+    display: inline-block;
+}
+
+.userstory-content > .userstory-titel{
+    height: 90px;
+    padding: 2px 0px 0px 5px;
+    color: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userstory-content > .userstory-stats{
+    height: 70px;
+    width: 100%;
+    font-size: 20px;
+    line-height: 18px;
+}
+
+.userstory-stats > .time-container{
+    height: 100%;
+    width: 17%;
+    float: left;
+    display: inline-block;
+}
+
+.time-container > .sandclock{
+    height: 50px;
+    width: 100%;
+    background-color: black;
+}
+.time-container > .duetime{
+    height: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.userstory-stats > .info-container{
+    width: 35%;
+    height: 100%;
+    float: left;
+    padding: 10px 0px 0px 0px; 
+    display: inline-block;
+    overflow: hidden;
+}
+.info-container > .moscow{
+    width: 30%;
+    height: 30%;
+    float: left;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+.info-container > .value{
+    width: 32%;
+    height: 30%;
+    float: left;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+.info-container > .risk{
+    width: 33%;
+    height: 30%;
+    float: left;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+.info-container > .timestats{
+    width: 100%;
+    height: 60%;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.userstory-stats > .effort{
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    padding-top: 20px;
+    float: left;
+    display: inline-block;
+}
+.userstory-stats > .member-container{
+    width: 28%;
+    height: 100%;
+    padding-top: 5px;
+    text-align: right;
+    display: inline-block;
+    overflow: hidden;
+}
+.member-container > .userstory-member{
+    width: 28px;
+    height: 28px;
+    margin-bottom: 3px;
+    display: inline-block;
+    background-color: black;
+    border-radius: 20px;
+}
+
+.userstory > .userstory-link{
+    position: relative;
+    top: -70px;
+    left: 2px;
+    height: 100%;
+    width: 5%;
+    padding-top: 70px;
+    font-size: 20px;
+    background-color: lightgray;
+    color: white;
+    text-decoration: none;
+}
+.task{
+    margin-bottom: 5px;
+    background-color: grey;
+    height: 50px;
+    width: 100%;
+}
+.task > .task-content{
+    position: relative;
+    height: 50px;
+    width: 95%;
+    color: white;
+    display: inline-block;
+    overflow: hidden;
+}
+.task > .task-link{
+    position: relative;
+    top: 0px;
+    height: 100%;
+    width: 5%;
+    float: right;
+    padding-top: 15px;
+    font-size: 20px;
+    background-color: lightgray;
+    color: white;
+    text-decoration: none;
+}
+.task-content > .task-name{
+    height: 25px;
+    padding: 2px 0px 0px 5px;
+    color: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.task-content > .task-time{
+    position: relative;
+    bottom: 10px;
+    vertical-align: middle;
+    height: 25px;
+    width: 40%;
+    padding: 3px 0px 0px 5px;
+    color: inherit;
+    display: inline-block;
+}
+.task-content > .task-memberbox{
+    position: relative;
+    bottom: 2px;
+    height: 25px;
+    width: 58%;
+    display: inline-block;
+    overflow: hidden;
+}
+.task-memberbox > .task-member{
+    height: 25px;
+    width: 25px;
+    float: right;
+    margin-left: 4px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+}

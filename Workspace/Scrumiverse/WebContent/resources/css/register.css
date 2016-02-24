@@ -1,4 +1,8 @@
 /* register */
+#action_content{
+	background-color: black;
+}
+
 .information{
 	position: relative;
 	text-align: justify;
