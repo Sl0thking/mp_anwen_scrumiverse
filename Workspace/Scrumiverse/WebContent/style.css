@@ -5,6 +5,7 @@ body {
 
 /* index page specific css */
 #navbar {
+	z-index: 1;
 	position: fixed;
 	width: 100%;
 	height: 50px;	
@@ -181,8 +182,8 @@ body {
 }
 
 #action_content {
-	z-index: -1;
-	position: absolute;
+	z-index: 0;
+	position: relative;
 	top: 50px;
 	width: 100%;
 	height: 100%;
@@ -222,45 +223,51 @@ body {
     margin-bottom: 15px;
 }
 
-/*button-div and childs*/
-.button-container{
-    position: absolute;
-    bottom: 7px;
+/* quick buttons specific css */
+#quick-button-container {
+    position: fixed;
+    bottom: 10px;
     right: 10px;
+    width: 800px;
     height: 30px;
-    width: 500px;
-    color: black;
-    font-weight: 800;
-    font-size: 14px;
-}
-
-.create-entity-btn {
-    position: relative;
-    float: right;
-}
-
-.create-entity-btn .head-btn {
-    position: relative;
-    padding: 4px 2px;
-    float: left;
-    color: black;
     text-align: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    background-color: green;
-    z-index: 1;
+    line-height: 30px;
+    vertical-align: middle;
 }
 
-.create-entity-btn .user-btn{
-    position: relative;
-    float: left;
-    margin: 0px 0px 0px -8px;
-    padding: 5px 5px 0px 10px;
-    color: black;
-    display: none;
-    height: 30px;
-    background-color: lightgreen;
-    border-radius: 5px;
-    white-space: nowrap;
+#quick-button-container a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
+#quick-button-container > .quick-button {
+	float: right;
+	margin-left: 10px;
+}
+
+#quick-button-container > .quick-button > span {
+	display: inline-block;	
+	background-color: green;
+	height: 100%;
+}
+
+#quick-button-container > .quick-button > .quick-button-title {
+	width: 30px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#quick-button-container > .quick-button:hover > .quick-button-title {
+	border-radius: 5px 0px 0px 5px;
+}
+
+#quick-button-container > .quick-button > .quick-button-text {
+	padding: 0px 10px 0px 10px;
+	border-left: 1px solid;
+	border-radius: 0px 5px 5px 0px;
+	display: none;
+}
+
+#quick-button-container > .quick-button:hover > .quick-button-text {
+	display: inline-block;
 }
