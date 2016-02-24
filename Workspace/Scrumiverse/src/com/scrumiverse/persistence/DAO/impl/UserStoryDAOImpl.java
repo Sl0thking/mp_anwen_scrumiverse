@@ -51,12 +51,25 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	
 	@Override
 	public UserStory getUserStory(int userStoryID){
-		return (UserStory) (hibernateTemplate.find("from UserStory where id'" + userStoryID + "'").get(0));
+		UserStory userStory = new UserStory();
+		try{
+			userStory = (UserStory) (hibernateTemplate.find("from UserStory where id'" + userStoryID + "'").get(0));
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return new UserStory();
+		}
+		return userStory;
 	}
 	
 	@Override
 	public List<UserStory> getUserStoriesOfProject(int projectID){
-		Project proj = (Project) hibernateTemplate.find("from Project where id='" + projectID + "'").get(0);
+		Project proj = new Project();
+		try{
+			proj = (Project) hibernateTemplate.find("from Project where id='" + projectID + "'").get(0);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return new ArrayList<UserStory>();
+		}
 //		return proj.getUserstories();
 		return new ArrayList<UserStory>();
 	}
