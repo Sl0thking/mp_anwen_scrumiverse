@@ -130,7 +130,7 @@ public class Project {
 		this.roles = roles;
 	}
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinTable(name="Project_ProjectUser", 
 			joinColumns={@JoinColumn(name="ProjectID")})
 	public Set<ProjectUser> getProjectUsers() {

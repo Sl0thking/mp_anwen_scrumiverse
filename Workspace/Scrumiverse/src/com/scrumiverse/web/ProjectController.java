@@ -78,8 +78,8 @@ public class ProjectController {
 		projectDAO.saveProject(project);
 		project.addProjectUser(user,(Role) project.getRoles().toArray()[0]);
 		user.addProject(project);
-		userDAO.saveUser(user);
-		projectDAO.saveProject(project);
+		userDAO.updateUser(user);
+		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:projectOverview.htm");
 	 }
 	
@@ -96,7 +96,7 @@ public class ProjectController {
 			Project project = projectDAO.getProject(id);
 			//check if user is member of target project to prevent
 			//unauthorized access 
-			if(project.isUserMember(user)) {
+			if(!project.isUserMember(user)) {
 				throw new InsufficientRightsException();
 			}
 			session.setAttribute("currentProject", project);

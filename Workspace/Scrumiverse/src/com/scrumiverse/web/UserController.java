@@ -147,4 +147,14 @@ public class UserController {
 		exampleUser.setName("Firstname Lastname");
 		return exampleUser;
 	}
+	
+	/**
+	 * logout and invalidate the session
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/logout.htm")
+	private ModelAndView logout(HttpSession session) {
+		session.invalidate();
+		return new ModelAndView("redirect:login.htm");
+	}
 }
