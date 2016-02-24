@@ -1,7 +1,6 @@
 package com.scrumiverse.web;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
-import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
@@ -31,7 +28,7 @@ import com.scrumiverse.utility.Utility;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 23.02.2016
+ * @version 24.02.2016
  *
  */
 
@@ -92,15 +89,19 @@ public class ProjectController {
 	 * @param session
 	 * @return ModelAndView
 	 */
-	
 	@RequestMapping("/selectProject.htm")
 	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {	
 		try { 
+			User user = (User) session.getAttribute("loggedUser");
 			Project project = projectDAO.getProject(id);
+			//check if user is member of target project to prevent
+			//unauthorized access 
+			if(project.isUserMember(user)) {
+				throw new InsufficientRightsException();
+			}
 			session.setAttribute("currentProject", project);
 			return new ModelAndView("redirect:backlog.htm");
-		} catch(NoProjectFoundException e) {
-			//zukünftig vll mit Fehler über param
+		} catch(NoProjectFoundException | InsufficientRightsException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -117,6 +118,9 @@ public class ProjectController {
 		try {
 			Project requestedProject = projectDAO.getProject(id);
 			User user = (User) session.getAttribute("loggedUser");
+			if(!requestedProject.isUserMember(user)) {
+				throw new InsufficientRightsException();
+			}
 			ProjectUser pUser= requestedProject.getProjectUserFromUser(user);
 			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
 				throw new InsufficientRightsException();
@@ -143,9 +147,7 @@ public class ProjectController {
 		user.addProject(project);
 		projectDAO.updateProject(project);
 		userDAO.saveUser(user);
-		
 		return new ModelAndView("redirect:projectSettings.htm");
-		
 	}
 	
 	/**
@@ -165,19 +167,27 @@ public class ProjectController {
 	 * Removes a project and return to Overview
 	 * @param project
 	 * @return ModelAndView
+	 * @throws  
 	 * @throws Exception 
 	 */
 	@RequestMapping("/removeProject.htm")
-	public ModelAndView removeProject(HttpSession session, @RequestParam int id) throws Exception {
-		User user =(User) session.getAttribute("loggedUser");
-		Project p = projectDAO.getProject(id);
-		user.leaveProject(p);
-		p.removeProjectUser(user);
-		System.out.println("Is Empty " + p.getProjectUsers().isEmpty());
-		projectDAO.updateProject(p);
-		userDAO.saveUser(user);
-		projectDAO.deleteProject(p);
-		return new ModelAndView("redirect:projectOverview.htm");
+	public ModelAndView removeProject(HttpSession session, @RequestParam int id) {
+		try {
+			User user =(User) session.getAttribute("loggedUser");
+			Project p = projectDAO.getProject(id);
+			if(!p.isUserMember(user)) {
+				throw new InsufficientRightsException();
+			}
+			user.leaveProject(p);
+			p.removeProjectUser(user);
+			projectDAO.updateProject(p);
+			userDAO.saveUser(user);
+			projectDAO.deleteProject(p);
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch(Exception e) {
+			//return error code
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
 	}
 	
 	/**
