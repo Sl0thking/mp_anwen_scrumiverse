@@ -27,20 +27,20 @@ import javax.persistence.JoinColumn;
  * Datamodel for a scrumiverse project
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 23.02.2016
+ * @version 24.02.2016
  */
 
 @Entity
 public class Project {
-	
 	private int projectID;
 	private String name;
 	private String description;
 	private Set<Role> roles;
 	private Set<ProjectUser> projectUsers;
 	private Date dueDate;
-	//private List<Sprint> sprints;
-	//private List<UserStory> userstories;
+	private Set<Sprint> sprints;
+	private Set<UserStory> userstories;
+	//next sprint
 	//private List<Category> categories;
 	
 	public Project() {
@@ -48,6 +48,7 @@ public class Project {
 		description = "Project Description";
 		projectUsers = new LinkedHashSet<ProjectUser>();
 		roles = new LinkedHashSet<Role>();
+		sprints = new LinkedHashSet<Sprint>();
 		dueDate = new Date();
 		prepareStdRoles(roles);
 	}
@@ -109,19 +110,24 @@ public class Project {
 	public void setProjectUsers(Set<ProjectUser> projectUsers) {
 		this.projectUsers = projectUsers;
 	}
+
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	public Set<Sprint> getSprints() {
+		return sprints;
+	}
 	
-//	public List<Sprint> getSprints() {
-//		return sprints;
-//	}
-//	public void setSprints(List<Sprint> sprints) {
-//		this.sprints = sprints;
-//	}
-//	public List<UserStory> getUserstories() {
-//		return userstories;
-//	}
-//	public void setUserstories(List<UserStory> userstories) {
-//		this.userstories = userstories;
-//	}
+	public void setSprints(Set<Sprint> sprints) {
+		this.sprints = sprints;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	public Set<UserStory> getUserstories() {
+		return userstories;
+	}
+	
+	public void setUserstories(Set<UserStory> userstories) {
+		this.userstories = userstories;
+	}
 //	public List<Category> getCategories() {
 //		return categories;
 //	}

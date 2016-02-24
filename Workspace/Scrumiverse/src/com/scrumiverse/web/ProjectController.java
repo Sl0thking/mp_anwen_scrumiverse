@@ -56,21 +56,17 @@ public class ProjectController {
 	 */
 	@RequestMapping("/projectOverview.htm")
 	public ModelAndView projectOverview(HttpSession session) {
-		if(Utility.isSessionValid(session)) {
-			ModelMap map = Utility.generateModelMap(session);
-			User user = ((User) session.getAttribute("loggedUser"));
-			Set<Project> projectList = projectDAO.getProjectsFromUser(user.getUserID());
-			Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
-			for(Project p : projectList) {
-				manageRights.put(p, p.hasUserRight(Right.Manage_Project, user));
-			}
-			map.addAttribute("projectList", projectDAO.getProjectsFromUser(user.getUserID()));
-			map.addAttribute("manageRight", manageRights);
-			map.addAttribute("action", Action.projectOverview);
-			return new ModelAndView("index", map);
-		} else {
-			return new ModelAndView("redirect:login.htm");
+		ModelMap map = Utility.generateModelMap(session);
+		User user = ((User) session.getAttribute("loggedUser"));
+		Set<Project> projectList = projectDAO.getProjectsFromUser(user.getUserID());
+		Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
+		for(Project p : projectList) {
+			manageRights.put(p, p.hasUserRight(Right.Manage_Project, user));
 		}
+		map.addAttribute("projectList", projectDAO.getProjectsFromUser(user.getUserID()));
+		map.addAttribute("manageRight", manageRights);
+		map.addAttribute("action", Action.projectOverview);
+		return new ModelAndView("index", map);
 	}
 	
 	/**
@@ -80,21 +76,14 @@ public class ProjectController {
 	 */
 	@RequestMapping("/addProject.htm")
 	public ModelAndView addProject(HttpSession session) {
-		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			} 
-			User user = (User) session.getAttribute("loggedUser");
-			Project project = new Project();
-			projectDAO.saveProject(project);
-			project.addProjectUser(user,(Role) project.getRoles().toArray()[0]);
-			user.addProject(project);
-			userDAO.saveUser(user);
-			projectDAO.saveProject(project);
-			return new ModelAndView("redirect:projectOverview.htm");
-		} catch(InvalidSessionException e) {
-			return new ModelAndView("redirect:login.htm");
-		}
+		User user = (User) session.getAttribute("loggedUser");
+		Project project = new Project();
+		projectDAO.saveProject(project);
+		project.addProjectUser(user,(Role) project.getRoles().toArray()[0]);
+		user.addProject(project);
+		userDAO.saveUser(user);
+		projectDAO.saveProject(project);
+		return new ModelAndView("redirect:projectOverview.htm");
 	 }
 	
 	/**
@@ -106,18 +95,13 @@ public class ProjectController {
 	
 	@RequestMapping("/selectProject.htm")
 	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {	
-		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			} 
+		try { 
 			Project project = projectDAO.getProject(id);
 			session.setAttribute("currentProject", project);
 			return new ModelAndView("redirect:backlog.htm");
 		} catch(NoProjectFoundException e) {
 			//zukünftig vll mit Fehler über param
 			return new ModelAndView("redirect:projectOverview.htm");
-		} catch (InvalidSessionException e) {
-			return new ModelAndView("redirect:login.htm");
 		}
 	}
 	
@@ -131,9 +115,6 @@ public class ProjectController {
 	@RequestMapping("/projectSettings.htm")
 	public ModelAndView projectSettings(@RequestParam int id, HttpSession session)  {
 		try {
-			if(Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
 			Project requestedProject = projectDAO.getProject(id);
 			User user = (User) session.getAttribute("loggedUser");
 			ProjectUser pUser= requestedProject.getProjectUserFromUser(user);
@@ -144,8 +125,6 @@ public class ProjectController {
 			map.addAttribute("project", requestedProject);
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException e) {
-			return new ModelAndView("redirect:login.htm");
 		} catch (Exception e1) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
