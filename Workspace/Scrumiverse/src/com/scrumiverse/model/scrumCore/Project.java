@@ -58,10 +58,40 @@ public class Project {
 		productOwner.setChangeable(false);
 		productOwner.addRight(Right.Invite_To_Project);
 		productOwner.addRight(Right.Manage_Project);
-		Role stdRole = new Role("StdRole");
-		stdRole.setChangeable(false);
+		productOwner.addRight(Right.Remove_From_Project);
+		productOwner.addRight(Right.Create_Sprint);
+		productOwner.addRight(Right.Create_UserStory);
+		productOwner.addRight(Right.Delete_Project);
+		productOwner.addRight(Right.Delete_Sprint);
+		productOwner.addRight(Right.Delete_UserStory);
+		productOwner.addRight(Right.Edit_Sprint);
+		productOwner.addRight(Right.Edit_UserStory);
+		productOwner.addRight(Right.Read_Sprint);
+		productOwner.addRight(Right.Read_Task);
+		productOwner.addRight(Right.Read_UserStory);
+		productOwner.addRight(Right.View_Review);
+		
+		Role member = new Role("Member");
+		member.setChangeable(false);
+		member.addRight(Right.Read_Sprint);
+		member.addRight(Right.Read_Task);
+		member.addRight(Right.Read_UserStory);
+		member.addRight(Right.View_Review);
+		member.addRight(Right.Create_Task);
+		member.addRight(Right.Edit_Task);
+		member.addRight(Right.Delete_Task);
+		
+		Role scrumMaster = new Role("ScrumMaster");
+		scrumMaster.setChangeable(false);
+		scrumMaster.addRight(Right.Read_Sprint);
+		scrumMaster.addRight(Right.Read_Task);
+		scrumMaster.addRight(Right.Read_UserStory);
+		scrumMaster.addRight(Right.View_Review);
+		scrumMaster.addRight(Right.AlertAllNotifications_From_CurrentSprint);
+		
 		roles.add(productOwner);
-		roles.add(stdRole);
+		roles.add(member);
+		roles.add(scrumMaster);
 	}
 
 	@Id
