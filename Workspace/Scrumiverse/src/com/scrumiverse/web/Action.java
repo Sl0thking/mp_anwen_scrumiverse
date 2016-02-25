@@ -7,5 +7,5 @@ package com.scrumiverse.web;
  * @version 1.0
  */
 public enum Action {
-	login, register, backlog, projectOverview, echo, projectSettings, userSettings
+	login, register, backlog, projectOverview, echo, projectSettings, userSettings, sprintOverview
 }

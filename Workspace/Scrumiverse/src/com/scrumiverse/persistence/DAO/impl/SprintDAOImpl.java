@@ -1,5 +1,6 @@
 package com.scrumiverse.persistence.DAO.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -54,10 +55,14 @@ public class SprintDAOImpl implements SprintDAO {
 
 	@Override
 	public List<Sprint> getSprintsFromProject(int projectID) {
-		Project p = (Project) hibernateTemplate.find("from Project where id='"+ projectID + "'").get(0);
-//		List<Sprint> sprints = p.getSprints();
-		// waiting for implementation in Project
-		return null;
+		Project p = new Project();
+		try {
+			p = (Project) hibernateTemplate.find("from Project where id='"+ projectID + "'").get(0);
+		} catch(NullPointerException n) {
+			n.printStackTrace();	
+			return new ArrayList<Sprint>();
+		}
+		return (List<Sprint>) p.getSprints();
 	}
 
 }
