@@ -47,11 +47,6 @@
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
-					<img alt="userstories icon" src="resources/images/index/icon_userstories.png">
-					<a href="#">USERSTORIES</a>							
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
 					<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
 					<a href="sprintOverview.htm">SPRINTS</a>		
 				</div>

@@ -154,7 +154,7 @@ public class UserStory extends PlanElement {
 		int result = 0;
 		for(Task task: tasks){
 			for(User user:task.getResponsibleUsers()){
-				result += task.getEstimatedWorkTimeOfUser(user);
+				result += task.getPlannedMinOfUser(user);
 			}
 		}
 		return result;
@@ -182,7 +182,7 @@ public class UserStory extends PlanElement {
 		int result = 0;
 		for(Task task: tasks){
 			for(User user: task.getResponsibleUsers()){
-				result += task.getLoggedTimeOfUser(user);
+				result += task.getWorkTimeOfUser(user);
 			}
 		}
 		return result;

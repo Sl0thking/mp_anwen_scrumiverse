@@ -12,13 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NotChangeableRoleException;
@@ -207,9 +204,7 @@ public class Project {
 	
 	public boolean hasUserRight(Right right, User user) {
 		try {
-			System.out.println("CALL OF HASUSERRIGHT WITH: " + user.getEmail());
 			ProjectUser pUser = getProjectUserFromUser(user);
-			System.out.println("CHECK RIGHT: " + pUser.getRole().hasRights(right));
 			return pUser.getRole().hasRights(right);
 		} catch (NoSuchUserException e) {
 			return false;

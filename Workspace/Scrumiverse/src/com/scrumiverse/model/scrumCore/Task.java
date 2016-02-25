@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.MapKeyManyToMany;
@@ -27,33 +25,42 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * Task data-model of a scrum implementation.
  * 
  * @author Kevin Jolitz
- * @version 21.02.2016
+ * @version 25.02.2016
  *
  */
 @Entity
 public class Task extends PlanElement {
-	private List<WorkLog> workLogs;
-	private Map<User, Integer> estimatedWorkMinOfUsers;
+	private Set<WorkLog> workLogs;
+	private Map<User, Integer> plannedMinOfUsers;
 	private Set<String> tags;
 	
 	public Task() {
 		this.setDescription("New Task");
 		this.setPlanState(PlanState.Planning);
-		estimatedWorkMinOfUsers = new HashMap<User, Integer>();
+		plannedMinOfUsers = new HashMap<User, Integer>();
 		tags = new HashSet<String>();
 	}
 	
-	public int getEstimatedWorkTimeOfUser(User user) {
-		return estimatedWorkMinOfUsers.get(user);
+	public int getPlannedMinOfUser(User user) {
+		return plannedMinOfUsers.get(user);
 	}
 	
-	@OneToMany
+	@Transient
+	public int getPlannedMin() {
+		int planTime = 0;
+		for(User user : plannedMinOfUsers.keySet()) {
+			planTime += plannedMinOfUsers.get(user);
+		}
+		return planTime;
+	}
+	
+	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name = "TaskID")
-	public List<WorkLog> getWorkLogs() {
+	public Set<WorkLog> getWorkLogs() {
 		return workLogs;
 	}
 
-	public void setWorkLogs(List<WorkLog> workLogs) {
+	public void setWorkLogs(Set<WorkLog> workLogs) {
 		this.workLogs = workLogs;
 	}
 
@@ -61,12 +68,12 @@ public class Task extends PlanElement {
 	@JoinTable(name="est_user_work_time", joinColumns = @JoinColumn(name = "TaskID"))
 	@Column(name = "WorkTimeInMin")
 	@MapKeyManyToMany(targetEntity = User.class, joinColumns=@JoinColumn(name="UserID"))
-	public Map<User, Integer> getEstimatedWorkMinOfUsers() {
-		return estimatedWorkMinOfUsers;
+	public Map<User, Integer> getPlannedMinOfUsers() {
+		return plannedMinOfUsers;
 	}
 
-	public void setEstimatedWorkMinOfUsers(Map<User, Integer> estimatedWorkMinOfUsers) {
-		this.estimatedWorkMinOfUsers = estimatedWorkMinOfUsers;
+	public void setPlannedMinOfUsers(Map<User, Integer> plannedMinOfUsers) {
+		this.plannedMinOfUsers = plannedMinOfUsers;
 	}
 
 	@CollectionOfElements(fetch = FetchType.EAGER, targetElement = String.class)
@@ -80,8 +87,8 @@ public class Task extends PlanElement {
 		this.tags = tags;
 	}
 
-	public void setEstimatedWorkTimeOfUser(User user, int workTimeInMin) {
-		this.estimatedWorkMinOfUsers.put(user, workTimeInMin);
+	public void setPlannedTimeOfUser(User user, int planTimeInMin) {
+		this.plannedMinOfUsers.put(user, planTimeInMin);
 	}
 	
 	/**
@@ -121,7 +128,7 @@ public class Task extends PlanElement {
 	 */
 	@Transient
 	public Set<User> getResponsibleUsers() {
-		return this.estimatedWorkMinOfUsers.keySet();
+		return this.plannedMinOfUsers.keySet();
 	}
 	
 	/**
@@ -129,13 +136,22 @@ public class Task extends PlanElement {
 	 * @param user related user
 	 * @return logged work time of related user in minutes
 	 */
-	public int getLoggedTimeOfUser(User user) {
-		int loggedTimeInMin = 0;
+	public int getWorkTimeOfUser(User user) {
+		int workTimeInMin = 0;
 		List<WorkLog> workLogs = this.getWorkLogsOfUser(user);
 		for(WorkLog log : workLogs) {
-			loggedTimeInMin += log.getLoggedMinutes();
+			workTimeInMin += log.getLoggedMinutes();
 		}
-		return loggedTimeInMin;
+		return workTimeInMin;
+	}
+	
+	@Transient
+	public int getWorkMin() {
+		int workTime = 0;
+		for(User user : this.getResponsibleUsers()) {
+			workTime += this.getWorkTimeOfUser(user);
+		}
+		return workTime;
 	}
 	
 	/**
@@ -144,8 +160,15 @@ public class Task extends PlanElement {
 	 * @return remaining time in minutes
 	 */
 	public int getRemainingMinOfUser(User user) {
-		int estimatedTimeInMin = this.getEstimatedWorkTimeOfUser(user);
-		int loggedTimeInMin = this.getLoggedTimeOfUser(user);
+		int estimatedTimeInMin = this.getPlannedMinOfUser(user);
+		int loggedTimeInMin = this.getWorkTimeOfUser(user);
+		return estimatedTimeInMin - loggedTimeInMin;
+	}
+	
+	@Transient
+	public int getRemainingMin() {
+		int estimatedTimeInMin = this.getPlannedMin();
+		int loggedTimeInMin = this.getWorkMin();
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
 

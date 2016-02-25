@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 import com.scrumiverse.model.account.User;
@@ -16,13 +17,14 @@ import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
- * Plan Element Model for Scrum Projects.
+ * Abstract PlanElement Model for 
+ * shared plan attributes between Scrum DataModells.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 24.02.16
+ * @version 25.02.16
  *
  */
-@Entity
+@MappedSuperclass
 public abstract class PlanElement {
 	private String description;
 	private int id;

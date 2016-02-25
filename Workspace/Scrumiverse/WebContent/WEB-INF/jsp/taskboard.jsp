@@ -40,7 +40,7 @@ function deselectAll(){
                             <div class="duetime">${userStory.dueDate}</div>
                         </div>
                         <div class="info-container">
-                            <div class="moscow">${userStory.moscow.toString()}</div>
+                            <div class="moscow">${userStory.moscow.toString().substring(0,1)}</div>
                             <div class="value">${userStory.businessValue}</div>
                             <div class="risk">###</div>
                             <div class="timestats">
@@ -63,188 +63,67 @@ function deselectAll(){
             </div>
         </td>
         <td class="task-section item-section">
-            <div class="task">
-                <div class="task-content">
-                    <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                    <div class="task-time">### / ### / ###</div>
-                    <div class="task-memberbox">
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                    </div>
-                </div>
-                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
-            </div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
+        	<c:forEach items="${tasksOfUserStories[userStory]}" var="task">
+	            <c:if test="${task.planState.toString() eq 'Planning'}">
+		            <div class="task">
+		                <div class="task-content">
+		                    <div class="task-name">${task.description}</div>
+		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                    <div class="task-memberbox">
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                    </div>
+		                </div>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		            </div>
+		    	</c:if>
+        	</c:forEach>
         </td>
-        <td class="task-section item-section"></td>
         <td class="task-section item-section">
-        <div class="task">
-            <div class="task-content">
-                <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                <div class="task-time">### / ### / ###</div>
-                <div class="task-memberbox">
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                </div>
-            </div>
-            <a href="#" class="glyphicon glyphicon-triangle-right task-link done"></a>
-        </div>
+        <c:forEach items="${tasksOfUserStories[userStory]}" var="task">
+	            <c:if test="${task.planState.toString() eq 'InProgress'}">
+		            <div class="task">
+		                <div class="task-content">
+		                    <div class="task-name">${task.description}</div>
+		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                    <div class="task-memberbox">
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                    </div>
+		                </div>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		            </div>
+		    	</c:if>
+        	</c:forEach>
+        </td>
+        <td class="task-section item-section">
+        <c:forEach items="${tasksOfUserStories[userStory]}" var="task">
+	            <c:if test="${task.planState.toString() eq 'Done'}">
+		            <div class="task">
+		                <div class="task-content">
+		                    <div class="task-name">${task.description}</div>
+		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                    <div class="task-memberbox">
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                        <div class="task-member"></div>
+		                    </div>
+		                </div>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		            </div>
+		    	</c:if>
+        	</c:forEach>
         </td>
     </tr>
 	</c:forEach>
-    <tr>
-        <td class="userstory-section item-section">
-            <div class="userstory">
-                <div class="userstory-state inprogress"></div>
-                <div class="userstory-content">
-                    <div class="userstory-titel">[US001] SUPER DUPER TOLLE USER STORY</div>
-                    <div class="userstory-stats">
-                        <div class="time-container">
-                            <div class="sandclock"></div>
-                            <div class="duetime">TIME</div>
-                        </div>
-                        <div class="info-container">
-                            <div class="moscow">M</div>
-                            <div class="value">#</div>
-                            <div class="risk">###</div>
-                            <div class="timestats">###/###/###</div>
-                        </div>
-                        <div class="effort">###</div>
-                        <div class="member-container">
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                        </div>
-                    </div>
-                </div>
-                <a class="glyphicon glyphicon-triangle-right userstory-link inprogress" href="#"></a>
-            </div>
-        </td>
-        <td class="task-section item-section">
-            <div class="task">
-                <div class="task-content">
-                    <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                    <div class="task-time">### / ### / ###</div>
-                    <div class="task-memberbox">
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                    </div>
-                </div>
-                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
-            </div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
-        </td>
-        <td class="task-section item-section"></td>
-        <td class="task-section item-section">
-        <div class="task">
-            <div class="task-content">
-                <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                <div class="task-time">### / ### / ###</div>
-                <div class="task-memberbox">
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                    <div class="task-member"></div>
-                </div>
-            </div>
-            <a href="#" class="glyphicon glyphicon-triangle-right task-link done"></a>
-        </div>
-        </td>
-    </tr>
-<!-- DUMMY -->
-    <tr>
-        <td class="userstory-section item-section">
-            <div class="userstory">
-                <div class="userstory-state inprogress"></div>
-                <div class="userstory-content">
-                    <div class="userstory-titel">[US001] SUPER DUPER TOLLE USER STORY</div>
-                    <div class="userstory-stats">
-                        <div class="time-container">
-                            <div class="sandclock"></div>
-                            <div class="duetime">TIME</div>
-                        </div>
-                        <div class="info-container">
-                            <div class="moscow">M</div>
-                            <div class="value">#</div>
-                            <div class="risk">###</div>
-                            <div class="timestats">###/###/###</div>
-                        </div>
-                        <div class="effort">###</div>
-                        <div class="member-container">
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                        </div>
-                    </div>
-                </div>
-                <a class="glyphicon glyphicon-triangle-right userstory-link inprogress" href="#"></a>
-            </div>
-        </td>
-        <td class="task-section item-section">
-            <div class="task">
-                <div class="task-content">
-                    <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                    <div class="task-time">### / ### / ###</div>
-                    <div class="task-memberbox">
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                    </div>
-                </div>
-                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
-            </div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
-            <div class="task"></div>
-        </td>
-        <td class="task-section item-section">
-            <div class="task">
-                <div class="task-content">
-                    <div class="task-name">TASK NAME SUPadadsaddaddasdER DUPER</div>
-                    <div class="task-time">### / ### / ###</div>
-                    <div class="task-memberbox">
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                        <div class="task-member"></div>
-                    </div>
-                </div>
-                <a href="#" class="glyphicon glyphicon-triangle-right task-link inprogress"></a>
-            </div>
-        </td>
-        <td class="task-section item-section">
-        </td>
-    </tr>
 </table>
     
 <div id="quick-button-container">

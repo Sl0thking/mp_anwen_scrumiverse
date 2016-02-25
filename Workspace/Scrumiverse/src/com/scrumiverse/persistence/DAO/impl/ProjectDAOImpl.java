@@ -44,7 +44,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public Set<Project> getProjectsFromUser(int userID) {
-		User relatedUser = (User) hibernateTemplate.find("from User where id='"+ userID +"'").get(0);
+		User relatedUser = (User) hibernateTemplate.find("from User where userID='"+ userID +"'").get(0);
 		return relatedUser.getProjects();
 	}
 	
