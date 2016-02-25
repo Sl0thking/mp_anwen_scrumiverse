@@ -6,7 +6,7 @@
 function checkInputs(){
 	var email = $("#email").val();
 	var name = $("#name").val();
-	if(name=="Firstname Lastname" || email=="example@mail.com"){
+	if(name=="Firstname Lastname" || name =="" || email=="" || email=="example@mail.com"){
 		return false;
 	} else {
 		return true;
@@ -34,16 +34,16 @@ $(document).ready(function(){
         <form:form role="form" action="registerUser.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <form:input path="email" type="text" class="form-control" id="email" value="${user.email}" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
+                <form:input path="email" type="text" class="form-control" id="email" placeholder="${user.email}" value=""/>
             </div>
             <div class="form-group">
             	Name:
-                <form:input path="name" type="text" class="form-control" id="name" value="${user.name}" onblur="if (this.value==' '){this.vlaue = 'Firstname Lastname';}" onfocus="if (this.value == 'Firstname Lastname') {this.value = ''}"/>
+                <form:input path="name" type="text" class="form-control" id="name" placeholder="${user.name}" value=""/>
             </div>
             <div class="form-group">
             	Password:
-                <form:input path="password" type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}"/>
-            	<input type="password" class="form-control" id="passwordcheck" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}">
+                <form:input path="password" type="password" class="form-control" id="password" placeholder="password"/>
+            	<input type="password" class="form-control" id="passwordcheck" placeholder="password"/>
             </div>
             <div class="error-container">
             	<c:if test="${regError}">

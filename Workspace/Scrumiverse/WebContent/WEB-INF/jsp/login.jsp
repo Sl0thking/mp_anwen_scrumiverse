@@ -13,11 +13,11 @@
         <form:form action="loginCheck.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <form:input path="email" type="text" class="form-control" id="email" value="example@mail.com" onblur="if (this.value==' '){this.vlaue = 'example@mail.com';}" onfocus="if (this.value == 'example@mail.com') {this.value = ''}"/>
+                <form:input path="email" type="email" class="form-control" id="email" placeholder="example@mail.com"/>
             </div>
             <div class="form-group">
             	Password:
-                <form:input path="password" type="password" class="form-control" id="password" value="password" onblur="if (this.value==''){this.vlaue = 'password';}" onfocus="if (this.value == 'password') {this.value = ''}"/>
+                <form:input path="password" type="password" class="form-control" id="password" placeholder="Password" />
             </div>
             <div class="checkbox">
                 <label><input type="checkbox"> Remember me</label>
