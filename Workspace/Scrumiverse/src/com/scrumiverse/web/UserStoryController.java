@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.NoUserStoriesException;
+import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 import com.scrumiverse.utility.Utility;
@@ -29,13 +30,17 @@ public class UserStoryController {
 	@Autowired
 	UserStoryDAO userStoryDAO;
 	
+	
+	
 	/**
 	 * Create new empty UserStory in database
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/newUserStory.htm")
-	public ModelAndView createNewUserStory(){
+	public ModelAndView createNewUserStory(HttpSession session){
+		Project project = (Project) session.getAttribute("currentProject");
 		UserStory userStory = new UserStory();
+		project.addUserStory(userStory);
 		userStoryDAO.saveUserStory(userStory);
 		return new ModelAndView("redirect:backlog.htm");
 	}

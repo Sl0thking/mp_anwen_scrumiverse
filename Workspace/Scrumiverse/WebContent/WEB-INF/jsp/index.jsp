@@ -43,7 +43,12 @@
 				<c:if test="${currentProject != null}">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-					<a href="backlog.htm">BACKLOG</a>							
+					<a href="./backlog.htm">BACKLOG</a>							
+				</div>
+				<div class="spacer"></div>
+				<div class="menuitem">
+					<img alt="userstories icon" src="resources/images/index/icon_userstories.png">
+					<a href="#">USERSTORIES</a>							
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
@@ -53,7 +58,7 @@
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="todo icon" src="resources/images/index/icon_todo.png">
-					<a href="#">TO-DO</a>
+					<a href="showTasks.htm">TO-DO</a>
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">

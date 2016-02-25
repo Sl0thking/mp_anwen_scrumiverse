@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -59,7 +60,7 @@ public class UserStory extends PlanElement {
 //		category = new Category();
 //		category.setName("Tonis Feeding Category");
 		dueDate = new Date();
-		dueDate.setTime(300000);
+		dueDate.setTime(dueDate.getTime() + (5*(1000*60*60*24)));
 		relatedSprint = null;
 		//planelement
 		setDescription("USID666 Killing Humanity");
@@ -119,8 +120,8 @@ public class UserStory extends PlanElement {
 		this.dueDate = dueDate;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name="Sprint_ID")
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name = "SprintID")
 	public Sprint getRelatedSprint() {
 		return relatedSprint;
 	}
@@ -208,7 +209,13 @@ public class UserStory extends PlanElement {
 	 */
 	@Transient
 	public String getRemainingDays(){
-		return "";
+		Date today = new Date();
+		int result = (int) ((dueDate.getTime() - today.getTime())/(1000*60*60*24));
+		if(result < 0){
+			return "0";
+		}else{
+			return ""+result;
+		}
 	}
 	
 	@Override

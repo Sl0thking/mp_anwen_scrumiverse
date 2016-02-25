@@ -146,6 +146,7 @@ public class Project {
 	}
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name = "ProjectID")
 	public Set<Sprint> getSprints() {
 		return sprints;
 	}
@@ -155,6 +156,8 @@ public class Project {
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+	@JoinColumn(name = "ProjectID", nullable=true)
 	public Set<UserStory> getUserstories() {
 		return userstories;
 	}
@@ -275,13 +278,13 @@ public class Project {
 //		this.sprints.remove(sprintID);
 //	}
 //	
-//	public void addUserStory(UserStory u) {
-//		this.userstories.add(u);
-//	}
-//	
-//	public void removeUserStory(int UserStoryID) {
-//		this.userstories.remove(UserStoryID);
-//	}
+	public void addUserStory(UserStory u) {
+		this.userstories.add(u);
+	}
+	
+	public void removeUserStory(int UserStoryID) {
+		this.userstories.remove(UserStoryID);
+	}
 //	
 //	@Override
 //	public String toString() {
