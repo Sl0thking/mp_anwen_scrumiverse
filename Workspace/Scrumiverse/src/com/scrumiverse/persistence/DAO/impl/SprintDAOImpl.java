@@ -59,7 +59,7 @@ public class SprintDAOImpl implements SprintDAO {
 	public Set<Sprint> getSprintsFromProject(int projectID) {
 		Project p = new Project();
 		try {
-			p = (Project) hibernateTemplate.find("from Project where id='"+ projectID + "'").get(0);
+			p = (Project) hibernateTemplate.find("from Project where ProjectID='"+ projectID + "'").get(0);
 		} catch(NullPointerException n) {
 			n.printStackTrace();	
 			return new HashSet<Sprint>();
