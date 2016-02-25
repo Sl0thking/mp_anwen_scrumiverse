@@ -40,7 +40,7 @@
 			<div id="menubar">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-					<a href="#">BACKLOG</a>							
+					<a href="./backlog.htm">BACKLOG</a>							
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">

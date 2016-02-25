@@ -59,7 +59,7 @@ public class UserStory extends PlanElement {
 //		category = new Category();
 //		category.setName("Tonis Feeding Category");
 		dueDate = new Date();
-		dueDate.setTime(300000);
+		dueDate.setTime(dueDate.getTime() + (5*(1000*60*60*24)));
 		relatedSprint = null;
 		//planelement
 		setDescription("USID666 Killing Humanity");
@@ -208,7 +208,13 @@ public class UserStory extends PlanElement {
 	 */
 	@Transient
 	public String getRemainingDays(){
-		return "";
+		Date today = new Date();
+		int result = (int) ((dueDate.getTime() - today.getTime())/(1000*60*60*24));
+		if(result < 0){
+			return "0";
+		}else{
+			return ""+result;
+		}
 	}
 	
 	@Override

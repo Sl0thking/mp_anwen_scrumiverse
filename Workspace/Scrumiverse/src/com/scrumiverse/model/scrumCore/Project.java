@@ -276,13 +276,13 @@ public class Project {
 //		this.sprints.remove(sprintID);
 //	}
 //	
-//	public void addUserStory(UserStory u) {
-//		this.userstories.add(u);
-//	}
-//	
-//	public void removeUserStory(int UserStoryID) {
-//		this.userstories.remove(UserStoryID);
-//	}
+	public void addUserStory(UserStory u) {
+		this.userstories.add(u);
+	}
+	
+	public void removeUserStory(int UserStoryID) {
+		this.userstories.remove(UserStoryID);
+	}
 //	
 //	@Override
 //	public String toString() {

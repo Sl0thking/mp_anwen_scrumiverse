@@ -1,13 +1,13 @@
-.backlog {
+#backlog {
     width: 100%;
     padding: 20px 20px 20px 20px;
     height: 95vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.backlog::-webkit-scrollbar {display: none;}
+#backlog::-webkit-scrollbar {display: none;}
 
-.backlog .userstory{
+#backlog > .userstory{
     position: relative;
     background-color: grey;
     color: white;
@@ -16,30 +16,28 @@
     margin: 5px 0px 0px 0px;
     padding: 3px 0px 0px 0px;
     overflow: hidden;
+    font-size: 1.3em;
 }
-
-.backlog .userstory .userstory-state-aktive{
-    position: absolute;
+#backlog > .userstory > .userstory-planstate{
+	position: absolute;
     bottom: 0px;
     height: 60px;
     width: .8%;
-    background-color: green;
     overflow: hidden;
 }
-
-.backlog .userstory .userstory-state-planed{
-    position: absolute;
-    bottom: 0px;
-    height: 60px;
-    width: .8%;
-    background-color: darkgrey;
-    overflow: hidden;
+#Planning{
+	background-color: darkgrey;
+}
+#InProgress{
+	background-color: orange;
+}
+#Done{
+	background-color: green;
 }
 
-.backlog .userstory .userstory-titel {
+#backlog > .userstory > .userstory-titel {
     position: absolute;
     left: 1%;
-    font-size: 14px;
     width: 44%;
     height: 55px;
     overflow: hidden;
@@ -47,30 +45,29 @@
     display: inline-block;
 }
 
-.backlog .userstory .userstory-sandclock{
+#backlog > .userstory > .userstory-sandclock{
     position: absolute;
     left: 45.5%;
     background-color: black;
     height: 39px;
     width: 3%;
     display: inline-block;
-    overflow: hidden;
 }
 
-.backlog .userstory .userstory-time{
+#backlog > .userstory > .userstory-time{
     position: absolute;
+    font-size: 15px;
     left: 45.5%;
     top: 41px;
     width: 3%;
     height: 17px;
     text-align: center;
     color: white;
-    font-weight: 500;
     display: inline-block;
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-memberbox{
+#backlog > .userstory > .userstory-memberbox{
     position: absolute;
     left: 48.8%;
     width: 7%;
@@ -79,40 +76,37 @@
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-memberbox .userstory-member-bubble{
+.userstory-memberbox > img{
     position: relative;
+    margin: 0px 0px 4px 0px;
     height: 25px;
     width: 25px;
-    background-color: black;
     display: inline-block;
+    border-radius: 100%;
 }
 
-.backlog .userstory .userstory-category {
+#backlog > .userstory > .userstory-category {
     position: absolute;
-    left: 55.5%;
+    left: 56%;
     height: 25px;
     width: 30%;
-    font-size: 12px;
-    font-weight: 500;
     display: inline-block;
     overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.backlog .userstory .userstory-sprint {
+#backlog > .userstory > .userstory-sprint {
     position: absolute;
-    left: 55.5%;
+    left: 56%;
     top: 30px;
     height: 25px;
     width: 30%;
-    font-size: 12px;
-    font-weight: 500;
     overflow: hidden;
 	text-overflow: ellipsis;
     display: inline-block;
 }
 
-.backlog .userstory .userstory-timestats{
+#backlog > .userstory > .userstory-timestats{
     position: absolute;
     top: 8px;
     left: 87%;
@@ -122,38 +116,26 @@
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-moscow{
+#backlog > .userstory > .userstory-moscow{
     position: absolute;
     left: 87%;
     top: 30px;
-    text-align: center;
-    font-weight: 500;
+    text-align: left;
     height: 22px;
     width: 2%;
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-value{
+#backlog > .userstory > .userstory-value{
     position: absolute;
-    left: 89.5%;
+    left: 89%;
     top: 30px;
     text-align: center;
-    font-weight: 500;
     width: 2%;
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-risk{
-    position: absolute;
-    left: 92%;
-    top: 30px;
-    text-align: center;
-    font-weight: 500;
-    width: 2%;
-    overflow: hidden;
-}
-
-.backlog .userstory .userstory-effort{
+#backlog > .userstory > .userstory-effort{
     position: absolute;
     left: 94.3%;
     top: 14px;
@@ -164,22 +146,21 @@
     overflow: hidden;
 }
 
-.backlog .userstory .userstory-settings-aktive{
+.userstory-control{
     position: absolute;
     left: 98.5%;
     bottom: 0px;
     height: 60px;
     width: 20px;
-    background-color: green;
     overflow: hidden;
 }
-
-.backlog .userstory .userstory-settings-planed{
-    position: absolute;
-    left: 98.5%;
-    bottom: 0px;
-    height: 60px;
-    width: 20px;
-    background-color: darkgrey;
-    overflow: hidden;
+.userstory-settings{
+	position: absolute;
+	display: block;
+	top: 20px;
+	color: white;
+	text-align: center;
+	height: 60px;
+	width: 20px;
+	text-decoration: none;
 }
