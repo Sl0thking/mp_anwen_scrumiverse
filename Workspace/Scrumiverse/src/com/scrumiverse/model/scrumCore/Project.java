@@ -126,7 +126,6 @@ public class Project {
 	}
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	//Warum auch immer... Ich werd wahnsinnig, meine Fresse
 	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN) 
 	@JoinColumn(name = "ProjectID", nullable=false)
 	public Set<ProjectUser> getProjectUsers() {
@@ -342,9 +341,5 @@ public class Project {
 			users.add(pUser.getUser());
 		}
 		return users;
-	}
-	
-	public void removeAllProjectMember() {
-		this.projectUsers.clear();
 	}
 }

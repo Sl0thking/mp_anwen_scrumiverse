@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
@@ -150,7 +151,7 @@ public class ProjectController {
 				throw new InsufficientRightsException();
 			}
 			ModelMap map = Utility.generateModelMap(session);
-			map.addAttribute("project", requestedProject);
+			map.addAttribute("currentProject", requestedProject);
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {
@@ -183,9 +184,21 @@ public class ProjectController {
 	 * @return ModelAndView
 	 */
 	
-	@RequestMapping("/removeUserFromProject.htm")
-	public ModelAndView removeUser(Project project, User user) {
-		//todo
+	@RequestMapping("/removeProjectUser.htm")
+	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
+		try {
+			Project project = (Project) session.getAttribute("currentProject");
+			//Check if target user is user in session
+			//Manipulate directly object in session
+			User user = (User) session.getAttribute("loggedUser"); 
+			//If you dont target yourself load specific user from db
+			if(user.getUserID() != id) {
+				user = userDAO.getUser(id);
+			}
+			removeUserFromProject(user, project);
+		} catch(NoSuchUserException e) {
+			return new ModelAndView("redirect:projectSettings.htm");
+		}
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
 	
@@ -197,23 +210,24 @@ public class ProjectController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/removeProject.htm")
-	public ModelAndView removeProject(HttpSession session, @RequestParam int id) {
+	public ModelAndView removeProject(HttpSession session) {
 		try {
 			if(!Utility.isSessionValid(session)) {
 				throw new InvalidSessionException();
 			}
 			User user =(User) session.getAttribute("loggedUser");
-			Project p = projectDAO.getProject(id);
+			Project p =(Project) session.getAttribute("currentProject");
 			if(!p.isUserMember(user) || !p.hasUserRight(Right.Manage_Project, user)) {
 				throw new InsufficientRightsException();
 			}
+			//Remove project from User in session
+			removeUserFromProject(user, p);
+			//Remove remaining users
 			for(User projectUser : p.getAllUsers()) {
-				projectUser.leaveProject(p);
-				userDAO.updateUser(projectUser);
+				removeUserFromProject(projectUser, p);
 			}
-			p.removeAllProjectMember();
-			projectDAO.updateProject(p);
 			projectDAO.deleteProject(p);
+			session.removeAttribute("currentProject");
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -225,6 +239,19 @@ public class ProjectController {
 	}
 	
 	/**
+	 * Remove user from project and project from internal list in user
+	 * @param user
+	 * @param project
+	 * @throws NoSuchUserException
+	 */
+	private void removeUserFromProject(User user, Project project) throws NoSuchUserException {
+		user.leaveProject(project);
+		project.removeProjectUser(user);
+		projectDAO.updateProject(project);
+		userDAO.updateUser(user);
+	}
+	
+	/**
 	 * Rename a project and return to Settings
 	 * @param project
 	 * @param name
@@ -232,8 +259,8 @@ public class ProjectController {
 	 */
 	@RequestMapping("/renameProject.htm")
 	public ModelAndView renameProject(Project project, String name) {
-		//projectDAO.renameProject(project, name);
-		
+		project.setName(name);
+		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
 	

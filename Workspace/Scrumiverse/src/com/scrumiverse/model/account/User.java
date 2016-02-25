@@ -87,7 +87,7 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.REFRESH)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	public Set<Project> getProjects() {
 		return projects;	
 }

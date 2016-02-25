@@ -47,4 +47,13 @@ public class UserDAOImpl implements UserDAO{
 	public List<User> getAllUsers() {
 		return hibernateTemplate.find("from User");
 	}
+
+	@Override
+	public User getUser(int id) throws NoSuchUserException {
+		List<User> users = hibernateTemplate.find("from User where userID='" + id + "'"); 
+		if(users.size() == 0 || users.size() > 1) {
+			throw new NoSuchUserException();
+		}
+		return users.get(0);
+	}
 }

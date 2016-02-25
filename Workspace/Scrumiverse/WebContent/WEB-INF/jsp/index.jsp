@@ -27,44 +27,37 @@
 			<div id="logo">
 				<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
 				<div class="extra-menu">
-					<a class="extra-menuitem" href="#">
+					<c:if test="${currentProject != null}">
+					<a class="extra-menuitem" href="backlog.htm">
 						<span class="glyphicon glyphicon-th-large"></span>
 						DASHBOARD
 					</a>		
-					<a class="extra-menuitem" href="#">
+					</c:if>
+					<a class="extra-menuitem" href="projectOverview.htm">
 						<span class="glyphicon glyphicon-th-list"></span>
 						PROJECT OVERVIEW
 					</a>	
 				</div>
 			</div>
 			<div id="menubar">
+				<c:if test="${currentProject != null}">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
+<<<<<<< HEAD
 					<a href="./backlog.htm">BACKLOG</a>							
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="userstories icon" src="resources/images/index/icon_userstories.png">
 					<a href="#">USERSTORIES</a>							
+=======
+					<a href="backlog.htm">BACKLOG</a>							
+>>>>>>> origin/master
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
-					<a href="#">SPRINTS</a>			
-					<span class="sub-menu">
-						<a class="sub-menuitem" href="#">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-							SUBMENUITEM
-						</a>	
-						<a class="sub-menuitem" href="#">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-							SUBMENUITEM
-						</a>	
-						<a class="sub-menuitem" href="#">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-							LONGER SUBMENUITEM
-						</a>	
-					</span>
+					<a href="#">SPRINTS</a>		
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
@@ -74,8 +67,9 @@
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="report icon" src="resources/images/index/icon_reports.png">
-					<a href="#">REPORTS</a>
+					<a href="#">REPORTING</a>
 				</div>
+				</c:if>
 			</div>
 			<div id="userbar">
 				<div class="user-notifications">
@@ -89,7 +83,7 @@
 				<div id="user-menu">
 					<img alt="user-icon" src="resources/userPictures/default.png">
 					<div class="extra-menu">
-						<a class="extra-menuitem" href="./logout.htm">
+						<a class="extra-menuitem" href="logout.htm">
 							<span class="glyphicon glyphicon-log-out"></span>
 							LOGOUT
 						</a>	

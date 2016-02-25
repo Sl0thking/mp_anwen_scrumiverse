@@ -7,7 +7,7 @@
 }
 
 table, th, td{
-    border: 1px solid black;
+    border: 1px solid #444444;
 }
 .taskboard-heading{
     width: 100%;
@@ -40,6 +40,7 @@ table, th, td{
 .task-section{
     width: 24%;
     text-align: inherit;
+    vertical-align: top;
 }
 .item-section{
     height: auto;
@@ -59,20 +60,14 @@ table, th, td{
     min-width: 5px;
     height: 100%;
     float: left;
-    background-color: lightgray;
     display: inline-block;
-}
-#done{
-    background-color: green;
-}
-#aktive{
-    background-color: orange;
 }
 
 .userstory > .userstory-content{
     width: 92%;
     height: 100%;
     display: inline-block;
+    overflow: hidden;
 }
 
 .userstory-content > .userstory-titel{
@@ -82,7 +77,6 @@ table, th, td{
     font-weight: 500;
     font-size: 16px;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .userstory-content > .userstory-stats{
@@ -187,7 +181,6 @@ table, th, td{
     width: 5%;
     padding-top: 70px;
     font-size: 20px;
-    background-color: lightgray;
     color: white;
     text-decoration: none;
 }
@@ -213,7 +206,6 @@ table, th, td{
     float: right;
     padding-top: 15px;
     font-size: 20px;
-    background-color: lightgray;
     color: white;
     text-decoration: none;
 }
@@ -222,8 +214,8 @@ table, th, td{
     padding: 2px 0px 0px 5px;
     color: inherit;
     font-weight: 500;
-    font-size: 16px;
     white-space: nowrap;
+    font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -253,4 +245,68 @@ table, th, td{
     background-color: black;
     border-radius: 50%;
     display: inline-block;
+}
+.selected{
+    outline: 2px solid white;
+}
+
+/* put in style.css */
+.planed{
+    background-color: gray;
+}
+.inprogress{
+    background-color: orange;
+}
+.done{
+    background-color: green;
+}
+
+/* quick buttons specific css */
+#quick-button-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 800px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+#quick-button-container a {
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+}
+
+#quick-button-container > .quick-button {
+	float: right;
+	margin-left: 10px;
+}
+
+#quick-button-container > .quick-button > span {
+	display: inline-block;	
+	height: 100%;
+}
+
+#quick-button-container > .quick-button > .quick-button-title {
+	width: 30px;
+	background-color: darkgreen;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#quick-button-container > .quick-button:hover > .quick-button-title {
+	border-radius: 5px 0px 0px 5px;
+}
+
+#quick-button-container > .quick-button > .quick-button-text {
+	padding: 0px 10px 0px 10px;
+	background-color: green;
+	border-left: 1px solid;
+	border-radius: 0px 5px 5px 0px;
+	display: none;
+}
+
+#quick-button-container > .quick-button:hover > .quick-button-text {
+	display: inline-block;
 }
