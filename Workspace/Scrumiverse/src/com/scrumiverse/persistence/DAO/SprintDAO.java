@@ -1,6 +1,7 @@
 package com.scrumiverse.persistence.DAO;
 
 import java.util.List;
+import java.util.Set;
 
 import com.scrumiverse.model.scrumCore.Sprint;
 
@@ -12,7 +13,7 @@ import com.scrumiverse.model.scrumCore.Sprint;
 
 public interface SprintDAO {
 	public void saveSprint(Sprint s);
-	public List<Sprint> getSprintsFromProject(int projectID);
+	public Set<Sprint> getSprintsFromProject(int projectID);
 	void updateSprint(Sprint sprint);
 	void deleteSprint(Sprint sprint);
 	Sprint getSprint(int sprintID);

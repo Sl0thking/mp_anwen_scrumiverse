@@ -1,6 +1,6 @@
 package com.scrumiverse.web;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,9 +40,10 @@ public class SprintController {
 	}
 	
 	@RequestMapping("/sprintOverview.htm")
-	public ModelAndView sprintOverview(Project project, HttpSession session) {
+	public ModelAndView sprintOverview(HttpSession session) {
 		ModelMap map = Utility.generateModelMap(session);
-		List<Sprint> sprints = sprintDAO.getSprintsFromProject(project.getProjectID());
+		Project project = (Project) session.getAttribute("currentProject");
+		Set<Sprint> sprints = sprintDAO.getSprintsFromProject(project.getProjectID());
 		map.addAttribute("sprints", sprints);
 		map.addAttribute("action", Action.sprintOverview);
 		return new ModelAndView("index", map);

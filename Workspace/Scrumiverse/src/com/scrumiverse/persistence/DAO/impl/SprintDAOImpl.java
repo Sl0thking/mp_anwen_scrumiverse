@@ -1,7 +1,9 @@
 package com.scrumiverse.persistence.DAO.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -54,15 +56,15 @@ public class SprintDAOImpl implements SprintDAO {
 	}
 
 	@Override
-	public List<Sprint> getSprintsFromProject(int projectID) {
+	public Set<Sprint> getSprintsFromProject(int projectID) {
 		Project p = new Project();
 		try {
 			p = (Project) hibernateTemplate.find("from Project where id='"+ projectID + "'").get(0);
 		} catch(NullPointerException n) {
 			n.printStackTrace();	
-			return new ArrayList<Sprint>();
+			return new HashSet<Sprint>();
 		}
-		return (List<Sprint>) p.getSprints();
+		return (Set<Sprint>) p.getSprints();
 	}
 
 }
