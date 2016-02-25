@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -33,20 +35,37 @@ public class UserStory extends PlanElement {
 	private int businessValue;
 	private int effortValue;
 	private MoscowState moscow;
-	private Category category;
+//	private Category category;
 	private List<Task> tasks;
 	private Date dueDate;
 	private Sprint relatedSprint;
 	
+//	public UserStory(){
+//		businessValue = 0;
+//		effortValue = 0;
+//		moscow = MoscowState.Wont;
+//		tasks = new ArrayList<Task>();
+//		//Standartwert?!
+//		category = null;
+//		dueDate = null;
+//		relatedSprint = null;
+//	}
+	
 	public UserStory(){
-		businessValue = 0;
-		effortValue = 0;
-		moscow = MoscowState.Wont;
+		businessValue = 20;
+		effortValue = 10;
+		moscow = MoscowState.Should;
 		tasks = new ArrayList<Task>();
-		//Standartwert?!
-		category = null;
-		dueDate = null;
+//		category = new Category();
+//		category.setName("Tonis Feeding Category");
+		dueDate = new Date();
+		dueDate.setTime(300000);
 		relatedSprint = null;
+		//planelement
+		setDescription("USID666 Killing Humanity");
+		setPlanState(PlanState.Planning);
+		setAcceptanceCriteria("Everyone dead");
+		//history
 	}
 
 	public int getBusinessValue() {
@@ -72,17 +91,17 @@ public class UserStory extends PlanElement {
 	public void setMoscow(MoscowState moscow) {
 		this.moscow = moscow;
 	}
-	@OneToOne
-	@JoinColumn(name="category_ID")
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+//	@OneToOne
+//	@JoinColumn(name="category_ID")
+//	public Category getCategory() {
+//		return category;
+//	}
+//
+//	public void setCategory(Category category) {
+//		this.category = category;
+//	}
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="UserStoryID")
 	public List<Task> getTasks() {
 		return tasks;
@@ -100,7 +119,7 @@ public class UserStory extends PlanElement {
 		this.dueDate = dueDate;
 	}
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="Sprint_ID")
 	public Sprint getRelatedSprint() {
 		return relatedSprint;
@@ -116,7 +135,7 @@ public class UserStory extends PlanElement {
 	@Transient
 	public List<User> getResponsibleUsers(){
 		List userlist = new ArrayList<User>();
-		for(Task task: tasks){
+		for(Task task: getTasks()){
 			for(User user: task.getResponsibleUsers()){
 				if(!userlist.contains(user)){
 					userlist.add(user);
@@ -183,6 +202,15 @@ public class UserStory extends PlanElement {
 		}
 		return (List<WorkLog>) result;
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	@Transient
+	public String getRemainingDays(){
+		return "";
+	}
+	
 	@Override
 	public String toString(){
 		return "UserStory "+getId()+" - Description: "+getDescription();

@@ -18,6 +18,38 @@ $(document).ready(function(){
 </head>
 <body class="bg">
 <div class="backlog">
+	<c:forEach items="${userstories}" var = "userstory">
+		<div class="userstory">
+			<div class="userstory-state-aktive"></div>
+	        <div class="userstory-titel">${userstory.description}</div>
+	        <div class="userstory-sandclock"></div>
+	        <div class="userstory-time">${userstory.getDueDate().getYear()}</div>
+	        <div class="userstory-memberbox">
+	            <div class="userstory-member-bubble"></div>
+	            <div class="userstory-member-bubble"></div>
+	            <div class="userstory-member-bubble"></div>
+	            <div class="userstory-member-bubble"></div>
+	            <div class="userstory-member-bubble"></div>
+	        </div>
+	        <div class="userstory-category">SerflingThings</div>
+	        <div class="userstory-sprint">
+		        <c:choose>
+				    <c:when test="${userstory.relatedSprint == null}">
+				    	Sprint is missing HALP
+				    </c:when>
+				    <c:otherwise>
+				    	${userstory.relatedSprint.description}
+				    </c:otherwise>
+				</c:choose>
+	        </div>
+	        <div class="userstory-timestatValues">${userstory.getRemainingMinutes()} / ${userstory.getWorkedMinutes()} / ${userstory.getPlannedMinutes()}</div>
+	        <div class="userstory-moscow">${userstory.getMoscow().toString().substring(0,1)}</div>
+	        <div class="userstory-value">${userstory.businessValue}</div>
+	        <div class="userstory-risk">?</div>
+	        <div class="userstory-effort">${userstory.effortValue}</div>
+	        <div class="userstory-settings-aktive"></div>
+		</div>
+	</c:forEach>
     <div class="userstory">
         <div class="userstory-state-aktive"></div>
         <div class="userstory-titel">[US0001] Titel der User Story zur Testansicht des Backlogs made by GUI (Lasse Nein nicht Lasse) made by me me is me ahhahahahahahaah</div>
@@ -84,9 +116,9 @@ $(document).ready(function(){
 </div>
     
 <div class="button-container">
-    <a class="create-entity-btn" href="#">
+    <a class="create-entity-btn" href="./newUserStory.htm">
         <div class="head-btn">US</div>
-        <div class="user-btn">new Story</div>
+        <div class="user-btn">new UserStory</div>
     </a> 
 </div>
 </body>
