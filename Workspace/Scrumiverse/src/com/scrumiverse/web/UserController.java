@@ -23,7 +23,7 @@ import com.scrumiverse.utility.Utility;
 /**
  * Controller for user account interactions
  * 
- * @author Kevin Jolitz
+ * @author Kevin Jolitz, Toni Serfling
  * @version 18.02.2016
  *
  */
@@ -177,4 +177,73 @@ public class UserController {
 		session.invalidate();
 		return new ModelAndView("redirect:login.htm");
 	}
+	
+	/**
+	 * Shows the users account settings
+	 * @param session
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/userSettings.htm")
+	public ModelAndView userSettings(HttpSession session) {
+		ModelMap map = Utility.generateModelMap(session);		
+		User user = (User) session.getAttribute("loggedUser");
+		map.addAttribute("user", user);
+		map.addAttribute("action", Action.userSettings);
+		return new ModelAndView("index", map);
+	}
+	
+	/**
+	 * Change the users username
+	 * @param user
+	 * @param name
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/changeUserName.htm")
+	public ModelAndView changeUserName(User user, String name) {
+		user.setName(name);
+		userDAO.updateUser(user);
+		return new ModelAndView("redirect:userSettings.htm");
+	}
+	
+	/**
+	 * Changes the users email
+	 * @param user
+	 * @param email
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/changeUserEmail.htm")
+	public ModelAndView changeUserEmail(User user, String email) {
+		user.setEmail(email);
+		userDAO.updateUser(user);
+		return new ModelAndView("redirect:userSettings.htm");
+	}
+	
+	/**
+	 * Changes the users password
+	 * @param formPwUser
+	 * @param newPassword
+	 * @param session
+	 * @return ModelAndView
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchUserException
+	 * @throws WrongPasswordException
+	 */
+	@RequestMapping("/changeUserPassword.htm")
+	public ModelAndView changeUserPassword(User formPwUser, String newPassword, HttpSession session) throws NoSuchAlgorithmException, NoSuchUserException, WrongPasswordException {
+		ModelMap map = Utility.generateModelMap(session);
+		try {
+		User loadedUser = userDAO.getUserByEmail(formPwUser.getEmail().toLowerCase());
+		comparePasswords(formPwUser, loadedUser);
+		}
+		catch (WrongPasswordException w) {
+			map.addAttribute("passwordError", true);
+			map.addAttribute("action", Action.userSettings);
+			return new ModelAndView("index.htm", map);
+		}
+		formPwUser.setPassword(Utility.hashString(newPassword));
+		userDAO.updateUser(formPwUser);
+		map.addAttribute("action", Action.userSettings);
+		return new ModelAndView("index.htm", map);
+	}
+	
 }
