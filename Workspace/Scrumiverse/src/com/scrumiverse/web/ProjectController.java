@@ -185,8 +185,20 @@ public class ProjectController {
 	 */
 	
 	@RequestMapping("/removeProjectUser.htm")
-	public ModelAndView removeProjectUser(Project project, User user) {
-		
+	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
+		try {
+			Project project = (Project) session.getAttribute("currentProject");
+			//Check if target user is user in session
+			//Manipulate directly object in session
+			User user = (User) session.getAttribute("loggedUser"); 
+			//If you dont target yourself load specific user from db
+			if(user.getUserID() != id) {
+				user = userDAO.getUser(id);
+			}
+			removeUserFromProject(user, project);
+		} catch(NoSuchUserException e) {
+			return new ModelAndView("redirect:projectSettings.htm");
+		}
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
 	
@@ -198,13 +210,13 @@ public class ProjectController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/removeProject.htm")
-	public ModelAndView removeProject(HttpSession session, @RequestParam int id) {
+	public ModelAndView removeProject(HttpSession session) {
 		try {
 			if(!Utility.isSessionValid(session)) {
 				throw new InvalidSessionException();
 			}
 			User user =(User) session.getAttribute("loggedUser");
-			Project p = projectDAO.getProject(id);
+			Project p =(Project) session.getAttribute("currentProject");
 			if(!p.isUserMember(user) || !p.hasUserRight(Right.Manage_Project, user)) {
 				throw new InsufficientRightsException();
 			}
@@ -215,6 +227,7 @@ public class ProjectController {
 				removeUserFromProject(projectUser, p);
 			}
 			projectDAO.deleteProject(p);
+			session.removeAttribute("currentProject");
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
