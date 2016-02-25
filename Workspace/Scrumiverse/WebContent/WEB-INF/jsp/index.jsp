@@ -43,16 +43,12 @@
 				<c:if test="${currentProject != null}">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-<<<<<<< HEAD
 					<a href="./backlog.htm">BACKLOG</a>							
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="userstories icon" src="resources/images/index/icon_userstories.png">
 					<a href="#">USERSTORIES</a>							
-=======
-					<a href="backlog.htm">BACKLOG</a>							
->>>>>>> origin/master
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
