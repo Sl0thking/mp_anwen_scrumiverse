@@ -62,7 +62,7 @@
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="todo icon" src="resources/images/index/icon_todo.png">
-					<a href="#">TO-DO</a>
+					<a href="showTasks.htm">TO-DO</a>
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">

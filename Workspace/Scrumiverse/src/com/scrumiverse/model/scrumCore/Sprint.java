@@ -2,7 +2,9 @@ package com.scrumiverse.model.scrumCore;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,22 +22,22 @@ import javax.persistence.Transient;
 @Entity
 public class Sprint extends PlanElement {
 
-	private List<UserStory> userStories;
+	private Set<UserStory> userStories;
 	private Date startDate;
 	private Date endDate;
 	
 	public Sprint(){
-		userStories = new ArrayList<UserStory>();
+		userStories = new HashSet<UserStory>();
 		startDate = null;
 		endDate = null;
 	}
 	
 	@OneToMany(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
-	@JoinColumn(name="UserStoryID")
-	public List<UserStory> getUserStories() {
+	@JoinColumn(name="SprintID", nullable=true)
+	public Set<UserStory> getUserStories() {
 		return userStories;
 	}
-	public void setUserStories(List<UserStory> userStories) {
+	public void setUserStories(Set<UserStory> userStories) {
 		this.userStories = userStories;
 	}
 	public Date getStartDate() {
@@ -60,7 +62,12 @@ public class Sprint extends PlanElement {
 	}
 	
 	public UserStory getUserStory(int usID) {
-		return userStories.get(usID);
+		for(UserStory userStory : userStories) {
+			if(userStory.getId() == usID) {
+				return userStory;
+			}
+		}
+		return null;
 	}
 	
 	/**
