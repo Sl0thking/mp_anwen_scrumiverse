@@ -39,6 +39,7 @@ public class Task extends PlanElement {
 		this.setPlanState(PlanState.Planning);
 		plannedMinOfUsers = new HashMap<User, Integer>();
 		tags = new HashSet<String>();
+		workLogs = new HashSet<WorkLog>();
 	}
 	
 	public int getPlannedMinOfUser(User user) {

@@ -1,6 +1,7 @@
 package com.scrumiverse.web;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.WorkLog;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
+import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 import com.scrumiverse.utility.Utility;
 
@@ -33,6 +38,9 @@ public class UserStoryController {
 	@Autowired
 	ProjectDAO projectDAO;
 	
+	@Autowired
+	TaskDAO taskDAO;
+	
 	/**
 	 * Create new empty UserStory in database
 	 * @return ModelAndView
@@ -41,8 +49,23 @@ public class UserStoryController {
 	public ModelAndView createNewUserStory(HttpSession session){
 		Project project = (Project) session.getAttribute("currentProject");
 		UserStory userStory = new UserStory();
-		project.addUserStory(userStory);
 		userStoryDAO.saveUserStory(userStory);
+		//Dummy Tasks
+		Random rand = new Random();
+		Task t = new Task();
+		taskDAO.saveTask(t);
+		t.setPlannedTimeOfUser((User) session.getAttribute("loggedUser"), 2000);
+		// Worklog wird nicht in Hibernate gespeichert
+//		WorkLog wl = new WorkLog();
+//		wl.setUser( (User) session.getAttribute("loggedUser"));
+//		wl.setLoggedMinutes(rand.nextInt(((10000 - 0) + 1) + 0));
+//		t.logWork(wl);
+		taskDAO.updateTask(t);
+		userStory.addTask(t);
+		userStoryDAO.updateUserStory(userStory);
+		System.out.println("------------------------"+t.getWorkMin());
+		//Dummy Tasks
+		project.addUserStory(userStory);
 		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:backlog.htm");
 	}
