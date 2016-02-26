@@ -11,7 +11,7 @@
 		        <div class="userstory-time">${userstory.getRemainingDays()}d</div>
 		        <div class="userstory-memberbox">
 	            	<img src="./resources/userPictures/1.png" />
-	            	<img src="./resources/userPictures/1.png" />
+	            	<img src="./resources/userPictures/2.PNG" />
 	            	<img src="./resources/userPictures/1.png" />
 	            	<img src="./resources/userPictures/1.png" />
 	            	<img src="./resources/userPictures/1.png" />

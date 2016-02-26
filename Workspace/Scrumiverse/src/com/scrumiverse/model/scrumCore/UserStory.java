@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,33 +42,61 @@ public class UserStory extends PlanElement {
 	private Date dueDate;
 	private Sprint relatedSprint;
 	
-//	public UserStory(){
-//		businessValue = 0;
-//		effortValue = 0;
-//		moscow = MoscowState.Wont;
-//		tasks = new ArrayList<Task>();
-//		//Standartwert?!
-//		category = null;
-//		dueDate = null;
-//		relatedSprint = null;
-//	}
-	
 	public UserStory(){
-		businessValue = 20;
-		effortValue = 10;
-		moscow = MoscowState.Should;
+		businessValue = 0;
+		effortValue = 0;
+		moscow = MoscowState.Wont;
 		tasks = new ArrayList<Task>();
-//		category = new Category();
-//		category.setName("Tonis Feeding Category");
-		dueDate = new Date();
-		dueDate.setTime(dueDate.getTime() + (5*(1000*60*60*24)));
+		//Standartwert?!
+		category = null;
+		dueDate = null;
 		relatedSprint = null;
-		//planelement
-		setDescription("USID666 Killing Humanity");
-		setPlanState(PlanState.Planning);
-		setAcceptanceCriteria("Everyone dead");
-		//history
 	}
+	
+//	public UserStory(){
+//		Random rand = new Random();
+//		//((max - min) + 1) + min
+//		businessValue = rand.nextInt((100 - 0) + 1) + 0;
+//		effortValue = rand.nextInt((100 - 0) + 1) + 0;
+//		switch(rand.nextInt((3 - 0) + 1) + 0){
+//		case 0:
+//			moscow = MoscowState.Could;
+//			break;
+//		case 1:
+//			moscow = MoscowState.Should;
+//			break;
+//		case 2:
+//			moscow = MoscowState.Must;
+//			break;
+//			
+//		default:
+//			moscow = MoscowState.Wont;
+//		}
+//		tasks = new ArrayList<Task>();
+//		tasks.add(new Task());
+//		WorkLog wl = new WorkLog();
+//		wl.setLoggedMinutes(rand.nextInt((2000 - 0) + 1) + 0);
+//		tasks.get(0).logWork(wl);
+////		category = new Category();
+////		category.setName("Tonis Feeding Category");
+//		dueDate = new Date();
+//		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
+//		relatedSprint = null;
+//		//planelement
+//		setDescription("[US"+rand.nextInt((100 - 0) + 1)+"] Killing Humanity");
+//		switch(rand.nextInt((2 - 0) + 1) + 0){
+//		case 0:
+//			setPlanState(PlanState.Planning);
+//			break;
+//		case 1:
+//			setPlanState(PlanState.Done);
+//			break;
+//		default:
+//			setPlanState(PlanState.InProgress);
+//		}
+//		setAcceptanceCriteria("Everyone dead");
+//		//history
+//	}
 
 	public int getBusinessValue() {
 		return businessValue;
@@ -135,7 +164,7 @@ public class UserStory extends PlanElement {
 	 */
 	@Transient
 	public List<User> getResponsibleUsers(){
-		List userlist = new ArrayList<User>();
+		List<User> userlist = new ArrayList<User>();
 		for(Task task: getTasks()){
 			for(User user: task.getResponsibleUsers()){
 				if(!userlist.contains(user)){
@@ -194,7 +223,7 @@ public class UserStory extends PlanElement {
 	// needs sorting
 	@Transient
 	public List<WorkLog> getWorkLogs(){
-		List result = new ArrayList();
+		List<WorkLog> result = new ArrayList<WorkLog>();
 		for(Task task: tasks){
 			for(WorkLog work: task.getWorkLogs()){
 

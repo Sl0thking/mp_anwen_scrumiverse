@@ -154,7 +154,7 @@
     width: 20px;
     overflow: hidden;
 }
-.userstory-settings{
+#backlog .userstory .userstory-control .userstory-settings{
 	position: absolute;
 	display: block;
 	top: 20px;
