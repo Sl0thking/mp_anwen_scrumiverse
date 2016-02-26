@@ -42,61 +42,58 @@ public class UserStory extends PlanElement {
 	private Date dueDate;
 	private Sprint relatedSprint;
 	
-	public UserStory(){
-		businessValue = 0;
-		effortValue = 0;
-		moscow = MoscowState.Wont;
-		tasks = new ArrayList<Task>();
-		//Standartwert?!
-		category = null;
-		dueDate = null;
-		relatedSprint = null;
-	}
-	
 //	public UserStory(){
-//		Random rand = new Random();
-//		//((max - min) + 1) + min
-//		businessValue = rand.nextInt((100 - 0) + 1) + 0;
-//		effortValue = rand.nextInt((100 - 0) + 1) + 0;
-//		switch(rand.nextInt((3 - 0) + 1) + 0){
-//		case 0:
-//			moscow = MoscowState.Could;
-//			break;
-//		case 1:
-//			moscow = MoscowState.Should;
-//			break;
-//		case 2:
-//			moscow = MoscowState.Must;
-//			break;
-//			
-//		default:
-//			moscow = MoscowState.Wont;
-//		}
+//		businessValue = 0;
+//		effortValue = 0;
+//		moscow = MoscowState.Wont;
 //		tasks = new ArrayList<Task>();
-//		tasks.add(new Task());
-//		WorkLog wl = new WorkLog();
-//		wl.setLoggedMinutes(rand.nextInt((2000 - 0) + 1) + 0);
-//		tasks.get(0).logWork(wl);
-////		category = new Category();
-////		category.setName("Tonis Feeding Category");
+//		//Standartwert?!
+////		category = null;
 //		dueDate = new Date();
-//		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
 //		relatedSprint = null;
-//		//planelement
-//		setDescription("[US"+rand.nextInt((100 - 0) + 1)+"] Killing Humanity");
-//		switch(rand.nextInt((2 - 0) + 1) + 0){
-//		case 0:
-//			setPlanState(PlanState.Planning);
-//			break;
-//		case 1:
-//			setPlanState(PlanState.Done);
-//			break;
-//		default:
-//			setPlanState(PlanState.InProgress);
-//		}
-//		setAcceptanceCriteria("Everyone dead");
-//		//history
+//		
 //	}
+	
+	public UserStory(){
+		Random rand = new Random();
+		//((max - min) + 1) + min
+		businessValue = rand.nextInt((100 - 0) + 1) + 0;
+		effortValue = rand.nextInt((100 - 0) + 1) + 0;
+		switch(rand.nextInt((3 - 0) + 1) + 0){
+		case 0:
+			moscow = MoscowState.Could;
+			break;
+		case 1:
+			moscow = MoscowState.Should;
+			break;
+		case 2:
+			moscow = MoscowState.Must;
+			break;
+			
+		default:
+			moscow = MoscowState.Wont;
+		}
+		tasks = new ArrayList<Task>();
+//		category = new Category();
+//		category.setName("Tonis Feeding Category");
+		dueDate = new Date();
+		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
+		relatedSprint = null;
+		//planelement
+		setDescription("[US"+rand.nextInt((100 - 0) + 1)+"] Killing Humanity");
+		switch(rand.nextInt((2 - 0) + 1) + 0){
+		case 0:
+			setPlanState(PlanState.Planning);
+			break;
+		case 1:
+			setPlanState(PlanState.Done);
+			break;
+		default:
+			setPlanState(PlanState.InProgress);
+		}
+		setAcceptanceCriteria("Everyone dead");
+		//history
+	}
 
 	public int getBusinessValue() {
 		return businessValue;
@@ -217,6 +214,14 @@ public class UserStory extends PlanElement {
 		return result;
 	}
 	/**
+	 * Adds a Task to this UserStory
+	 * @param task the task to add
+	 */
+	public void addTask(Task task){
+		tasks.add(task);
+	}
+	
+	/**
 	 * Returns a list of work logs from all tasks in this UserStory
 	 * @return List of work logs sorted by time
 	 */
@@ -239,12 +244,13 @@ public class UserStory extends PlanElement {
 	@Transient
 	public String getRemainingDays(){
 		Date today = new Date();
-		int result = (int) ((dueDate.getTime() - today.getTime())/(1000*60*60*24));
-		if(result < 0){
-			return "0";
-		}else{
-			return ""+result;
+		int result = 0;
+		//Nullpinter abfangen
+		try{
+			result = (int) ((dueDate.getTime() - today.getTime())/(1000*60*60*24));
+		}catch (NullPointerException e){
 		}
+		return result+"";
 	}
 	
 	@Override

@@ -57,9 +57,6 @@ public class UserStoryController {
 		ModelMap map = Utility.generateModelMap(session);
 		List<UserStory> userStories = userStoryDAO.getAllUserstories();
 		map.addAttribute("userstories", userStories);
-		for(UserStory us: userStories){
-			System.out.println(us.getDescription());
-		}
 		map.addAttribute("action", Action.backlog);
 		return new ModelAndView("index", map);
 	}
