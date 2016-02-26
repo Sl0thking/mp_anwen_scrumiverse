@@ -23,7 +23,7 @@
             </div>
             <div class="input-group">
                <span class="input-group-addon input-group-addon-fix" id="basic-addon2">E-Mail</span>
-               <form:input path=""email type="email" class="form-control input-control" placeholder="${user.email }" aria-describedby="basic-addon1"/>
+               <form:input path="email" type="text" class="form-control input-control" placeholder="${user.email }" aria-describedby="basic-addon1"/>
             </div>
             <button type="submit">save</button>
         </form:form>
