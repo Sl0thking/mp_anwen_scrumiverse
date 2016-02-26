@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
+import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.utility.Utility;
 
@@ -33,9 +34,12 @@ public class SprintController {
 	 */
 	
 	@RequestMapping("/addSprint.htm") 
-	public ModelAndView addSprint() {		
+	public ModelAndView addSprint(HttpSession session) {
+		Project project = (Project) session.getAttribute("currentProject");
 		Sprint sprint = new Sprint();
-		sprintDAO.saveSprint(sprint);		
+		sprintDAO.saveSprint(sprint);
+		project.addSprint(sprint);
+		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:sprintOverview.htm");	
 	}
 	

@@ -18,11 +18,11 @@ $(document).ready(function(){
 	    <div class="sprint">
 	        <div class="sprint-state-active"></div>
 	        <div class="sprint-content">
-	            <div class="sprint-name">${sprint.description }</div>
+	            <div class="sprint-name">SPRINT - ${sprint.description }</div>
 	            <div class="sprint-stats">
 	                <div class="sprint-time-overview">
 	                    <div class="sprint-sandclock"></div>
-	                    <div class="sprint-date">##.##.#### -</br>##.##.####</div>
+	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
 	                    <div class="sprint-time">TIME</div>
 	                </div>
 	                <div class="sprint-data">

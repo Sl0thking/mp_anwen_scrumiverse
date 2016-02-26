@@ -265,14 +265,14 @@ public class Project {
 //		this.roles.add(r);
 //	}
 //	
-//	public void addSprint(Sprint s) {
-//		this.sprints.add(s);
-//	}
-//	
-//	public void removeSprint(int sprintID) {
-//		this.sprints.remove(sprintID);
-//	}
-//	
+	public void addSprint(Sprint s) {
+		this.sprints.add(s);
+	}
+	
+	public void removeSprint(int sprintID) {
+		this.sprints.remove(sprintID);
+	}
+	
 	public void addUserStory(UserStory u) {
 		this.userstories.add(u);
 	}
