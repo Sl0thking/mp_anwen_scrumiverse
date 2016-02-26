@@ -28,6 +28,8 @@ public class SprintController {
 	@Autowired
 	private SprintDAO sprintDAO;
 
+	@Autowired
+	private ProjectDAO projectDAO;
 	/**
 	 * Adds a new Sprint 
 	 * @return
