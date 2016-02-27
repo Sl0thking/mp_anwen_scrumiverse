@@ -10,20 +10,22 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.InvalidSessionException;
+import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
-import com.scrumiverse.utility.Utility;
 
 /**
  * Controller for Sprint interactions
- * @author Toni Serfling
- * @version 23.02.2016
+ * @author Toni Serfling, Kevin Jolitz
+ * @version 27.02.2016
  */
 
 @Controller
-public class SprintController {
+public class SprintController extends MetaController {
 	
 	@Autowired
 	private SprintDAO sprintDAO;
@@ -33,25 +35,36 @@ public class SprintController {
 	/**
 	 * Adds a new Sprint 
 	 * @return
+	 * @throws NoProjectFoundException 
 	 */
 	
 	@RequestMapping("/addSprint.htm") 
-	public ModelAndView addSprint(HttpSession session) {
-		Project project = (Project) session.getAttribute("currentProject");
-		Sprint sprint = new Sprint();
-		sprintDAO.saveSprint(sprint);
-		project.addSprint(sprint);
-		projectDAO.updateProject(project);
-		return new ModelAndView("redirect:sprintOverview.htm");	
+	public ModelAndView addSprint(HttpSession session) throws NoProjectFoundException {
+		try {
+			this.checkInvalidSession(session);
+			Project project = this.loadCurrentProject(session);
+			Sprint sprint = new Sprint();
+			sprintDAO.saveSprint(sprint);
+			project.addSprint(sprint);
+			projectDAO.updateProject(project);
+			return new ModelAndView("redirect:sprintOverview.htm");	
+		}catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
 	}
 	
 	@RequestMapping("/sprintOverview.htm")
-	public ModelAndView sprintOverview(HttpSession session) {
-		ModelMap map = Utility.generateModelMap(session);
-		Project project = (Project) session.getAttribute("currentProject");
-		Set<Sprint> sprints = sprintDAO.getSprintsFromProject(project.getProjectID());
-		map.addAttribute("sprints", sprints);
-		map.addAttribute("action", Action.sprintOverview);
-		return new ModelAndView("index", map);
+	public ModelAndView sprintOverview(HttpSession session) throws NoProjectFoundException {
+		try {
+			this.checkInvalidSession(session);
+			ModelMap map = this.prepareModelMap(session);
+			int projectId = (int) session.getAttribute("currentProjectId");
+			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
+			map.addAttribute("sprints", sprints);
+			map.addAttribute("action", Action.sprintOverview);
+			return new ModelAndView("index", map);
+		} catch(InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
 	}
 }

@@ -1,15 +1,20 @@
 package com.scrumiverse.persistence.DAO;
 
 import java.util.List;
+import java.util.Set;
 
-import com.scrumiverse.binder.ProjectBinder;
-import com.scrumiverse.exception.NoUserStoriesException;
-import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.UserStory;
 
+/**
+ * Interface for user story persistence classes
+ * 
+ * @author Kevin Jolitz
+ * @version 27.02.2016
+ *
+ */
 public interface UserStoryDAO {
 	public List<UserStory> getAllUserstories();
-	public List<UserStory> getUserStoriesOfProject(int projectID);
+	public Set<UserStory> getUserStoriesOfProject(int projectID);
 	public void saveUserStory(UserStory userStory);
 	public void updateUserStory(UserStory userStory);
 	public void deleteUserStory(UserStory userStory);

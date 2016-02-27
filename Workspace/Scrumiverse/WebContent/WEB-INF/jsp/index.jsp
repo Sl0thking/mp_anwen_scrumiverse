@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div id="menubar">
-				<c:if test="${currentProject != null}">
+				<c:if test="${currentProjectId != null}">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
 					<a href="./backlog.htm">BACKLOG</a>							

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.MapKeyManyToMany;
 
@@ -25,7 +26,7 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * Task data-model of a scrum implementation.
  * 
  * @author Kevin Jolitz
- * @version 25.02.2016
+ * @version 27.02.2016
  *
  */
 @Entity
@@ -56,6 +57,7 @@ public class Task extends PlanElement {
 	}
 	
 	@OneToMany(fetch=FetchType.EAGER)
+	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "TaskID")
 	public Set<WorkLog> getWorkLogs() {
 		return workLogs;

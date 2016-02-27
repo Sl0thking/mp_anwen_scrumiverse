@@ -24,29 +24,23 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
-import com.scrumiverse.utility.Utility;
 
 /**
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 24.02.2016
+ * @version 27.02.2016
  *
  */
 
 @Controller
-public class ProjectController {
+public class ProjectController extends MetaController {
 	
 	@Autowired
 	private ProjectDAO projectDAO;
 	
 	@Autowired
 	private UserDAO userDAO;
-	
-//	@InitBinder
-//	protected void initBinder(ServletRequestDataBinder binder) {
-//			binder.registerCustomEditor(Project.class, new ProjectBinder(projectDAO));
-//		}
 
 	/**
 	 * Overview over all projects of current user
@@ -56,12 +50,10 @@ public class ProjectController {
 	@RequestMapping("/projectOverview.htm")
 	public ModelAndView projectOverview(HttpSession session) {
 		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
-			refreshUserData(session);
-			ModelMap map = Utility.generateModelMap(session);
-			User user = ((User) session.getAttribute("loggedUser"));
+			checkInvalidSession(session);
+			session.removeAttribute("currentProjectId");
+			ModelMap map = this.prepareModelMap(session);
+			User user = loadActiveUser(session);
 			Set<Project> projectList = user.getProjects();
 			Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
 			for(Project p : projectList) {
@@ -71,23 +63,12 @@ public class ProjectController {
 			map.addAttribute("manageRight", manageRights);
 			map.addAttribute("action", Action.projectOverview);
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException e) {
+		} catch(InvalidSessionException | NoSuchUserException | NoProjectFoundException e) {
+			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
 		
 	}
-	
-	private void refreshUserData(HttpSession session) {
-		User loggedUser = (User) session.getAttribute("loggedUser");
-		User user = loggedUser;
-		try {
-			user = userDAO.getUser(loggedUser.getUserID());
-		} catch (NoSuchUserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		session.setAttribute("loggedUser", user);
-}
 
 	/**
 	 * Add a project and redirect to Overview
@@ -97,10 +78,8 @@ public class ProjectController {
 	@RequestMapping("/addProject.htm")
 	public ModelAndView addProject(HttpSession session) {
 		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
-			User user = (User) session.getAttribute("loggedUser");
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
 			Project project = new Project();
 			projectDAO.saveProject(project);
 			project.addProjectUser(user,(Role) project.getRoles().toArray()[0]);
@@ -108,7 +87,7 @@ public class ProjectController {
 			userDAO.updateUser(user);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectOverview.htm");
-		} catch(InvalidSessionException e) {
+		} catch(InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
@@ -122,19 +101,17 @@ public class ProjectController {
 	@RequestMapping("/selectProject.htm")
 	public ModelAndView selectProject(@RequestParam int id, HttpSession session) {	
 		try { 
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
-			User user = (User) session.getAttribute("loggedUser");
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
 			Project project = projectDAO.getProject(id);
 			//check if user is member of target project to prevent
 			//unauthorized access 
 			if(!project.isUserMember(user)) {
 				throw new InsufficientRightsException();
 			}
-			session.setAttribute("currentProject", project);
+			session.setAttribute("currentProjectId", project.getProjectID());
 			return new ModelAndView("redirect:backlog.htm");
-		} catch(NoProjectFoundException | InsufficientRightsException e) {
+		} catch(NoProjectFoundException | InsufficientRightsException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -151,11 +128,11 @@ public class ProjectController {
 	@RequestMapping("/projectSettings.htm")
 	public ModelAndView projectSettings(@RequestParam int id, HttpSession session)  {
 		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);	
 			Project requestedProject = projectDAO.getProject(id);
-			User user = (User) session.getAttribute("loggedUser");
+			ModelMap map = this.prepareModelMap(session);
+			
 			if(!requestedProject.isUserMember(user)) {
 				throw new InsufficientRightsException();
 			}
@@ -163,8 +140,7 @@ public class ProjectController {
 			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
 				throw new InsufficientRightsException();
 			}
-			ModelMap map = Utility.generateModelMap(session);
-			map.addAttribute("currentProject", requestedProject);
+			map.addAttribute("currentProjectId", requestedProject.getProjectID());
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {
@@ -200,17 +176,16 @@ public class ProjectController {
 	@RequestMapping("/removeProjectUser.htm")
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		try {
-			Project project = (Project) session.getAttribute("currentProject");
-			//Check if target user is user in session
-			//Manipulate directly object in session
-			User user = (User) session.getAttribute("loggedUser"); 
-			//If you dont target yourself load specific user from db
+			Project project = this.loadCurrentProject(session);
+			User user = this.loadActiveUser(session);
 			if(user.getUserID() != id) {
 				user = userDAO.getUser(id);
 			}
 			removeUserFromProject(user, project);
 		} catch(NoSuchUserException e) {
 			return new ModelAndView("redirect:projectSettings.htm");
+		} catch (NoProjectFoundException e) {
+			e.printStackTrace();
 		}
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
@@ -225,11 +200,9 @@ public class ProjectController {
 	@RequestMapping("/removeProject.htm")
 	public ModelAndView removeProject(HttpSession session) {
 		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
-			User user =(User) session.getAttribute("loggedUser");
-			Project p =(Project) session.getAttribute("currentProject");
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			Project p = this.loadCurrentProject(session);
 			if(!p.isUserMember(user) || !p.hasUserRight(Right.Manage_Project, user)) {
 				throw new InsufficientRightsException();
 			}
@@ -240,7 +213,7 @@ public class ProjectController {
 				removeUserFromProject(projectUser, p);
 			}
 			projectDAO.deleteProject(p);
-			session.removeAttribute("currentProject");
+			session.removeAttribute("currentProjectId");
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");

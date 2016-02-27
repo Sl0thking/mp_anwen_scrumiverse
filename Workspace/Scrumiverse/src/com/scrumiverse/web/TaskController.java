@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.dom4j.datatype.InvalidSchemaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,21 +15,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InvalidSessionException;
+import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
-import com.scrumiverse.utility.Utility;
 
 /**
  * Controller for operations with task data modell
  * 
  * @author Kevin Jolitz
- * @version 21.02.2016
+ * @version 27.02.2016
  */
 @Controller
-public class TaskController {
+public class TaskController extends MetaController {
 	
 	@Autowired
 	TaskDAO taskDAO;
@@ -38,24 +39,25 @@ public class TaskController {
 	@Autowired
 	UserStoryDAO userStoryDAO;
 	
+	@Autowired
+	ProjectDAO projectDAO;
+	
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
 		try {
-			if(!Utility.isSessionValid(session)) {
-				throw new InvalidSessionException();
-			}
-			Project project = (Project) session.getAttribute("currentProject");
+			checkInvalidSession(session);
+			Project project = loadCurrentProject(session);
 			Set<UserStory> userStories = project.getUserstories();
 			Map<UserStory, List<Task>> tasksOfUserStoryMap = new HashMap<UserStory, List<Task>>();
 			for(UserStory userStory : userStories) {
 				tasksOfUserStoryMap.put(userStory, userStory.getTasks());
 			}
-			ModelMap map = Utility.generateModelMap(session);
+			ModelMap map = this.prepareModelMap(session);
 			map.addAttribute("action", Action.taskboard);
 			map.addAttribute("userStories", userStories);
 			map.addAttribute("tasksOfUserStories", tasksOfUserStoryMap);
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException e) {
+		} catch(NoProjectFoundException | InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -82,10 +84,14 @@ public class TaskController {
 	 */
 	@RequestMapping("/showTaskDetails.htm")
 	public ModelAndView showTaskDetails(@RequestParam int taskID, HttpSession session) {
-		ModelMap map = Utility.generateModelMap(session);
-		Task loadedTask = taskDAO.getTask(taskID);
-		map.addAttribute("detailTask", loadedTask);
-		System.out.println(loadedTask.getDescription());
-		return new ModelAndView("redirect:backlog.htm");
+		try {
+			ModelMap map = prepareModelMap(session);
+			Task loadedTask = taskDAO.getTask(taskID);
+			map.addAttribute("detailTask", loadedTask);
+			System.out.println(loadedTask.getDescription());
+			return new ModelAndView("redirect:backlog.htm");
+		}catch (Exception e) {
+			return new ModelAndView("redirect:backlog.htm");
+		}
 	}
 }

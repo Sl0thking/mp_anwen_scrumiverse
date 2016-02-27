@@ -28,7 +28,7 @@ import com.scrumiverse.utility.Utility;
  *
  */
 @Controller
-public class UserController {
+public class UserController extends MetaController{
 	
 	@Autowired
 	private Validator validator;
@@ -43,10 +43,8 @@ public class UserController {
 	@RequestMapping("/login.htm")
 	public ModelAndView login(HttpSession session){
 		try {
-			if(Utility.isSessionValid(session)) {
-				throw new SessionIsNotClearedException();
-			}
-			ModelMap map = Utility.generateModelMap(session);
+			checkValidSession(session);
+			ModelMap map = new ModelMap();
 			map.addAttribute("user", new User());
 			map.addAttribute("action", Action.login);
 			map.addAttribute("loginError", false);
@@ -67,13 +65,11 @@ public class UserController {
 	public ModelAndView checkLogin(User formLoginUser, HttpSession session) {
 		ModelMap map = new ModelMap();
 		try {
-			if(Utility.isSessionValid(session)) {
-				throw new SessionIsNotClearedException();
-			}
+			checkValidSession(session);
 			User loadedUser = userDAO.getUserByEmail(formLoginUser.getEmail().toLowerCase());
 			//login successful when no exception is thrown
 			comparePasswords(formLoginUser, loadedUser);
-			session.setAttribute("loggedUser", loadedUser);
+			session.setAttribute("userId", loadedUser.getUserID());
 			session.setAttribute("isLogged", true);
 			return new ModelAndView("redirect:projectOverview.htm");
 		//No User with given email address, wrong password or fatal algorithm exception
@@ -82,6 +78,7 @@ public class UserController {
 			map.addAttribute("action", Action.login);
 			return new ModelAndView("index", map);
 		} catch (SessionIsNotClearedException e) {
+			e.printStackTrace();
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
 	}
@@ -145,9 +142,7 @@ public class UserController {
 	@RequestMapping("/register.htm")
 	public ModelAndView register(HttpSession session){
 		try {
-			if(Utility.isSessionValid(session)) {
-				throw new SessionIsNotClearedException();
-			}
+			checkValidSession(session);
 			ModelMap map = new ModelMap();
 			map.addAttribute("user", createExampleUser());
 			map.addAttribute("action", Action.register);
@@ -185,11 +180,14 @@ public class UserController {
 	 */
 	@RequestMapping("/userSettings.htm")
 	public ModelAndView userSettings(HttpSession session) {
-		ModelMap map = Utility.generateModelMap(session);		
-		User user = (User) session.getAttribute("loggedUser");
-		map.addAttribute("user", user);
-		map.addAttribute("action", Action.userSettings);
-		return new ModelAndView("index", map);
+		try {
+			ModelMap map = this.prepareModelMap(session);		
+			map.addAttribute("user", this.loadActiveUser(session));
+			map.addAttribute("action", Action.userSettings);
+			return new ModelAndView("index", map);
+		} catch (Exception e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
 	}
 	
 	/**
@@ -228,22 +226,22 @@ public class UserController {
 	 * @throws NoSuchUserException
 	 * @throws WrongPasswordException
 	 */
-	@RequestMapping("/changeUserPassword.htm")
-	public ModelAndView changeUserPassword(User formPwUser, String newPassword, HttpSession session) throws NoSuchAlgorithmException, NoSuchUserException, WrongPasswordException {
-		ModelMap map = Utility.generateModelMap(session);
-		try {
-		User loadedUser = userDAO.getUserByEmail(formPwUser.getEmail().toLowerCase());
-		comparePasswords(formPwUser, loadedUser);
-		}
-		catch (WrongPasswordException w) {
-			map.addAttribute("passwordError", true);
-			map.addAttribute("action", Action.userSettings);
-			return new ModelAndView("index.htm", map);
-		}
-		formPwUser.setPassword(Utility.hashString(newPassword));
-		userDAO.updateUser(formPwUser);
-		map.addAttribute("action", Action.userSettings);
-		return new ModelAndView("index.htm", map);
-	}
+//	@RequestMapping("/changeUserPassword.htm")
+//	public ModelAndView changeUserPassword(User formPwUser, String newPassword, HttpSession session) throws NoSuchAlgorithmException, NoSuchUserException, WrongPasswordException {
+//		ModelMap map = Utility.generateModelMap(session);
+//		try {
+//		User loadedUser = userDAO.getUserByEmail(formPwUser.getEmail().toLowerCase());
+//		comparePasswords(formPwUser, loadedUser);
+//		}
+//		catch (WrongPasswordException w) {
+//			map.addAttribute("passwordError", true);
+//			map.addAttribute("action", Action.userSettings);
+//			return new ModelAndView("index.htm", map);
+//		}
+//		formPwUser.setPassword(Utility.hashString(newPassword));
+//		userDAO.updateUser(formPwUser);
+//		map.addAttribute("action", Action.userSettings);
+//		return new ModelAndView("index.htm", map);
+//	}
 	
 }

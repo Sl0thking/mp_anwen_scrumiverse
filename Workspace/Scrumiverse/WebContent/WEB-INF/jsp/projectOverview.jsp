@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="projectpage">
-	<c:forEach items="${loggedUser.projects }" var="project">
+	<c:forEach items="${projectList}" var="project">
 		<div class="project">
 		<div class="project-logo"></div>
 		<div class="project-name">${project.name }</div>

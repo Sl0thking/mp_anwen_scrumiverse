@@ -1,7 +1,7 @@
 package com.scrumiverse.web;
 
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.InvalidSessionException;
+import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
@@ -20,17 +23,16 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
-import com.scrumiverse.utility.Utility;
 
 /**
  * Controller for User Story interactions.
  * 
- * @author Lasse Jacobs
- * @version 24.02.16
+ * @author Lasse Jacobs, Kevin Jolitz
+ * @version 27.02.16
  *
  */
 @Controller
-public class UserStoryController {
+public class UserStoryController extends MetaController {
 	
 	@Autowired
 	UserStoryDAO userStoryDAO;
@@ -44,44 +46,60 @@ public class UserStoryController {
 	/**
 	 * Create new empty UserStory in database
 	 * @return ModelAndView
+	 * @throws NoProjectFoundException 
 	 */
 	@RequestMapping("/newUserStory.htm")
-	public ModelAndView createNewUserStory(HttpSession session){
-		Project project = (Project) session.getAttribute("currentProject");
-		UserStory userStory = new UserStory();
-		userStoryDAO.saveUserStory(userStory);
-		//Dummy Tasks
-		Random rand = new Random();
-		Task t = new Task();
-		taskDAO.saveTask(t);
-		t.setPlannedTimeOfUser((User) session.getAttribute("loggedUser"), 2000);
-		// Worklog wird nicht in Hibernate gespeichert
-//		WorkLog wl = new WorkLog();
-//		wl.setUser( (User) session.getAttribute("loggedUser"));
-//		wl.setLoggedMinutes(rand.nextInt(((10000 - 0) + 1) + 0));
-//		t.logWork(wl);
-		taskDAO.updateTask(t);
-		userStory.addTask(t);
-		userStoryDAO.updateUserStory(userStory);
-		System.out.println("------------------------"+t.getWorkMin());
-		//Dummy Tasks
-		project.addUserStory(userStory);
-		projectDAO.updateProject(project);
-		return new ModelAndView("redirect:backlog.htm");
+	public ModelAndView createNewUserStory(HttpSession session) throws NoProjectFoundException{
+		try {
+			checkInvalidSession(session);
+			User activeUser = this.loadActiveUser(session);
+			Project project = this.loadCurrentProject(session);
+			UserStory userStory = new UserStory();
+
+			userStoryDAO.saveUserStory(userStory);
+			//Dummy Tasks
+			Random rand = new Random();
+			Task t = new Task();
+			taskDAO.saveTask(t);
+			t.setPlannedTimeOfUser( activeUser, 2000);
+			// Worklog wird nicht in Hibernate gespeichert
+			WorkLog wl = new WorkLog();
+			wl.setUser( activeUser );
+			wl.setLoggedMinutes(rand.nextInt(((10000 - 0) + 1) + 0));
+			t.logWork(wl);
+			taskDAO.updateTask(t);
+			userStory.addTask(t);
+			userStoryDAO.updateUserStory(userStory);
+			System.out.println("------------------------"+t.getWorkMin());
+			//Dummy Tasks
+			project.addUserStory(userStory);
+			projectDAO.updateProject(project);
+			return new ModelAndView("redirect:backlog.htm");
+		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
+		
 	}
 	
 	/**
 	 * Shows backlog site with all UserStories
 	 * @param session
 	 * @return ModelAndView
+	 * @throws NoProjectFoundException 
 	 */
 	@RequestMapping("/backlog.htm")
-	public ModelAndView backlog(HttpSession session){
-		ModelMap map = Utility.generateModelMap(session);
-		List<UserStory> userStories = userStoryDAO.getAllUserstories();
-		map.addAttribute("userstories", userStories);
-		map.addAttribute("action", Action.backlog);
-		return new ModelAndView("index", map);
+	public ModelAndView backlog(HttpSession session) throws NoProjectFoundException{
+		try {
+			checkInvalidSession(session);
+			ModelMap map = this.prepareModelMap(session);
+			int projectId = (int) session.getAttribute("currentProjectId");
+			Set<UserStory> userStories = userStoryDAO.getUserStoriesOfProject(projectId);
+			map.addAttribute("userstories", userStories);
+			map.addAttribute("action", Action.backlog);
+			return new ModelAndView("index", map);
+		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.html");
+		}
 	}
 	
 	/**
@@ -108,9 +126,18 @@ public class UserStoryController {
 	 */
 	@RequestMapping("/showUserStoryDetails.htm")
 	public ModelAndView showUserStoryDetails(@RequestParam int userStoryID, HttpSession session){
-		ModelMap map = Utility.generateModelMap(session);
-		UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
-		map.addAttribute("detailUserStory", loadedUserStory);
+		ModelMap map;
+		try {
+			map = this.prepareModelMap(session);
+			UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
+			map.addAttribute("detailUserStory", loadedUserStory);
+		} catch (NoSuchUserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoProjectFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("redirect:backlog.htm");
 	}
 }

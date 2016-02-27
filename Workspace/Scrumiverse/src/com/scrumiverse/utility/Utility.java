@@ -3,42 +3,16 @@ package com.scrumiverse.utility;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.ui.ModelMap;
-
-import com.scrumiverse.model.account.User;
-import com.scrumiverse.model.scrumCore.Project;
-import com.scrumiverse.web.Action;
 
 /**
  * Utility collection.
  * 
  * @author Kevin Jolitz
- * @version 22.02.2016
+ * @version 27.02.2016
  */
 public class Utility {
-	
-	/**
-	 * Generate and fill a model map with necessary session
-	 * data for view purposes.
-	 * 
-	 * @param session Current Session
-	 * @return ModelMap
-	 */
-	public static ModelMap generateModelMap(HttpSession session) {
-		ModelMap map = new ModelMap();
-		User loggedInUser = (User) session.getAttribute("loggedUser");
-		Project currentProject = (Project) session.getAttribute("currentProject");
-		boolean isLogged = loggedInUser != null;
-		map.addAttribute("loggedUser", loggedInUser);
-		map.addAttribute("isLogged", isLogged);
-		map.addAttribute("currentProject", currentProject);
-		//std action
-		map.addAttribute("action", Action.login);
-		return map;
-	}
 	
 	/**
 	 * Returns a md5 hash of a given string
@@ -51,10 +25,5 @@ public class Utility {
 		md.update(string.getBytes());
 		byte md5ByteHash[] = md.digest();
 		return DatatypeConverter.printHexBinary(md5ByteHash);
-	}
-
-	public static boolean isSessionValid(HttpSession session) {
-		return session.getAttribute("loggedUser") != null 
-			&& session.getAttribute("isLogged") != null;
 	}
 }

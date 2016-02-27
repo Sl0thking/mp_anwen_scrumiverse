@@ -1,14 +1,13 @@
 package com.scrumiverse.persistence.DAO.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
-import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
@@ -62,15 +61,15 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	}
 	
 	@Override
-	public List<UserStory> getUserStoriesOfProject(int projectID){
+	public Set<UserStory> getUserStoriesOfProject(int projectID){
 		Project proj = new Project();
 		try{
 			proj = (Project) hibernateTemplate.find("from Project where id='" + projectID + "'").get(0);
 		}catch(NullPointerException e){
 			e.printStackTrace();
-			return new ArrayList<UserStory>();
+			return new HashSet<UserStory>();
 		}
-		return (List<UserStory>) proj.getUserstories();
+		return (Set<UserStory>) proj.getUserstories();
 	}
 
 }
