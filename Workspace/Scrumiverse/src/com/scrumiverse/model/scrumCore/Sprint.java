@@ -71,6 +71,60 @@ public class Sprint extends PlanElement {
 	}
 	
 	/**
+	 * Returns the combined Effort needed for all Userstories in the sprint
+	 * @return int combinedEffort
+	 */
+	@Transient
+	public int getCombinedEffort() {
+		int combinedEffort = 0;
+		for(UserStory us:userStories) {
+			combinedEffort += us.getEffortValue();
+		}
+		return combinedEffort;
+		
+	}
+	/**
+	 * Returns the effort of all finished Userstories in the sprint
+	 * @return int completedEffort
+	 */
+	@Transient
+	public int getCompletedEffort() {
+		int completedEffort = 0;
+		for(UserStory us:userStories) {
+			if(us.getPlanState() == PlanState.Done);
+			completedEffort =+ us.getEffortValue();
+		}		
+		return completedEffort;
+	}
+	
+	/**
+	 * Returns the combined Businessvalue of all Userstories in the sprint
+	 * @return int combinedBusinessValue
+	 */
+	@Transient
+	public int getCombinedBusinessValue() {
+		int combinedBusinessValue = 0;
+		for(UserStory us:userStories) {
+			combinedBusinessValue += us.getBusinessValue();
+		}
+		return combinedBusinessValue;
+		
+	}
+	/**
+	 * Returns the Businessvalue of all finished Userstories in the sprint
+	 * @return int completedBusinessValue
+	 */
+	@Transient
+	public int getCompletedBusinessValue() {
+		int completedBusinessValue = 0;
+		for(UserStory us:userStories) {
+			if(us.getPlanState() == PlanState.Done);
+			completedBusinessValue =+ us.getBusinessValue();
+		}		
+		return completedBusinessValue;
+	}
+	
+	/**
 	 * Returns the number of finished User Stories 
 	 * @return int finishedUserStories
 	 */
@@ -78,9 +132,8 @@ public class Sprint extends PlanElement {
 	public int getFinishedUserStories() {
 		
 		int finishedUserStories = 0;
-
 		for(UserStory us:userStories) {
-			if(us.getRemainingMinutes() == 0);
+			if(us.getPlanState() == PlanState.Done);
 			finishedUserStories++;
 		}	
 		return finishedUserStories;	

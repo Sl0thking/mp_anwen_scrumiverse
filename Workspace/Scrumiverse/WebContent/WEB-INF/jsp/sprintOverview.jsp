@@ -28,25 +28,25 @@ $(document).ready(function(){
 	                <div class="sprint-data">
 	                    <div class="sprint-userstory-container">
 	                        USERSTORIES
-	                        <div class="count">### / ###</div>
+	                        <div class="count">${sprint.getFinishedUserStories() } / ${sprint.getUserStories().size()} </div>
 	                        <div class="sprint-userstory-progressbar"></div>
 	                        <div class="sprint-userstory-progress"></div>
 	                    </div>
 	                    <div class="sprint-time-container">
 	                        TIME
-	                        <div class="count">### / ###</div>
+	                        <div class="count">${sprint.getRemainingMinutes() / 60 } / ${sprint.getPlannedMinutes() / 60}</div>
 	                        <div class="sprint-time-progressbar"></div>
 	                        <div class="sprint-time-progress"></div>
 	                    </div>
 	                    <div class="sprint-effort-container">
 	                        EFFORT
-	                        <div class="count">### / ###</div>
+	                        <div class="count">${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }</div>
 	                        <div class="sprint-effort-progressbar"></div>
 	                        <div class="sprint-effort-progress"></div>
 	                    </div>
 	                    <div class="sprint-value-container">
 	                        VALUE
-	                        <div class="count">### / ###</div>
+	                        <div class="count">${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }</div>
 	                        <div class="sprint-value-progressbar"></div>
 	                        <div class="sprint-value-progress"></div>
 	                    </div>
@@ -59,15 +59,17 @@ $(document).ready(function(){
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
 	        <div class="sprintlog">
-	            <div class="userstory">
-	                <div class="userstory-titel">UserStory</div>
-	                <div class="userstory-content">
-	                    Time:   ###/###/###</br>
-	                    Effort: ###</br>
-	                    Value:  ###
-	                </div>
-	            </div>
-	        </div>
+		        <c:forEach items="${sprint.getUserStories()}" var="userstory">
+		            <div class="userstory">
+		                <div class="userstory-titel">${userstory.description }</div>
+		                <div class="userstory-content">
+		                    Time:   ${userstory.getWorkedMinutes()/60}/${userstory.getRemainingMinutes()/60}/${userstory.getPlannedMinutes()/60}</br>
+		                    Effort: ${userstory.getEffortValue()}</br>
+		                    Value:  ${userstory.getBusinessValue()}
+		                </div>
+		            </div>
+		        </c:forEach>
+		    </div>		    	
 	    </div>
     </c:forEach>
     <div id="quick-button-container">
