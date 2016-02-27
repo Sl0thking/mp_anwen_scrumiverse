@@ -7,6 +7,8 @@ $(document).ready(function(){
     $(".userstory").click(function(){
         deselectAll();
         $(this).addClass("selected");
+        var userStoryId = $(this).attr("userStoryId");
+        $(".quick-button").attr("href", "addTask.htm?id="+userStoryId);
     });
 });
     
@@ -30,7 +32,7 @@ function deselectAll(){
 	<c:forEach items="${userStories}" var="userStory">
 		<tr>
         <td class="userstory-section item-section">
-            <div class="userstory">
+            <div class="userstory" userStoryId="${userStory.id}">
                 <div class="userstory-state inprogress"></div>
                 <div class="userstory-content">
                     <div class="userstory-titel">${userStory.description}</div>

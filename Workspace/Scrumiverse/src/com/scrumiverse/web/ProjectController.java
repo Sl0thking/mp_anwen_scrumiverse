@@ -59,14 +59,15 @@ public class ProjectController {
 			if(!Utility.isSessionValid(session)) {
 				throw new InvalidSessionException();
 			}
+			refreshUserData(session);
 			ModelMap map = Utility.generateModelMap(session);
 			User user = ((User) session.getAttribute("loggedUser"));
-			Set<Project> projectList = projectDAO.getProjectsFromUser(user.getUserID());
+			Set<Project> projectList = user.getProjects();
 			Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
 			for(Project p : projectList) {
 				manageRights.put(p, p.hasUserRight(Right.Manage_Project, user));
 			}
-			map.addAttribute("projectList", projectDAO.getProjectsFromUser(user.getUserID()));
+			map.addAttribute("projectList", projectList);
 			map.addAttribute("manageRight", manageRights);
 			map.addAttribute("action", Action.projectOverview);
 			return new ModelAndView("index", map);
@@ -76,6 +77,18 @@ public class ProjectController {
 		
 	}
 	
+	private void refreshUserData(HttpSession session) {
+		User loggedUser = (User) session.getAttribute("loggedUser");
+		User user = loggedUser;
+		try {
+			user = userDAO.getUser(loggedUser.getUserID());
+		} catch (NoSuchUserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.setAttribute("loggedUser", user);
+}
+
 	/**
 	 * Add a project and redirect to Overview
 	 * @param session

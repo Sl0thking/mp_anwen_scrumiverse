@@ -20,6 +20,7 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.TaskDAO;
+import com.scrumiverse.persistence.DAO.UserStoryDAO;
 import com.scrumiverse.utility.Utility;
 
 /**
@@ -33,6 +34,9 @@ public class TaskController {
 	
 	@Autowired
 	TaskDAO taskDAO;
+	
+	@Autowired
+	UserStoryDAO userStoryDAO;
 	
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
@@ -61,10 +65,13 @@ public class TaskController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/newTask.htm")
-	public ModelAndView createNewTask() {
+	public ModelAndView createNewTask(@RequestParam int id) {
 		Task task = new Task();
 		taskDAO.saveTask(task);
-		return new ModelAndView("redirect:backlog.htm");
+		UserStory userStory = userStoryDAO.getUserStory(id);
+		//adTask
+		userStoryDAO.updateUserStory(userStory);
+		return new ModelAndView("redirect:showTasks.htm");
 	}
 	
 	/**
