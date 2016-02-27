@@ -66,12 +66,12 @@ public class TaskController extends MetaController {
 	 * Create new empty task in database
 	 * @return ModelAndView
 	 */
-	@RequestMapping("/newTask.htm")
+	@RequestMapping("/addTask.htm")
 	public ModelAndView createNewTask(@RequestParam int id) {
 		Task task = new Task();
 		taskDAO.saveTask(task);
 		UserStory userStory = userStoryDAO.getUserStory(id);
-		//adTask
+		userStory.addTask(task);
 		userStoryDAO.updateUserStory(userStory);
 		return new ModelAndView("redirect:showTasks.htm");
 	}

@@ -52,7 +52,7 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	public UserStory getUserStory(int userStoryID){
 		UserStory userStory = new UserStory();
 		try{
-			userStory = (UserStory) (hibernateTemplate.find("from UserStory where id'" + userStoryID + "'").get(0));
+			userStory = (UserStory) (hibernateTemplate.find("from UserStory where id='" + userStoryID + "'").get(0));
 		}catch(NullPointerException e){
 			e.printStackTrace();
 			System.out.println("User Story ist nicht in Datenbank zu finden mit id: " + userStoryID);
