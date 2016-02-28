@@ -43,6 +43,7 @@ public class User {
 	@RegExp(value="^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])[\\w\\d!@#$%_]{6,40}$",
 			message="must have no spaces, at least 1 digit, at least 1 uppercase and lowercase letter and at least one lowercase letter.")
 	private String password;
+	private String profileImagePath;
 	
 	public User() {
 		email = "";
@@ -50,6 +51,7 @@ public class User {
 		emailNotification = false;
 		password = "";
 		projects = new HashSet<Project>();
+		profileImagePath = "./resources/userPictures/2.png";
 	}
 	
 	@Id
@@ -138,5 +140,13 @@ public class User {
 		if (userID != other.userID)
 			return false;
 		return true;
+	}
+
+	public String getProfileImagePath() {
+		return profileImagePath;
+	}
+
+	public void setProfileImagePath(String profileImagePath) {
+		this.profileImagePath = profileImagePath;
 	}	
 }

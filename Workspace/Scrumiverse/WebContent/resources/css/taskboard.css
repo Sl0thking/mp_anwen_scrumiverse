@@ -164,13 +164,16 @@ table, th, td{
     display: inline-block;
     overflow: hidden;
 }
-.member-container > .userstory-member{
-    width: 28px;
-    height: 28px;
+.member-container > .userstory-member{ 
     margin-bottom: 3px;
     display: inline-block;
     background-color: black;
-    border-radius: 20px;
+}
+
+.userstory-member > img { 
+	width: 28px;
+    height: 28px;
+    border-radius: 100%;
 }
 
 .userstory > .userstory-link{
@@ -238,13 +241,18 @@ table, th, td{
     overflow: hidden;
 }
 .task-memberbox > .task-member{
-    height: 25px;
-    width: 25px;
     float: right;
     margin-left: 4px;
-    background-color: black;
-    border-radius: 50%;
     display: inline-block;
+}
+
+.task-member > img {
+    position: relative;
+    margin: 0px 0px 4px 0px;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    border-radius: 100%;
 }
 .selected{
     outline: 2px solid white;

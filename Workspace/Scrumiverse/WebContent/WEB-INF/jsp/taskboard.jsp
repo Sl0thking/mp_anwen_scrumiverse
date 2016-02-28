@@ -50,14 +50,19 @@ function deselectAll(){
                         	</div>
                         <div class="effort">${userStory.effortValue}</div>
                         <div class="member-container">
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
-                            <div class="userstory-member"></div>
+                       		<c:choose>		
+			                   	<c:when test="${userStory.getResponsibleUsers().size() <= 6}">
+									<c:forEach items="${userStory.getResponsibleUsers()}" var="user">
+										<div class="userstory-member"><img src="${user.profileImagePath}"/></div>
+									</c:forEach>
+			                   	</c:when>
+			                   	<c:otherwise>
+			                   		<c:forEach begin="0" end="5">
+			                   			<div class="userstory-member"><img src="${user.profileImagePath}"/></div>
+			                   		</c:forEach>
+			                   		<div class="userstory-member">...</div>
+			                   	</c:otherwise>
+		                   	</c:choose>
                         </div>
                     </div>
                 </div>
@@ -72,11 +77,19 @@ function deselectAll(){
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
 		                    <div class="task-memberbox">
-		                        <div class="task-member"></div>
-		                        <div class="task-member"></div>
-		                        <div class="task-member"></div>
-		                        <div class="task-member"></div>
-		                        <div class="task-member"></div>
+		                   		<c:choose>		
+			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">
+										<c:forEach items="${task.getResponsibleUsers()}" var="user">
+											<div class="task-member"><img src="${user.profileImagePath}"/></div>
+										</c:forEach>
+			                   		</c:when>
+			                   		<c:otherwise>
+			                   			<c:forEach begin="0" end="5">
+			                   				<div class="task-member"><img src="${user.profileImagePath}"/></div>
+			                   			</c:forEach>
+			                   			<div class="task-member">...</div>
+			                   		</c:otherwise>
+		                   		</c:choose>
 		                    </div>
 		                </div>
 		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
