@@ -91,7 +91,7 @@ public class Sprint extends PlanElement {
 	public int getCompletedEffort() {
 		int completedEffort = 0;
 		for(UserStory us:userStories) {
-			if(us.getPlanState() == PlanState.Done);
+			if(us.getPlanState().equals(PlanState.Done))
 			completedEffort =+ us.getEffortValue();
 		}		
 		return completedEffort;
@@ -118,7 +118,7 @@ public class Sprint extends PlanElement {
 	public int getCompletedBusinessValue() {
 		int completedBusinessValue = 0;
 		for(UserStory us:userStories) {
-			if(us.getPlanState() == PlanState.Done);
+			if(us.getPlanState().equals(PlanState.Done))
 			completedBusinessValue =+ us.getBusinessValue();
 		}		
 		return completedBusinessValue;
@@ -130,11 +130,10 @@ public class Sprint extends PlanElement {
 	 */
 	@Transient
 	public int getFinishedUserStories() {
-		
 		int finishedUserStories = 0;
 		for(UserStory us:userStories) {
-			if(us.getPlanState() == PlanState.Done);
-			finishedUserStories++;
+			if(us.getPlanState() == PlanState.Done)
+				finishedUserStories++;
 		}	
 		return finishedUserStories;	
 	}
