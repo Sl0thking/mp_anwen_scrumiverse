@@ -16,7 +16,7 @@ $(document).ready(function(){
 <div class="sprintpage">
 	<c:forEach items="${sprints}" var="sprint">
 	    <div class="sprint">
-	        <div class="sprint-state-active"></div>
+	        <div class="sprint-state ${sprint.planState.name().toLowerCase() }"></div>
 	        <div class="sprint-content">
 	            <div class="sprint-name">SPRINT - ${sprint.description }</div>
 	            <div class="sprint-stats">
@@ -26,35 +26,38 @@ $(document).ready(function(){
 	                    <div class="sprint-time">TIME</div>
 	                </div>
 	                <div class="sprint-data">
-	                    <div class="sprint-userstory-container">
+	                    <div class="data-container">
 	                        USERSTORIES
 	                        <div class="count">${sprint.getFinishedUserStories() } / ${sprint.getUserStories().size()} </div>
-	                        <div class="sprint-userstory-progressbar"></div>
-	                        <div class="sprint-userstory-progress"></div>
+	                        <div class="progressbar">
+	                        	<div class="progress"></div>
+	                        </div>
 	                    </div>
-	                    <div class="sprint-time-container">
+	                    <div class="data-container">
 	                        TIME
 	                        <div class="count">${sprint.getRemainingMinutes() / 60 } / ${sprint.getPlannedMinutes() / 60}</div>
-	                        <div class="sprint-time-progressbar"></div>
-	                        <div class="sprint-time-progress"></div>
+	                        <div class="progressbar">
+	                        	<div class="progress"></div>
+	                        </div>
 	                    </div>
-	                    <div class="sprint-effort-container">
+	                    <div class="data-container">
 	                        EFFORT
 	                        <div class="count">${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }</div>
-	                        <div class="sprint-effort-progressbar"></div>
-	                        <div class="sprint-effort-progress"></div>
+	                        <div class="progressbar">
+	                        	<div class="progress"></div>
+	                        </div>
 	                    </div>
-	                    <div class="sprint-value-container">
+	                    <div class="data-container">
 	                        VALUE
 	                        <div class="count">${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }</div>
-	                        <div class="sprint-value-progressbar"></div>
-	                        <div class="sprint-value-progress"></div>
+	                        <div class="progressbar">
+	                        	<div class="progress"></div>
+	                        </div>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
-	        <div class="sprint-control">
-	            <a class="glyphicon glyphicon-cog sprint-settings" href="#"></a>
+	        <div class="sprint-control ${sprint.planState.name().toLowerCase() }">
 	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
