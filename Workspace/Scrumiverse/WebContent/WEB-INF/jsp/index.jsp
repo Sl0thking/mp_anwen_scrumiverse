@@ -66,7 +66,7 @@
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="report icon" src="resources/images/index/icon_reports.png">
-					<a href="#">REPORTING</a>
+					<a href="reporting.htm">REPORTING</a>
 				</div>
 				</c:if>
 			</div>
