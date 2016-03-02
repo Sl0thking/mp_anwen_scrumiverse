@@ -1,6 +1,7 @@
 package com.scrumiverse.model.scrumCore;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,14 +22,14 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  * shared plan attributes between Scrum DataModells.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 25.02.16
+ * @version 29.02.16
  *
  */
 @MappedSuperclass
 public abstract class PlanElement {
 	private String description;
 	private int id;
-	private List<HistoryEntry> history;
+	private Set<HistoryEntry> history;
 	private PlanState planState;
 	private String acceptanceCriteria;
 		
@@ -53,11 +54,11 @@ public abstract class PlanElement {
 	
 	@OneToMany
 	@JoinColumn(name = "PlanElementID")
-	public List<HistoryEntry> getHistory() {
+	public Set<HistoryEntry> getHistory() {
 		return history;
 	}
 	
-	public void setHistory(List<HistoryEntry> history) {
+	public void setHistory(Set<HistoryEntry> history) {
 		this.history = history;
 	}
 	
@@ -70,7 +71,7 @@ public abstract class PlanElement {
 	}
 	
 	public void addHistoryEntry(ChangeEvent event, User user){
-		
+		this.history.add(new HistoryEntry(user, event));
 	}
 	
 	public void setCriteria(String criteria){

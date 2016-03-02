@@ -78,7 +78,7 @@
 							<span class="glyphicon glyphicon-log-out"></span>
 							LOGOUT
 						</a>	
-						<a class="extra-menuitem" href="#">
+						<a class="extra-menuitem" href="userSettings.htm">
 							<span class="glyphicon glyphicon-cog"></span>
 							ACCOUNT SETTINGS
 						</a>	

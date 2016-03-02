@@ -4,7 +4,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script>
 $(document).ready(function(){
+	$(".quick-button").hide();
+	
     $(".userstory").click(function(){
+    	$(".quick-button").show();
         deselectAll();
         $(this).addClass("selected");
         var userStoryId = $(this).attr("userStoryId");
@@ -33,7 +36,7 @@ function deselectAll(){
 		<tr>
         <td class="userstory-section item-section">
             <div class="userstory" userStoryId="${userStory.id}">
-                <div class="userstory-state inprogress"></div>
+                <div class="userstory-state ${userStory.planState.name().toLowerCase()}"></div>
                 <div class="userstory-content">
                     <div class="userstory-titel">${userStory.description}</div>
                     <div class="userstory-stats">

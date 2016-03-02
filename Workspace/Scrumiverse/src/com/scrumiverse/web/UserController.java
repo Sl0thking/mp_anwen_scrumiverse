@@ -24,7 +24,7 @@ import com.scrumiverse.utility.Utility;
  * Controller for user account interactions
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 18.02.2016
+ * @version 01.03.2016
  *
  */
 @Controller
@@ -113,9 +113,7 @@ public class UserController extends MetaController{
 			//try to hash pw and save in object
 			formRegUser.setPassword(Utility.hashString(password));
 			//set and save lowerCase email for non case-sensitive comparison
-			String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
-			formRegUser.setEmail(lowerCaseEmail);
-			userDAO.getUserByEmail(lowerCaseEmail);
+			checkEmailAvailability(formRegUser);
 			//expects NoSuchUserException
 			//when user already in database, throw exception
 			throw new Exception();
@@ -127,12 +125,20 @@ public class UserController extends MetaController{
 			//validation failed
 			map.addAttribute("regError", false);
 		} catch (Exception e) {
-			//User is already there, hash or validation failed 
+			//User is already there, hash or validation failed
+			formRegUser.setPassword("");
 			map.addAttribute("regError", true);
 		}
 		map.addAttribute("action", Action.register);
 		map.addAttribute("user", formRegUser);
 		return new ModelAndView("index", map);
+	}
+	
+	private boolean checkEmailAvailability(User formRegUser) throws NoSuchUserException {
+		String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
+		formRegUser.setEmail(lowerCaseEmail);
+		userDAO.getUserByEmail(lowerCaseEmail);
+		return true;
 	}
 
 	/**
@@ -183,7 +189,7 @@ public class UserController extends MetaController{
 		try {
 			ModelMap map = this.prepareModelMap(session);		
 			map.addAttribute("user", this.loadActiveUser(session));
-			map.addAttribute("action", Action.userSettings);
+			map.addAttribute("action", Action.accountSettings);
 			return new ModelAndView("index", map);
 		} catch (Exception e) {
 			return new ModelAndView("redirect:projectOverview.htm");
@@ -195,26 +201,49 @@ public class UserController extends MetaController{
 	 * @param user
 	 * @param name
 	 * @return ModelAndView
+	 * @throws NoSuchUserException 
 	 */
-	@RequestMapping("/changeUserName.htm")
-	public ModelAndView changeUserName(User user, String name) {
-		user.setName(name);
-		userDAO.updateUser(user);
-		return new ModelAndView("redirect:userSettings.htm");
+	@RequestMapping("/changeUser.htm")
+	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) throws NoSuchUserException {
+		try {
+			User currentUserData = this.loadActiveUser(session);
+			
+			if(newUserData.getPassword() == null || newUserData.getPassword().equals("")) {
+				newUserData.setPassword(currentUserData.getPassword());
+			}
+			
+			validator.validate(newUserData, result);
+			if(result.hasErrors()) {
+				throw new ValidationException("");
+			}
+			if(!currentUserData.getEmail().equals(newUserData.getEmail())) {
+				checkEmailAvailability(newUserData);
+				throw new Exception();
+			} else {
+				throw new NoSuchUserException();
+			}
+		} catch(NoSuchUserException e) {
+			userDAO.updateUser(newUserData);
+			session.setAttribute("loggedUser", this.loadActiveUser(session));
+			return new ModelAndView("redirect:userSettings.htm");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:userSettings.htm");
+		}
 	}
 	
-	/**
-	 * Changes the users email
-	 * @param user
-	 * @param email
-	 * @return ModelAndView
-	 */
-	@RequestMapping("/changeUserEmail.htm")
-	public ModelAndView changeUserEmail(User user, String email) {
-		user.setEmail(email);
-		userDAO.updateUser(user);
-		return new ModelAndView("redirect:userSettings.htm");
-	}
+//	/**
+//	 * Changes the users email
+//	 * @param user
+//	 * @param email
+//	 * @return ModelAndView
+//	 */
+//	@RequestMapping("/changeUserEmail.htm")
+//	public ModelAndView changeUserEmail(User user, String email) {
+//		user.setEmail(email);
+//		userDAO.updateUser(user);
+//		return new ModelAndView("redirect:userSettings.htm");
+//	}
 	
 	/**
 	 * Changes the users password

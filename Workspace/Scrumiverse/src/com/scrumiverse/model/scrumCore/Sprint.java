@@ -28,8 +28,10 @@ public class Sprint extends PlanElement {
 	
 	public Sprint(){
 		userStories = new HashSet<UserStory>();
-		startDate = null;
-		endDate = null;
+		startDate = new Date();
+		endDate = new Date();
+		this.setPlanState(PlanState.Planning);
+		this.setDescription("New Sprint");
 	}
 	
 	@OneToMany(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)

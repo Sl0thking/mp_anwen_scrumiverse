@@ -5,7 +5,7 @@
 
 <div id="accountpage">
     <div id="img">
-        <img src=""/>
+        <img src="${user.profileImagePath}"/>
     </div>
     <div id="editable">
         <form:form action="changeUser.htm" commandName="user">
@@ -25,6 +25,7 @@
                <span class="input-group-addon input-group-addon-fix" id="basic-addon2">E-Mail</span>
                <form:input path="email" type="text" class="form-control input-control" placeholder="${user.email }" aria-describedby="basic-addon1"/>
             </div>
+            <form:hidden path="userID"/>
             <button type="submit">save</button>
         </form:form>
     </div>

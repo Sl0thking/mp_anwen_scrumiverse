@@ -13,6 +13,12 @@ import javax.persistence.OneToOne;
 
 import com.scrumiverse.model.account.User;
 
+/**
+ * Entry of a event
+ * 
+ * @author Kevin Jolitz
+ * @version 29.02.2016
+ */
 @Entity
 public class HistoryEntry {
 	private int id;
@@ -22,6 +28,11 @@ public class HistoryEntry {
 	
 	public HistoryEntry() {
 		super();
+	}
+	
+	public HistoryEntry(User user, ChangeEvent changeEvent) {
+		this.user = user;
+		this.changeEvent = changeEvent;
 		this.date = new Date();
 	}
 

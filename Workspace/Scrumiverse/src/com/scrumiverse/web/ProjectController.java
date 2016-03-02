@@ -243,9 +243,8 @@ public class ProjectController extends MetaController {
 	 * @param name
 	 * @return ModelAndView
 	 */
-	@RequestMapping("/renameProject.htm")
-	public ModelAndView renameProject(Project project, String name) {
-		project.setName(name);
+	@RequestMapping("/saveProject.htm")
+	public ModelAndView renameProject(Project project) {
 		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:projectSettings.htm");
 	}
