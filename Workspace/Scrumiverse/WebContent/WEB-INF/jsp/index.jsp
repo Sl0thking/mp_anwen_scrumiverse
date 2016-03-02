@@ -19,6 +19,14 @@
 		<link rel="stylesheet" type="text/css" href="resources/css/${action.name()}.css" />		
 		<link rel="shortcut icon" type="image/x-icon"  href="<c:url value="/resources/images/scrumiverse_fave_icon.png"/>">
 		<title>Scrumiverse</title>
+		
+		<script type="text/javascript">
+		// index site specific JavaScript
+		$(document).ready(function(){
+			var curPage = location.pathname.split("/")[location.pathname.split("/").length-1];
+			$('#menubar a[href="' + curPage + '"]').after('<div class="current-page"></div>');
+		});
+		</script>
 	</head>
 	<body>
 		<c:if test="${isLogged}">
@@ -43,7 +51,7 @@
 				<c:if test="${currentProjectId != null}">
 				<div class="menuitem">
 					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-					<a href="./backlog.htm">BACKLOG</a>							
+					<a href="backlog.htm">BACKLOG</a>							
 				</div>
 				<div class="spacer"></div>
 				<div class="menuitem">
@@ -58,7 +66,7 @@
 				<div class="spacer"></div>
 				<div class="menuitem">
 					<img alt="report icon" src="resources/images/index/icon_reports.png">
-					<a href="#">REPORTING</a>
+					<a href="reporting.htm">REPORTING</a>
 				</div>
 				</c:if>
 			</div>

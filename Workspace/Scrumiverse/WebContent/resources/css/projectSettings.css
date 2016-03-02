@@ -1,39 +1,151 @@
 /* project settings page */
 #settings {
-	margin:auto;
-	width:900px;
-	height:100%;
+	position: relative;
+	top: 10px;
+	margin: auto;
+	width: 900px;
+	height: 100%;
+	background-color: #666666;
 }
 
-#settings-header {
-	height:150px;
+#settings a {
+	text-decoration: none;
+	color: white;
+}
+
+#settings a:hover {
+	color: #c11c1c;
+}
+
+#settings > .user-list-title {
+	height: 40px;
+	width: 100%;
+	padding-left: 10px;
+	line-height: 40px;
+	vertical-align: middle;
+	font-weight: bold;
+	color: white;
+	background-color: #303030;
+	display: inline-block;
+}
+
+#settings-header > * {
+	padding-left: 10px;
+}
+
+#settings-header > .site-title, #settings-options {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	color: white;
+	font-weight: bold;
+	vertical-align: middle;
+	background-color: #303030;
+}
+
+#settings-header > .site-title > span {
+	display: inline-block;
+}
+
+#settings-header > .site-title > a {
+	float: right;
+	margin-right: 10px;
+	height: 100%;
+	display: inline-block;
+}
+
+#settings-header > .site-title > a > span {
+	line-height: 40px;
+	vertical-align: middle;	
 }
 
 #settings-header > .project-name {
-	width:100%;
-	height:40px;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	vertical-align: middle;
+	font-size: 20px;
 }
 
 #settings-header > .project-description {
-	width:100%;
-	height:110px;
+	padding-bottom: 10px;
+	width: 100%;
 }
 
 #user-list {
-	width:100%;
-	height:100%;
+	padding: 10px 5px 5px 10px;
+	width: 100%;
+	overflow: auto;
+	background-color: #666666;
 }
 
 #user-list > .user-card {
-	width:290px;
-	height:300px;
-	background-color:grey;
+	float: left;
+	margin: 0px 5px 5px 0px;
+	width: 290px;
+	background-color: #303030;
 }
 
 #user-list > .user-card > .user-card-header {
-	width:100%;
-	height:25px;
-	background-color:red;
+	width: 100%;
+	height: 25px;
 }
 
-#user-list > .user-card > .user-picture
+#user-list > .user-card > .user-card-header > a {
+	float: right;
+	margin-right: 5px;
+	height: 100%;
+	display: inline-block;
+}
+
+#user-list > .user-card > .user-card-header > a > span {
+	line-height: 25px;
+	vertical-align: middle;	
+}
+
+#user-list > .user-card > .user-content {
+	width: 290px;
+	height: 100px;
+}
+
+#user-list > .user-card > .user-content > .user-picture  {
+	float: left;
+	padding: 0px 10px 0px 10px;
+}
+
+#user-list > .user-card > .user-content > .user-picture > img {
+	width: 80px;
+	height: 80px;
+}
+
+#user-list > .user-card > .user-content > .user-info {
+	float: left;
+	margin-right: 10px;
+}
+
+#user-list > .user-card > .user-content > .user-info > * {
+	width: 180px;
+}
+
+#user-list > .user-card > .user-content > .user-info > .user-name {
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+}
+
+#user-list > .user-card > .user-content > .user-info > .user-email > span {
+	float: left;
+}
+
+#user-list > .user-card > .user-content > .user-info > .user-email > span:nth-child(1) {
+	width: 18px;
+	text-align: center;
+	line-height: 18px;
+	vertical-align: middle;
+	height: 100%;
+}
+
+#user-list > .user-card > .user-content > .user-info > .user-email > span:nth-child(2) {
+	margin-left: 5px;
+	width: 157px;
+}
