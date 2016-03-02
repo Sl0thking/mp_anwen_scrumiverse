@@ -51,7 +51,7 @@ public class User {
 		emailNotification = false;
 		password = "";
 		projects = new HashSet<Project>();
-		profileImagePath = "./resources/userPictures/2.png";
+		profileImagePath = "./resources/userPictures/default.png";
 	}
 	
 	@Id

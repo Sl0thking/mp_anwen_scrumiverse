@@ -204,18 +204,24 @@ public class UserController extends MetaController{
 	 * @throws NoSuchUserException 
 	 */
 	@RequestMapping("/changeUser.htm")
-	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) throws NoSuchUserException {
+	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) {
 		try {
+			System.out.println("Hallo");
 			User currentUserData = this.loadActiveUser(session);
 			
 			if(newUserData.getPassword() == null || newUserData.getPassword().equals("")) {
-				newUserData.setPassword(currentUserData.getPassword());
+				newUserData.setPassword("aBaB1!");
 			}
 			
 			validator.validate(newUserData, result);
 			if(result.hasErrors()) {
 				throw new ValidationException("");
 			}
+			
+			if(newUserData.getPassword().equals("aBaB1!")) {
+				newUserData.setPassword(currentUserData.getPassword());
+			}
+			
 			if(!currentUserData.getEmail().equals(newUserData.getEmail())) {
 				checkEmailAvailability(newUserData);
 				throw new Exception();
@@ -223,8 +229,9 @@ public class UserController extends MetaController{
 				throw new NoSuchUserException();
 			}
 		} catch(NoSuchUserException e) {
+			e.printStackTrace();
 			userDAO.updateUser(newUserData);
-			session.setAttribute("loggedUser", this.loadActiveUser(session));
+			session.setAttribute("loggedUser", newUserData);
 			return new ModelAndView("redirect:userSettings.htm");
 		} catch (Exception e) {
 			e.printStackTrace();
