@@ -141,6 +141,7 @@ table, th, td{
 .info-container > .timestats{
     width: 100%;
     height: 60%;
+    font-size: 68%;
     text-align: center;
     display: inline-block;
     overflow: hidden;
