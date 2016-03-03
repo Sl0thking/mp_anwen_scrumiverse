@@ -131,66 +131,66 @@ function toggleRemovebtn(){
     }
 }
 </script>
-<div class="sprintpage">
-	<div class="backlog-placeholder">
-        <div class="backlogbar">
-            <span class="glyphicon glyphicon-menu-right barbtn"></span>
-        </div>
-        <div class="backlog">
-            <div class="backlog-header">Backlog</div>
-            <div class="backlog-data">
-                <div class="data-container">
-                    Value
-                    ### / ###
-                    <div class="progressbar">
-                        <div class="progress"></div>
-                    </div>
-                </div>
-                <div class="data-container">
-                    Value</br>
-                    ### / ###
-                    <div class="progressbar">
-                        <div class="progress"></div>
-                    </div>
-                </div>
-                <div class="data-container">
-                    Value</br>
-                    ### / ###
-                    <div class="progressbar">
-                        <div class="progress"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="content">
-                <div usid="1" class="userstory">
-                    <div class="userstory-titel">UserStory</div>
-                    <div class="userstory-content">
-                        Time: ###/###/### </br>
-                        Effort: ### </br>
-                        Value: ###
-                    </div>
-                </div>
-                <div usid="2" class="userstory">
-                    <div class="userstory-titel">UserStory</div>
-                    <div class="userstory-content">
-                        Time: ###/###/### </br>
-                        Effort: ### </br>
-                        Value: ###
-                    </div>
-                </div>
-                <div usid="3" class="userstory">
-                    <div class="userstory-titel">UserStory</div>
-                    <div class="userstory-content">
-                        Time: ###/###/### </br>
-                        Effort: ### </br>
-                        Value: ###
-                    </div>
-                </div>
-            </div>
-            <a class="addbtn" href="./editUserstories.htm">Add to Sprint</a>
-        </div>
+<div class="backlog-placeholder">
+    <div class="backlogbar">
+        <span class="glyphicon glyphicon-menu-right barbtn"></span>
     </div>
+    <div class="backlog">
+        <div class="backlog-header">Backlog</div>
+        <div class="backlog-data">
+            <div class="data-container">
+                Value
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="data-container">
+                Value</br>
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="data-container">
+                Value</br>
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div usid="1" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+            <div usid="2" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+            <div usid="3" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+        </div>
+        <a class="addbtn" href="./editUserstories.htm">Add to Sprint</a>
+    </div>
+</div>
 
+<div class="sprintpage">
 	<c:forEach items="${sprints}" var="sprint">
 	    <div sprintid="${sprint.id}" class="sprint">
 	        <div class="sprint-state ${sprint.planState.name().toLowerCase() }"></div>
@@ -256,7 +256,7 @@ function toggleRemovebtn(){
 	    <a id="openBacklog" class="quick-button" href="#">
 	        <span class="quick-button-title">B</span><span class="quick-button-text">open Backlog</span>
 	    </a>
-	    <a class="quick-button" href="./addTask.htm">
+	    <a class="quick-button" href="./addSprint.htm">
 	        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
 	    </a>
 	    <a id="removebtn" class="quick-button" href="./editUserstories.htm">

@@ -7,10 +7,6 @@ body {
     color: white;
 }
 
-body::-webkit-scrollbar{
-    display: none;
-}
-
 /* index page specific css */
 #navbar {
 	z-index: 1;
@@ -206,12 +202,14 @@ body::-webkit-scrollbar{
 
 #action_content {
 	z-index: 0;
-	position: relative;
+	position: fixed;
 	top: 50px;
 	width: 100%;
 	height: 100%;
 	background-color: black;
+	overflow-y: scroll;
 }
+#action_content::-webkit-scrollbar {display: none;}
 
 /* login page specific css */
 .background {
@@ -249,7 +247,7 @@ body::-webkit-scrollbar{
 /* quick buttons specific css */
 #quick-button-container {
     position: fixed;
-    bottom: 10px;
+    bottom: 2px;
     right: 10px;
     width: 800px;
     height: 30px;
@@ -291,4 +289,14 @@ body::-webkit-scrollbar{
 
 #quick-button-container > .quick-button:hover > .quick-button-text {
 	display: inline-block;
+}
+/* Needed for the PlanningState */
+#Planning{
+	background-color: darkgrey;
+}
+#InProgress{
+	background-color: orange;
+}
+#Done{
+	background-color: green;
 }
