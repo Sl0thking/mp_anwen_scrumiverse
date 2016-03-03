@@ -1,6 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
-import java.util.List;
+import java.util.SortedSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
@@ -25,10 +28,10 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  *
  */
 @MappedSuperclass
-public abstract class PlanElement {
+public abstract class PlanElement implements Comparable<PlanElement>{
 	private String description;
 	private int id;
-	private List<HistoryEntry> history;
+	private SortedSet<HistoryEntry> history;
 	private PlanState planState;
 	private String acceptanceCriteria;
 		
@@ -53,11 +56,12 @@ public abstract class PlanElement {
 	
 	@OneToMany
 	@JoinColumn(name = "PlanElementID")
-	public List<HistoryEntry> getHistory() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<HistoryEntry> getHistory() {
 		return history;
 	}
 	
-	public void setHistory(List<HistoryEntry> history) {
+	public void setHistory(SortedSet<HistoryEntry> history) {
 		this.history = history;
 	}
 	
@@ -89,5 +93,10 @@ public abstract class PlanElement {
 	
 	public boolean equals(PlanElement pelement){
 		return getId() == pelement.getId();
+	}
+	
+	@Override
+	public int compareTo(PlanElement o) {
+		return this.getDescription().compareTo(o.getDescription());
 	}
 }

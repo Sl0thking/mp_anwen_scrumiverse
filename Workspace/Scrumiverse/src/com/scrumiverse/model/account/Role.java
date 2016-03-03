@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 /**
  * Role of a scrumiverse user
@@ -22,7 +24,7 @@ import org.hibernate.annotations.CollectionOfElements;
  * @version 23.02.2016
  */
 @Entity
-public class Role {
+public class Role implements Comparable<Role> {
 	
 	private int roleID;
 	private String name;
@@ -101,5 +103,10 @@ public class Role {
 
 	public void setChangeable(boolean changeable) {
 		this.changeable = changeable;
+	}
+
+	@Override
+	public int compareTo(Role o) {
+		return this.getName().compareTo(o.getName());
 	}
 }

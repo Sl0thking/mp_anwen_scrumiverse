@@ -1,10 +1,9 @@
 package com.scrumiverse.model.scrumCore;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 
 /**
@@ -22,22 +24,27 @@ import javax.persistence.Transient;
 @Entity
 public class Sprint extends PlanElement {
 
-	private Set<UserStory> userStories;
+	private SortedSet<UserStory> userStories;
 	private Date startDate;
 	private Date endDate;
 	
 	public Sprint(){
-		userStories = new HashSet<UserStory>();
-		startDate = null;
-		endDate = null;
+		userStories = new TreeSet<UserStory>();
+		startDate = new Date();
+		endDate = new Date();
+		setDescription("new Sprint");
+		setHistory(new TreeSet());
+		setPlanState(PlanState.Planning);
+		setAcceptanceCriteria("");
 	}
 	
 	@OneToMany(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
 	@JoinColumn(name="SprintID", nullable=true)
-	public Set<UserStory> getUserStories() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<UserStory> getUserStories() {
 		return userStories;
 	}
-	public void setUserStories(Set<UserStory> userStories) {
+	public void setUserStories(SortedSet<UserStory> userStories) {
 		this.userStories = userStories;
 	}
 	public Date getStartDate() {
@@ -143,8 +150,8 @@ public class Sprint extends PlanElement {
 	 * @param plan
 	 * @return List<UserStory> userStoriesByState;
 	 */
-	public List<UserStory> getUserStoriesByState(PlanState plan) {
-		List<UserStory> userStoriesByState = new ArrayList<UserStory>();
+	public SortedSet<UserStory> getUserStoriesByState(PlanState plan) {
+		SortedSet<UserStory> userStoriesByState = new TreeSet<UserStory>();
 		for(UserStory us:userStories){
 			if(us.getPlanState()== plan) {
 				userStoriesByState.add(us);
@@ -207,4 +214,8 @@ public class Sprint extends PlanElement {
 		return true;
 	}
 	
+	@Override
+	public int compareTo(PlanElement o) {
+		return this.getStartDate().compareTo(((Sprint) o).getStartDate());
+	}
 }

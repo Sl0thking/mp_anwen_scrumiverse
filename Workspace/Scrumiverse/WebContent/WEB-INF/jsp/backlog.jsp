@@ -10,17 +10,15 @@
 		        <canvas id="clock" class="userstory-sandclock"></canvas>
 		        <div class="userstory-time">${userstory.getRemainingDays()}d</div>
 		        <div class="userstory-memberbox">
-	            	<img src="./resources/userPictures/1.png" />
-	            	<img src="./resources/userPictures/2.PNG" />
-	            	<img src="./resources/userPictures/1.png" />
-	            	<img src="./resources/userPictures/1.png" />
-	            	<img src="./resources/userPictures/1.png" />
+		        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
+		        		<img alt="err" src="${user.getProfileImagePath()}">
+		        	</c:forEach>
 		        </div>
 		        <div class="userstory-category">SerflingThings</div>
 		        <div class="userstory-sprint">
 			        <c:choose>
 					    <c:when test="${userstory.relatedSprint == null}">
-					    	Sprint is missing HALP
+					    	backlog
 					    </c:when>
 					    <c:otherwise>
 					    	${userstory.relatedSprint.description}

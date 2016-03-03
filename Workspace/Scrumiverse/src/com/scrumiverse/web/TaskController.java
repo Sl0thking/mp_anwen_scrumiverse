@@ -1,5 +1,6 @@
 package com.scrumiverse.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +51,9 @@ public class TaskController extends MetaController {
 			Set<UserStory> userStories = project.getUserstories();
 			Map<UserStory, List<Task>> tasksOfUserStoryMap = new HashMap<UserStory, List<Task>>();
 			for(UserStory userStory : userStories) {
-				tasksOfUserStoryMap.put(userStory, userStory.getTasks());
+				List<Task> taskList = new ArrayList<Task>();
+				taskList.addAll(userStory.getTasks());
+				tasksOfUserStoryMap.put(userStory, taskList);
 			}
 			ModelMap map = this.prepareModelMap(session);
 			map.addAttribute("action", Action.taskboard);

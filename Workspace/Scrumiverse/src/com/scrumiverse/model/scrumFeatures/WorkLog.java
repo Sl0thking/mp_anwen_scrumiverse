@@ -13,7 +13,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import com.scrumiverse.model.account.User;
 
 @Entity
-public class WorkLog {
+public class WorkLog implements Comparable<WorkLog> {
 	private int logId;
 	private User user;
 	private int loggedMinutes;
@@ -69,5 +69,10 @@ public class WorkLog {
 	
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	@Override
+	public int compareTo(WorkLog o) {
+		return this.getDate().compareTo(o.getDate());
 	}
 }

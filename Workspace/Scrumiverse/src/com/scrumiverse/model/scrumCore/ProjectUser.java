@@ -21,7 +21,7 @@ import com.scrumiverse.model.account.User;
  *
  */
 @Entity
-public class ProjectUser {
+public class ProjectUser implements Comparable<ProjectUser>{
 	private int id;
 	private User user;
 	private Role role;
@@ -84,5 +84,10 @@ public class ProjectUser {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(ProjectUser p) {
+		return this.getUser().getName().compareTo(p.getUser().getName());
 	}
 }

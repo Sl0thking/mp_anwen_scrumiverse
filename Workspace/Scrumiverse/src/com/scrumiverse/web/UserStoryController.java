@@ -1,7 +1,14 @@
 package com.scrumiverse.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -61,11 +68,11 @@ public class UserStoryController extends MetaController {
 			Random rand = new Random();
 			Task t = new Task();
 			taskDAO.saveTask(t);
-			t.setPlannedTimeOfUser( activeUser, 2000);
+			t.setPlannedTimeOfUser( activeUser, rand.nextInt(((100 - 0) + 1) + 0));
 			// Worklog wird nicht in Hibernate gespeichert
 			WorkLog wl = new WorkLog();
 			wl.setUser( activeUser );
-			wl.setLoggedMinutes(rand.nextInt(((10000 - 0) + 1) + 0));
+			wl.setLoggedMinutes(rand.nextInt(((100 - 0) + 1) + 0));
 			t.logWork(wl);
 			taskDAO.updateTask(t);
 			userStory.addTask(t);

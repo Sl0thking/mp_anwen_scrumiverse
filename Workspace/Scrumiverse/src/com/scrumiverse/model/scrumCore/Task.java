@@ -1,11 +1,10 @@
 package com.scrumiverse.model.scrumCore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.TreeSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +17,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.MapKeyManyToMany;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
@@ -31,16 +32,16 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  */
 @Entity
 public class Task extends PlanElement {
-	private Set<WorkLog> workLogs;
+	private SortedSet<WorkLog> workLogs;
 	private Map<User, Integer> plannedMinOfUsers;
-	private Set<String> tags;
+	private SortedSet<String> tags;
 	
 	public Task() {
 		this.setDescription("New Task");
 		this.setPlanState(PlanState.Planning);
 		plannedMinOfUsers = new HashMap<User, Integer>();
-		tags = new HashSet<String>();
-		workLogs = new HashSet<WorkLog>();
+		tags = new TreeSet<String>();
+		workLogs = new TreeSet<WorkLog>();
 	}
 	
 	public int getPlannedMinOfUser(User user) {
@@ -59,11 +60,12 @@ public class Task extends PlanElement {
 	@OneToMany(fetch=FetchType.EAGER)
 	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "TaskID")
-	public Set<WorkLog> getWorkLogs() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<WorkLog> getWorkLogs() {
 		return workLogs;
 	}
 
-	public void setWorkLogs(Set<WorkLog> workLogs) {
+	public void setWorkLogs(SortedSet<WorkLog> workLogs) {
 		this.workLogs = workLogs;
 	}
 
@@ -82,11 +84,12 @@ public class Task extends PlanElement {
 	@CollectionOfElements(fetch = FetchType.EAGER, targetElement = String.class)
 	@JoinTable(name = "Task_Tags", joinColumns = @JoinColumn(name = "TaskID"))
 	@Column(name = "Tag", nullable=false)
-	public Set<String> getTags() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<String> tags) {
+	public void setTags(SortedSet<String> tags) {
 		this.tags = tags;
 	}
 
@@ -107,8 +110,8 @@ public class Task extends PlanElement {
 	 * @param user related user
 	 * @return List of work logs from related user
 	 */
-	public List<WorkLog> getWorkLogsOfUser(User user) {
-		List<WorkLog> workLogsOfUser = new ArrayList<WorkLog>();
+	public SortedSet<WorkLog> getWorkLogsOfUser(User user) {
+		SortedSet<WorkLog> workLogsOfUser = new TreeSet<WorkLog>();
 		for(WorkLog log : this.workLogs) {
 			if(log.getUser().equals(user)) {
 				workLogsOfUser.add(log);
@@ -141,7 +144,7 @@ public class Task extends PlanElement {
 	 */
 	public int getWorkTimeOfUser(User user) {
 		int workTimeInMin = 0;
-		List<WorkLog> workLogs = this.getWorkLogsOfUser(user);
+		SortedSet<WorkLog> workLogs = this.getWorkLogsOfUser(user);
 		for(WorkLog log : workLogs) {
 			workTimeInMin += log.getLoggedMinutes();
 		}

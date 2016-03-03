@@ -2,23 +2,21 @@ package com.scrumiverse.model.scrumCore;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Category;
@@ -38,7 +36,7 @@ public class UserStory extends PlanElement {
 	private int effortValue;
 	private MoscowState moscow;
 //	private Category category;
-	private List<Task> tasks;
+	private SortedSet<Task> tasks;
 	private Date dueDate;
 	private Sprint relatedSprint;
 	
@@ -73,14 +71,16 @@ public class UserStory extends PlanElement {
 		default:
 			moscow = MoscowState.Wont;
 		}
-		tasks = new ArrayList<Task>();
+		tasks = new TreeSet<Task>();
 //		category = new Category();
 //		category.setName("Tonis Feeding Category");
 		dueDate = new Date();
 		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
 		relatedSprint = null;
 		//planelement
-		setDescription("[US"+rand.nextInt((100 - 0) + 1)+"] Killing Humanity");
+		int descint = +rand.nextInt((100 - 0) + 1);
+		String descstr = descint < 10 ? "00"+descint : descint < 100 ? "0"+descint : ""+descint;
+		setDescription("[US"+descstr+"] Killing Humanity");
 		switch(rand.nextInt((2 - 0) + 1) + 0){
 		case 0:
 			setPlanState(PlanState.Planning);
@@ -130,11 +130,12 @@ public class UserStory extends PlanElement {
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="UserStoryID")
-	public List<Task> getTasks() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Task> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(List<Task> tasks) {
+	public void setTasks(SortedSet<Task> tasks) {
 		this.tasks = tasks;
 	}
 
@@ -257,5 +258,7 @@ public class UserStory extends PlanElement {
 	public String toString(){
 		return "UserStory "+getId()+" - Description: "+getDescription();
 	}
+
+
 
 }

@@ -7,7 +7,7 @@ package com.scrumiverse.model.account;
  * @version 25.02.2016
  *
  */
-public enum Right {
+public enum Right{
 	//Project specific
 	Invite_To_Project,
 	Remove_From_Project,

@@ -2,9 +2,10 @@ package com.scrumiverse.model.scrumCore;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NotChangeableRoleException;
@@ -36,25 +39,25 @@ public class Project {
 	private int projectID;
 	private String name;
 	private String description;
-	private Set<Role> roles;
-	private Set<ProjectUser> projectUsers;
+	private SortedSet<Role> roles;
+	private SortedSet<ProjectUser> projectUsers;
 	private Date dueDate;
-	private Set<Sprint> sprints;
-	private Set<UserStory> userstories;
+	private SortedSet<Sprint> sprints;
+	private SortedSet<UserStory> userstories;
 	//next sprint
 	//private List<Category> categories;
 	
 	public Project() {
 		name = "New Project";
 		description = "Project Description";
-		projectUsers = new LinkedHashSet<ProjectUser>();
-		roles = new LinkedHashSet<Role>();
-		sprints = new LinkedHashSet<Sprint>();
+		projectUsers = new TreeSet<ProjectUser>();
+		roles = new TreeSet<Role>();
+		sprints = new TreeSet<Sprint>();
 		dueDate = new Date();
 		prepareStdRoles(roles);
 	}
 	
-	private void prepareStdRoles(Set<Role> roles) {
+	private void prepareStdRoles(SortedSet<Role> roles) {
 		Role productOwner = new Role("ProductOwner");
 		productOwner.setChangeable(false);
 		productOwner.addRight(Right.Invite_To_Project);
@@ -125,41 +128,45 @@ public class Project {
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN) 
 	@JoinColumn(name = "ProjectID", nullable=false)
-	public Set<ProjectUser> getProjectUsers() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<ProjectUser> getProjectUsers() {
 		return projectUsers;
 	}
 	
-	public void setProjectUsers(Set<ProjectUser> projectUsers) {
+	public void setProjectUsers(SortedSet<ProjectUser> projectUsers) {
 		this.projectUsers = projectUsers;
 	}
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	public Set<Role> getRoles() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Role> getRoles() {
 		return roles;
 	}
 	
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(SortedSet<Role> roles) {
 		this.roles = roles;
 	}
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "ProjectID")
-	public Set<Sprint> getSprints() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Sprint> getSprints() {
 		return sprints;
 	}
 	
-	public void setSprints(Set<Sprint> sprints) {
+	public void setSprints(SortedSet<Sprint> sprints) {
 		this.sprints = sprints;
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	@JoinColumn(name = "ProjectID", nullable=true)
-	public Set<UserStory> getUserstories() {
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<UserStory> getUserstories() {
 		return userstories;
 	}
 	
-	public void setUserstories(Set<UserStory> userstories) {
+	public void setUserstories(SortedSet<UserStory> userstories) {
 		this.userstories = userstories;
 	}
 //	public List<Category> getCategories() {
