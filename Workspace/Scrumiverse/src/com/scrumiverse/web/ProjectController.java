@@ -22,7 +22,9 @@ import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
+import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
+import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
@@ -41,6 +43,9 @@ public class ProjectController extends MetaController {
 	
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private SprintDAO sprintDAO;
 
 	/**
 	 * Overview over all projects of current user
@@ -243,11 +248,26 @@ public class ProjectController extends MetaController {
 	 * @param name
 	 * @return ModelAndView
 	 */
-	@RequestMapping("/renameProject.htm")
-	public ModelAndView renameProject(Project project, String name) {
-		project.setName(name);
+	@RequestMapping("/saveProject.htm")
+	public ModelAndView renameProject(Project project) {
 		projectDAO.updateProject(project);
 		return new ModelAndView("redirect:projectSettings.htm");
+	}
+	
+	@RequestMapping("/reporting.htm")
+	public ModelAndView reporting(HttpSession session) {
+		try {
+			ModelMap map = this.prepareModelMap(session);
+			int projectId = (int) session.getAttribute("currentProjectId");
+			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
+			map.addAttribute("sprints", sprints);
+			map.addAttribute("action", Action.reporting);
+			return new ModelAndView("index", map);
+		
+		} catch(NoSuchUserException | NoProjectFoundException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:login.htm");
+		}
 	}
 	
 }

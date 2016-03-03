@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script>
 $(document).ready(function(){
+	$(".quick-button").hide();
+	
     $(".userstory").click(function(){
+    	$(".quick-button").show();
         deselectAll();
         $(this).addClass("selected");
         var userStoryId = $(this).attr("userStoryId");
@@ -33,7 +37,7 @@ function deselectAll(){
 		<tr>
         <td class="userstory-section item-section">
             <div class="userstory" userStoryId="${userStory.id}">
-                <div class="userstory-state inprogress"></div>
+                <div class="userstory-state ${userStory.planState.name().toLowerCase()}"></div>
                 <div class="userstory-content">
                     <div class="userstory-titel">${userStory.description}</div>
                     <div class="userstory-stats">
@@ -46,7 +50,9 @@ function deselectAll(){
                             <div class="value">${userStory.businessValue}</div>
                             <div class="risk">###</div>
                             <div class="timestats">
-                            	${userStory.getWorkedMinutes()} / ${userStory.getRemainingMinutes()} / ${userStory.getPlannedMinutes()}</div>
+                            	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="1"/>h / 
+                            	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="1"/>h / 
+                            	<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="1"/>h </div>
                         	</div>
                         <div class="effort">${userStory.effortValue}</div>
                         <div class="member-container">
@@ -75,7 +81,10 @@ function deselectAll(){
 		            <div class="task">
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
-		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                    <div class="task-time">
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                   		<c:choose>		
 			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -103,7 +112,10 @@ function deselectAll(){
 		            <div class="task">
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
-		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                    <div class="task-time">
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>
@@ -123,7 +135,10 @@ function deselectAll(){
 		            <div class="task">
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
-		                    <div class="task-time">${task.getWorkMin()} / ${task.getRemainingMin()} / ${task.getPlannedMin()}</div>
+		                     <div class="task-time">
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>

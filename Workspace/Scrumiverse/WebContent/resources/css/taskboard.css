@@ -2,22 +2,33 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #333333;
-    padding: 10px 10px 10px 10px;
+    background-color: black;
+    padding: 0px 10px 10px 10px;
+    overflow-y: scroll;
+}
+
+table{
+    margin-bottom: 35px;
 }
 
 table, th, td{
     border: 1px solid #444444;
+    overflow-x: scroll;
 }
 .taskboard-heading{
+    position: fixed;
     width: 100%;
-    height: 95%;
+    height: 25px;
     text-align: center;
     border-collapse: collapse;
     table-layout: fixed;
     overflow-y: scroll;
+    background-color: #333333;
+    z-index: 1;
 }
 .taskboard{
+    position: relative;
+    top: 25px;
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
@@ -30,7 +41,6 @@ table, th, td{
 
 .taskboard-heading{
     color: white;
-    text-align: center;
 }
 
 .userstory-section{
@@ -40,7 +50,6 @@ table, th, td{
 .task-section{
     width: 24%;
     text-align: inherit;
-    vertical-align: top;
 }
 .item-section{
     height: auto;
@@ -72,6 +81,7 @@ table, th, td{
 
 .userstory-content > .userstory-titel{
     height: 90px;
+    width: 95%;
     padding: 2px 0px 0px 5px;
     color: inherit;
     font-weight: 500;
@@ -81,8 +91,8 @@ table, th, td{
 
 .userstory-content > .userstory-stats{
     height: 70px;
-    width: 100%;
-    font-size: 20px;
+    width: 95%;
+    font-size: 18px;
     line-height: 18px;
 }
 
@@ -107,7 +117,7 @@ table, th, td{
 }
 
 .userstory-stats > .info-container{
-    width: 35%;
+    width: 40%;
     height: 100%;
     float: left;
     padding: 10px 0px 0px 0px; 
@@ -140,34 +150,39 @@ table, th, td{
 }
 .info-container > .timestats{
     width: 100%;
-    height: 60%;
+    height: 40%;
+    line-height: 22px;
+    font-size: 80%;
     text-align: center;
     display: inline-block;
     overflow: hidden;
 }
 
 .userstory-stats > .effort{
-    width: 20%;
+    width: 14%;
     height: 100%;
     text-align: center;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 600;
     padding-top: 20px;
     float: left;
     display: inline-block;
 }
 .userstory-stats > .member-container{
-    width: 28%;
+    width: 26%;
     height: 100%;
-    padding-top: 5px;
+    float: left;
+    padding-top: 10px;
     text-align: right;
     display: inline-block;
     overflow: hidden;
 }
 .member-container > .userstory-member{ 
     margin-bottom: 3px;
+    width: 25px;
+    height: 25px;
     display: inline-block;
-    background-color: black;
+    border-radius: 20px
 }
 
 .userstory-member > img { 
@@ -178,12 +193,13 @@ table, th, td{
 
 .userstory > .userstory-link{
     position: relative;
-    top: -70px;
-    left: 2px;
+    top: 0px;
+    float: right;
     height: 100%;
     width: 5%;
+    min-width: 15px;
     padding-top: 70px;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
     text-decoration: none;
 }
@@ -196,7 +212,7 @@ table, th, td{
 .task > .task-content{
     position: relative;
     height: 50px;
-    width: 95%;
+    width: 90%;
     color: white;
     display: inline-block;
     overflow: hidden;
@@ -206,9 +222,10 @@ table, th, td{
     top: 0px;
     height: 100%;
     width: 5%;
+    min-width: 15px;
     float: right;
-    padding-top: 15px;
-    font-size: 20px;
+    padding-top: 19px;
+    font-size: 15px;
     color: white;
     text-decoration: none;
 }
@@ -224,10 +241,8 @@ table, th, td{
 }
 .task-content > .task-time{
     position: relative;
-    bottom: 10px;
-    vertical-align: middle;
     height: 25px;
-    width: 40%;
+    width: 45%;
     padding: 3px 0px 0px 5px;
     color: inherit;
     display: inline-block;
@@ -236,13 +251,17 @@ table, th, td{
     position: relative;
     bottom: 2px;
     height: 25px;
-    width: 58%;
+    width: 53%;
+    float: right;
     display: inline-block;
     overflow: hidden;
 }
-.task-memberbox > .task-member{
+.task-member{
     float: right;
-    margin-left: 4px;
+    width: 25px;
+    height: 25px;
+    margin-left: 2px;
+    border-radius: 20px;
     display: inline-block;
 }
 
@@ -259,16 +278,6 @@ table, th, td{
 }
 
 /* put in style.css */
-.planing{
-    background-color: gray;
-}
-.inprogress{
-    background-color: orange;
-}
-.done{
-    background-color: green;
-}
-
 /* quick buttons specific css */
 #quick-button-container {
     position: fixed;

@@ -1,21 +1,199 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 $(document).ready(function(){
-    $( ".sprint-dropdown" ).click(function() {
-        if($(this).hasClass("glyphicon-triangle-bottom")){
-            $( this ).removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
-            $( this ).parents(".sprint").addClass("sprint-openlog");
-        } else {
-            $( this ).removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
-            $( this ).parents(".sprint").removeClass("sprint-openlog");
-        }
+    $(".barbtn").click(function(){
+        openBacklog();
+    });
+    
+    $("#openBacklog").click(function(){
+        openBacklog();
     });
 });
+
+function openBacklog(){
+    if($(".backlog-placeholder").css("left")=="0px"){
+        $(".backlog-placeholder").animate({left:"-287px"},500);
+        $(".glyphicon-menu-right").css({transform:"rotate(0deg)"});
+    } else {
+        $(".backlog-placeholder").animate({left:"0px"},500);
+        $(".glyphicon-menu-right").css({transform:"rotate(180deg)"});
+    }
+}
+    
+$(document).ready(function(){
+    $(".addbtn").hide();
+    $("#removebtn").hide();
+    selectUserstory();
+    toggleSprintlog();
+    moveUserstories();
+    if($(this).parent().attr("class")=="content"){
+        checkSelected(".content");
+    }
+});
+
+function moveUserstories(){
+    $(".addbtn").click(function(){
+        var sprint = $(".openlog").attr("sprintid");
+        var backlogusids = [];
+        var sprintusids = [];
+        getSelected(".content").each(function(){
+            backlogusids.push($(this).attr("usid"));
+        });
+        getSelected(".openlog").each(function(){
+            backlogusids.push($(this).attr("usid"));
+        });
+        var urlchange = "?sprintid="+sprint+"&addedStories="+backlogusids+"&removedStories="+sprintusids;
+        $(".addbtn").attr("href", $(".addbtn").attr("href")+urlchange);
+        $("#removebtn").attr("href", $(".addbtn").attr("href")+urlchange);
+        //$.post("addToSprint.htm",change,deselectAll());
+    });
+}
+    
+//Closes all Sprintlogs and deselect all Userstories.
+//Set the needed classes to the Sprintlogs.
+function toggleSprintlog(){
+    $( ".sprint-dropdown" ).click(function() {
+        if($(this).hasClass("glyphicon-triangle-bottom")){
+            closeAll();
+            $( this ).removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+            $( this ).parents(".sprint").addClass("openlog");
+            deselectAll();
+        } else {
+            closeAll();
+            $( this ).removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+            $( this ).parents(".sprint").removeClass("openlog");
+            deselectAll();
+        }
+    });
+}
+
+//Selects/Deselects the Userstory and handle the Addbtn
+function selectUserstory(){
+    $(".userstory").click(function(){
+        if($(this).hasClass("selected")){
+            $(this).removeClass("selected");
+            toggleAddbtn();
+            toggleRemovebtn();
+        } else {
+            $(this).addClass("selected");
+            toggleAddbtn();
+            toggleRemovebtn();
+        }
+    });
+}
+
+//Retunrs the selected Userstories in the Element "classselector".
+function getSelected(classselctor){
+    return $(classselctor).find(".userstory.selected");
+}
+
+// Checks the given parent, if one child has the class ".userstory.selected" it will retuen true.
+function checkSelected(parentClass){
+    if($(parentClass).find(".userstory.selected").size()>0){
+        return true;
+    } else {
+        return false;
+    }
+}
+    
+// Deselect all Userstorys
+function deselectAll(){
+    $(".userstory").each(function(){
+        $(".selected").removeClass("selected");
+    });
+}
+
+// Close all Sprintlogs
+function closeAll(){
+    $(".sprint").each(function(){
+        $(this).removeClass("openlog");
+        $(".glyphicon-triangle-top").removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+    });
+}
+
+//Toggles the Addbtn
+//Check the selected Userstories and one Sprintlog must be open.
+function toggleAddbtn(){
+    if(checkSelected(".content") && $(".sprint").hasClass("openlog")){
+        $(".addbtn").show();
+    } else {
+        $(".addbtn").hide();
+    }
+}
+    
+//Toggles the Removebtn
+function toggleRemovebtn(){
+    if(checkSelected(".sprintlog")){
+        $("#removebtn").show();
+    } else {
+        $("#removebtn").hide();
+    }
+}
 </script>
+<div class="backlog-placeholder">
+    <div class="backlogbar">
+        <span class="glyphicon glyphicon-menu-right barbtn"></span>
+    </div>
+    <div class="backlog">
+        <div class="backlog-header">Backlog</div>
+        <div class="backlog-data">
+            <div class="data-container">
+                Value
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="data-container">
+                Value</br>
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="data-container">
+                Value</br>
+                ### / ###
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div usid="1" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+            <div usid="2" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+            <div usid="3" class="userstory">
+                <div class="userstory-titel">UserStory</div>
+                <div class="userstory-content">
+                    Time: ###/###/### </br>
+                    Effort: ### </br>
+                    Value: ###
+                </div>
+            </div>
+        </div>
+        <a class="addbtn" href="./editUserstories.htm">Add to Sprint</a>
+    </div>
+</div>
+
 <div class="sprintpage">
 	<c:forEach items="${sprints}" var="sprint">
-	    <div class="sprint">
+	    <div sprintid="${sprint.id}" class="sprint">
 	        <div class="sprint-state ${sprint.planState.name().toLowerCase() }"></div>
 	        <div class="sprint-content">
 	            <div class="sprint-name">SPRINT - ${sprint.description }</div>
@@ -30,14 +208,16 @@ $(document).ready(function(){
 	                        USERSTORIES
 	                        <div class="count">${sprint.getFinishedUserStories() } / ${sprint.getUserStories().size()} </div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" style="width:${sprint.getFinishedUserStories() / sprint.userStories.size() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
 	                        TIME
-	                        <div class="count">${sprint.getRemainingMinutes() / 60 } / ${sprint.getPlannedMinutes() / 60}</div>
+	                        <div class="count">
+	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" />h / 
+	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" />h</div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
@@ -63,7 +243,7 @@ $(document).ready(function(){
 	        </div>
 	        <div class="sprintlog">
 		        <c:forEach items="${sprint.getUserStories()}" var="userstory">
-		            <div class="userstory">
+		            <div usid="${userstory.id }" class="userstory">
 		                <div class="userstory-titel">${userstory.description }</div>
 		                <div class="userstory-content">
 		                    Time:   ${userstory.getWorkedMinutes()/60}/${userstory.getRemainingMinutes()/60}/${userstory.getPlannedMinutes()/60}</br>
@@ -76,8 +256,14 @@ $(document).ready(function(){
 	    </div>
     </c:forEach>
     <div id="quick-button-container">
-    <a class="quick-button" href="./addSprint.htm">
-        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
-    </a>
+	    <a id="openBacklog" class="quick-button" href="#">
+	        <span class="quick-button-title">B</span><span class="quick-button-text">open Backlog</span>
+	    </a>
+	    <a class="quick-button" href="./addSprint.htm">
+	        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
+	    </a>
+	    <a id="removebtn" class="quick-button" href="./editUserstories.htm">
+	        <span class="quick-removebutton-title">X</span><span class="quick-removebutton-text">remove Userstory</span>
+	    </a>
 	</div>
 </div>

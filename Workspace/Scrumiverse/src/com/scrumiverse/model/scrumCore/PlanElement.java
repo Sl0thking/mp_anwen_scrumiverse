@@ -24,7 +24,7 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  * shared plan attributes between Scrum DataModells.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 25.02.16
+ * @version 29.02.16
  *
  */
 @MappedSuperclass
@@ -74,7 +74,7 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 	}
 	
 	public void addHistoryEntry(ChangeEvent event, User user){
-		
+		this.history.add(new HistoryEntry(user, event));
 	}
 	
 	public void setCriteria(String criteria){

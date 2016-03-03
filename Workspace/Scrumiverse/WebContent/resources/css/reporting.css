@@ -1,0 +1,31 @@
+.reporting-page {
+	position: absolute;
+	width: 100%;
+	padding: 20px 30px 20px 40px;
+	height: 95vh;
+    overflow-y: scroll;
+}
+
+.sprintBurnDown {
+	position: absolute;
+	width: 700px;
+	height: 600px;
+	margin: 0 auto;
+	padding: 10px;
+	background-color: #190033;
+}
+
+.sprint-selection {
+	position: absolute;
+	top: 10px;
+	left: 730px;
+	width: 300px;
+	height: 50px;
+	margin: 10px;
+	background-color: grey;
+}
+
+select {
+	position: absolute;
+	margin: 10px;
+}

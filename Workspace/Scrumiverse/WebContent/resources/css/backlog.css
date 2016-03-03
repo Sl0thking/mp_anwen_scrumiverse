@@ -1,7 +1,7 @@
 #backlog {
     width: 100%;
-    padding: 20px 20px 20px 20px;
-    height: 95vh;
+    padding: 20px 20px 35px 20px;
+    height: calc(100% - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -24,15 +24,6 @@
     height: 60px;
     width: .8%;
     overflow: hidden;
-}
-#Planning{
-	background-color: darkgrey;
-}
-#InProgress{
-	background-color: orange;
-}
-#Done{
-	background-color: green;
 }
 
 #backlog > .userstory > .userstory-titel {

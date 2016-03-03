@@ -1,4 +1,8 @@
 body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
     background-color: black;
     color: white;
 }
@@ -88,6 +92,15 @@ body {
 	float: left;
 	width: 150px;
 	height: 100%;
+}
+
+#menubar > .menuitem > .current-page {
+	z-index: 2;
+	position: relative;
+	margin-top: 3px;
+	width: 100%;
+	height: 3px;
+	background-color: white;
 }
 
 #menubar > .menuitem:hover {
@@ -189,12 +202,14 @@ body {
 
 #action_content {
 	z-index: 0;
-	position: relative;
+	position: fixed;
 	top: 50px;
 	width: 100%;
 	height: 100%;
-	background-color: #303030;
+	background-color: black;
+	overflow-y: scroll;
 }
+#action_content::-webkit-scrollbar {display: none;}
 
 /* login page specific css */
 .background {
@@ -232,7 +247,7 @@ body {
 /* quick buttons specific css */
 #quick-button-container {
     position: fixed;
-    bottom: 10px;
+    bottom: 2px;
     right: 10px;
     width: 800px;
     height: 30px;
@@ -241,13 +256,10 @@ body {
     vertical-align: middle;
 }
 
-#quick-button-container a {
+#quick-button-container > .quick-button {
 	text-decoration: none;
 	color: white;
 	font-weight: bold;
-}
-
-#quick-button-container > .quick-button {
 	float: right;
 	margin-left: 10px;
 }
@@ -277,4 +289,14 @@ body {
 
 #quick-button-container > .quick-button:hover > .quick-button-text {
 	display: inline-block;
+}
+/* Needed for the PlanningState */
+#Planning{
+	background-color: darkgrey;
+}
+#InProgress{
+	background-color: orange;
+}
+#Done{
+	background-color: green;
 }

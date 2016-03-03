@@ -33,12 +33,11 @@
 					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="./showUserStoryDetails.htm"></a>
 				</div>
 			</div>
-		</c:forEach>
-	</div>  
-	<div id="quick-button-container">
-	    <a class="quick-button" href="./newUserStory.htm">
-	        <span class="quick-button-title">U</span><span class="quick-button-text">new UserStory</span>
-	    </a> 
-	</div>
-</body>
-</html>
+		</div>
+	</c:forEach>
+</div>  
+<div id="quick-button-container">
+    <a class="quick-button" href="./newUserStory.htm">
+        <span class="quick-button-title">U</span><span class="quick-button-text">new UserStory</span>
+    </a> 
+</div>

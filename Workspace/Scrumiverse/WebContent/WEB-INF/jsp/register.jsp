@@ -17,7 +17,7 @@ $(document).ready(function(){
 		var password = $("#password").val();
 		var check = $("#passwordcheck").val();
 		if($("button").is(":disabled")){
-			if(password == check && password != "password" && checkInputs()){
+			if(password!="" && password == check && password != "password" && checkInputs()){
 				$("button").prop('disabled', false);
 			}
 		} else {
