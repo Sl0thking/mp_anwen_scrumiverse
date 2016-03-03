@@ -5,11 +5,12 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 <script>
+
 $(document).ready(function() {
+		
 	$('.sprintBurnDown').highcharts({
 		chart: {type: 'line'},
-		title: {text: '', align: 'center'},
-		subtitle: {text: 'Sprint BurnDown', align: 'center'},
+		title: {text: 'Sprint BurnDown', align: 'center'},
 		xAxis: {type: 'datetime', dateTimeLabelFormats: {day: '%e of %b'}},
 		yAxis: {title: {text: 'Backlog items'}},
 		plotOptions: {series:{pointStart: 0}},
@@ -23,5 +24,11 @@ $(document).ready(function() {
 
 <div class="reporting-page">
 	<div class="sprintBurnDown">
+	</div>
+	<div class="sprint-selection">
+	Here comes the selection!
+		<form:select name="Sprint">
+			<form:options items="${sprints}"/>
+		</form:select>
 	</div>
 </div>
