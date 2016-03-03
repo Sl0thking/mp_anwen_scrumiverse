@@ -87,7 +87,7 @@ public class ProjectController extends MetaController {
 			User user = this.loadActiveUser(session);
 			Project project = new Project();
 			projectDAO.saveProject(project);
-			project.addProjectUser(user,(Role) project.getRoles().toArray()[0]);
+			project.addProjectUser(user,(Role) project.getRoles().toArray()[1]);
 			user.addProject(project);
 			userDAO.updateUser(user);
 			projectDAO.updateProject(project);
