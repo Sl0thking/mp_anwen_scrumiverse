@@ -82,9 +82,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                   		<c:choose>		
 			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -113,9 +113,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>
@@ -136,9 +136,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                     <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>

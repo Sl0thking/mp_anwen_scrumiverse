@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 $(document).ready(function(){
     $(".barbtn").click(function(){
@@ -207,14 +208,16 @@ function toggleRemovebtn(){
 	                        USERSTORIES
 	                        <div class="count">${sprint.getFinishedUserStories() } / ${sprint.getUserStories().size()} </div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" style="width:${sprint.getFinishedUserStories() / sprint.userStories.size() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
 	                        TIME
-	                        <div class="count">${sprint.getRemainingMinutes() / 60 } / ${sprint.getPlannedMinutes() / 60}</div>
+	                        <div class="count">
+	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" />h / 
+	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" />h</div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">

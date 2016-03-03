@@ -216,7 +216,7 @@
 .data-container .progress{
     background-color: green;
     height: 10px;
-    width: 40%;
+/*    width: 40%; */
     display: inline-block;
     border-radius: 0px;
 }
@@ -228,6 +228,8 @@
     font-weight: 500;
     display: inline-block;
 }
+
+
 
 .sprint-control .sprint-link{
     position: relative;
