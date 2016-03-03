@@ -162,30 +162,18 @@ function toggleRemovebtn(){
             </div>
         </div>
         <div class="content">
-            <div usid="1" class="userstory">
-                <div class="userstory-titel">UserStory</div>
-                <div class="userstory-content">
-                    Time: ###/###/### </br>
-                    Effort: ### </br>
-                    Value: ###
-                </div>
-            </div>
-            <div usid="2" class="userstory">
-                <div class="userstory-titel">UserStory</div>
-                <div class="userstory-content">
-                    Time: ###/###/### </br>
-                    Effort: ### </br>
-                    Value: ###
-                </div>
-            </div>
-            <div usid="3" class="userstory">
-                <div class="userstory-titel">UserStory</div>
-                <div class="userstory-content">
-                    Time: ###/###/### </br>
-                    Effort: ### </br>
-                    Value: ###
-                </div>
-            </div>
+        	<c:forEach items="${project.getUserstories()}" var="userstory">
+	            <div usid="${userstory.id }" class="userstory">
+			        <div class="userstory-titel">${userstory.description }</div>
+			        <div class="userstory-content">
+			        Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/>h /
+			                <fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/>h /
+			        		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/>h</br>
+			        Effort: ${userstory.getEffortValue()}</br>
+			        Value:  ${userstory.getBusinessValue()}
+			    	</div>
+				</div>
+			</c:forEach>
         </div>
         <a class="addbtn" href="./editUserstories.htm">Add to Sprint</a>
     </div>
@@ -196,23 +184,23 @@ function toggleRemovebtn(){
 	    <div sprintid="${sprint.id}" class="sprint">
 	        <div class="sprint-state ${sprint.planState.name().toLowerCase() }"></div>
 	        <div class="sprint-content">
-	            <div class="sprint-name">SPRINT - ${sprint.description }</div>
+	            <div class="sprint-name">${sprint.description }</div>
 	            <div class="sprint-stats">
 	                <div class="sprint-time-overview">
 	                    <div class="sprint-sandclock"></div>
 	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
-	                    <div class="sprint-time">TIME</div>
+	                    <div class="sprint-time">Time</div>
 	                </div>
 	                <div class="sprint-data">
 	                    <div class="data-container">
-	                        USERSTORIES
+	                        Userstories
 	                        <div class="count">${sprint.getFinishedUserStories() } / ${sprint.getUserStories().size()} </div>
 	                        <div class="progressbar">
 	                        	<div class="progress" style="width:${sprint.getFinishedUserStories() / sprint.userStories.size() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
-	                        TIME
+	                        Time
 	                        <div class="count">
 	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" />h / 
 	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" />h</div>
@@ -221,17 +209,17 @@ function toggleRemovebtn(){
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
-	                        EFFORT
+	                        Effort
 	                        <div class="count">${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }</div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" style="width:${sprint.getCompletedEffort() / sprint.getCombinedEffort() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                    <div class="data-container">
-	                        VALUE
+	                        Value
 	                        <div class="count">${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }</div>
 	                        <div class="progressbar">
-	                        	<div class="progress"></div>
+	                        	<div class="progress" width="${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -246,7 +234,9 @@ function toggleRemovebtn(){
 		            <div usid="${userstory.id }" class="userstory">
 		                <div class="userstory-titel">${userstory.description }</div>
 		                <div class="userstory-content">
-		                    Time:   ${userstory.getWorkedMinutes()/60}/${userstory.getRemainingMinutes()/60}/${userstory.getPlannedMinutes()/60}</br>
+		                    Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/>h /
+		                    		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/>h /
+		                    		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/>h</br>
 		                    Effort: ${userstory.getEffortValue()}</br>
 		                    Value:  ${userstory.getBusinessValue()}
 		                </div>

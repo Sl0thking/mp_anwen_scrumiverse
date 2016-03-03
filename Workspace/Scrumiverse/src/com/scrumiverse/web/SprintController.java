@@ -62,6 +62,7 @@ public class SprintController extends MetaController {
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("action", Action.sprintOverview);
+			map.addAttribute("project", this.loadCurrentProject(session));
 			return new ModelAndView("index", map);
 		} catch(InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
