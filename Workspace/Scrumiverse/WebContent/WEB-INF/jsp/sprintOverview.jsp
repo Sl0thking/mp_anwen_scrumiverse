@@ -23,7 +23,7 @@ function openBacklog(){
 }
     
 $(document).ready(function(){
-    $(".addbtn").hide();
+    $(".addusbtn").hide();
     $("#removebtn").hide();
     selectUserstory();
     toggleSprintlog();
@@ -117,9 +117,9 @@ function closeAll(){
 //Check the selected Userstories and one Sprintlog must be open.
 function toggleAddbtn(){
     if(checkSelected(".content") && $(".sprint").hasClass("openlog")){
-        $(".addbtn").show();
+        $(".addusbtn").show();
     } else {
-        $(".addbtn").hide();
+        $(".addusbtn").hide();
     }
 }
     
@@ -140,14 +140,14 @@ function toggleRemovebtn(){
         <div class="backlog-header">Backlog</div>
         <div class="backlog-data">
             <div class="data-container">
-                Value
-                ### / ###
+                Time</br>
+                ### / ### h
                 <div class="progressbar">
                     <div class="progress"></div>
                 </div>
             </div>
             <div class="data-container">
-                Value</br>
+                Effort</br>
                 ### / ###
                 <div class="progressbar">
                     <div class="progress"></div>
@@ -166,23 +166,23 @@ function toggleRemovebtn(){
 	            <div usid="${userstory.id }" class="userstory">
 			        <div class="userstory-titel">${userstory.description }</div>
 			        <div class="userstory-content">
-			        Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/>h /
-			                <fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/>h /
-			        		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/>h</br>
+			        Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> /
+			                <fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> /
+			        		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
 			        Effort: ${userstory.getEffortValue()}</br>
 			        Value:  ${userstory.getBusinessValue()}
 			    	</div>
 				</div>
 			</c:forEach>
         </div>
-        <a class="addbtn" href="./editUserstories.htm">Add to Sprint</a>
+        <a class="addusbtn" href="./editUserstories.htm">Add to Sprint</a>
     </div>
 </div>
 
 <div class="sprintpage">
 	<c:forEach items="${sprints}" var="sprint">
 	    <div sprintid="${sprint.id}" class="sprint">
-	        <div class="sprint-state ${sprint.planState.name().toLowerCase() }"></div>
+	        <div class="sprint-state ${sprint.planState.toString() }"></div>
 	        <div class="sprint-content">
 	            <div class="sprint-name">${sprint.description }</div>
 	            <div class="sprint-stats">
@@ -202,8 +202,8 @@ function toggleRemovebtn(){
 	                    <div class="data-container">
 	                        Time
 	                        <div class="count">
-	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" />h / 
-	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" />h</div>
+	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" /> / 
+	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" /> h</div>
 	                        <div class="progressbar">
 	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 	                        </div>
@@ -219,13 +219,13 @@ function toggleRemovebtn(){
 	                        Value
 	                        <div class="count">${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }</div>
 	                        <div class="progressbar">
-	                        	<div class="progress" width="${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
+	                        	<div class="progress" style="width:${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
-	        <div class="sprint-control ${sprint.planState.name().toLowerCase() }">
+	        <div class="sprint-control ${sprint.planState.toString() }">
 	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
@@ -234,9 +234,9 @@ function toggleRemovebtn(){
 		            <div usid="${userstory.id }" class="userstory">
 		                <div class="userstory-titel">${userstory.description }</div>
 		                <div class="userstory-content">
-		                    Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/>h /
-		                    		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/>h /
-		                    		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/>h</br>
+		                    Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> /
+		                    		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> /
+		                    		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
 		                    Effort: ${userstory.getEffortValue()}</br>
 		                    Value:  ${userstory.getBusinessValue()}
 		                </div>

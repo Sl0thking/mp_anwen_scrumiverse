@@ -37,7 +37,7 @@ function deselectAll(){
 		<tr>
         <td class="userstory-section item-section">
             <div class="userstory" userStoryId="${userStory.id}">
-                <div class="userstory-state ${userStory.planState.name().toLowerCase()}"></div>
+                <div class="userstory-state ${userStory.planState.toString()}"></div>
                 <div class="userstory-content">
                     <div class="userstory-titel">${userStory.description}</div>
                     <div class="userstory-stats">
@@ -50,9 +50,9 @@ function deselectAll(){
                             <div class="value">${userStory.businessValue}</div>
                             <div class="risk">###</div>
                             <div class="timestats">
-                            	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="1"/>h / 
-                            	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="1"/>h / 
-                            	<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="1"/>h </div>
+                            	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
+                            	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
+                            	<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h</div>
                         	</div>
                         <div class="effort">${userStory.effortValue}</div>
                         <div class="member-container">
@@ -72,7 +72,7 @@ function deselectAll(){
                         </div>
                     </div>
                 </div>
-                <a class="glyphicon glyphicon-triangle-right userstory-link inprogress" href="#"></a>
+                <a class="glyphicon glyphicon-triangle-right userstory-link ${userStory.planState.toString() }" href="#"></a>
             </div>
         </td>
         <td class="task-section item-section">
@@ -82,9 +82,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" /> h</div>
 		                    <div class="task-memberbox">
 		                   		<c:choose>		
 			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -101,7 +101,7 @@ function deselectAll(){
 		                   		</c:choose>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>
@@ -113,9 +113,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" /> h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>
@@ -124,7 +124,7 @@ function deselectAll(){
 		                        <div class="task-member"></div>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>
@@ -136,9 +136,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                     <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" /> h</div>
 		                    <div class="task-memberbox">
 		                        <div class="task-member"></div>
 		                        <div class="task-member"></div>
@@ -147,7 +147,7 @@ function deselectAll(){
 		                        <div class="task-member"></div>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link planed"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>

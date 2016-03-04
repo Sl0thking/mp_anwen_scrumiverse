@@ -1,40 +1,39 @@
-.bg {
+/*.bg {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: black;
     padding: 0px 10px 10px 10px;
     overflow-y: scroll;
-}
+}*/
 
 table{
-    margin-bottom: 35px;
+    height: 100%;
+    margin: 50px 0px 45px 0px;
+    overflow: scroll;
+}
+table::-webkit-scrollbar{
+    display: none;
 }
 
 table, th, td{
     border: 1px solid #444444;
-    overflow-x: scroll;
 }
 .taskboard-heading{
     position: fixed;
     width: 100%;
     height: 25px;
     text-align: center;
-    border-collapse: collapse;
-    table-layout: fixed;
-    overflow-y: scroll;
+    overflow: hidden;
     background-color: #333333;
     z-index: 1;
 }
 .taskboard{
     position: relative;
     top: 25px;
+    height: 30px;
     width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    overflow-y: scroll;
 }
-
 .taskboard::-webkit-scrollbar{
     display: none;
 }
@@ -52,9 +51,9 @@ table, th, td{
     text-align: inherit;
 }
 .item-section{
-    height: auto;
     vertical-align: top;
     padding: 5px 5px 5px 5px;
+    overflow: hidden;
 }
 
 .userstory{
@@ -82,6 +81,7 @@ table, th, td{
 .userstory-content > .userstory-titel{
     height: 90px;
     width: 95%;
+    float: left;
     padding: 2px 0px 0px 5px;
     color: inherit;
     font-weight: 500;
@@ -91,7 +91,8 @@ table, th, td{
 
 .userstory-content > .userstory-stats{
     height: 70px;
-    width: 95%;
+    width: 98%;
+    float: left;
     font-size: 18px;
     line-height: 18px;
 }
@@ -112,21 +113,22 @@ table, th, td{
     height: 20px;
     width: 100%;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
 }
 
 .userstory-stats > .info-container{
-    width: 40%;
+    width: 50%;
     height: 100%;
     float: left;
-    padding: 10px 0px 0px 0px; 
+    font-size: 14px;
+    padding: 25px 0px 0px 0px; 
     display: inline-block;
     overflow: hidden;
 }
 .info-container > .moscow{
     width: 30%;
-    height: 30%;
+    height: 35%;
     float: left;
     text-align: center;
     display: inline-block;
@@ -134,7 +136,7 @@ table, th, td{
 }
 .info-container > .value{
     width: 32%;
-    height: 30%;
+    height: 35%;
     float: left;
     text-align: center;
     display: inline-block;
@@ -142,7 +144,7 @@ table, th, td{
 }
 .info-container > .risk{
     width: 33%;
-    height: 30%;
+    height: 35%;
     float: left;
     text-align: center;
     display: inline-block;
@@ -150,7 +152,7 @@ table, th, td{
 }
 .info-container > .timestats{
     width: 100%;
-    height: 40%;
+    height: 45%;
     line-height: 22px;
     font-size: 80%;
     text-align: center;
@@ -159,17 +161,17 @@ table, th, td{
 }
 
 .userstory-stats > .effort{
-    width: 14%;
+    width: 10%;
     height: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
-    padding-top: 20px;
+    padding-top: 35px;
     float: left;
     display: inline-block;
 }
 .userstory-stats > .member-container{
-    width: 26%;
+    width: 23%;
     height: 100%;
     float: left;
     padding-top: 10px;
@@ -186,8 +188,8 @@ table, th, td{
 }
 
 .userstory-member > img { 
-	width: 28px;
-    height: 28px;
+	width: 25px;
+    height: 25px;
     border-radius: 100%;
 }
 
@@ -212,7 +214,7 @@ table, th, td{
 .task > .task-content{
     position: relative;
     height: 50px;
-    width: 90%;
+    width: 93%;
     color: white;
     display: inline-block;
     overflow: hidden;
@@ -242,8 +244,9 @@ table, th, td{
 .task-content > .task-time{
     position: relative;
     height: 25px;
-    width: 45%;
-    padding: 3px 0px 0px 5px;
+    width: 60%;
+    font-size: 12px;
+    padding: 7px 0px 0px 5px;
     color: inherit;
     display: inline-block;
 }
@@ -251,7 +254,7 @@ table, th, td{
     position: relative;
     bottom: 2px;
     height: 25px;
-    width: 53%;
+    width: 40%;
     float: right;
     display: inline-block;
     overflow: hidden;
