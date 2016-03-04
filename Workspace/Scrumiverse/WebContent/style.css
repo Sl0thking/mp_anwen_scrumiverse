@@ -7,23 +7,37 @@ body {
     color: white;
 }
 
+.pagecontent{
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+.pagecontent::-webkit-scrollbar{
+    display: none;
+}
+
 /* index page specific css */
+.navbar-placeholder{
+    width: 100%;
+	height: 50px;
+}
+
 #navbar {
-	z-index: 1;
+	z-index: 11;
 	position: fixed;
 	width: 100%;
-	height: 50px;	
+	height: 50px;
 	background-color: black;
 }
 
 #navbar > img:first-child {
-	z-index: 2;
+	z-index: 12;
 	position: absolute;
 	top: 0px;
 }
 
 #navbar > img:last-child {
-	z-index: 2;	
+	z-index: 12;	
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -36,7 +50,7 @@ body {
 }
 
 #logo {
-	z-index: 3;
+	z-index: 13;
 	float: left;
 	position: relative;
 	width: 50px;
@@ -81,7 +95,7 @@ body {
 }
 
 #menubar {
-	z-index: 3;
+	z-index: 13;
 	position: relative;
 	float: left;
 	height: 100%;
@@ -95,7 +109,7 @@ body {
 }
 
 #menubar > .menuitem > .current-page {
-	z-index: 2;
+	z-index: 12;
 	position: relative;
 	margin-top: 3px;
 	width: 100%;
@@ -166,7 +180,7 @@ body {
 }
 
 #userbar {
-	z-index: 3;
+	z-index: 13;
 	position: absolute;
 	right: 50px;
 	height: 100%;
@@ -202,14 +216,15 @@ body {
 
 #action_content {
 	z-index: 0;
-	position: fixed;
-	top: 50px;
 	width: 100%;
 	height: 100%;
 	background-color: black;
-	overflow-y: scroll;
+    overflow: scroll;
 }
-#action_content::-webkit-scrollbar {display: none;}
+.navbar-placeholder{
+    height: 50px;
+    width: 100%;
+}
 
 /* login page specific css */
 .background {
@@ -247,7 +262,7 @@ body {
 /* quick buttons specific css */
 #quick-button-container {
     position: fixed;
-    bottom: 2px;
+    bottom: 10px;
     right: 10px;
     width: 800px;
     height: 30px;
@@ -290,7 +305,7 @@ body {
 #quick-button-container > .quick-button:hover > .quick-button-text {
 	display: inline-block;
 }
-/* Needed for the PlanningState */
+
 #Planning{
 	background-color: darkgrey;
 }

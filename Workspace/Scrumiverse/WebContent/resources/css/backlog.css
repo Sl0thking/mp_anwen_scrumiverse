@@ -80,7 +80,7 @@
     position: absolute;
     left: 56%;
     height: 25px;
-    width: 26%;
+    width: 30%;
     display: inline-block;
     overflow: hidden;
 	text-overflow: ellipsis;
@@ -91,7 +91,7 @@
     left: 56%;
     top: 30px;
     height: 25px;
-    width: 26%;
+    width: 30%;
     overflow: hidden;
 	text-overflow: ellipsis;
     display: inline-block;
@@ -100,28 +100,28 @@
 #backlog > .userstory > .userstory-timestats{
     position: absolute;
     top: 8px;
-    left: 83%;
+    left: 87%;
     height: 25px;
-    width: 12%;
+    width: 8%;
     display: inline-block;
     overflow: hidden;
 }
 
 #backlog > .userstory > .userstory-moscow{
     position: absolute;
-    left: 86%;
+    left: 87%;
     top: 30px;
     text-align: left;
     height: 22px;
-    width: 6%;
+    width: 2%;
     overflow: hidden;
 }
 
 #backlog > .userstory > .userstory-value{
     position: absolute;
-    left: 83%;
+    left: 89%;
     top: 30px;
-    text-align: left;
+    text-align: center;
     width: 2%;
     overflow: hidden;
 }
