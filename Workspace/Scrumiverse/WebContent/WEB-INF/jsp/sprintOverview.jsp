@@ -182,7 +182,7 @@ function toggleRemovebtn(){
 <div class="sprintpage">
 	<c:forEach items="${sprints}" var="sprint">
 	    <div sprintid="${sprint.id}" class="sprint">
-	        <div class="sprint-state ${sprint.planState.toString() }"></div>
+	        <div id="${sprint.planState.toString() }" class="sprint-state"></div>
 	        <div class="sprint-content">
 	            <div class="sprint-name">${sprint.description }</div>
 	            <div class="sprint-stats">
@@ -225,7 +225,7 @@ function toggleRemovebtn(){
 	                </div>
 	            </div>
 	        </div>
-	        <div class="sprint-control ${sprint.planState.toString() }">
+	        <div id="${sprint.planState.toString() }" class="sprint-control">
 	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>

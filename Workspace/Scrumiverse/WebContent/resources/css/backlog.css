@@ -1,6 +1,8 @@
 #backlog {
+    position: relative;
+    top: 50px;
     width: 100%;
-    padding: 70px 20px 45px 20px;
+    padding: 20px 20px 45px 20px;
     height: calc(100% - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
@@ -16,7 +18,7 @@
     margin: 5px 0px 0px 0px;
     padding: 3px 0px 0px 0px;
     overflow: hidden;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 #backlog > .userstory > .userstory-planstate{
 	position: absolute;
@@ -29,7 +31,7 @@
 #backlog > .userstory > .userstory-titel {
     position: absolute;
     left: 1%;
-    width: 44%;
+    width: 40%;
     height: 55px;
     overflow: hidden;
 	text-overflow: ellipsis;
@@ -38,20 +40,21 @@
 
 #backlog > .userstory > .userstory-sandclock{
     position: absolute;
-    left: 45.5%;
+    left: 41.5%;
     background-color: black;
     height: 39px;
-    width: 3%;
+    width: 4%;
     display: inline-block;
 }
 
 #backlog > .userstory > .userstory-time{
     position: absolute;
-    font-size: 15px;
-    left: 45.5%;
+    font-size: 14px;
+    line-height: 20px;
+    left: 41.5%;
     top: 41px;
-    width: 3%;
-    height: 17px;
+    width: 4%;
+    height: 18px;
     text-align: center;
     color: white;
     display: inline-block;
@@ -60,7 +63,7 @@
 
 #backlog > .userstory > .userstory-memberbox{
     position: absolute;
-    left: 48.8%;
+    left: 45.8%;
     width: 7%;
     height: 56px;
     display: inline-block;
@@ -78,9 +81,9 @@
 
 #backlog > .userstory > .userstory-category {
     position: absolute;
-    left: 56%;
+    left: 53%;
     height: 25px;
-    width: 30%;
+    width: 23%;
     display: inline-block;
     overflow: hidden;
 	text-overflow: ellipsis;
@@ -88,10 +91,10 @@
 
 #backlog > .userstory > .userstory-sprint {
     position: absolute;
-    left: 56%;
+    left: 53%;
     top: 30px;
     height: 25px;
-    width: 30%;
+    width: 23%;
     overflow: hidden;
 	text-overflow: ellipsis;
     display: inline-block;
@@ -99,48 +102,59 @@
 
 #backlog > .userstory > .userstory-timestats{
     position: absolute;
-    top: 8px;
-    left: 87%;
+    top: 30px;
+    left: 76%;
     height: 25px;
-    width: 8%;
+    width: 19%;
+    text-align: center;
     display: inline-block;
     overflow: hidden;
 }
 
 #backlog > .userstory > .userstory-moscow{
     position: absolute;
-    left: 87%;
-    top: 30px;
-    text-align: left;
+    left: 77%;
+    top: 8px;
+    text-align: center;
     height: 22px;
-    width: 2%;
+    width: 6%;
     overflow: hidden;
 }
 
 #backlog > .userstory > .userstory-value{
     position: absolute;
-    left: 89%;
-    top: 30px;
+    left: 83%;
+    top: 8px;
     text-align: center;
-    width: 2%;
+    width: 5%;
+    overflow: hidden;
+}
+
+#backlog > .userstory > .userstory-risk{
+    position: absolute;
+    left: 88%;
+    top: 8px;
+    text-align: center;
+    width: 5%;
     overflow: hidden;
 }
 
 #backlog > .userstory > .userstory-effort{
     position: absolute;
-    left: 94.3%;
+    left: 93.3%;
     top: 14px;
     font-size: 20px;
     text-align: center;
     font-weight: 500;
-    width: 50px;
+    width: 5%;
+    min-width: 40px;
     overflow: hidden;
 }
 
 .userstory-control{
-    position: absolute;
-    left: 98.5%;
-    bottom: 0px;
+    position: relative;
+    bottom: 3px;
+    float: right;
     height: 60px;
     width: 20px;
     overflow: hidden;
@@ -148,10 +162,10 @@
 #backlog .userstory .userstory-control .userstory-settings{
 	position: absolute;
 	display: block;
-	top: 20px;
+	top: 22px;
 	color: white;
 	text-align: center;
-	height: 60px;
+	height: 20px;
 	width: 20px;
 	text-decoration: none;
 }

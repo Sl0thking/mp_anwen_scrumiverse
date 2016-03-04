@@ -18,21 +18,18 @@
 		        <div class="userstory-category">Category</div>
 		        <div class="userstory-sprint">
 			        <c:choose>
-					    <c:when test="${userstory.relatedSprint == null}">
-					    	Backlog
-					    </c:when>
-					    <c:otherwise>
-					    	${userstory.relatedSprint.description}
-					    </c:otherwise>
+					    <c:when test="${userstory.relatedSprint == null}">Backlog</c:when>
+					    <c:otherwise>${userstory.relatedSprint.description}</c:otherwise>
 					</c:choose>
 		        </div>
 		        <div class="userstory-timestats">
-		        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/>h / 
-                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/>h / 
-                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/>h 
+		        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
+                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
+                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
                 </div>
 		        <div class="userstory-moscow">${userstory.getMoscow().toString()}</div>
 		        <div class="userstory-value">${userstory.businessValue}</div>
+		        <div class="userstory-risk">RISK</div>
 		        <div class="userstory-effort">${userstory.effortValue}</div>
         		<div class="userstory-control" id="${userstory.planState}">
 					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="./showUserStoryDetails.htm"></a>

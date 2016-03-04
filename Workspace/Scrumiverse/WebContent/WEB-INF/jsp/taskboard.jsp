@@ -37,7 +37,7 @@ function deselectAll(){
 		<tr>
         <td class="userstory-section item-section">
             <div class="userstory" userStoryId="${userStory.id}">
-                <div class="userstory-state ${userStory.planState.toString()}"></div>
+                <div id="${userStory.planState.toString() }" class="userstory-state"></div>
                 <div class="userstory-content">
                     <div class="userstory-titel">${userStory.description}</div>
                     <div class="userstory-stats">
@@ -72,7 +72,7 @@ function deselectAll(){
                         </div>
                     </div>
                 </div>
-                <a class="glyphicon glyphicon-triangle-right userstory-link ${userStory.planState.toString() }" href="#"></a>
+                <a id="${userStory.planState.toString() }" class="glyphicon glyphicon-triangle-right userstory-link" href="#"></a>
             </div>
         </td>
         <td class="task-section item-section">
