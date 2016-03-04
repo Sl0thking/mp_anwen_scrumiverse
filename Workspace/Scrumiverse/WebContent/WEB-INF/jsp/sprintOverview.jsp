@@ -34,7 +34,7 @@ $(document).ready(function(){
 });
 
 function moveUserstories(){
-    $(".addbtn").click(function(){
+    $(".addusbtn").click(function(){
         var sprint = $(".openlog").attr("sprintid");
         var backlogusids = [];
         var sprintusids = [];
@@ -45,8 +45,8 @@ function moveUserstories(){
             backlogusids.push($(this).attr("usid"));
         });
         var urlchange = "?sprintid="+sprint+"&addedStories="+backlogusids+"&removedStories="+sprintusids;
-        $(".addbtn").attr("href", $(".addbtn").attr("href")+urlchange);
-        $("#removebtn").attr("href", $(".addbtn").attr("href")+urlchange);
+        $(".addusbtn").attr("href", $(".addusbtn").attr("href")+urlchange);
+        $("#removebtn").attr("href", $("#removebtn").attr("href")+urlchange);
         //$.post("addToSprint.htm",change,deselectAll());
     });
 }
