@@ -226,7 +226,7 @@ function toggleRemovebtn(){
 	            </div>
 	        </div>
 	        <div id="${sprint.planState.toString() }" class="sprint-control">
-	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#"></a>
+	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
 	        <div class="sprintlog">
@@ -242,9 +242,88 @@ function toggleRemovebtn(){
 		                </div>
 		            </div>
 		        </c:forEach>
-		    </div>		    	
-	    </div>
+		    </div>
+		</div>
+	    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		    <div class="modal-dialog">
+		        <div class="modal-content sprint-settings">
+		            <form>
+		                <div class="modal-header"> 
+		                    <span>
+						    <span class="glyphicon glyphicon-cog"></span>
+						    SPRINT SETTINGS
+		                    </span>
+		                    <a href="./removeSprint.htm?sprintid=" data-toggle="tooltip" title="Delete Sprint">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+						</div>
+		                <div class="input-group">
+		                	<span class="input-group-addon input-group-addon-fix" id="basic-addon2">Sprint Name</span>
+							<input type="text" class="form-control input-control" value="Sprintname" aria-describedby="basic-addon1">
+		                </div>
+		                <div class="input-group">
+		                    <span class="input-group-addon input-group-addon-fix">Description</span>
+		                    <textarea class="form-control input-control" path="description" value="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</textarea>
+		                </div>
+		                <div class="input-group">
+		                <span class="input-group-addon input-group-addon-fix">Acceptance Criteria</span>
+		                <textarea class="form-control input-control" path="description" value="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</textarea>
+		                </div>
+		                <div class="date-container">
+		                    <div class="input-group input-startdate">
+		                        <span class="input-group-addon input-group-addon-fix">Start Date</span>
+		                        <input type="date" class="form-control input-control">
+		                    </div>
+		                    <div class="input-group input-duedate">
+		                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
+		                        <input type="date" class="form-control input-control">
+		                    </div>
+		                </div>
+		                <div class="sprint-data">
+		                    <div class="modal-data-container">
+		                        Time</br>
+		                        ### / ###
+		                        <div class="progressbar">
+		                            <div class="progress"></div>
+		                        </div>
+		                    </div>
+		                    <div class="modal-data-container">
+		                        Effort</br>
+		                        ### / ###
+		                        <div class="progressbar">
+		                            <div class="progress"></div>
+		                        </div>
+		                    </div>
+		                    <div class="modal-data-container">
+		                        Value</br>
+		                        ### / ###
+		                        <div class="progressbar">
+		                            <div class="progress"></div>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="userstory-container">
+		                     <div usid="22" class="userstory userstory-fix">
+		                        <div class="userstory-titel">[US002] Killing Humanity</div>
+		                        <div class="userstory-content">
+		                        Time:   1 / -1 / 0 h</br>
+		                        Effort: 25</br>
+		                        Value:  57
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="modal-footer footer-fix">
+		                    <button type="button" class="btn btn-default" type="submit">
+		                        <span class="glyphicon glyphicon-save"></span>
+		                        Save
+		                    </button>
+		                </div>
+		            </form>
+		        </div>
+		    </div>
+		</div>
     </c:forEach>
+
     <div id="quick-button-container">
 	    <a id="openBacklog" class="quick-button" href="#">
 	        <span class="quick-button-title">B</span><span class="quick-button-text">open Backlog</span>
