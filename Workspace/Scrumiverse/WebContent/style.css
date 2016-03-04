@@ -6,6 +6,9 @@ body {
     background-color: black;
     color: white;
 }
+body::-webkit-scrollbar{
+    display: none;
+}
 
 .pagecontent{
     height: 100%;
@@ -220,6 +223,9 @@ body {
 	height: 100%;
 	background-color: black;
     overflow: scroll;
+}
+#action_content::-webkit-scrollbar{
+    display: none;
 }
 .navbar-placeholder{
     height: 50px;

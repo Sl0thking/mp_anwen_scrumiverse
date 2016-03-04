@@ -6,6 +6,10 @@
     padding: 50px 15% 20px 15%;
 }
 
+#action_content{
+    padding-top: 75px;
+}
+
 #accountpage{
     height: 320px;
     width: 830px;
