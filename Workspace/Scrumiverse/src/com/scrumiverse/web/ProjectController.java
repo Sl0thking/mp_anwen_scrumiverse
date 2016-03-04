@@ -145,7 +145,7 @@ public class ProjectController extends MetaController {
 			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
 				throw new InsufficientRightsException();
 			}
-			map.addAttribute("currentProjectId", requestedProject.getProjectID());
+			map.addAttribute("project", requestedProject);
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {

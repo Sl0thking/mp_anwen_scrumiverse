@@ -4,7 +4,6 @@
 	top: 10px;
 	margin: auto;
 	width: 900px;
-	height: 100%;
 	background-color: #666666;
 }
 
@@ -31,6 +30,25 @@
 
 #settings-header > * {
 	padding-left: 10px;
+}
+
+#settings-header form {
+	margin-top: 10px;
+}
+
+#settings-header .input-group {
+	margin: 0px 10px 10px 0px;
+}
+
+#settings-header form > button {
+	float: right;
+	margin: 0px 10px 10px 0px;	
+}
+
+#settings button:hover, #quick-button-container button:hover {
+	background-color: green;
+	color: white;
+	border: 1px solid white;
 }
 
 #settings-header > .site-title, #settings-options {
@@ -79,65 +97,65 @@
 	background-color: #666666;
 }
 
-#user-list > .user-card {
+#user-list .user-card {
 	float: left;
 	margin: 0px 5px 5px 0px;
 	width: 290px;
 	background-color: #303030;
 }
 
-#user-list > .user-card > .user-card-header {
+#user-list .user-card > .user-card-header {
 	width: 100%;
 	height: 25px;
 }
 
-#user-list > .user-card > .user-card-header > a {
+#user-list .user-card > .user-card-header > a {
 	float: right;
 	margin-right: 5px;
 	height: 100%;
 	display: inline-block;
 }
 
-#user-list > .user-card > .user-card-header > a > span {
+#user-list .user-card > .user-card-header > a > span {
 	line-height: 25px;
 	vertical-align: middle;	
 }
 
-#user-list > .user-card > .user-content {
+#user-list .user-card > .user-content {
 	width: 290px;
 	height: 100px;
 }
 
-#user-list > .user-card > .user-content > .user-picture  {
+#user-list .user-card > .user-content > .user-picture  {
 	float: left;
 	padding: 0px 10px 0px 10px;
 }
 
-#user-list > .user-card > .user-content > .user-picture > img {
+#user-list .user-card > .user-content > .user-picture > img {
 	width: 80px;
 	height: 80px;
 }
 
-#user-list > .user-card > .user-content > .user-info {
+#user-list .user-card > .user-content > .user-info {
 	float: left;
 	margin-right: 10px;
 }
 
-#user-list > .user-card > .user-content > .user-info > * {
+#user-list .user-card > .user-content > .user-info > * {
 	width: 180px;
 }
 
-#user-list > .user-card > .user-content > .user-info > .user-name {
+#user-list .user-card > .user-content > .user-info > .user-name {
 	height: 30px;
 	line-height: 30px;
 	vertical-align: middle;
 }
 
-#user-list > .user-card > .user-content > .user-info > .user-email > span {
+#user-list .user-card > .user-content > .user-info > .user-email > span {
 	float: left;
 }
 
-#user-list > .user-card > .user-content > .user-info > .user-email > span:nth-child(1) {
+#user-list .user-card > .user-content > .user-info > .user-email > span:nth-child(1) {
 	width: 18px;
 	text-align: center;
 	line-height: 18px;
@@ -145,7 +163,39 @@
 	height: 100%;
 }
 
-#user-list > .user-card > .user-content > .user-info > .user-email > span:nth-child(2) {
+#user-list .user-card > .user-content > .user-info > .user-email > span:nth-child(2) {
 	margin-left: 5px;
 	width: 157px;
+}
+
+#user-list .user-card > .user-role > .input-group {
+	margin: 0px 10px 10px 10px;
+}
+
+#quick-button-container > .quick-button > .quick-button-title {
+	float: left;
+	display: block;
+}
+
+#quick-button-container > .quick-button > .quick-button-text {
+	padding: 0px;
+	border: none;
+}
+
+#quick-button-container > .quick-button > .quick-button-text > .input-group-sm > .form-control {
+	width: 150px;
+}
+
+#quick-button-container > .quick-button > .quick-button-text > .input-group {
+	width: 250px;
+	margin: 0px;
+}
+
+#quick-button-container > .quick-button > .quick-button-text > .input-group-sm > .input-group-btn > button {
+	width: 100px;
+	color: black;
+}
+
+#quick-button-container > .quick-button > .quick-button-text > .input-group-sm > .input-group-btn > button:hover {
+	color: white;	
 }
