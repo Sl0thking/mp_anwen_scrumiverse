@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +20,8 @@ import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.triedToRemoveLastAdminException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
@@ -24,6 +29,7 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
+import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
@@ -46,6 +52,15 @@ public class ProjectController extends MetaController {
 	
 	@Autowired
 	private SprintDAO sprintDAO;
+	
+	@Autowired
+	private RoleDAO roleDAO;
+	
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Role.class, new RoleBinder(roleDAO));
+		binder.registerCustomEditor(User.class, new UserBinder(userDAO));
+	}
 
 	/**
 	 * Overview over all projects of current user
@@ -145,6 +160,7 @@ public class ProjectController extends MetaController {
 			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
 				throw new InsufficientRightsException();
 			}
+			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			map.addAttribute("project", requestedProject);
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
@@ -163,12 +179,19 @@ public class ProjectController extends MetaController {
 	 */
 	
 	@RequestMapping("/addUserToProject.htm")
-	public ModelAndView addUser(Project project, User user) {
-		project.addProjectUser(user, new Role());
-		user.addProject(project);
-		projectDAO.updateProject(project);
-		userDAO.saveUser(user);
-		return new ModelAndView("redirect:projectSettings.htm");
+	public ModelAndView addUser(HttpSession session, @RequestParam String email) {
+		try {
+			System.out.println(email);
+			Project currentProject = this.loadCurrentProject(session);
+			User user = userDAO.getUserByEmail(email);
+			currentProject.addProjectUser(user);
+			projectDAO.updateProject(currentProject);
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (NoSuchUserException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
 	}
 	
 	/**
@@ -182,17 +205,15 @@ public class ProjectController extends MetaController {
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		try {
 			Project project = this.loadCurrentProject(session);
-			User user = this.loadActiveUser(session);
-			if(user.getUserID() != id) {
-				user = userDAO.getUser(id);
-			}
+			User user = userDAO.getUser(id);
 			removeUserFromProject(user, project);
+			projectDAO.updateProject(project);
 		} catch(NoSuchUserException e) {
-			return new ModelAndView("redirect:projectSettings.htm");
+			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (NoProjectFoundException e) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("redirect:projectSettings.htm");
+		return new ModelAndView("redirect:projectOverview.htm");
 	}
 	
 	/**
@@ -251,7 +272,7 @@ public class ProjectController extends MetaController {
 	@RequestMapping("/saveProject.htm")
 	public ModelAndView renameProject(Project project) {
 		projectDAO.updateProject(project);
-		return new ModelAndView("redirect:projectSettings.htm");
+		return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
 	}
 	
 	@RequestMapping("/reporting.htm")
@@ -267,6 +288,21 @@ public class ProjectController extends MetaController {
 		} catch(NoSuchUserException | NoProjectFoundException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	
+	@RequestMapping("/changeProjectUser.htm")
+	public ModelAndView updateProjectUser(HttpSession session, ProjectUser pUser) {
+		try {
+			User user = pUser.getUser();
+			Role role = pUser.getRole();
+			Project currentProject = this.loadCurrentProject(session);
+			currentProject.setProjectUserRole(user, role);
+			projectDAO.updateProject(currentProject);
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (NoProjectFoundException | RoleNotInProjectException | triedToRemoveLastAdminException | NoSuchUserException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
 	
