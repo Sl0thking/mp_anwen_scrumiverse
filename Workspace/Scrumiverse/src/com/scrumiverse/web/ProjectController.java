@@ -279,11 +279,23 @@ public class ProjectController extends MetaController {
 	}
 	
 	public JSONObject dummyJSON() throws JSONException {
+		//JSON Object mit allen 4 Serien
 		JSONObject dummyObject = new JSONObject();
+		//Benötigt 1d-Array, welches die Anzahl aller Userstories pro Tag enthält
 		JSONArray backlogScope = new JSONArray();
+		//Benötigt 1d-Array, welches die Ideale Anzahl von fertigen UserStories pro tag zurückgibt 
+		//(Anzahl Tage im Sprint/max. Anzahl Userstories)
 		JSONArray idealRemaining = new JSONArray();
+		//Benötigt 1d-Array, welches die unfertigen UserStories pro tag zurückgibt
 		JSONArray remainingItems = new JSONArray();
+		//Benötigt 1d-Array, welches die fertigen Userstories pro tag zurückgibt
 		JSONArray doneItems = new JSONArray();
+				
+		/*
+		 * for(int i=0; i<=Sprint.getBenötigtesArray.length;i++) {
+		 * 	somejsonarray.put(benötigtesArray[i]);
+		 * };
+		 */
 		backlogScope.put(30);
 		backlogScope.put(30);
 		backlogScope.put(31);
@@ -304,20 +316,18 @@ public class ProjectController extends MetaController {
 		remainingItems.put(34);
 		remainingItems.put(25);
 		remainingItems.put(20);
-		remainingItems.put(17);
+		remainingItems.put(5);
+		doneItems.put(0);
+		doneItems.put(0);
 		doneItems.put(0);
 		doneItems.put(2);
-		doneItems.put(6);
-		doneItems.put(8);
-		doneItems.put(15);
-		doneItems.put(18);
+		doneItems.put(11);
+		doneItems.put(16);
 		doneItems.put(25);
 		dummyObject.put("backlogScope", backlogScope);
 		dummyObject.put("idealRemaining", idealRemaining);
 		dummyObject.put("remainingItems", remainingItems);
 		dummyObject.put("doneItems", doneItems);
-		System.out.println(dummyObject.getJSONArray("backlogScope"));
-		System.out.println("-----------"+ dummyObject.toString());
 		return dummyObject;
 	}
 }
