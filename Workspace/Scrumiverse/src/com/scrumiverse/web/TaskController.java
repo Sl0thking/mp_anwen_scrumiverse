@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
@@ -73,9 +74,13 @@ public class TaskController extends MetaController {
 	public ModelAndView createNewTask(@RequestParam int id) {
 		Task task = new Task();
 		taskDAO.saveTask(task);
-		UserStory userStory = userStoryDAO.getUserStory(id);
-		userStory.addTask(task);
-		userStoryDAO.updateUserStory(userStory);
+		try{
+			UserStory userStory = userStoryDAO.getUserStory(id);
+			userStory.addTask(task);
+			userStoryDAO.updateUserStory(userStory);
+		} catch (NoUserStoryFoundException e){
+			e.printStackTrace();
+		}
 		return new ModelAndView("redirect:showTasks.htm");
 	}
 	

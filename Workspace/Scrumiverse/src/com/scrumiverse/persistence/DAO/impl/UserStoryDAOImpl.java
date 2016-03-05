@@ -3,10 +3,13 @@ package com.scrumiverse.persistence.DAO.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
@@ -49,27 +52,22 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	}
 	
 	@Override
-	public UserStory getUserStory(int userStoryID){
-		UserStory userStory = new UserStory();
-		try{
-			userStory = (UserStory) (hibernateTemplate.find("from UserStory where id='" + userStoryID + "'").get(0));
-		}catch(NullPointerException e){
-			e.printStackTrace();
-			System.out.println("User Story ist nicht in Datenbank zu finden mit id: " + userStoryID);
+	public UserStory getUserStory(int userStoryID) throws NoUserStoryFoundException{
+		List<UserStory> userstories = hibernateTemplate.find("from UserStory where id='" + userStoryID + "'");
+		if(userstories.size() != 0){
+			return userstories.get(0);
 		}
-		return userStory;
+		throw new NoUserStoryFoundException();
 	}
 	
 	@Override
-	public Set<UserStory> getUserStoriesOfProject(int projectID){
-		Project proj = new Project();
-		try{
-			proj = (Project) hibernateTemplate.find("from Project where id='" + projectID + "'").get(0);
-		}catch(NullPointerException e){
-			e.printStackTrace();
-			return new HashSet<UserStory>();
+	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws NoProjectFoundException{
+		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
+		if(projects.size() != 0) {
+			Project project = projects.get(0);
+			return project.getUserstories();
 		}
-		return (Set<UserStory>) proj.getUserstories();
+		throw new NoProjectFoundException();
 	}
 
 }

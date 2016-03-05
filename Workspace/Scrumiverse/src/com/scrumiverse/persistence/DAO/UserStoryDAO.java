@@ -2,7 +2,10 @@ package com.scrumiverse.persistence.DAO;
 
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
+import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.scrumCore.UserStory;
 
 /**
@@ -14,10 +17,10 @@ import com.scrumiverse.model.scrumCore.UserStory;
  */
 public interface UserStoryDAO {
 	public List<UserStory> getAllUserstories();
-	public Set<UserStory> getUserStoriesOfProject(int projectID);
+	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws NoProjectFoundException;
 	public void saveUserStory(UserStory userStory);
 	public void updateUserStory(UserStory userStory);
 	public void deleteUserStory(UserStory userStory);
-	public UserStory getUserStory(int userStoryID);
+	public UserStory getUserStory(int userStoryID) throws NoUserStoryFoundException;
 
 }

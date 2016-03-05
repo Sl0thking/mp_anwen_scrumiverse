@@ -293,6 +293,9 @@
     width: 80%;
     overflow: scroll;
 }
+.modal-header{
+    background-color: #333333;
+}
 
 .sprint-settings{
     position: relative;

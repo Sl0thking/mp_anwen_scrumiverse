@@ -318,44 +318,55 @@ public class ProjectController extends MetaController {
 	}
 	
 	public JSONObject dummyJSON() throws JSONException {
+		//JSON Object mit allen 4 Serien
 		JSONObject dummyObject = new JSONObject();
-		Map<Integer, Integer> backlogScope = new HashMap<Integer, Integer>();
-		Map<Integer, Integer> idealRemaining = new HashMap<Integer, Integer>();
-		Map<Integer, Integer> remainingItems = new HashMap<Integer, Integer>();
-		Map<Integer, Integer> doneItems = new HashMap<Integer, Integer>();
-		backlogScope.put(1, 30);
-		backlogScope.put(5, 30);
-		backlogScope.put(10, 31);
-		backlogScope.put(15, 36);
-		backlogScope.put(20, 36);
-		backlogScope.put(25, 36);
-		backlogScope.put(30, 30);
-		idealRemaining.put(1, 36);
-		idealRemaining.put(5, 30);
-		idealRemaining.put(10, 24);
-		idealRemaining.put(15, 18);
-		idealRemaining.put(20, 12);
-		idealRemaining.put(25, 6);
-		idealRemaining.put(30, 0);
-		remainingItems.put(1, 30);
-		remainingItems.put(5, 30);
-		remainingItems.put(10, 31);
-		remainingItems.put(15, 34);
-		remainingItems.put(20, 25);
-		remainingItems.put(25, 20);
-		remainingItems.put(30, 17);
-		doneItems.put(1, 0);
-		doneItems.put(5, 2);
-		doneItems.put(10, 6);
-		doneItems.put(15, 8);
-		doneItems.put(20, 15);
-		doneItems.put(25, 18);
-		doneItems.put(30, 25);
+		//Benötigt 1d-Array, welches die Anzahl aller Userstories pro Tag enthält
+		JSONArray backlogScope = new JSONArray();
+		//Benötigt 1d-Array, welches die Ideale Anzahl von fertigen UserStories pro tag zurückgibt 
+		//(Anzahl Tage im Sprint/max. Anzahl Userstories)
+		JSONArray idealRemaining = new JSONArray();
+		//Benötigt 1d-Array, welches die unfertigen UserStories pro tag zurückgibt
+		JSONArray remainingItems = new JSONArray();
+		//Benötigt 1d-Array, welches die fertigen Userstories pro tag zurückgibt
+		JSONArray doneItems = new JSONArray();
+				
+		/*
+		 * for(int i=0; i<=Sprint.getBenötigtesArray.length;i++) {
+		 * 	somejsonarray.put(benötigtesArray[i]);
+		 * };
+		 */
+		backlogScope.put(30);
+		backlogScope.put(30);
+		backlogScope.put(31);
+		backlogScope.put(36);
+		backlogScope.put(36);
+		backlogScope.put(36);
+		backlogScope.put(30);
+		idealRemaining.put(36);
+		idealRemaining.put(30);
+		idealRemaining.put(24);
+		idealRemaining.put(18);
+		idealRemaining.put(12);
+		idealRemaining.put(6);
+		idealRemaining.put(0);
+		remainingItems.put(30);
+		remainingItems.put(30);
+		remainingItems.put(31);
+		remainingItems.put(34);
+		remainingItems.put(25);
+		remainingItems.put(20);
+		remainingItems.put(5);
+		doneItems.put(0);
+		doneItems.put(0);
+		doneItems.put(0);
+		doneItems.put(2);
+		doneItems.put(11);
+		doneItems.put(16);
+		doneItems.put(25);
 		dummyObject.put("backlogScope", backlogScope);
 		dummyObject.put("idealRemaining", idealRemaining);
 		dummyObject.put("remainingItems", remainingItems);
 		dummyObject.put("doneItems", doneItems);
-		System.out.println("-----------"+ dummyObject.toString());
 		return dummyObject;
 	}
 }
