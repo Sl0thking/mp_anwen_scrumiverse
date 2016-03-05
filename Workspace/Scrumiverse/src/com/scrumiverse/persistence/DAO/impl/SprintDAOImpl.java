@@ -15,8 +15,8 @@ import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * DAO Implementation of Sprints
- * @author DoctorWhose, Lasse Jacobs
- * @version 24.02.2016
+ * @author DoctorWhose, Lasse Jacobs, Kevin Jolitz
+ * @version 04.03.2016
  */
 
 public class SprintDAOImpl implements SprintDAO {
@@ -47,7 +47,7 @@ public class SprintDAOImpl implements SprintDAO {
 	public Sprint getSprint(int sprintID){
 		Sprint sprint = new Sprint();
 		try{
-			sprint = (Sprint) (hibernateTemplate.find("from UserStory where id'" + sprintID + "'").get(0));
+			sprint = (Sprint) (hibernateTemplate.find("from Sprint where id='" + sprintID + "'").get(0));
 		}catch(NullPointerException e){
 			e.printStackTrace();
 			System.out.println("Sprint ist nicht in der Datenbank zu finden mit id" + sprintID);
@@ -66,5 +66,4 @@ public class SprintDAOImpl implements SprintDAO {
 		}
 		return (Set<Sprint>) p.getSprints();
 	}
-
 }

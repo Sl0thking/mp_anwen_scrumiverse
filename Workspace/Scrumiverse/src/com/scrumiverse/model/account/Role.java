@@ -107,6 +107,17 @@ public class Role implements Comparable<Role> {
 
 	@Override
 	public int compareTo(Role o) {
-		return this.getName().compareTo(o.getName());
+		if(this.getName().compareTo(o.getName()) == 0) {
+			return new Integer(this.getRoleID()).compareTo(new Integer(o.getRoleID()));
+		} else {
+			return this.getName().compareTo(o.getName());
+		}
 	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(roleID);
+	}
+	
+	
 }

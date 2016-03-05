@@ -20,4 +20,9 @@ public class RoleDAOImpl implements RoleDAO {
 		
 	}
 
+	@Override
+	public Role getRole(int id) {
+		return (Role) hibernateTemplate.find("from Role where roleID='" + id + "'").get(0);
+	}
+
 }

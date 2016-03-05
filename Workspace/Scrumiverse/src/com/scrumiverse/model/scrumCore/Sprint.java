@@ -216,6 +216,10 @@ public class Sprint extends PlanElement {
 	
 	@Override
 	public int compareTo(PlanElement o) {
-		return this.getStartDate().compareTo(((Sprint) o).getStartDate());
+		int comp = this.getStartDate().compareTo(((Sprint) o).getStartDate());
+		if(comp == 0) {
+			return super.compareTo(o);
+		}
+		return comp;
 	}
 }

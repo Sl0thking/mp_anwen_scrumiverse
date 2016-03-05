@@ -19,7 +19,6 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
-import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
 
@@ -39,6 +38,7 @@ public class UserStory extends PlanElement {
 	private SortedSet<Task> tasks;
 	private Date dueDate;
 	private Sprint relatedSprint;
+	private int risk;
 	
 //	public UserStory(){
 //		businessValue = 0;
@@ -57,6 +57,7 @@ public class UserStory extends PlanElement {
 		//((max - min) + 1) + min
 		businessValue = rand.nextInt((100 - 0) + 1) + 0;
 		effortValue = rand.nextInt((100 - 0) + 1) + 0;
+		setRisk(rand.nextInt((100 - 0) + 1) + 0);
 		switch(rand.nextInt((3 - 0) + 1) + 0){
 		case 0:
 			moscow = MoscowState.Could;
@@ -257,6 +258,14 @@ public class UserStory extends PlanElement {
 	@Override
 	public String toString(){
 		return "UserStory "+getId()+" - Description: "+getDescription();
+	}
+
+	public int getRisk() {
+		return risk;
+	}
+
+	public void setRisk(int risk) {
+		this.risk = risk;
 	}
 
 

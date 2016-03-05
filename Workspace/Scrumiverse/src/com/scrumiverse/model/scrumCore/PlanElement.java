@@ -3,7 +3,6 @@ package com.scrumiverse.model.scrumCore;
 import java.util.SortedSet;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,7 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  * shared plan attributes between Scrum DataModells.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 29.02.16
+ * @version 05.03.16
  *
  */
 @MappedSuperclass
@@ -97,6 +96,10 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 	
 	@Override
 	public int compareTo(PlanElement o) {
-		return this.getDescription().compareTo(o.getDescription());
+		if(this.getDescription().compareTo(o.getDescription()) == 0) {
+			return new Integer(this.getId()).compareTo(new Integer(o.getId()));
+		} else {
+			return this.getDescription().compareTo(o.getDescription()) ;
+		}
 	}
 }

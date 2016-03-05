@@ -34,7 +34,7 @@ $(document).ready(function(){
 });
 
 function moveUserstories(){
-    $(".addusbtn").click(function(){
+    $(".addusbtn, #removebtn").click(function(){
         var sprint = $(".openlog").attr("sprintid");
         var backlogusids = [];
         var sprintusids = [];
@@ -42,7 +42,7 @@ function moveUserstories(){
             backlogusids.push($(this).attr("usid"));
         });
         getSelected(".openlog").each(function(){
-            backlogusids.push($(this).attr("usid"));
+        	sprintusids.push($(this).attr("usid"));
         });
         var urlchange = "?sprintid="+sprint+"&addedStories="+backlogusids+"&removedStories="+sprintusids;
         $(".addusbtn").attr("href", $(".addusbtn").attr("href")+urlchange);
@@ -141,28 +141,29 @@ function toggleRemovebtn(){
         <div class="backlog-data">
             <div class="data-container">
                 Time</br>
-                ### / ### h
+                <fmt:formatNumber value="${project.getIceBoxRemainingTime()/60}" maxFractionDigits="0"/> /
+                <fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}" maxFractionDigits="0"/> h
                 <div class="progressbar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"/></div>
                 </div>
             </div>
             <div class="data-container">
                 Effort</br>
-                ### / ###
+                ${project.getIceBoxDoneEffort()} / ${project.getIceBoxEffort()}
                 <div class="progressbar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width:${project.getIceBoxDoneEffort() / project.getIceBoxEffort() * 100}%"/></div>
                 </div>
             </div>
             <div class="data-container">
                 Value</br>
-                ### / ###
+                ${project.getIceBoxDoneValue()} / ${project.getIceBoxValue()}
                 <div class="progressbar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width:${project.getIceBoxDoneValue() / project.getIceBoxValue() * 100}%"/></div>
                 </div>
             </div>
         </div>
         <div class="content">
-        	<c:forEach items="${project.getUserstories()}" var="userstory">
+        	<c:forEach items="${project.getIceBox()}" var="userstory">
 	            <div usid="${userstory.id }" class="userstory">
 			        <div class="userstory-titel">${userstory.description }</div>
 			        <div class="userstory-content">
@@ -175,7 +176,7 @@ function toggleRemovebtn(){
 				</div>
 			</c:forEach>
         </div>
-        <a class="addusbtn" href="./editUserstories.htm">Add to Sprint</a>
+        <a class="addusbtn" href="./syncBacklogAndSprint.htm">Add to Sprint</a>
     </div>
 </div>
 
@@ -252,7 +253,7 @@ function toggleRemovebtn(){
 	    <a class="quick-button" href="./addSprint.htm">
 	        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
 	    </a>
-	    <a id="removebtn" class="quick-button" href="./editUserstories.htm">
+	    <a id="removebtn" class="quick-button" href="./syncBacklogAndSprint.htm">
 	        <span class="quick-removebutton-title">X</span><span class="quick-removebutton-text">remove Userstory</span>
 	    </a>
 	</div>

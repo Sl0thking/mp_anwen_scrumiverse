@@ -48,11 +48,11 @@ function deselectAll(){
                         <div class="info-container">
                             <div class="moscow">${userStory.moscow.toString().substring(0,1)}</div>
                             <div class="value">${userStory.businessValue}</div>
-                            <div class="risk">###</div>
+                            <div class="risk">${userStory.risk}</div>
                             <div class="timestats">
-                            	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
-                            	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
-                            	<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h</div>
+                            	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="0"/> / 
+                            	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="0"/> / 
+                            	<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</div>
                         	</div>
                         <div class="effort">${userStory.effortValue}</div>
                         <div class="member-container">
@@ -82,9 +82,9 @@ function deselectAll(){
 		                <div class="task-content">
 		                    <div class="task-name">${task.description}</div>
 		                    <div class="task-time">
-		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" /> / 
-		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
-		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" /> h</div>
+		                    	<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="0" /> / 
+		                    	<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="0" /> / 
+		                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="0" /> h</div>
 		                    <div class="task-memberbox">
 		                   		<c:choose>		
 			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">

@@ -178,9 +178,14 @@ public class Task extends PlanElement {
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
 
+//	@Override
+//	public int compareTo(PlanElement o) {
+//		return new Integer(getId()).compareTo(new Integer(o.getId()));
+//	}
+	
 	@Override
 	public String toString() {
-		return "Task [tags=" + tags + "]";
+		return "Task [tags=" + tags + ", getId()=" + getId() + "]";
 	}
 
 	/**

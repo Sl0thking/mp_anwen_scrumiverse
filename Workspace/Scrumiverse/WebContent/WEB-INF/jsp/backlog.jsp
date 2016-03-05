@@ -29,7 +29,7 @@
                 </div>
 		        <div class="userstory-moscow">${userstory.getMoscow().toString()}</div>
 		        <div class="userstory-value">${userstory.businessValue}</div>
-		        <div class="userstory-risk">RISK</div>
+		        <div class="userstory-risk">R: ${userstory.risk}</div>
 		        <div class="userstory-effort">${userstory.effortValue}</div>
         		<div class="userstory-control" id="${userstory.planState}">
 					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="./showUserStoryDetails.htm"></a>

@@ -30,8 +30,8 @@ import javax.persistence.JoinColumn;
 /**
  * Datamodel for a scrumiverse project
  * 
- * @author Toni Serfling, Kevin Jolitz
- * @version 24.02.2016
+ * @author Kevin Jolitz, Lasse Jacobs
+ * @version 04.03.2016
  */
 
 @Entity
@@ -166,6 +166,16 @@ public class Project {
 		return userstories;
 	}
 	
+	@Transient
+	public SortedSet<UserStory> getIceBox() {
+		SortedSet<UserStory> iceBox = new TreeSet();
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				iceBox.add(us);
+			}
+		}
+		return iceBox;
+	}
 	public void setUserstories(SortedSet<UserStory> userstories) {
 		this.userstories = userstories;
 	}
@@ -198,6 +208,7 @@ public class Project {
 	public ProjectUser getProjectUserFromUser(User u) throws NoSuchUserException {
 		ProjectUser requestedProjectUser = null;
 		for(ProjectUser pu : this.projectUsers) {
+			System.out.println(pu.getUser().getName());
 			if(pu.getUser().equals(u)) {
 				requestedProjectUser = pu;
 			}
@@ -218,6 +229,7 @@ public class Project {
 		}
 	}
 	
+	@Transient
 	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, triedToRemoveLastAdminException, NoSuchUserException {
 		if(!roles.contains(r)) {
 			throw new RoleNotInProjectException();
@@ -284,8 +296,8 @@ public class Project {
 		this.userstories.add(u);
 	}
 	
-	public void removeUserStory(int UserStoryID) {
-		this.userstories.remove(UserStoryID);
+	public void removeUserStory(UserStory userStory) {
+		this.userstories.remove(userStory);
 	}
 //	
 //	@Override
@@ -346,5 +358,71 @@ public class Project {
 			users.add(pUser.getUser());
 		}
 		return users;
+	}
+	
+	@Transient
+	public int getIceBoxRemainingTime() {
+		int remTime = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				remTime += us.getRemainingMinutes();
+			}
+		}
+		return remTime;
+	}
+	
+	@Transient
+	public int getIceBoxPlannedTime() {
+		int planTime = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				planTime += us.getPlannedMinutes();
+			}
+		}
+		return planTime;
+	}
+	
+	@Transient
+	public int getIceBoxValue() {
+		int value = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				value += us.getBusinessValue();
+			}
+		}
+		return value;
+	}
+	
+	@Transient
+	public int getIceBoxDoneValue() {
+		int value = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null && us.getPlanState().equals(PlanState.Done)) {
+				value += us.getBusinessValue();
+			}
+		}
+		return value;
+	}
+	
+	@Transient
+	public int getIceBoxEffort() {
+		int value = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null && us.getPlanState().equals(PlanState.Done)) {
+				value += us.getEffortValue();
+			}
+		}
+		return value;
+	}
+	
+	@Transient
+	public int getIceBoxDoneEffort() {
+		int value = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null && us.getPlanState().equals(PlanState.Done)) {
+				value += us.getEffortValue();
+			}
+		}
+		return value;
 	}
 }

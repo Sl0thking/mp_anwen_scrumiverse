@@ -110,12 +110,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", email=" + email + ", name=" + name + ", emailNotification="
-				+ emailNotification + ", password=" + password + "]";
-	}
-
 	public void leaveProject(Project p) {
 		this.projects.remove(p);
 	}
@@ -148,5 +142,12 @@ public class User {
 
 	public void setProfileImagePath(String profileImagePath) {
 		this.profileImagePath = profileImagePath;
+	}
+
+	@Override
+	public String toString() {
+		return email;
 	}	
+	
+	
 }
