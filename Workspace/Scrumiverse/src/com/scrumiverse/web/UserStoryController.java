@@ -116,11 +116,16 @@ public class UserStoryController extends MetaController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/saveUserStory.htm")
-	public ModelAndView updateUserStory(UserStory userStory){
-		if(userStory.getId() == 0){
+	public ModelAndView updateUserStory(UserStory userStory, HttpSession session){
+		try{
+			checkInvalidSession(session);
+			if(userStory.getId() == 0){
 			System.out.println("Userstory not found");
 		}else{
 			userStoryDAO.updateUserStory(userStory);
+		}
+		}catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 		return new ModelAndView("redirect:backlog.htm");
 		
@@ -134,19 +139,17 @@ public class UserStoryController extends MetaController {
 	 */
 	@RequestMapping("/showUserStoryDetails.htm")
 	public ModelAndView showUserStoryDetails(@RequestParam int userStoryID, HttpSession session){
-		ModelMap map;
 		try {
-			map = this.prepareModelMap(session);
+			checkInvalidSession(session);
+			ModelMap map = this.prepareModelMap(session);
 			UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
 			map.addAttribute("detailUserStory", loadedUserStory);
-		} catch (NoSuchUserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoProjectFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (NoUserStoryFoundException e) {
 			e.printStackTrace();
+		} catch (InvalidSessionException  | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
 		}
 		return new ModelAndView("redirect:backlog.htm");
 	}

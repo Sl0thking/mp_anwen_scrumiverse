@@ -61,8 +61,10 @@ public class TaskController extends MetaController {
 			map.addAttribute("userStories", userStories);
 			map.addAttribute("tasksOfUserStories", tasksOfUserStoryMap);
 			return new ModelAndView("index", map);
-		} catch(NoProjectFoundException | InvalidSessionException | NoSuchUserException e) {
+		} catch(NoProjectFoundException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
+		} catch(InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 	}
 
@@ -71,15 +73,18 @@ public class TaskController extends MetaController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/addTask.htm")
-	public ModelAndView createNewTask(@RequestParam int id) {
-		Task task = new Task();
-		taskDAO.saveTask(task);
+	public ModelAndView createNewTask(@RequestParam int id, HttpSession session) {
 		try{
+			checkInvalidSession(session);
+			Task task = new Task();
+			taskDAO.saveTask(task);		
 			UserStory userStory = userStoryDAO.getUserStory(id);
 			userStory.addTask(task);
 			userStoryDAO.updateUserStory(userStory);
 		} catch (NoUserStoryFoundException e){
 			e.printStackTrace();
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 		return new ModelAndView("redirect:showTasks.htm");
 	}
@@ -93,11 +98,14 @@ public class TaskController extends MetaController {
 	@RequestMapping("/showTaskDetails.htm")
 	public ModelAndView showTaskDetails(@RequestParam int taskID, HttpSession session) {
 		try {
+			checkInvalidSession(session);
 			ModelMap map = prepareModelMap(session);
 			Task loadedTask = taskDAO.getTask(taskID);
 			map.addAttribute("detailTask", loadedTask);
 			System.out.println(loadedTask.getDescription());
 			return new ModelAndView("redirect:backlog.htm");
+		}catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}catch (Exception e) {
 			return new ModelAndView("redirect:backlog.htm");
 		}

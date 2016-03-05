@@ -59,7 +59,12 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	
+	/**
+	 * Shows all sprints
+	 * @param session
+	 * @return ModelAndView
+	 * @throws NoProjectFoundException
+	 */
 	@RequestMapping("/sprintOverview.htm")
 	public ModelAndView sprintOverview(HttpSession session) throws NoProjectFoundException {
 		try {
@@ -79,6 +84,7 @@ public class SprintController extends MetaController {
 	@RequestMapping("/syncBacklogAndSprint.htm")
 	public ModelAndView synchronizeSprintAndBacklog(HttpSession session, @RequestParam int sprintid, @RequestParam String addedStories, @RequestParam String removedStories) {
 		try {
+			checkInvalidSession(session);
 			Project activeProject = this.loadCurrentProject(session);
 			Sprint choosenSprint = sprintDAO.getSprint(sprintid);
 			String[] addUserStoryIds = addedStories.split(",");
@@ -104,6 +110,8 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:sprintOverview.htm");		
 		} catch (NoProjectFoundException | NoUserStoryFoundException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
-		} 
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
 	}
 }

@@ -185,6 +185,7 @@ public class ProjectController extends MetaController {
 	public ModelAndView addUser(HttpSession session, @RequestParam String email) {
 		int projectId = 0;
 		try {
+			checkInvalidSession(session);
 			Project currentProject = this.loadCurrentProject(session);
 			projectId = currentProject.getProjectID();
 			User user = userDAO.getUserByEmail(email);
@@ -197,6 +198,8 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=1");
 		} catch (NoProjectFoundException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 	}
 	
@@ -211,6 +214,7 @@ public class ProjectController extends MetaController {
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		int projectId = 0;
 		try {
+			checkInvalidSession(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
 			User user = userDAO.getUser(id);
@@ -221,6 +225,8 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (NoProjectFoundException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 	}
 	
@@ -279,32 +285,50 @@ public class ProjectController extends MetaController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/saveProject.htm")
-	public ModelAndView renameProject(Project project) {
-		projectDAO.updateProject(project);
-		return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
+	public ModelAndView renameProject(Project project, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			projectDAO.updateProject(project);
+			return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
 	}
-	
+	/**
+	 * Opens the reporting page
+	 * @param session
+	 * @return ModelAndView
+	 */	
 	@RequestMapping("/reporting.htm")
 	public ModelAndView reporting(HttpSession session) {
 		try {
+			checkInvalidSession(session);
 			ModelMap map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			
+			// adding jsonobjects to map
 			map.addAttribute("jsonobject", dummyJSON());
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("action", Action.reporting);
 			return new ModelAndView("index", map);		
-		} catch(NoSuchUserException | NoProjectFoundException | JSONException e) {
+		} catch(NoSuchUserException | InvalidSessionException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
+		} catch(NoProjectFoundException | JSONException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
-	
+	/**
+	 * Changes the user of a Project
+	 * @param session
+	 * @param pUser
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/changeProjectUser.htm")
 	public ModelAndView updateProjectUser(HttpSession session, ProjectUser pUser) {
 		int projectId = 0;
 		try {
+			checkInvalidSession(session);
 			projectId = this.loadCurrentProject(session).getProjectID();
 			User user = pUser.getUser();
 			Role role = pUser.getRole();
@@ -315,9 +339,14 @@ public class ProjectController extends MetaController {
 		} catch (NoProjectFoundException | RoleNotInProjectException | TriedToRemoveAdminException | NoSuchUserException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		}
 	}
 	
+	/*
+	 * JSON Dummy, going to be removed once backend data is available
+	 */
 	public JSONObject dummyJSON() throws JSONException {
 		//JSON Object mit allen 4 Serien
 		JSONObject dummyObject = new JSONObject();

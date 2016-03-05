@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.exception.WrongPasswordException;
@@ -187,10 +188,13 @@ public class UserController extends MetaController{
 	@RequestMapping("/userSettings.htm")
 	public ModelAndView userSettings(HttpSession session) {
 		try {
+			checkInvalidSession(session);
 			ModelMap map = this.prepareModelMap(session);		
 			map.addAttribute("user", this.loadActiveUser(session));
 			map.addAttribute("action", Action.accountSettings);
 			return new ModelAndView("index", map);
+		} catch(InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		} catch (Exception e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
@@ -206,6 +210,7 @@ public class UserController extends MetaController{
 	@RequestMapping("/changeUser.htm")
 	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) {
 		try {
+			checkInvalidSession(session);
 			User currentUserData = this.loadActiveUser(session);
 			//Set random valid password to pass through validator
 			//necessary when no pw change is required
@@ -229,6 +234,8 @@ public class UserController extends MetaController{
 			} else {
 				throw new NoSuchUserException();
 			}
+		} catch(InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
 		} catch(NoSuchUserException e) {
 			userDAO.updateUser(newUserData);
 			session.setAttribute("loggedUser", newUserData);
