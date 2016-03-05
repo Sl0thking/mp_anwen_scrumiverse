@@ -1,5 +1,6 @@
 package com.scrumiverse.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -7,13 +8,19 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
@@ -281,11 +288,12 @@ public class ProjectController extends MetaController {
 			ModelMap map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
+			
+			map.addAttribute("jsonobject", dummyJSON());
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("action", Action.reporting);
-			return new ModelAndView("index", map);
-		
-		} catch(NoSuchUserException | NoProjectFoundException e) {
+			return new ModelAndView("index", map);		
+		} catch(NoSuchUserException | NoProjectFoundException | JSONException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
@@ -306,4 +314,45 @@ public class ProjectController extends MetaController {
 		}
 	}
 	
+	public JSONObject dummyJSON() throws JSONException {
+		JSONObject dummyObject = new JSONObject();
+		Map<Integer, Integer> backlogScope = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> idealRemaining = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> remainingItems = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> doneItems = new HashMap<Integer, Integer>();
+		backlogScope.put(1, 30);
+		backlogScope.put(5, 30);
+		backlogScope.put(10, 31);
+		backlogScope.put(15, 36);
+		backlogScope.put(20, 36);
+		backlogScope.put(25, 36);
+		backlogScope.put(30, 30);
+		idealRemaining.put(1, 36);
+		idealRemaining.put(5, 30);
+		idealRemaining.put(10, 24);
+		idealRemaining.put(15, 18);
+		idealRemaining.put(20, 12);
+		idealRemaining.put(25, 6);
+		idealRemaining.put(30, 0);
+		remainingItems.put(1, 30);
+		remainingItems.put(5, 30);
+		remainingItems.put(10, 31);
+		remainingItems.put(15, 34);
+		remainingItems.put(20, 25);
+		remainingItems.put(25, 20);
+		remainingItems.put(30, 17);
+		doneItems.put(1, 0);
+		doneItems.put(5, 2);
+		doneItems.put(10, 6);
+		doneItems.put(15, 8);
+		doneItems.put(20, 15);
+		doneItems.put(25, 18);
+		doneItems.put(30, 25);
+		dummyObject.put("backlogScope", backlogScope);
+		dummyObject.put("idealRemaining", idealRemaining);
+		dummyObject.put("remainingItems", remainingItems);
+		dummyObject.put("doneItems", doneItems);
+		System.out.println("-----------"+ dummyObject.toString());
+		return dummyObject;
+	}
 }

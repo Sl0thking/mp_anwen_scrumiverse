@@ -8,6 +8,7 @@
 
 .sprintBurnDown {
 	position: absolute;
+	top: 110px;
 	width: 700px;
 	height: 600px;
 	margin: 0 auto;
@@ -17,7 +18,7 @@
 
 .sprint-selection {
 	position: absolute;
-	top: 10px;
+	top: 100px;
 	left: 730px;
 	width: 300px;
 	height: 50px;

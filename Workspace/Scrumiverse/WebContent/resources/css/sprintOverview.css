@@ -185,7 +185,7 @@
     display: inline-block;
 }
 
-.sprint .data-container{
+.data-container{
     padding: 0% 2% 0% 0%;
     width: 25%;
     height: 100%;
@@ -200,7 +200,7 @@
     padding-top: 2px
 }
 
-.data-container > .progressbar{
+.progressbar{
     background-color: grey;
     height: 10px;
     width: 100%;
@@ -208,7 +208,7 @@
     outline: 1px solid black;
     display: inline-block;
 }
-.data-container .progress{
+.progress{
     background-color: green;
     height: 10px;
     display: inline-block;
@@ -289,6 +289,121 @@
     display: inline-block;
 }
 
+.modal-dialog{
+    width: 80%;
+    overflow: scroll;
+}
+
+.sprint-settings{
+    position: relative;
+    background-color: gray;
+    height: 94%;
+    width: 100%;
+    overflow: scroll;
+}
+.sprint-settings::-webkit-scrollbar{
+    display: none;
+}
+.modal-header{
+    border: none;
+    font-size: 18px;
+}
+.modal-header > a{
+    float: right;
+    color: white;
+    text-decoration: none;
+}
+form::-webkit-scrollbar{
+    display: none;
+}
+.input-group{
+    margin: auto;
+    padding: 5px 0px 0px 0px;
+    width: 95%;
+    height: 7%;
+    font-size: 14px;
+    border: none;
+}
+
+.input-group-addon-fix{
+    width: 120px;
+    height: 7%;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: normal;
+    text-transform: uppercase;
+    border-right: 2px solid black;
+}
+.input-control{
+    height: 49px;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    background-color: transparent;
+    border: transparent;
+    border-radius: 0px;
+    border: 1px solid white;
+}
+textarea { 
+    resize: vertical;
+}
+
+.date-container{
+    height: 7%;
+    width: 95%;
+    margin: auto;
+}
+.input-startdate{
+    float: left;
+    width: 49%;
+    height: 100%;
+    border: none;
+}
+.input-duedate{
+    float: right;
+    width: 49%;
+    height: 100%;
+    border: none;
+}
+
+.sprint-settings .sprint-data {
+    margin: auto;
+    width: 80%;
+    height: 11%;
+}
+
+.modal-data-container{
+    margin: 1%;
+    padding: 3px 2% 3px 3px;
+    width: 30%;
+    height: 10%;
+    display: inline-block;
+    float: left;
+}
+.userstory-container{
+    width: 95%;
+    height: 40%;
+    padding: 5px;
+    margin: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.userstory-container::-webkit-scrollbar{
+    display: none;
+}
+.userstory-fix{
+    width: 23.5%;
+}
+.btn-default{
+    float: right;
+    margin: 2%;
+}
+.footer-fix{
+    height: 5%;
+    border: none;
+}
 /* quick buttons specific css */
 #quick-button-container {
     position: fixed;
@@ -360,6 +475,7 @@
 #quick-button-container > .quick-button:hover > .quick-removebutton-text {
 	display: inline-block;
 }
+
 .selected{
     outline: 2px solid white;
 }
