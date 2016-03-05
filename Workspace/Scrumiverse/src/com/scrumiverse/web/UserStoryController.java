@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
@@ -143,6 +144,8 @@ public class UserStoryController extends MetaController {
 			e.printStackTrace();
 		} catch (NoProjectFoundException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoUserStoryFoundException e) {
 			e.printStackTrace();
 		}
 		return new ModelAndView("redirect:backlog.htm");
