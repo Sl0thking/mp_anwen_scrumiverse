@@ -197,7 +197,7 @@ public class UserController extends MetaController{
 	}
 	
 	/**
-	 * Change the users username
+	 * Change the users username TODO fix workflow
 	 * @param user
 	 * @param name
 	 * @return ModelAndView
@@ -206,22 +206,23 @@ public class UserController extends MetaController{
 	@RequestMapping("/changeUser.htm")
 	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) {
 		try {
-			System.out.println("Hallo");
 			User currentUserData = this.loadActiveUser(session);
-			
+			//Set random valid password to pass through validator
+			//necessary when no pw change is required
 			if(newUserData.getPassword() == null || newUserData.getPassword().equals("")) {
 				newUserData.setPassword("aBaB1!");
 			}
-			
 			validator.validate(newUserData, result);
 			if(result.hasErrors()) {
 				throw new ValidationException("");
 			}
-			
+			//When validation workaround was necessary, load pw from current Session Data
+			//and set password of new user data
 			if(newUserData.getPassword().equals("aBaB1!")) {
 				newUserData.setPassword(currentUserData.getPassword());
 			}
-			
+			//Set projects of new user data to projects from current user data
+			newUserData.setProjects(currentUserData.getProjects());
 			if(!currentUserData.getEmail().equals(newUserData.getEmail())) {
 				checkEmailAvailability(newUserData);
 				throw new Exception();
@@ -229,7 +230,6 @@ public class UserController extends MetaController{
 				throw new NoSuchUserException();
 			}
 		} catch(NoSuchUserException e) {
-			e.printStackTrace();
 			userDAO.updateUser(newUserData);
 			session.setAttribute("loggedUser", newUserData);
 			return new ModelAndView("redirect:userSettings.htm");
@@ -238,46 +238,4 @@ public class UserController extends MetaController{
 			return new ModelAndView("redirect:userSettings.htm");
 		}
 	}
-	
-//	/**
-//	 * Changes the users email
-//	 * @param user
-//	 * @param email
-//	 * @return ModelAndView
-//	 */
-//	@RequestMapping("/changeUserEmail.htm")
-//	public ModelAndView changeUserEmail(User user, String email) {
-//		user.setEmail(email);
-//		userDAO.updateUser(user);
-//		return new ModelAndView("redirect:userSettings.htm");
-//	}
-	
-	/**
-	 * Changes the users password
-	 * @param formPwUser
-	 * @param newPassword
-	 * @param session
-	 * @return ModelAndView
-	 * @throws NoSuchAlgorithmException
-	 * @throws NoSuchUserException
-	 * @throws WrongPasswordException
-	 */
-//	@RequestMapping("/changeUserPassword.htm")
-//	public ModelAndView changeUserPassword(User formPwUser, String newPassword, HttpSession session) throws NoSuchAlgorithmException, NoSuchUserException, WrongPasswordException {
-//		ModelMap map = Utility.generateModelMap(session);
-//		try {
-//		User loadedUser = userDAO.getUserByEmail(formPwUser.getEmail().toLowerCase());
-//		comparePasswords(formPwUser, loadedUser);
-//		}
-//		catch (WrongPasswordException w) {
-//			map.addAttribute("passwordError", true);
-//			map.addAttribute("action", Action.userSettings);
-//			return new ModelAndView("index.htm", map);
-//		}
-//		formPwUser.setPassword(Utility.hashString(newPassword));
-//		userDAO.updateUser(formPwUser);
-//		map.addAttribute("action", Action.userSettings);
-//		return new ModelAndView("index.htm", map);
-//	}
-	
 }

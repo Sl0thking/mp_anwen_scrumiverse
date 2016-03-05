@@ -85,7 +85,11 @@ $(document).ready(function(){
 			</form:form>
 		</c:forEach>
 	</div>
-	<div id="settings-options"></div>
+	<div id="settings-options">
+		<c:if test="${param.error eq 1}">
+			<c:out value="An error occured" />
+		</c:if>
+	</div>
 </div>
 <div id="quick-button-container">
     <div class="quick-button">

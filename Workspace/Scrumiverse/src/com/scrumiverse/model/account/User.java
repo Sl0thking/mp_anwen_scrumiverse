@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
@@ -89,10 +92,10 @@ public class User {
 		this.emailNotification = emailNotification;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	public Set<Project> getProjects() {
 		return projects;	
-}
+	}
 
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;

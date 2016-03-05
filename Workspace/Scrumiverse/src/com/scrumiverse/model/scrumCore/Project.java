@@ -23,8 +23,10 @@ import org.hibernate.annotations.SortType;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
-import com.scrumiverse.exception.triedToRemoveLastAdminException;
+import com.scrumiverse.exception.TriedToRemoveAdminException;
 import com.scrumiverse.model.account.*;
+import com.scrumiverse.web.StdRoleNames;
+
 import javax.persistence.JoinColumn;
 
 /**
@@ -58,7 +60,7 @@ public class Project {
 	}
 	
 	private void prepareStdRoles(SortedSet<Role> roles) {
-		Role productOwner = new Role("ProductOwner");
+		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
 		productOwner.setChangeable(false);
 		productOwner.addRight(Right.Invite_To_Project);
 		productOwner.addRight(Right.Manage_Project);
@@ -75,7 +77,7 @@ public class Project {
 		productOwner.addRight(Right.Read_UserStory);
 		productOwner.addRight(Right.View_Review);
 		
-		Role member = new Role("Member");
+		Role member = new Role(StdRoleNames.Member.name());
 		member.setChangeable(false);
 		member.addRight(Right.Read_Sprint);
 		member.addRight(Right.Read_Task);
@@ -85,7 +87,7 @@ public class Project {
 		member.addRight(Right.Edit_Task);
 		member.addRight(Right.Delete_Task);
 		
-		Role scrumMaster = new Role("ScrumMaster");
+		Role scrumMaster = new Role(StdRoleNames.ScrumMaster.name());
 		scrumMaster.setChangeable(false);
 		scrumMaster.addRight(Right.Read_Sprint);
 		scrumMaster.addRight(Right.Read_Task);
@@ -168,7 +170,7 @@ public class Project {
 	
 	@Transient
 	public SortedSet<UserStory> getIceBox() {
-		SortedSet<UserStory> iceBox = new TreeSet();
+		SortedSet<UserStory> iceBox = new TreeSet<UserStory>();
 		for(UserStory us : userstories) {
 			if(us.getRelatedSprint() == null) {
 				iceBox.add(us);
@@ -199,9 +201,21 @@ public class Project {
 		projectUsers.add(projectUser);		
 	}
 	
-	public void removeProjectUser(User u) throws NoSuchUserException {
+	public void removeProjectUser(User u) throws NoSuchUserException, TriedToRemoveAdminException {
 		ProjectUser pu = getProjectUserFromUser(u);
+		if(containsAdminRights(pu.getRole())) {
+			throw new TriedToRemoveAdminException();
+		}
 		projectUsers.remove(pu);		
+	}
+	
+	public void removeProjectUser(User u, boolean forced) throws NoSuchUserException, TriedToRemoveAdminException {
+		if(forced) {
+			ProjectUser pu = getProjectUserFromUser(u);
+			projectUsers.remove(pu);
+		} else {
+			removeProjectUser(u);
+		}
 	}
 	
 	@Transient
@@ -230,13 +244,14 @@ public class Project {
 	}
 	
 	@Transient
-	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, triedToRemoveLastAdminException, NoSuchUserException {
+	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, TriedToRemoveAdminException, NoSuchUserException {
 		if(!roles.contains(r)) {
 			throw new RoleNotInProjectException();
 		} 
 		ProjectUser pUser = getProjectUserFromUser(user);
-		if(countAdmins() == 1 || !containsAdminRights(pUser.getRole())) {
-			throw new triedToRemoveLastAdminException();
+		
+		if(countAdmins() == 1 && containsAdminRights(pUser.getRole())) {
+			throw new TriedToRemoveAdminException();
 		}
 		pUser.setRole(r);
 	}
@@ -330,7 +345,7 @@ public class Project {
 	}
 
 	public void addProjectUser(User user) {
-		Role role = (Role) roles.toArray()[1];
+		Role role = getRole(StdRoleNames.Member.name());
 		this.addProjectUser(user, role);
 	}
 
@@ -424,5 +439,14 @@ public class Project {
 			}
 		}
 		return value;
+	}
+	
+	public Role getRole(String rolename) {
+		for(Role role : roles) {
+			if(role.getName().equals(rolename)) {
+				return role;
+			}
+		}
+		return null;
 	}
 }
