@@ -7,8 +7,6 @@
 <script>
 $(document).ready(function() {	
 	
-	var unprocessedData = '<c:out value="${jsonobject}"></c:out>'
-	alert(unprocessedData)
 	
 	$('.sprintBurnDown').highcharts({
         chart: {
@@ -28,10 +26,10 @@ $(document).ready(function() {
                 text: 'Backlog items'
             }
         },
-        series: [{name: 'Scope of Backlog items', data: ${jsonobject.getJSONArray("backlogScope")} , pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*5000},
-                 {name: 'Ideal Remaining Backlog items', data: ${jsonobject.getJSONArray("idealRemaining")}, lineWidth: '1', dashStyle: 'Dash', pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*5000},
-                 {name: 'Remaining Backlog items', color: 'red', data:${jsonobject.getJSONArray("remainingItems")}, pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*5000},
-                 {name: 'Done Backlog items', color: 'green', data:${jsonobject.getJSONArray("doneItems")}, pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*5000}]
+        series: [{name: 'Scope of Backlog items', data: ${jsonobject.getJSONArray("backlogScope")} , pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*1000},
+                 {name: 'Ideal Remaining Backlog items', data: ${jsonobject.getJSONArray("idealRemaining")}, lineWidth: '1', dashStyle: 'Dash', pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*1000},
+                 {name: 'Remaining Backlog items', color: 'red', data:${jsonobject.getJSONArray("remainingItems")}, pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*1000},
+                 {name: 'Done Backlog items', color: 'green', data:${jsonobject.getJSONArray("doneItems")}, pointStart: Date.UTC(2016, 0, 1), pointInterval: 24*3600*1000}]
     });
 });
 
