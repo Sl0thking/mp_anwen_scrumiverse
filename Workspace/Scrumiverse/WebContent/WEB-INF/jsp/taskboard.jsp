@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script>
 $(document).ready(function(){
 	$(".quick-button").hide();
@@ -13,6 +11,11 @@ $(document).ready(function(){
         $(this).addClass("selected");
         var userStoryId = $(this).attr("userStoryId");
         $(".quick-button").attr("href", "addTask.htm?id="+userStoryId);
+    });
+    
+    $("#taskmodal .btn-group.btn-group-planstate button").click(function(){
+    	$("#taskmodal .btn-group.btn-group-planstate button").removeClass("active");
+    	$(this).addClass("active");
     });
 });
     
@@ -101,7 +104,7 @@ function deselectAll(){
 		                   		</c:choose>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>
@@ -124,7 +127,7 @@ function deselectAll(){
 		                        <div class="task-member"></div>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>
@@ -147,7 +150,7 @@ function deselectAll(){
 		                        <div class="task-member"></div>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString() }"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>
@@ -155,6 +158,143 @@ function deselectAll(){
     </tr>
 	</c:forEach>
 </table>
+
+<!-- Boostrap Modal for Task details -->
+<div id="taskmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="info-bar">
+					<span class="glyphicon glyphicon-cog"></span>
+					TASK DETAIL #12345
+					<a href="#" data-toggle="tooltip" title="Delete task">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a>				
+				</div>
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a data-toggle="tab" href="#section-detail">
+							<span class="glyphicon glyphicon-info-sign"></span>
+							Detail
+						</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#section-history">
+							<span class="glyphicon glyphicon-list-alt"></span>
+							History
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="modal-body">
+				<div class="tab-content">
+       				<div id="section-detail" class="tab-pane fade in active">
+						<div class="btn-group btn-group-sm btn-group-planstate" role="group">
+							<button type="button" class="btn btn-secondary active">Planning</button>
+							<button type="button" class="btn btn-secondary">In progress</button>
+							<button type="button" class="btn btn-secondary">Done</button>
+						</div>
+						<div class="user-list">
+							<a href="#" data-toggle="tooltip" title="Add user">
+								<span class="glyphicon glyphicon-plus-sign"></span>
+							</a>
+							<!-- forEach user in userList -->
+							<img class="img-circle" alt="username" src="./resources/userPictures/1.png" data-toggle="tooltip" title="Kevin Wesseler"/>
+							<img class="img-circle" alt="username" src="./resources/userPictures/2.PNG" data-toggle="tooltip" title="Kevin Jolitz"/>
+							<img class="img-circle" alt="username" src="./resources/userPictures/default.png" data-toggle="tooltip" title="Toni Serfling"/>
+							<img class="img-circle" alt="username" src="./resources/userPictures/2.PNG" data-toggle="tooltip" title="Lasse Jacobs"/>
+							<!-- end forEach -->
+						</div>
+       					<div class="input-group">
+							<span class="input-group-addon">Description</span>
+							<textarea class="form-control" style="resize:vertical">Task description (pls change me)</textarea>
+						</div>
+       					<div class="input-group">
+							<span class="input-group-addon">Criteria</span>
+							<textarea class="form-control" style="resize:vertical">Acceptance criteria (pls change me)</textarea>
+						</div>
+						<div class="tag-list">
+							<!-- forEach tag in taglist -->
+							<div class="tag">
+								60 FPS
+								<a href="#">
+									<span class="glyphicon glyphicon-remove"></span>
+								</a>
+							</div>
+							<div class="tag">
+								FIX MAX HP
+								<a href="#">
+									<span class="glyphicon glyphicon-remove"></span>
+								</a>
+							</div>
+							<!-- end forEach -->
+							<input type="text" placeholder="Add tag"></input>
+						</div>
+						<table class="time-table">
+							<tr>
+								<th>Users</th>
+								<th>Estimated</th>
+								<th>Spent</th>
+								<th>Remaining</th>
+							</tr>
+							<tr>
+								<td>
+									<img class="img-circle" alt="username" src="./resources/userPictures/2.PNG" data-toggle="tooltip" title="Lasse Jacobs"/>
+									Lasse Jacobs
+								</td>
+								<td>10h</td>
+								<td>4h</td>
+								<td>6h</td>
+							</tr>
+							<tr>
+								<td>
+									<img class="img-circle" alt="username" src="./resources/userPictures/default.png" data-toggle="tooltip" title="Toni Serfling"/>
+									Toni Serfling
+								</td>
+								<td>4h 30min</td>
+								<td>3h 30min</td>
+								<td>1h</td>
+							</tr>
+							<tr>
+								<td>
+									<img class="img-circle" alt="username" src="./resources/userPictures/2.PNG" data-toggle="tooltip" title="Kevin Jolitz"/>
+									Kevin Joltiz
+								</td>
+								<td>6h</td>
+								<td>5h</td>
+								<td>1h</td>
+							</tr>
+							<tr>
+								<td>
+									<img class="img-circle" alt="username" src="./resources/userPictures/1.png" data-toggle="tooltip" title="Kevin Wesseler"/>
+									Kevin Wesseler
+								</td>
+								<td>4h 30min</td>
+								<td>5h</td>
+								<td>-30min</td>
+							</tr>
+							<tr>
+								<td>Total</td>
+								<td>25h</td>
+								<td>17h 30min</td>
+								<td>7h 30min</td>
+							</tr>
+						</table>
+       				</div>
+       				<div id="section-history" class="tab-pane fade in">
+       					Preview for Sprint 3
+       				</div>
+       			</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+					<span class="glyphicon glyphicon-save"></span>
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
     
 <div id="quick-button-container">
     <a class="quick-button" href="./addTask.htm">
