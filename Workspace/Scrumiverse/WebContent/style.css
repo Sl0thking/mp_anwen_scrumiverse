@@ -236,8 +236,9 @@ body::-webkit-scrollbar{
 /* login page specific css */
 .background {
     margin: auto;
+    margin-top: 0px;
     width: 594px;
-    height: 700px;
+    height: 500px;
     background-image: url(resources/images/login.jpg);
     background-position: center;
     background-repeat: no-repeat;
@@ -248,7 +249,7 @@ body::-webkit-scrollbar{
     height: 200px;
     width: 300px;
     margin: auto;
-    top: 220px;
+    top: 120px;
 }
 
 .form-group {
