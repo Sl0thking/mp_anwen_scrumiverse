@@ -27,10 +27,10 @@
                 	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
                     <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
                 </div>
-		        <div class="userstory-moscow">${userstory.getMoscow().toString()}</div>
-		        <div class="userstory-value">${userstory.businessValue}</div>
-		        <div class="userstory-risk">R: ${userstory.risk}</div>
-		        <div class="userstory-effort">${userstory.effortValue}</div>
+		        <div class="userstory-moscow" data-toggle="tooltip" title="MoSCoW">${userstory.getMoscow().toString()}</div>
+		        <div class="userstory-value" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
+		        <div class="userstory-risk" data-toggle="tooltip" title="Risk">${userstory.risk}</div>
+		        <div class="userstory-effort" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
         		<div class="userstory-control" id="${userstory.planState}">
 					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="#" data-toggle="modal" data-target=".userstory-detail"></a>
 				</div>

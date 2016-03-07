@@ -29,16 +29,18 @@
 #backlog > .userstory > .userstory-titel {
     position: absolute;
     left: 1%;
-    width: 40%;
+    width: 35%;
     height: 55px;
-    overflow: hidden;
-	text-overflow: ellipsis;
+    line-height: 18px;
+    overflow-x: hidden ;
+    overflow-y: scroll;
     display: inline-block;
 }
+#backlog > .userstory > .userstory-titel::-webkit-scrollbar {display: none;}
 
 #backlog > .userstory > .userstory-sandclock{
     position: absolute;
-    left: 41.5%;
+    left: 36.5%;
     background-color: black;
     height: 39px;
     width: 4%;
@@ -49,7 +51,7 @@
     position: absolute;
     font-size: 14px;
     line-height: 20px;
-    left: 41.5%;
+    left: 36.5%;
     top: 41px;
     width: 4%;
     height: 18px;
@@ -61,7 +63,7 @@
 
 #backlog > .userstory > .userstory-memberbox{
     position: absolute;
-    left: 45.8%;
+    left: 41%;
     width: 7%;
     height: 56px;
     display: inline-block;
@@ -79,7 +81,7 @@
 
 #backlog > .userstory > .userstory-category {
     position: absolute;
-    left: 53%;
+    left: 48.2%;
     height: 25px;
     width: 23%;
     display: inline-block;
@@ -89,7 +91,7 @@
 
 #backlog > .userstory > .userstory-sprint {
     position: absolute;
-    left: 53%;
+    left: 48.2%;
     top: 30px;
     height: 25px;
     width: 23%;
@@ -103,7 +105,7 @@
     top: 30px;
     left: 76%;
     height: 25px;
-    width: 19%;
+    min-width: 18%;
     text-align: center;
     display: inline-block;
     overflow: hidden;
@@ -111,11 +113,14 @@
 
 #backlog > .userstory > .userstory-moscow{
     position: absolute;
-    left: 77%;
+    left: 78%;
     top: 8px;
     text-align: center;
     height: 22px;
-    width: 6%;
+    width: 4.5%;
+    margin-right: 2px;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 
@@ -124,7 +129,11 @@
     left: 83%;
     top: 8px;
     text-align: center;
-    width: 5%;
+    width: 4.5%;
+    height: 22px;
+    margin-right: 2px;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 
@@ -133,7 +142,11 @@
     left: 88%;
     top: 8px;
     text-align: center;
-    width: 5%;
+    width: 4.5%;
+    height: 22px;
+    margin-right: 2px;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 
