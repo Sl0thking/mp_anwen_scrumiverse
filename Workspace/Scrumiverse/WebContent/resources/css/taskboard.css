@@ -111,19 +111,21 @@
 }
 
 .userstory-stats > .info-container{
-    width: 50%;
+    width: 61%;
     height: 100%;
     float: left;
     font-size: 14px;
-    padding: 25px 0px 0px 0px; 
+    margin: auto;
+    padding: 0px 0px 0px 2px; 
     display: inline-block;
     overflow: hidden;
 }
 .info-container > .moscow{
     width: 30%;
-    height: 35%;
+    height: 30%;
     float: left;
-    margin-left: 2px;
+    margin: 0px 0.5% 0.5% 15%;
+    padding-top: 2px;
     text-align: center;
     display: inline-block;
     border-radius: 5px;
@@ -131,22 +133,35 @@
     overflow: hidden;
 }
 .info-container > .value{
-    width: 32%;
-    height: 35%;
+    width: 30%;
+    height: 30%;
     float: left;
-    margin-left: 2px;
+    margin: 0px 0.5% 0.5% 3%;
+    padding-top: 2px;
+    text-align: center;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
+    overflow: hidden;
+}
+.info-container > .risk{
+    width: 30%;
+    height: 30%;
+    float: left;
+    margin-left: 15%;
+    padding-top: 2px;
     text-align: center;
     display: inline-block;
     border-radius: 5px;
     background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
-.info-container > .risk{
-    width: 33%;
-    height: 35%;
-    float: left;
-    margin-left: 2px;
+.info-container >  .effort{
+    width: 30%;
+    height: 30%;
+    margin-left: 3%;
+    padding-top: 2px;
     text-align: center;
+    float: left;
     display: inline-block;
     border-radius: 5px;
     background: rgba(54, 25, 25, .5);
@@ -154,28 +169,18 @@
 }
 .info-container > .timestats{
     width: 100%;
-    height: 45%;
+    height: 36%;
     line-height: 22px;
-    font-size: 80%;
+    float: left;
     text-align: center;
     display: inline-block;
     overflow: hidden;
 }
 
-.userstory-stats > .effort{
-    width: 10%;
-    height: 100%;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    padding-top: 35px;
-    float: left;
-    display: inline-block;
-}
 .userstory-stats > .member-container{
-    width: 23%;
+    width: 22%;
     height: 100%;
-    float: left;
+    float: right;
     padding-top: 10px;
     text-align: right;
     display: inline-block;
