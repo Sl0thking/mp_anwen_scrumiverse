@@ -2,35 +2,70 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<body class="bg">
+<script>
+$(document).ready(function(){
+    $(".cardview").click(function(){
+        if($(this).parent().next().attr("class")=="userstory"){
+            var backlog = $(this).parent().parent();
+            $(backlog).children().each(function(){
+                if($(this).attr("class")=="userstory"){
+                    $(this).removeClass("userstory").addClass("note");    
+                }
+            });
+        }
+    });
+    $(".listview").click(function(){
+        if($(this).parent().next().attr("class")=="note"){
+            var backlog = $(this).parent().parent();
+            $(backlog).children().each(function(){
+                if($(this).attr("class")=="note"){
+                    $(this).removeClass("note").addClass("userstory");    
+                }
+            });
+        }
+    });
+});
+</script>
 	<div id="backlog">
+	<div class="backlog-settings">
+		<a href="#" class="listview glyphicon glyphicon-align-justify"></a>
+		<a href="#" class="cardview glyphicon glyphicon-th"></a>
+	</div>
 		<c:forEach items="${userstories}" var = "userstory">
 			<div class="userstory">
 				<div class="userstory-planstate" id="${userstory.planState}"></div>
-		        <div class="userstory-titel">${userstory.description}</div>
-		        <canvas id="clock" class="userstory-sandclock"></canvas>
-		        <div class="userstory-time">${userstory.getRemainingDays()}d</div>
-		        <div class="userstory-memberbox">
-		        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
-		        		<img class="user-img alt="err" src="${user.getProfileImagePath()}">
-		        	</c:forEach>
-		        </div>
-		        <div class="userstory-category">Category</div>
-		        <div class="userstory-sprint">
-			        <c:choose>
-					    <c:when test="${userstory.relatedSprint == null}">Backlog</c:when>
-					    <c:otherwise>${userstory.relatedSprint.description}</c:otherwise>
-					</c:choose>
-		        </div>
-		        <div class="userstory-timestats">
-		        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
-                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
-                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
-                </div>
-		        <div class="userstory-moscow" data-toggle="tooltip" title="MoSCoW">${userstory.getMoscow().toString()}</div>
-		        <div class="userstory-value" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
-		        <div class="userstory-risk" data-toggle="tooltip" title="Risk">${userstory.risk}</div>
-		        <div class="userstory-effort" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
+		        <div class="userstory-container">
+			        <div class="userstory-titel">${userstory.description}</div>
+			        <div class="userstory-memberbox">
+			        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
+			        		<img class="user-img alt="err" src="${user.getProfileImagePath()}">
+			        	</c:forEach>
+			        </div>
+			        <div class="timebox">
+				        <div class="userstory-sandclock"></div>
+				        <div class="userstory-time">${userstory.getRemainingDays()}d</div>
+			        </div>
+			        <div class="info-container">
+				        <div class="userstory-category">Category</div>
+				        <div class="userstory-sprint">
+							<c:choose>
+								<c:when test="${userstory.relatedSprint == null}">Backlog</c:when>
+								<c:otherwise>${userstory.relatedSprint.description}</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+					<div class="userstory-stats">
+				        <div class="userstory-timestats">
+				        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
+		                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
+		                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
+		                </div>
+				        <div class="userstory-moscow" data-toggle="tooltip" title="MoSCoW">${userstory.getMoscow().toString()}</div>
+				        <div class="userstory-value" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
+				        <div class="userstory-risk" data-toggle="tooltip" title="Risk">${userstory.risk}</div>
+				        <div class="userstory-effort" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
+        			</div>
+        		</div>
         		<div class="userstory-control" id="${userstory.planState}">
 					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="#" data-toggle="modal" data-target=".userstory-detail"></a>
 				</div>
@@ -115,8 +150,8 @@
 			                    <div class="modal-data-container">
 			                    	Users</br>
 			                    	<img class="user-img" alt="err" src="./resources/userPictures/2.png">
-			                    	<img class="user-img alt="err" src="./resources/userPictures/1.png">
-			                    	<img class="user-img alt="err" src="./resources/userPictures/default.png">
+			                    	<img class="user-img" alt="err" src="./resources/userPictures/1.png">
+			                    	<img class="user-img" alt="err" src="./resources/userPictures/default.png">
 			                    </div>
 			                    <div class="modal-data-container">
 			                        1h / 3h / 4h

@@ -123,24 +123,33 @@
     width: 30%;
     height: 35%;
     float: left;
+    margin-left: 2px;
     text-align: center;
     display: inline-block;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 .info-container > .value{
     width: 32%;
     height: 35%;
     float: left;
+    margin-left: 2px;
     text-align: center;
     display: inline-block;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 .info-container > .risk{
     width: 33%;
     height: 35%;
     float: left;
+    margin-left: 2px;
     text-align: center;
     display: inline-block;
+    border-radius: 5px;
+    background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
 .info-container > .timestats{

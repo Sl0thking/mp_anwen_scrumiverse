@@ -304,14 +304,18 @@ function toggleRemovebtn(){
 		                    </div>
 		                </div>
 		                <div class="userstory-container">
-		                     <div usid="22" class="userstory userstory-fix">
-		                        <div class="userstory-titel">[US002] Killing Humanity</div>
-		                        <div class="userstory-content">
-		                        Time:   1 / -1 / 0 h</br>
-		                        Effort: 25</br>
-		                        Value:  57
-		                        </div>
-		                    </div>
+		                      <c:forEach items="${sprint.getUserStories()}" var="userstory">
+		            			<div usid="${userstory.id }" class="userstory">
+			                		<div class="userstory-titel">${userstory.description }</div>
+			                		<div class="userstory-content">
+				                		Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> / 
+				                		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> / 
+				                		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
+				                		Effort: ${userstory.getEffortValue()}</br>
+				                		Value:  ${userstory.getBusinessValue()}
+			                		</div>
+			            		</div>
+		        			</c:forEach>
 		                </div>
 		                <div class="modal-footer footer-fix">
 		                    <button type="button" class="btn btn-default" type="submit">

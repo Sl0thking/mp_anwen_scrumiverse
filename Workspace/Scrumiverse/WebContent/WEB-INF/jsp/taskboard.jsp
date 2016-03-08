@@ -49,9 +49,9 @@ function deselectAll(){
                             <div class="duetime">${userStory.dueDate}</div>
                         </div>
                         <div class="info-container">
-                            <div class="moscow">${userStory.moscow.toString().substring(0,1)}</div>
-                            <div class="value">${userStory.businessValue}</div>
-                            <div class="risk">${userStory.risk}</div>
+                            <div class="moscow" data-toggle="tooltip" title="MoSCoW">${userStory.moscow.toString().substring(0,1)}</div>
+                            <div class="value" data-toggle="tooltip" title="Value">${userStory.businessValue}</div>
+                            <div class="risk" data-toggle="tooltip" title="Risk">${userStory.risk}</div>
                             <div class="timestats">
                             	<fmt:formatNumber value="${userStory.getWorkedMinutes()/60}" maxFractionDigits="0"/> / 
                             	<fmt:formatNumber value="${userStory.getRemainingMinutes()/60}" maxFractionDigits="0"/> / 
