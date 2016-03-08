@@ -403,10 +403,6 @@ textarea {
 }
 .btn-default{
     float: right;
-    margin: 2%;
-}
-.footer-fix{
-    height: 2%;
 }
 /* quick buttons specific css */
 #quick-button-container {

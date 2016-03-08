@@ -67,10 +67,10 @@ $(document).ready(function(){
         			</div>
         		</div>
         		<div class="userstory-control" id="${userstory.planState}">
-					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="#" data-toggle="modal" data-target=".userstory-detail"></a>
+					<a class="glyphicon glyphicon-triangle-right userstory-settings" href="#" data-toggle="modal" data-target="#userstory-detail"></a>
 				</div>
 			</div>
-		    <div class="modal fade userstory-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		    <div id="userstory-detail" class="modal fade userstory-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 			    <div class="modal-dialog">
 			        <div class="modal-content userstory-detail-settings">
 			            <form>
