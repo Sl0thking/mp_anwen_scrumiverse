@@ -200,6 +200,38 @@ public class Sprint extends PlanElement {
 		return remainingMinutes;
 	}
 	
+	@Transient
+	private int getSprintDayCount() {
+		Date d = new Date();
+		int sprintDayCount = (int) ((d.getTime()*(1000*60*60*24)) - startDate.getTime()*(1000*60*60*24));
+		return sprintDayCount;
+	}
+	
+	@Transient
+	public double[] getIdealRemainingUS() {
+		double[] idealRemaining = null;
+		double idealUserStoryCount = (double)getUserStories().size();
+		int wholeSprintDayCount = (int) ((endDate.getTime()*(1000 * 60 * 60 * 24)) - (startDate.getTime()*(1000 * 60 * 60 * 24)));
+		double decrement = (double)wholeSprintDayCount / idealUserStoryCount;
+		for(int i = 0; i<=wholeSprintDayCount;i++) {
+			idealRemaining[i] = idealUserStoryCount;
+			idealUserStoryCount=idealUserStoryCount-decrement;
+		}
+		return idealRemaining;
+		
+	}
+	
+//	@Transient
+//	public int[] getBacklogScope() {
+//		int[] backlogScope = new int[getSprintDayCount()];
+//		for(int i = 0; i<=getSprintDayCount(); i++){
+//			
+//			backlogScope[i] = 
+//		}
+//		
+//		return backlogScope;
+//	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
