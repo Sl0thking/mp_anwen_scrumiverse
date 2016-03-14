@@ -168,6 +168,9 @@ public class Task extends PlanElement {
 	public int getRemainingMinOfUser(User user) {
 		int estimatedTimeInMin = this.getPlannedMinOfUser(user);
 		int loggedTimeInMin = this.getWorkTimeOfUser(user);
+		if(estimatedTimeInMin - loggedTimeInMin < 0) {
+			return 0;
+		}
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
 	
@@ -175,6 +178,9 @@ public class Task extends PlanElement {
 	public int getRemainingMin() {
 		int estimatedTimeInMin = this.getPlannedMin();
 		int loggedTimeInMin = this.getWorkMin();
+		if(estimatedTimeInMin - loggedTimeInMin < 0) {
+			return 0;
+		}
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
 

@@ -151,7 +151,7 @@ public class UserController extends MetaController{
 		try {
 			checkValidSession(session);
 			ModelMap map = new ModelMap();
-			map.addAttribute("user", createExampleUser());
+			map.addAttribute("user", new User());
 			map.addAttribute("action", Action.register);
 			return new ModelAndView("index", map);
 		} catch(SessionIsNotClearedException e) {
@@ -163,12 +163,12 @@ public class UserController extends MetaController{
 	 * Create example user for display in registration
 	 * @return User user
 	 */
-	private User createExampleUser() {
-		User exampleUser = new User();
-		exampleUser.setEmail("example@mail.com");
-		exampleUser.setName("Firstname Lastname");
-		return exampleUser;
-	}
+//	private User createExampleUser() {
+//		User exampleUser = new User();
+//		exampleUser.setEmail("example@mail.com");
+//		exampleUser.setName("Firstname Lastname");
+//		return exampleUser;
+//	}
 	
 	/**
 	 * logout and invalidate the session

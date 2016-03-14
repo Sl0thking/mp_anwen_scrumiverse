@@ -141,8 +141,8 @@ function toggleRemovebtn(){
         <div class="backlog-data">
             <div class="data-container">
                 Time</br>
-                <fmt:formatNumber value="${project.getIceBoxRemainingTime()/60}" maxFractionDigits="0"/> /
-                <fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}" maxFractionDigits="0"/> h
+                <fmt:formatNumber value="${project.getIceBoxRemainingTime()/60}" maxFractionDigits="1"/> /
+                <fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}" maxFractionDigits="1"/> h
                 <div class="progressbar">
                     <div class="progress" style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"/></div>
                 </div>
@@ -167,9 +167,9 @@ function toggleRemovebtn(){
 	            <div usid="${userstory.id }" class="userstory">
 			        <div class="userstory-titel">${userstory.description }</div>
 			        <div class="userstory-content">
-			        Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> /
-			                <fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> /
-			        		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
+			        Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> /
+			                <fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> /
+			        		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h</br>
 			        Effort: ${userstory.getEffortValue()}</br>
 			        Value:  ${userstory.getBusinessValue()}
 			    	</div>
@@ -203,8 +203,8 @@ function toggleRemovebtn(){
 	                    <div class="data-container">
 	                        Time
 	                        <div class="count">
-	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="0" /> / 
-	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="0" /> h</div>
+	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
+	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h</div>
 	                        <div class="progressbar">
 	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 	                        </div>

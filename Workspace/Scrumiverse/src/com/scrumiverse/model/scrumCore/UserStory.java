@@ -199,6 +199,9 @@ public class UserStory extends PlanElement {
 				result += task.getRemainingMinOfUser(user);
 			}
 		}
+		if(result < 0) {
+			return 0;
+		}
 		return result;
 	}
 	/**

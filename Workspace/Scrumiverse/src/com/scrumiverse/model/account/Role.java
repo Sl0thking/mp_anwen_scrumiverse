@@ -115,9 +115,8 @@ public class Role implements Comparable<Role> {
 	}
 
 	@Override
-	public String toString() {
+ 	public String toString() {
 		return String.valueOf(roleID);
-	}
-	
+	}	
 	
 }

@@ -19,13 +19,16 @@ public class RoleBinder extends PropertyEditorSupport {
 		Object o = getValue(); 
 		if(o == null) {
 			return null;
-		} else 
+		} else {
+			System.err.println("ROLE-GIVEN: " + ((Role) o).getName());
 			return Integer.toString( ((Role) o).getRoleID() );
+		}
 	}
 
 	@Override
 	public void setAsText(String id) throws IllegalArgumentException {
 		Role role = roleDAO.getRole(Integer.parseInt(id));
+		System.out.println("ROLE: " + role.getName());
 		setValue(role);
 	}
 	

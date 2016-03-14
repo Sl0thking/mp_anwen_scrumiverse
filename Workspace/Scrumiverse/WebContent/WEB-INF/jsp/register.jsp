@@ -34,11 +34,11 @@ $(document).ready(function(){
         <form:form role="form" action="registerUser.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <form:input path="email" type="text" class="form-control" id="email" placeholder="${user.email}" value=""/>
+                <form:input path="email" type="text" class="form-control" id="email" placeholder="example@mail.com" value=""/>
             </div>
             <div class="form-group">
             	Name:
-                <form:input path="name" type="text" class="form-control" id="name" placeholder="${user.name}" value=""/>
+                <form:input path="name" type="text" class="form-control" id="name" placeholder="Surname Name" value=""/>
             </div>
             <div class="form-group">
             	Password:

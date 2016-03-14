@@ -1,5 +1,11 @@
 package com.scrumiverse.persistence.DAO.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -23,6 +29,16 @@ public class RoleDAOImpl implements RoleDAO {
 	@Override
 	public Role getRole(int id) {
 		return (Role) hibernateTemplate.find("from Role where roleID='" + id + "'").get(0);
+	}
+
+	@Override
+	public SortedSet<Role> getRoles() {
+		SortedSet<Role> roleSet = new TreeSet<Role>();
+		List<Role> roles = hibernateTemplate.find("from Role");
+		for(Role role : roles) {
+			roleSet.add(role);
+		}
+		return roleSet;
 	}
 
 }

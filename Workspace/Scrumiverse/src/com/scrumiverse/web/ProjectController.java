@@ -40,7 +40,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 05.03.2016
+ * @version 14.03.2016
  *
  */
 
@@ -105,6 +105,7 @@ public class ProjectController extends MetaController {
 			User user = this.loadActiveUser(session);
 			Project project = new Project();
 			projectDAO.saveProject(project);
+			prepareStdRoles(project);
 			project.addProjectUser(user,(Role) project.getRole(StdRoleNames.ProductOwner.name()));
 			user.addProject(project);
 			userDAO.updateUser(user);
@@ -114,6 +115,48 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
+	
+	private void prepareStdRoles(Project project) {
+		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
+		productOwner.setChangeable(false);
+		productOwner.addRight(Right.Invite_To_Project);
+		productOwner.addRight(Right.Manage_Project);
+		productOwner.addRight(Right.Remove_From_Project);
+		productOwner.addRight(Right.Create_Sprint);
+		productOwner.addRight(Right.Create_UserStory);
+		productOwner.addRight(Right.Delete_Project);
+		productOwner.addRight(Right.Delete_Sprint);
+		productOwner.addRight(Right.Delete_UserStory);
+		productOwner.addRight(Right.Edit_Sprint);
+		productOwner.addRight(Right.Edit_UserStory);
+		productOwner.addRight(Right.Read_Sprint);
+		productOwner.addRight(Right.Read_Task);
+		productOwner.addRight(Right.Read_UserStory);
+		productOwner.addRight(Right.View_Review);
+		
+		Role member = new Role(StdRoleNames.Member.name());
+		member.setChangeable(false);
+		member.addRight(Right.Read_Sprint);
+		member.addRight(Right.Read_Task);
+		member.addRight(Right.Read_UserStory);
+		member.addRight(Right.View_Review);
+		member.addRight(Right.Create_Task);
+		member.addRight(Right.Edit_Task);
+		member.addRight(Right.Delete_Task);
+		
+		Role scrumMaster = new Role(StdRoleNames.ScrumMaster.name());
+		scrumMaster.setChangeable(false);
+		scrumMaster.addRight(Right.Read_Sprint);
+		scrumMaster.addRight(Right.Read_Task);
+		scrumMaster.addRight(Right.Read_UserStory);
+		scrumMaster.addRight(Right.View_Review);
+		scrumMaster.addRight(Right.AlertAllNotifications_From_CurrentSprint);
+		
+		project.addRole(productOwner);
+		project.addRole(member);
+		project.addRole(scrumMaster);
+	}
+
 	
 	/**
 	 * select specific project and redirect to backlog
@@ -163,6 +206,7 @@ public class ProjectController extends MetaController {
 			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
 				throw new InsufficientRightsException();
 			}
+			System.out.println(pUser.getRole().getName());
 			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			map.addAttribute("project", requestedProject);
 			map.addAttribute("action", Action.projectSettings);
@@ -288,9 +332,13 @@ public class ProjectController extends MetaController {
 	public ModelAndView renameProject(Project project, HttpSession session) {
 		try {
 			checkInvalidSession(session);
+			Project currentProject = projectDAO.getProject(project.getProjectID());
+			project.setRoles(currentProject.getRoles());
+			project.setSprints(currentProject.getSprints());
+			project.setUserstories(currentProject.getUserstories());
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
-		} catch (InvalidSessionException e) {
+		} catch (InvalidSessionException | NoProjectFoundException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}

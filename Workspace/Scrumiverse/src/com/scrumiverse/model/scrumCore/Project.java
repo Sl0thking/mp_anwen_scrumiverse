@@ -33,7 +33,7 @@ import javax.persistence.JoinColumn;
  * Datamodel for a scrumiverse project
  * 
  * @author Kevin Jolitz, Lasse Jacobs
- * @version 04.03.2016
+ * @version 14.03.2016
  */
 
 @Entity
@@ -56,49 +56,8 @@ public class Project {
 		roles = new TreeSet<Role>();
 		sprints = new TreeSet<Sprint>();
 		dueDate = new Date();
-		prepareStdRoles(roles);
 	}
 	
-	private void prepareStdRoles(SortedSet<Role> roles) {
-		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
-		productOwner.setChangeable(false);
-		productOwner.addRight(Right.Invite_To_Project);
-		productOwner.addRight(Right.Manage_Project);
-		productOwner.addRight(Right.Remove_From_Project);
-		productOwner.addRight(Right.Create_Sprint);
-		productOwner.addRight(Right.Create_UserStory);
-		productOwner.addRight(Right.Delete_Project);
-		productOwner.addRight(Right.Delete_Sprint);
-		productOwner.addRight(Right.Delete_UserStory);
-		productOwner.addRight(Right.Edit_Sprint);
-		productOwner.addRight(Right.Edit_UserStory);
-		productOwner.addRight(Right.Read_Sprint);
-		productOwner.addRight(Right.Read_Task);
-		productOwner.addRight(Right.Read_UserStory);
-		productOwner.addRight(Right.View_Review);
-		
-		Role member = new Role(StdRoleNames.Member.name());
-		member.setChangeable(false);
-		member.addRight(Right.Read_Sprint);
-		member.addRight(Right.Read_Task);
-		member.addRight(Right.Read_UserStory);
-		member.addRight(Right.View_Review);
-		member.addRight(Right.Create_Task);
-		member.addRight(Right.Edit_Task);
-		member.addRight(Right.Delete_Task);
-		
-		Role scrumMaster = new Role(StdRoleNames.ScrumMaster.name());
-		scrumMaster.setChangeable(false);
-		scrumMaster.addRight(Right.Read_Sprint);
-		scrumMaster.addRight(Right.Read_Task);
-		scrumMaster.addRight(Right.Read_UserStory);
-		scrumMaster.addRight(Right.View_Review);
-		scrumMaster.addRight(Right.AlertAllNotifications_From_CurrentSprint);
-		
-		roles.add(productOwner);
-		roles.add(member);
-		roles.add(scrumMaster);
-	}
 
 	@Id
 	@GeneratedValue
@@ -141,6 +100,7 @@ public class Project {
 	}
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	@Sort(type=SortType.NATURAL)
 	public SortedSet<Role> getRoles() {
 		return roles;
@@ -384,6 +344,9 @@ public class Project {
 				remTime += us.getRemainingMinutes();
 			}
 		}
+		if(remTime < 0) {
+			return 0;
+		}
 		return remTime;
 	}
 	
@@ -424,7 +387,7 @@ public class Project {
 	public int getIceBoxEffort() {
 		int value = 0;
 		for(UserStory us : userstories) {
-			if(us.getRelatedSprint() == null && us.getPlanState().equals(PlanState.Done)) {
+			if(us.getRelatedSprint() == null) {
 				value += us.getEffortValue();
 			}
 		}
@@ -449,5 +412,10 @@ public class Project {
 			}
 		}
 		return null;
+	}
+
+
+	public void addRole(Role role) {
+		this.roles.add(role);
 	}
 }
