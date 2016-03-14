@@ -119,6 +119,7 @@ public class Project {
 		this.name = name;
 	}
 	
+	@Column(columnDefinition="TEXT")
 	public String getDescription() {
 		return description;
 	}
