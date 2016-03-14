@@ -354,15 +354,37 @@ public class ProjectController extends MetaController {
 			ModelMap map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			// adding jsonobjects to map
-			map.addAttribute("jsonobject", dummyJSON());
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("action", Action.reporting);
 			return new ModelAndView("index", map);		
 		} catch(NoSuchUserException | InvalidSessionException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoProjectFoundException | JSONException e) {
+		} catch(NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
+	}
+	
+	@RequestMapping("/selectedSprint.htm")
+	public ModelAndView reportingData(@RequestParam int id, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			ModelMap  map = this.prepareModelMap(session);
+			Sprint selectedSprint = sprintDAO.getSprint(id);
+			double[] idealRemaining = selectedSprint.getIdealRemainingUS();
+			JSONObject jObject = new JSONObject();
+			JSONArray idealRemainingJSON = new JSONArray();
+			for(int i = 0; i <= idealRemaining.length;i++) {
+				idealRemainingJSON.put(idealRemaining[i]);
+			}
+			jObject.put("idealRemaining", idealRemainingJSON);
+			map.addAttribute("jsonObject", jObject);
+			map.addAttribute("sprint", selectedSprint);
+			map.addAttribute("action", Action.reporting);
+			return new ModelAndView("index", map);
+		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (JSONException | NoProjectFoundException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -392,59 +414,4 @@ public class ProjectController extends MetaController {
 		}
 	}
 	
-	/*
-	 * JSON Dummy, going to be removed once backend data is available
-	 */
-	public JSONObject dummyJSON() throws JSONException {
-		//JSON Object mit allen 4 Serien
-		JSONObject dummyObject = new JSONObject();
-		//Benötigt 1d-Array, welches die Anzahl aller Userstories pro Tag enthält
-		JSONArray backlogScope = new JSONArray();
-		//Benötigt 1d-Array, welches die Ideale Anzahl von fertigen UserStories pro tag zurückgibt 
-		//(Anzahl Tage im Sprint/max. Anzahl Userstories)
-		JSONArray idealRemaining = new JSONArray();
-		//Benötigt 1d-Array, welches die unfertigen UserStories pro tag zurückgibt
-		JSONArray remainingItems = new JSONArray();
-		//Benötigt 1d-Array, welches die fertigen Userstories pro tag zurückgibt
-		JSONArray doneItems = new JSONArray();
-				
-		/*
-		 * for(int i=0; i<=Sprint.getBenötigtesArray.length;i++) {
-		 * 	somejsonarray.put(benötigtesArray[i]);
-		 * };
-		 */
-		backlogScope.put(30);
-		backlogScope.put(30);
-		backlogScope.put(31);
-		backlogScope.put(36);
-		backlogScope.put(36);
-		backlogScope.put(36);
-		backlogScope.put(30);
-		idealRemaining.put(36);
-		idealRemaining.put(30);
-		idealRemaining.put(24);
-		idealRemaining.put(18);
-		idealRemaining.put(12);
-		idealRemaining.put(6);
-		idealRemaining.put(0);
-		remainingItems.put(30);
-		remainingItems.put(30);
-		remainingItems.put(31);
-		remainingItems.put(34);
-		remainingItems.put(25);
-		remainingItems.put(20);
-		remainingItems.put(5);
-		doneItems.put(0);
-		doneItems.put(0);
-		doneItems.put(0);
-		doneItems.put(2);
-		doneItems.put(11);
-		doneItems.put(16);
-		doneItems.put(25);
-		dummyObject.put("backlogScope", backlogScope);
-		dummyObject.put("idealRemaining", idealRemaining);
-		dummyObject.put("remainingItems", remainingItems);
-		dummyObject.put("doneItems", doneItems);
-		return dummyObject;
-	}
 }
