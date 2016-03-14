@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 
@@ -36,6 +37,8 @@ public class MessageDAOImpl implements MessageDAO {
 	@Override
 	public Set<Message> getMessagesFromUser(int userID) {
 		Set<Message> messages = new TreeSet<Message>();
+		User u = (User) hibernateTemplate.find("from User where UserID='" + userID + "'").get(0);
+		messages = u.getMessages();
 		return messages;
 	}
 

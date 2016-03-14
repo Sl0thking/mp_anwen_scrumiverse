@@ -2,6 +2,8 @@ package com.scrumiverse.model.account;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,10 +16,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumFeatures.Message;
 
 /**
  * Datamodell for a scrumiverse user account
@@ -47,6 +52,7 @@ public class User {
 			message="must have no spaces, at least 1 digit, at least 1 uppercase and lowercase letter and at least one lowercase letter.")
 	private String password;
 	private String profileImagePath;
+	private SortedSet<Message> messages;
 	
 	public User() {
 		email = "";
@@ -55,8 +61,9 @@ public class User {
 		password = "";
 		projects = new HashSet<Project>();
 		profileImagePath = "./resources/userPictures/default.png";
+		messages = new TreeSet<Message>();
 	}
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name="UserID")
@@ -145,6 +152,20 @@ public class User {
 
 	public void setProfileImagePath(String profileImagePath) {
 		this.profileImagePath = profileImagePath;
+	}
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name="MessageID")
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(SortedSet<Message> messages) {
+		this.messages = messages;
+	}
+	
+	public void addMessage(Message message) {
+		this.messages.add(message);
 	}
 
 	@Override

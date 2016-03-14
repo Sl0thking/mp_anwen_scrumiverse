@@ -36,6 +36,7 @@
                                 <value>com.scrumiverse.model.scrumCore.Task</value>
                                 <value>com.scrumiverse.model.account.Role</value>
                                 <value>com.scrumiverse.model.scrumFeatures.WorkLog</value>
+                                <value>com.scrumiverse.model.scrumFeatures.Message</value>
                         </list>
                 </property>
                 <property name="hibernateProperties">
@@ -61,6 +62,9 @@
                 <property name="sessionFactory" ref="mySessionFactory"/>
         </bean>
         <bean id="sprintDAO" class="com.scrumiverse.persistence.DAO.impl.SprintDAOImpl">
+        		<property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
+        <bean id="messageDAO" class="com.scrumiverse.persistence.DAO.impl.MessageDAOImpl">
         		<property name="sessionFactory" ref="mySessionFactory"/>
         </bean>
 </beans>
