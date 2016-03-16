@@ -20,7 +20,7 @@ import com.scrumiverse.model.account.User;
 /**
  * Datamodel of Messages
  * @author Toni Serfling
- * @version 10.03.2016
+ * @version 15.03.2016
  */
 @Entity
 public class Message {

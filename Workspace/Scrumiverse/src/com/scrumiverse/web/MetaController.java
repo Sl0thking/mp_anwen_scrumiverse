@@ -1,5 +1,8 @@
 package com.scrumiverse.web;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumFeatures.Message;
+import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
@@ -29,6 +34,9 @@ public abstract class MetaController {
 	
 	@Autowired
 	private ProjectDAO projectDAO;
+	
+	@Autowired
+	private MessageDAO messageDAO;
 	
 	protected User loadActiveUser(HttpSession session) throws NoSuchUserException {
 		int userId = (int) session.getAttribute("userId");
@@ -66,10 +74,23 @@ public abstract class MetaController {
 		User currentUser = loadActiveUser(session);
 		Project currentProject = loadCurrentProject(session);
 		boolean isLogged = currentUser != null;
+		// Preparation of Message System
+		Message message = new Message();
+		message.setSender(currentUser);
+		Set<Project> projects = currentUser.getProjects();
+		Set<User> recievers = new HashSet<User>();
+		for(Project p: projects) {
+			recievers.addAll((p.getAllUsers()));
+		}
+		int uID = currentUser.getUserID();
+		Set<Message> userMessages = messageDAO.getMessagesFromUser(uID);
+		
+		map.addAttribute("message", message);
+		map.addAttribute("potentialRecievers", recievers);
+		map.addAttribute("messageList", userMessages);
 		map.addAttribute("currentUser", currentUser);
 		map.addAttribute("isLogged", isLogged);
 		map.addAttribute("currentProject", currentProject);
-		//std action
 		map.addAttribute("action", Action.login);
 		return map;
 	}

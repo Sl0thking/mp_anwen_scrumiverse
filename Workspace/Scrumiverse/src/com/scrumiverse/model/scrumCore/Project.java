@@ -2,6 +2,7 @@ package com.scrumiverse.model.scrumCore;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.TreeSet;
 import java.util.List;
 import java.util.Set;
@@ -328,8 +329,8 @@ public class Project {
 	}
 
 	@Transient
-	public List<User> getAllUsers() {
-		List<User> users = new ArrayList<User>();
+	public Set<User> getAllUsers() {
+		Set<User> users = new HashSet<User>();
 		for(ProjectUser pUser : projectUsers) {
 			users.add(pUser.getUser());
 		}

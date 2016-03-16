@@ -27,13 +27,21 @@ public class MessageDAOImpl implements MessageDAO {
 	public void saveMessage(Message m) {
 		hibernateTemplate.save(m);		
 	}
-	
+	/**
+	 * Returns a specific message
+	 * @param id
+	 * @return Message
+	 */
 	@Override
 	public Message getMessage(int messageID) {
 		Message message = (Message) hibernateTemplate.find("from Message where MessageID='" + messageID +"'").get(0);
 		return message;
 	}
-
+	/**
+	 * Returns all messages from a specific user
+	 * @param id
+	 * @return Set<Message>
+	 */
 	@Override
 	public Set<Message> getMessagesFromUser(int userID) {
 		Set<Message> messages = new TreeSet<Message>();
