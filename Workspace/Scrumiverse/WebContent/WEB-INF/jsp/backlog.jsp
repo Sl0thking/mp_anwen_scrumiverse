@@ -25,6 +25,7 @@ $(document).ready(function(){
             });
         }
     });
+    
 });
 </script>
 
@@ -77,120 +78,137 @@ $(document).ready(function(){
 				    <div id="userstory-detail-${userstory.id}" class="modal fade userstory-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 					    <div class="modal-dialog">
 					        <div class="modal-content userstory-detail-settings">
-					                <div class="modal-header"> 
-					                    <span>
-									    <span class="glyphicon glyphicon-cog"></span>
-									    Userstory Settings
-					                    </span>
-					                    <a href="./removeUserStory.htm" data-toggle="tooltip" title="Delete Userstory">
+					        	<div class="modal-header">
+						        	<div class="info-bar">
+										<span class="glyphicon glyphicon-cog"></span>
+										Userstory
+										<a href="./removeUserStory" data-toggle="tooltip" title="Delete userstory">
 											<span class="glyphicon glyphicon-trash"></span>
-										</a>
+										</a>				
 									</div>
-									<div class="input-group">
-					                    <span class="input-group-addon input-group-addon-fix">Description</span>
-					                    <form:input path="description" class="form-control input-control" />
-					                </div>
-					                <div class="input-group">
-					                    <span class="input-group-addon input-group-addon-fix">Criteria</span>
-					                    <form:input path="acceptanceCriteria" class="form-control input-control"/>
-					                </div>
-					                <div class="input-group">
-					                	<span class="input-group-addon input-group-addon-fix">Sprint</span>
-					                	<form:select fid="${userstory.id}" path="relatedSprint" class="form-control input-control">
-					                		<form:option label="backlog" value="0"/>
-											<form:options itemLabel="description" itemValue="id" items="${currentProject.getSprints()}"/>
-										</form:select>
-					                </div>
-					                <div class="input-container">
-					                	<div class="input-group input-container-left">
-						                	<span class="input-group-addon input-group-addon-fix">Planstate</span>
-						                	<form:select fid="${userstory.id}" path="planState" class="form-control input-control">
-											    <form:options items="${planstates}"/>
-											</form:select>
-						                </div>
-						                <div class="input-group input-container-right">
-						                	<span class="input-group-addon input-group-addon-fix">Category NOT DONE</span>
-						                	<select class="form-control input-control">
-											    <option>Killing Things</option>
-											    <option>Trying not to be awesome</option>
-											</select>
-						                </div>
-						             </div>
-		
-					                <div class="input-container">
-					                	<div class="input-group input-container-left">
-					                	    <span class="input-group-addon input-group-addon-fix">Effort</span>
-					                    	<form:input path="effortValue" type="number" class="form-control input-control"/>
+									<ul class="nav nav-tabs">
+										<li class="active">
+											<a data-toggle="tab" href="#section-detail">
+												<span class="glyphicon glyphicon-info-sign"></span>
+												Detail
+											</a>
+										</li>
+										<li>
+											<a data-toggle="tab" href="#section-history">
+												<span class="glyphicon glyphicon-list-alt"></span>
+												History
+											</a>
+										</li>
+									</ul> 
+								</div>
+								<div class="modal-body">
+									<div class="tab-content">
+										<div id="section-detail" class="tab-pane fade in active">
+											<div class="input-group">
+							                    <span class="input-group-addon input-group-addon-fix">Description</span>
+							                    <form:input path="description" class="form-control input-control" />
+							                </div>
+							                <div class="input-group">
+							                    <span class="input-group-addon input-group-addon-fix">Criteria</span>
+							                    <form:input path="acceptanceCriteria" class="form-control input-control"/>
+							                </div>
+							                <div class="input-group">
+							                	<span class="input-group-addon input-group-addon-fix">Sprint</span>
+							                	<form:select fid="${userstory.id}" path="relatedSprint" class="form-control input-control">
+							                		<form:option label="backlog" value="0"/>
+													<form:options itemLabel="description" itemValue="id" items="${currentProject.getSprints()}"/>
+												</form:select>
+							                </div>
+							                <div class="input-container">
+							                	<div class="input-group input-container-left">
+								                	<span class="input-group-addon input-group-addon-fix">Planstate</span>
+								                	<form:select fid="${userstory.id}" path="planState" class="form-control input-control">
+													    <form:options items="${planstates}"/>
+													</form:select>
+								                </div>
+								                <div class="input-group input-container-right">
+								                	<span class="input-group-addon input-group-addon-fix">Category NOT DONE</span>
+								                	<select class="form-control input-control">
+													    <option>Killing Things</option>
+													    <option>Trying not to be awesome</option>
+													</select>
+								                </div>
+								             </div>
+							                <div class="input-container">
+							                	<div class="input-group input-container-left">
+							                	    <span class="input-group-addon input-group-addon-fix">Effort</span>
+							                    	<form:input path="effortValue" type="number" class="form-control input-control"/>
+							                	</div>
+								                <div class="input-group input-container-right">
+								                    <span class="input-group-addon input-group-addon-fix">Businessvalue</span>
+								                    <form:input path="businessValue" type="number" class="form-control input-control"/>
+								                </div>
+							                </div>
+							                <div class="input-container">
+								                <div class="input-group input-container-left">
+								                	<span class="input-group-addon input-group-addon-fix">Moscow</span>
+								                	<form:select fid="${userstory.id}" path="moscow" class="form-control input-control">
+													    <form:options items="${moscows}"/>
+													</form:select>
+								                </div>
+								                <div class="input-group input-container-right">
+								                    <span class="input-group-addon input-group-addon-fix">Risk</span>
+								                    <form:input path="risk" type="number" class="form-control input-control"/>
+								                </div>
+							                </div>
+						                    <div class="input-group">
+						                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
+						                        <form:input path="dueDate" type="date" class="form-control input-control" value="${userstory.getFormattedDueDate()}"/>
+						                    </div>
+							                <div class="userstory-detail-data">
+							                    <div class="modal-data-container">
+							                    	Users
+							                    	<div class="userstory-memberbox">
+											        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
+											        		<img class="user-img" alt="err" src="${user.getProfileImagePath()}">
+											        	</c:forEach>
+											        </div>
+							                    </div>
+							                    <div class="modal-data-container">
+							                        <div class="userstory-timestats">
+											        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
+									                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
+									                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
+									                </div>
+							                        <div class="progressbar">
+							                            <div class="progress"></div>
+							                        </div>
+							                    </div>
+							                </div>
+							                <div class="userstory-detail-task-container">
+							                	<c:forEach items="${userstory.getTasks()}" var="task">
+							                		<div class="userstory-detail-task">
+									                    <div class="userstory-detail-task-name">${task.description}</div>
+									                    <div class="userstory-detail-task-memberbox">
+									                    	<c:forEach items="${task.getResponsibleUsers()}" var="tuser">
+									                    		<img class="user-img" alt="err" src="${tuser.getProfileImagePath()}">
+									                    	</c:forEach>
+									                    </div>
+									                    <div class="userstory-detail-task-time">
+						        							<fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1"/> / 
+									                		<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1"/> / 
+									                    	<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1"/> h
+									                    </div>	
+									            	</div>
+							                	</c:forEach>		            
+							                </div>
+
 					                	</div>
-						                <div class="input-group input-container-right">
-						                    <span class="input-group-addon input-group-addon-fix">Businessvalue</span>
-						                    <form:input path="businessValue" type="number" class="form-control input-control"/>
-						                </div>
-					                </div>
-					                <div class="input-container">
-						                <div class="input-group input-container-left">
-						                	<span class="input-group-addon input-group-addon-fix">Moscow</span>
-						                	<form:select fid="${userstory.id}" path="moscow" class="form-control input-control">
-											    <form:options items="${moscows}"/>
-											</form:select>
-						                </div>
-						                <div class="input-group input-container-right">
-						                    <span class="input-group-addon input-group-addon-fix">Risk</span>
-						                    <form:input path="risk" type="number" class="form-control input-control"/>
-						                </div>
-					                </div>
-				                    <div class="input-group">
-				                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
-				                        <form:input path="dueDate" type="date" class="form-control input-control" value="${userstory.getFormattedDueDate()}"/>
-				                    </div>
-					                <div class="userstory-detail-data">
-					                    <div class="modal-data-container">
-					                    	Users
-					                    	<div class="userstory-memberbox">
-									        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
-									        		<img class="user-img" alt="err" src="${user.getProfileImagePath()}">
-									        	</c:forEach>
-									        </div>
-					                    </div>
-					                    <div class="modal-data-container">
-					                        <div class="userstory-timestats">
-									        	<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="1"/> / 
-							                	<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="1"/> / 
-							                    <fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="1"/> h
-							                </div>
-					                        <div class="progressbar">
-					                            <div class="progress"></div>
-					                        </div>
-					                    </div>
-					                </div>
-					                <div class="userstory-detail-task-container">
-							            <div class="userstory-detail-task">
-							                <div class="userstory-detail-task-content">
-							                    <div class="userstory-detail-task-name">Killing Hibernate</div>
-							                    <div class="userstory-detail-task-memberbox">
-							                   		<img class="user-img" alt="err" src="./resources/userPictures/2.png">
-							                    </div>
-							                    <div class="userstory-detail-task-time">1h/2h/3h</div>
-							                </div>
-							            </div>
-							            <div class="userstory-detail-task">
-							                <div class="userstory-detail-task-content">
-							                    <div class="userstory-detail-task-name">Create new Hibernate with Sloths</div>
-							                    <div class="userstory-detail-task-memberbox">
-							                   		<img class="user-img alt="err" src="./resources/userPictures/2.png">
-							                   		<img class="user-img alt="err" src="./resources/userPictures/1.png">
-							                   		<img class="user-img alt="err" src="./resources/userPictures/default.png">
-							                    </div>
-							                    <div class="userstory-detail-task-time">0h/8h/8h</div>
-							                </div>
-							            </div>					            
-					                </div>
-					                <div class="modal-footer footer-fix">
-					                    <button class="btn btn-default" type="submit">
-					                        <span class="glyphicon glyphicon-save"></span>
-					                        Save
-					                    </button>
-					                </div>
+					                	<div id="section-history" class="tab-pane fade in">
+					                	</div>
+					        		</div>
+					        	</div>
+					        	<div class="modal-footer">
+				                    <button class="btn btn-default" type="submit">
+				                        <span class="glyphicon glyphicon-save"></span>
+				                        Save
+				                    </button>
+				                </div>
 					        </div>
 					    </div>
 						<form:hidden path="id"/>

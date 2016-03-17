@@ -168,6 +168,19 @@ public class UserStoryController extends MetaController {
 		
 	}
 	
+	@RequestMapping("/removeUserStory.htm")
+	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {
+		try{
+			checkInvalidSession(session);
+			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
+			return new ModelAndView("redirect:backlog.htm");
+		}catch(NoUserStoryFoundException e){
+			return new ModelAndView("redirect:backlog.htm");
+		}catch (InvalidSessionException e){
+			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	
 	/**
 	 * Show details for a UserStory
 	 * @param userStoryID id of the UserStory
