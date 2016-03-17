@@ -53,7 +53,8 @@ $(document).ready(function(){
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="name" element="div"/>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="password" element="div"/>
             </div>
-            <button type="submit" name="register" class="btn btn-default" id="largebutton" disabled> register</button>
+            <button type="submit" name="register" class="btn btn-default reg-btn" disabled>register</button>
+            <a href="./login.htm" class="btn btn-default reg-btn">go back</a>
         </form:form>
     </div>
 </div>

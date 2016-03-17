@@ -19,14 +19,11 @@
             	Password:
                 <form:input path="password" type="password" class="form-control" id="password" placeholder="Password" />
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-            </div>
             <button type="submit" id="largebutton" class="btn btn-default">login</button>
             <p>Haven't an account yet? <a href="./register.htm">Register</a> now!</p>
         </form:form>
     </div>
 </div>
 <div class="navbar-inverse navbar-fixed-bottom">
-    <p class="center">2016 - Scrumiverse - Team Atlas</p>
+    <p class="center">2016 - Scrumiverse - Team Scrum Mid</p>
 </div>
