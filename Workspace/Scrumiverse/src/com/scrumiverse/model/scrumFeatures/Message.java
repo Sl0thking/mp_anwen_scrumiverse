@@ -74,7 +74,7 @@ public class Message {
 	public void setRecievers(Set<User> recievers) {
 		this.recievers = recievers;
 	}
-
+	@Column(columnDefinition="TEXT")
 	public String getContent() {
 		return content;
 	}

@@ -27,7 +27,7 @@ import com.scrumiverse.model.scrumFeatures.Message;
 /**
  * Datamodell for a scrumiverse user account
  * 
- * @author Kevin Jolitz
+ * @author Kevin Jolitz, Toni Serfling
  * @version 23.02.2016
  */
 @Entity
@@ -166,6 +166,10 @@ public class User {
 	
 	public void addMessage(Message message) {
 		this.messages.add(message);
+	}
+	
+	public void removeMessage(Message message) {
+		this.messages.remove(message);
 	}
 
 	@Override

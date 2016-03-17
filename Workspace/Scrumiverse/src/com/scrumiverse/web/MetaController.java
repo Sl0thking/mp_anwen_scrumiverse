@@ -23,7 +23,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Master Controller for management and shared operations 
  * on session data
  * 
- * @author Kevin Jolitz
+ * @author Kevin Jolitz, Toni Serfling
  * @version 27.02.2016
  *
  */
@@ -82,8 +82,7 @@ public abstract class MetaController {
 		for(Project p: projects) {
 			recievers.addAll((p.getAllUsers()));
 		}
-		int uID = currentUser.getUserID();
-		Set<Message> userMessages = messageDAO.getMessagesFromUser(uID);
+		Set<Message> userMessages = currentUser.getMessages();
 		
 		map.addAttribute("message", message);
 		map.addAttribute("potentialRecievers", recievers);
