@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.scrumCore.Project;
@@ -108,7 +109,7 @@ public class SprintController extends MetaController {
 				}
 			}
 			return new ModelAndView("redirect:sprintOverview.htm");		
-		} catch (NoProjectFoundException | NoUserStoryFoundException e) {
+		} catch (NoProjectFoundException | NoUserStoryFoundException | NoSprintFoundException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
