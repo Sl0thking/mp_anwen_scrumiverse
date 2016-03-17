@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
+public class DateBinder extends PropertyEditorSupport {
 	
 	@Override
 	public void setAsText(String arg0) throws IllegalArgumentException {
