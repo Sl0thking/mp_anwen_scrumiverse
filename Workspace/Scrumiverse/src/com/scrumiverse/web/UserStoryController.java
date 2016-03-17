@@ -1,14 +1,7 @@
 package com.scrumiverse.web;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +20,7 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
@@ -36,7 +30,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Controller for User Story interactions.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 27.02.16
+ * @version 17.03.16
  *
  */
 @Controller
@@ -63,7 +57,7 @@ public class UserStoryController extends MetaController {
 			User activeUser = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
 			UserStory userStory = new UserStory();
-
+			userStory.addHistoryEntry(ChangeEvent.USER_STORY_CREATED, activeUser);
 			userStoryDAO.saveUserStory(userStory);
 			//Dummy Tasks
 			Random rand = new Random();
@@ -119,16 +113,18 @@ public class UserStoryController extends MetaController {
 	public ModelAndView updateUserStory(UserStory userStory, HttpSession session){
 		try{
 			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			
 			if(userStory.getId() == 0){
-			System.out.println("Userstory not found");
-		}else{
-			userStoryDAO.updateUserStory(userStory);
-		}
-		}catch (InvalidSessionException e) {
+				System.out.println("Userstory not found");
+			}else{
+				userStory.addHistoryEntry(ChangeEvent.USER_STORY_UPDATED, user);
+				userStoryDAO.updateUserStory(userStory);
+			}
+			return new ModelAndView("redirect:backlog.htm");
+		}catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
-		return new ModelAndView("redirect:backlog.htm");
-		
 	}
 	
 	/**

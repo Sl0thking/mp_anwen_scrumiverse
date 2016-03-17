@@ -3,6 +3,7 @@ package com.scrumiverse.web;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
+import com.scrumiverse.forms.RoleForm;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
@@ -80,7 +82,7 @@ public class ProjectController extends MetaController {
 			Set<Project> projectList = user.getProjects();
 			Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
 			for(Project p : projectList) {
-				manageRights.put(p, p.hasUserRight(Right.Manage_Project, user));
+				manageRights.put(p, p.hasUserRight(Right.Update_Project, user));
 			}
 			map.addAttribute("projectList", projectList);
 			map.addAttribute("manageRight", manageRights);
@@ -120,15 +122,15 @@ public class ProjectController extends MetaController {
 		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
 		productOwner.setChangeable(false);
 		productOwner.addRight(Right.Invite_To_Project);
-		productOwner.addRight(Right.Manage_Project);
+		productOwner.addRight(Right.Update_Project);
 		productOwner.addRight(Right.Remove_From_Project);
 		productOwner.addRight(Right.Create_Sprint);
 		productOwner.addRight(Right.Create_UserStory);
 		productOwner.addRight(Right.Delete_Project);
 		productOwner.addRight(Right.Delete_Sprint);
 		productOwner.addRight(Right.Delete_UserStory);
-		productOwner.addRight(Right.Edit_Sprint);
-		productOwner.addRight(Right.Edit_UserStory);
+		productOwner.addRight(Right.Update_Sprint);
+		productOwner.addRight(Right.Update_UserStory);
 		productOwner.addRight(Right.Read_Sprint);
 		productOwner.addRight(Right.Read_Task);
 		productOwner.addRight(Right.Read_UserStory);
@@ -141,7 +143,7 @@ public class ProjectController extends MetaController {
 		member.addRight(Right.Read_UserStory);
 		member.addRight(Right.View_Review);
 		member.addRight(Right.Create_Task);
-		member.addRight(Right.Edit_Task);
+		member.addRight(Right.Update_Task);
 		member.addRight(Right.Delete_Task);
 		
 		Role scrumMaster = new Role(StdRoleNames.ScrumMaster.name());
@@ -190,25 +192,27 @@ public class ProjectController extends MetaController {
 	 * @param session
 	 * @return ModelAndView
 	 */
-	
 	@RequestMapping("/projectSettings.htm")
-	public ModelAndView projectSettings(@RequestParam int id, HttpSession session)  {
+	public ModelAndView projectSettings(@RequestParam int id, RoleForm receivedRoleForm, HttpSession session)  {
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);	
 			Project requestedProject = projectDAO.getProject(id);
 			ModelMap map = this.prepareModelMap(session);
-			
+			if(receivedRoleForm.getRole() == null) {
+				receivedRoleForm.setRole(requestedProject.getRoles().first());
+			}
 			if(!requestedProject.isUserMember(user)) {
 				throw new InsufficientRightsException();
 			}
 			ProjectUser pUser= requestedProject.getProjectUserFromUser(user);
-			if(!pUser.getRole().hasRights(Right.Manage_Project)) {
+			if(!pUser.getRole().hasRight(Right.Update_Project)) {
 				throw new InsufficientRightsException();
 			}
-			System.out.println(pUser.getRole().getName());
 			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			map.addAttribute("project", requestedProject);
+			map.addAttribute("selectedRole", receivedRoleForm.getRole());
+			map.addAttribute("roleForm", receivedRoleForm);
 			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {
@@ -287,7 +291,7 @@ public class ProjectController extends MetaController {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
 			Project p = this.loadCurrentProject(session);
-			if(!p.isUserMember(user) || !p.hasUserRight(Right.Manage_Project, user)) {
+			if(!p.isUserMember(user) || !p.hasUserRight(Right.Update_Project, user)) {
 				throw new InsufficientRightsException();
 			}
 			//Remove project from User in session

@@ -199,7 +199,7 @@ public class Project {
 	public boolean hasUserRight(Right right, User user) {
 		try {
 			ProjectUser pUser = getProjectUserFromUser(user);
-			return pUser.getRole().hasRights(right);
+			return pUser.getRole().hasRight(right);
 		} catch (NoSuchUserException e) {
 			return false;
 		}
@@ -222,7 +222,7 @@ public class Project {
 	private boolean containsAdminRights(Role r) {
 		Set<Right> rights = r.getRights();
 		return rights.contains(Right.Invite_To_Project) &&
-			   rights.contains(Right.Manage_Project);
+			   rights.contains(Right.Update_Project);
 	}
 
 	private int countAdmins() {

@@ -14,14 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 /**
  * Role of a scrumiverse user
  * 
  * @author Kevin Jolitz
- * @version 23.02.2016
+ * @version 17.03.2016
  */
 @Entity
 public class Role implements Comparable<Role> {
@@ -62,7 +60,7 @@ public class Role implements Comparable<Role> {
 		this.name = name;
 	}
 
-	public boolean hasRights(Right right) {
+	public boolean hasRight(Right right) {
 		return rights.contains(right);
 	}
 	

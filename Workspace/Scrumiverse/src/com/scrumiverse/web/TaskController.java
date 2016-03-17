@@ -19,9 +19,11 @@ import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
@@ -30,7 +32,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Controller for operations with task data modell
  * 
  * @author Kevin Jolitz
- * @version 27.02.2016
+ * @version 17.03.2016
  */
 @Controller
 public class TaskController extends MetaController {
@@ -76,17 +78,19 @@ public class TaskController extends MetaController {
 	public ModelAndView createNewTask(@RequestParam int id, HttpSession session) {
 		try{
 			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
 			Task task = new Task();
+			task.addHistoryEntry(ChangeEvent.TASK_CREATED, user);
 			taskDAO.saveTask(task);		
 			UserStory userStory = userStoryDAO.getUserStory(id);
 			userStory.addTask(task);
 			userStoryDAO.updateUserStory(userStory);
-		} catch (NoUserStoryFoundException e){
-			e.printStackTrace();
+			return new ModelAndView("redirect:showTasks.htm");
+		} catch (NoUserStoryFoundException | NoSuchUserException e){
+			return new ModelAndView("redirect:showTasks.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
-		return new ModelAndView("redirect:showTasks.htm");
 	}
 	
 	/**
@@ -108,6 +112,23 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}catch (Exception e) {
 			return new ModelAndView("redirect:backlog.htm");
+		}
+	}
+	
+	@RequestMapping("/updateTask.htm")
+	public ModelAndView saveTaskChanges(Task task, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			Task oldTask = taskDAO.getTask(task.getId());
+			task.setHistory(oldTask.getHistory());
+			task.setTags(oldTask.getTags());
+			task.setPlannedMinOfUsers(oldTask.getPlannedMinOfUsers());
+			task.addHistoryEntry(ChangeEvent.TASK_UPDATED, user);
+			taskDAO.updateTask(task);
+			return new ModelAndView("redirect:showTasks.htm");
+		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:showTasks.htm");
 		}
 	}
 }

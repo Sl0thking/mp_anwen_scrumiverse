@@ -11,6 +11,10 @@ $(document).ready(function(){
 		$("form[fid='" + fid + "']").submit();
 	});
 	
+	$("[fid=roleSelect]").change(function() {
+		$(this).submit();
+	});
+	
 	$("#sendInvBtn").click(function () {
 		var email = $("#invEmail").val()
 		var targetUrl = "addUserToProject.htm?email=" + email;
@@ -116,53 +120,58 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<div class="role-tab tab-pane fade in">
-            <form action="">
-                <div class="input-group">
-                    <span class="input-group-addon">Role</span>
-                    <select class="form-control" name="roles">
-                        <option>Member</option>
-                        <option>Guest</option>
-                        <option>Extern</option>
-                        <option>Teacher</option>
-                    </select>
-                </div>
-                <fieldset>
-                    <div class="input-group">
+        	<div class="input-group">
+                <span class="input-group-addon">Role</span>
+                <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}">
+		            <form:select class="form-control" path="role">
+						<form:options  itemLabel="name" items="${project.getRoles()}"/>
+					</form:select>
+				</form:form>
+			</div>
+            <form:form commandName="selectedRole" action="updateRole.htm">
+             <fieldset>
+                   	<div class="input-group">
                         <span class="input-group-addon">Rolename</span>
-                        <input type="text" class="form-control" name="rolename">
+                        <form:input type="text" class="form-control" path="name"/>
                     </div>
                     <div class="roleSettings">
                         <div class="entity">
                             Project<br>
-                            <div><input type="checkbox" name="createProject" value="project" > create</div>
-                            <div><input type="checkbox" name="removeProject" value="project" > remove</div>
-                            <div><input type="checkbox" name="updateProject" value="project" > update</div>
+							<div><form:checkbox path="rights" value="Update_Project"/> Update</div>
+                            <div><form:checkbox path="rights" value="Delete_Project"/> Delete</div>
+                            <div><form:checkbox path="rights" value="Invite_To_Project"/> Invite Members</div>
+                            <div><form:checkbox path="rights" value="Remove_From_Project"/> Remove Members</div>
                         </div>
                         <div class="entity">
                             Sprint<br>
-                            <div><input type="checkbox" name="createSprint" value="sprint"> create
-                            </div>
-                            <div><input type="checkbox" name="removeSprint" value="sprint"> remove</div>
-                            <div><input type="checkbox" name="updateSprint" value="sprint"> update</div></div>
+                            <div><form:checkbox path="rights" value="Create_Sprint"/> Create</div>
+                            <div><form:checkbox path="rights" value="Read_Sprint"/> Read </div>
+                            <div><form:checkbox path="rights" value="Update_Sprint"/> Update</div>
+                            <div><form:checkbox path="rights" value="Delete_Sprint"/> Delete</div>
+                        </div>
                         <div class="entity">
                             User Story<br>
-                            <div><input type="checkbox" name="createUserstory" value="userstory"> create</div>
-                            <div><input type="checkbox" name="removeUserstory" value="userstory"> remove</div>
-                            <div><input type="checkbox" name="updateUserstory" value="userstory"> update</div>
+
+                            <div><form:checkbox path="rights" value="Create_UserStory"/> Create</div>
+                            <div><form:checkbox path="rights" value="Read_UserStory"/> Read </div>
+                            <div><form:checkbox path="rights" value="Update_UserStory"/> Update</div>
+                            <div><form:checkbox path="rights" value="Delete_UserStory"/> Delete</div>
                         </div>
                         <div class="entity">
-                            Task<br>
-                            <div><input type="checkbox" name="createTask" value="task"> create</div>
-                            <div><input type="checkbox" name="removeTask" value="task"> remove</div>
-                            <div><input type="checkbox" name="updateTask" value="task"> update</div>
+                            Task<br>  
+                            <div><form:checkbox path="rights" value="Create_Task"/> Create</div>
+                            <div><form:checkbox path="rights" value="Read_Task"/> Read </div>
+                            <div><form:checkbox path="rights" value="Update_Task"/> Update</div>
+                            <div><form:checkbox path="rights" value="Delete_Task"/> Delete</div>
                         </div>
                     </div>
-                    <button class="btn btn-default" type="submit">
+                    <button type="submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-save"></span>
                         Save
                     </button>
                 </fieldset>
-            </form>
+                </form:form>
+                
             <div id="settings-options"></div>
         </div>
         <div class="category-tab tab-pane fade in">

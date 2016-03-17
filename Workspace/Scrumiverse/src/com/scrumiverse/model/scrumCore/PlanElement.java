@@ -1,6 +1,7 @@
 package com.scrumiverse.model.scrumCore;
 
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -23,7 +24,7 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
  * shared plan attributes between Scrum DataModells.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 05.03.16
+ * @version 17.03.16
  *
  */
 @MappedSuperclass
@@ -34,6 +35,10 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 	private PlanState planState;
 	private String acceptanceCriteria;
 		
+	public PlanElement() {
+		history = new TreeSet<HistoryEntry>();
+	}
+	
 	public String getDescription() {
 		return description;
 	}
