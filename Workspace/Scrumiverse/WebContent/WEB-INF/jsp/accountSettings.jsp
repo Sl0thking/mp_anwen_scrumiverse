@@ -8,7 +8,7 @@
         <img src="${user.profileImagePath}"/>
     </div>
     <div id="editable">
-        <form:form action="changeUser.htm" commandName="user">
+        <form:form action="saveUserStory.htm" commandName="user">
            <div class="input-group">
                <span class="input-group-addon input-group-addon-fix" id="basic-addon2">Username</span>
                <form:input path="name" type="text" class="form-control input-control" placeholder="${user.name }" aria-describedby="basic-addon1" />

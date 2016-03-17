@@ -1,4 +1,4 @@
-package com.scrumiverse.web;
+package com.scrumiverse.binder;
 
 import java.beans.PropertyEditorSupport;
 

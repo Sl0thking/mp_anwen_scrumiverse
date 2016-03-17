@@ -1,5 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
@@ -77,7 +78,6 @@ public class UserStory extends PlanElement {
 //		category.setName("Tonis Feeding Category");
 		dueDate = new Date();
 		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
-		relatedSprint = null;
 		//planelement
 		int descint = +rand.nextInt((100 - 0) + 1);
 		String descstr = descint < 10 ? "00"+descint : descint < 100 ? "0"+descint : ""+descint;
@@ -257,6 +257,15 @@ public class UserStory extends PlanElement {
 		}
 		return result+"";
 	}
+	@Transient
+	public String getFormattedDueDate(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(dueDate);
+	}
+	
+	
+	
+	
 	
 	@Override
 	public String toString(){

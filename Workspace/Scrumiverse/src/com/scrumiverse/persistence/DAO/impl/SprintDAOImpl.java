@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.UserStory;
@@ -44,15 +45,12 @@ public class SprintDAOImpl implements SprintDAO {
 	}
 	
 	@Override
-	public Sprint getSprint(int sprintID){
-		Sprint sprint = new Sprint();
-		try{
-			sprint = (Sprint) (hibernateTemplate.find("from Sprint where id='" + sprintID + "'").get(0));
-		}catch(NullPointerException e){
-			e.printStackTrace();
-			System.out.println("Sprint ist nicht in der Datenbank zu finden mit id" + sprintID);
+	public Sprint getSprint(int sprintID) throws NoSprintFoundException {
+		List<Sprint> sprints = hibernateTemplate.find("from Sprint where id='" + sprintID + "'");	
+		if(sprints.size() != 0){
+			return sprints.get(0);
 		}
-		return sprint;
+		throw new NoSprintFoundException();
 	}
 
 	@Override
