@@ -41,4 +41,8 @@ public class RoleDAOImpl implements RoleDAO {
 		return roleSet;
 	}
 
+	@Override
+	public void updateRole(Role role) {
+		hibernateTemplate.update(role);
+	}
 }

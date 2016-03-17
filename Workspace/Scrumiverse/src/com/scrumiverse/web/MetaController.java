@@ -8,12 +8,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
+import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
+import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
@@ -67,6 +70,19 @@ public abstract class MetaController {
 	protected boolean isSessionValid(HttpSession session) {
 		return session.getAttribute("userId") != null 
 			&& session.getAttribute("isLogged") != null;
+	}
+	
+	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, NoProjectFoundException, NoSuchUserException {
+		Project requestedProject = this.loadCurrentProject(session);
+		User currentUser = this.loadActiveUser(session);
+		if(!requestedProject.isUserMember(currentUser)) {
+			throw new InsufficientRightsException();
+		}
+		ProjectUser pUser = requestedProject.getProjectUserFromUser(currentUser);
+		if(!pUser.getRole().hasRight(right)) {
+			throw new InsufficientRightsException();
+		}
+		return true;
 	}
 	
 	protected ModelMap prepareModelMap(HttpSession session) throws NoSuchUserException, NoProjectFoundException {

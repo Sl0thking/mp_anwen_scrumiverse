@@ -160,6 +160,8 @@ public class ProjectController extends MetaController {
 		project.addRole(member);
 		project.addRole(scrumMaster);
 	}
+	
+
 
 	
 	/**
@@ -200,26 +202,24 @@ public class ProjectController extends MetaController {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);	
 			Project requestedProject = projectDAO.getProject(id);
+			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			ModelMap map = this.prepareModelMap(session);
 			if(receivedRoleForm.getRole() == null) {
 				receivedRoleForm.setRole(requestedProject.getRoles().first());
 			}
-			if(!requestedProject.isUserMember(user)) {
-				throw new InsufficientRightsException();
-			}
-			ProjectUser pUser= requestedProject.getProjectUserFromUser(user);
-			if(!pUser.getRole().hasRight(Right.Update_Project)) {
-				throw new InsufficientRightsException();
-			}
-			session.setAttribute("currentProjectId", requestedProject.getProjectID());
+			testRight(session, Right.Update_Project);
 			map.addAttribute("project", requestedProject);
 			map.addAttribute("selectedRole", receivedRoleForm.getRole());
 			map.addAttribute("roleForm", receivedRoleForm);
 			map.addAttribute("action", Action.projectSettings);
+			map.addAttribute("removeFromProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Remove_From_Project));
+			map.addAttribute("inviteToProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Invite_To_Project));
+			map.addAttribute("deleteProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_Project));
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		} catch (Exception e1) {
+			session.removeAttribute("currentProjectId");
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -234,10 +234,13 @@ public class ProjectController extends MetaController {
 	@RequestMapping("/addUserToProject.htm")
 	public ModelAndView addUser(HttpSession session, @RequestParam String email) {
 		int projectId = 0;
+		boolean hasUpdateRight = false;
 		try {
 			checkInvalidSession(session);
 			Project currentProject = this.loadCurrentProject(session);
+			hasUpdateRight = testRight(session, Right.Update_Project);
 			projectId = currentProject.getProjectID();
+			testRight(session, Right.Invite_To_Project);
 			User user = userDAO.getUserByEmail(email);
 			currentProject.addProjectUser(user);
 			projectDAO.updateProject(currentProject);
@@ -246,7 +249,10 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (NoSuchUserException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=1");
-		} catch (NoProjectFoundException e) {
+		} catch (NoProjectFoundException | InsufficientRightsException e) {
+			if(hasUpdateRight) {
+				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+			}
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -263,17 +269,21 @@ public class ProjectController extends MetaController {
 	@RequestMapping("/removeProjectUser.htm")
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		int projectId = 0;
+		boolean hasUpdateRight = false;
 		try {
 			checkInvalidSession(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
+			hasUpdateRight = this.testRight(session, Right.Update_Project);
+			this.testRight(session, Right.Remove_From_Project);
 			User user = userDAO.getUser(id);
 			removeUserFromProject(user, project, false);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch(NoSuchUserException | TriedToRemoveAdminException e) {
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch (NoProjectFoundException e) {
+		} catch(NoSuchUserException | TriedToRemoveAdminException | InsufficientRightsException | NoProjectFoundException e) {
+			if(hasUpdateRight) {
+				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+			}
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -289,13 +299,16 @@ public class ProjectController extends MetaController {
 	 */
 	@RequestMapping("/removeProject.htm")
 	public ModelAndView removeProject(HttpSession session) {
+		int projectId = 0;
+		boolean hasUpdateRight = false;
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
 			Project p = this.loadCurrentProject(session);
-			if(!p.isUserMember(user) || !p.hasUserRight(Right.Update_Project, user)) {
-				throw new InsufficientRightsException();
-			}
+			projectId = p.getProjectID();
+			
+			hasUpdateRight = this.testRight(session, Right.Update_Project);
+			this.testRight(session, Right.Delete_Project);
 			//Remove project from User in session
 			removeUserFromProject(user, p, true);
 			//Remove remaining users
@@ -308,8 +321,9 @@ public class ProjectController extends MetaController {
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		} catch(Exception e) {
-			//return error code
-			e.printStackTrace();
+			if(hasUpdateRight) {
+				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+			}
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}

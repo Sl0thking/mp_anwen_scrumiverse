@@ -3,15 +3,18 @@ package com.scrumiverse.model.scrumCore;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
@@ -58,8 +61,8 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 		this.id = id;
 	}
 	
-	@OneToMany
-	@JoinColumn(name = "PlanElementID")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	@Sort(type=SortType.NATURAL)
 	public SortedSet<HistoryEntry> getHistory() {
 		return history;
@@ -79,6 +82,10 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 	
 	public void addHistoryEntry(ChangeEvent event, User user){
 		this.history.add(new HistoryEntry(user, event));
+	}
+	
+	public void addHistoryEntry(HistoryEntry entry){
+		this.history.add(entry);
 	}
 	
 	public void setCriteria(String criteria){

@@ -216,8 +216,11 @@ $(document).ready(function(){
 			</form:form>
 		</c:forEach>
 	</div>  
-<div id="quick-button-container">
-    <a class="quick-button" href="./newUserStory.htm">
+	<c:if test="${createUserStory}">
+		<div id="quick-button-container">
+    	<a class="quick-button" href="./newUserStory.htm">
         <span class="quick-button-title">U</span><span class="quick-button-text">new UserStory</span>
-    </a> 
-</div>
+    	</a> 
+	</div>
+	
+	</c:if>

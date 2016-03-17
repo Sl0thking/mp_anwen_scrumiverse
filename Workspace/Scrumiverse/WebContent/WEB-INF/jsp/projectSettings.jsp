@@ -29,9 +29,11 @@ $(document).ready(function(){
 				<span class="glyphicon glyphicon-cog"></span>
 				PROJECT SETTINGS
 			</span>
-			<a href="./removeProject.htm" data-toggle="tooltip" title="Delete project">
-				<span class="glyphicon glyphicon-trash"></span>
-			</a>
+			<c:if test="${deleteProject}">
+				<a href="./removeProject.htm" data-toggle="tooltip" title="Delete project">
+					<span class="glyphicon glyphicon-trash"></span>
+				</a>
+			</c:if>
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a data-toggle="tab" role="tab" href=".detail-tab">
@@ -83,9 +85,11 @@ $(document).ready(function(){
 						<div class="user-card">
 							<div class="user-card-header">
 								<!-- insert messaging button here -->
-								<a href="./removeProjectUser.htm?id=${projectUser.user.userID}" data-toggle="tooltip" title="Remove member">
-									<span class="glyphicon glyphicon-remove"></span>
-								</a>
+								<c:if test="${removeFromProject}">
+									<a href="./removeProjectUser.htm?id=${projectUser.user.userID}" data-toggle="tooltip" title="Remove member">
+										<span class="glyphicon glyphicon-remove"></span>
+									</a>
+								</c:if>
 							</div>
 							<div class="user-content">
 								<div class="user-picture">
@@ -129,49 +133,60 @@ $(document).ready(function(){
 				</form:form>
 			</div>
             <form:form commandName="selectedRole" action="updateRole.htm">
+            <form:hidden path="roleID"/>
              <fieldset>
                    	<div class="input-group">
                         <span class="input-group-addon">Rolename</span>
-                        <form:input type="text" class="form-control" path="name"/>
+                        <form:input disabled="${!selectedRole.isChangeable()}"  type="text" class="form-control" path="name"/>
                     </div>
                     <div class="roleSettings">
                         <div class="entity">
                             Project<br>
-							<div><form:checkbox path="rights" value="Update_Project"/> Update</div>
-                            <div><form:checkbox path="rights" value="Delete_Project"/> Delete</div>
-                            <div><form:checkbox path="rights" value="Invite_To_Project"/> Invite Members</div>
-                            <div><form:checkbox path="rights" value="Remove_From_Project"/> Remove Members</div>
+							<div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Project"/> Update</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Project"/> Delete</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Invite_To_Project"/> Invite Members</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Remove_From_Project"/> Remove Members</div>
                         </div>
                         <div class="entity">
                             Sprint<br>
-                            <div><form:checkbox path="rights" value="Create_Sprint"/> Create</div>
-                            <div><form:checkbox path="rights" value="Read_Sprint"/> Read </div>
-                            <div><form:checkbox path="rights" value="Update_Sprint"/> Update</div>
-                            <div><form:checkbox path="rights" value="Delete_Sprint"/> Delete</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Sprint"/> Create</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Sprint"/> Read </div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Sprint"/> Update</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Sprint"/> Delete</div>
                         </div>
                         <div class="entity">
                             User Story<br>
 
-                            <div><form:checkbox path="rights" value="Create_UserStory"/> Create</div>
-                            <div><form:checkbox path="rights" value="Read_UserStory"/> Read </div>
-                            <div><form:checkbox path="rights" value="Update_UserStory"/> Update</div>
-                            <div><form:checkbox path="rights" value="Delete_UserStory"/> Delete</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_UserStory"/> Create</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_UserStory"/> Read </div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_UserStory"/> Update</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_UserStory"/> Delete</div>
                         </div>
                         <div class="entity">
                             Task<br>  
-                            <div><form:checkbox path="rights" value="Create_Task"/> Create</div>
-                            <div><form:checkbox path="rights" value="Read_Task"/> Read </div>
-                            <div><form:checkbox path="rights" value="Update_Task"/> Update</div>
-                            <div><form:checkbox path="rights" value="Delete_Task"/> Delete</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Task"/> Create</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Task"/> Read </div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Task"/> Update</div>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Task"/> Delete</div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-save"></span>
-                        Save
-                    </button>
+                    <c:choose>
+                    	<c:when test="${selectedRole.isChangeable()}">
+                    		 <button type="submit" class="btn btn-default">
+                        		<span class="glyphicon glyphicon-save"></span>
+                        		Save
+                    		</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<span class="glyphicon glyphicon-warning-sign"></span> This is non changeable standard role
+                    		<button disabled type="submit" class="btn btn-default">
+                       			<span class="glyphicon glyphicon-save"></span>
+                        		Save
+                    		</button>
+                    	</c:otherwise>
+                    </c:choose>
                 </fieldset>
                 </form:form>
-                
             <div id="settings-options"></div>
         </div>
         <div class="category-tab tab-pane fade in">
@@ -224,22 +239,25 @@ $(document).ready(function(){
 	</div>
 </div>
 <div id="quick-button-container">
-    <div class="quick-button">
-        <span class="quick-button-title">+</span>
-        <div class="quick-button-text">
-        <!-- form start -->
-        	<div class="input-group input-group-sm">
-				<input type="text" id="invEmail" class="form-control" placeholder="E-Mail"/>		
-				<div class="input-group-btn">
-					<button id="sendInvBtn" class="btn btn-secondary" type="button">
-						<span class="glyphicon glyphicon-send"></span>
-						Invite user
-					</button>
+	<c:if test="${inviteToProject}">
+		<div class="quick-button">
+	        <span class="quick-button-title">+</span>
+	        <div class="quick-button-text">
+	        <!-- form start -->
+	        	<div class="input-group input-group-sm">
+					<input type="text" id="invEmail" class="form-control" placeholder="E-Mail"/>		
+					<div class="input-group-btn">
+						<button id="sendInvBtn" class="btn btn-secondary" type="button">
+							<span class="glyphicon glyphicon-send"></span>
+							Invite user
+						</button>
+					</div>
 				</div>
-			</div>
-        <!-- form end -->        
-        </div>
-    </div>
+	        <!-- form end -->        
+	        </div>
+	    </div>
+	</c:if>
+    
     <a class="quick-button" href="./addRole.htm">
         <span class="quick-button-title">R</span><span class="quick-button-text alternative">new Role</span>
     </a>

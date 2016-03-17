@@ -211,8 +211,7 @@ public class Project {
 			throw new RoleNotInProjectException();
 		} 
 		ProjectUser pUser = getProjectUserFromUser(user);
-		
-		if(countAdmins() == 1 && containsAdminRights(pUser.getRole())) {
+		if(countAdmins() == 1 && containsAdminRights(pUser.getRole()) && !containsAdminRights(r) ) {
 			throw new TriedToRemoveAdminException();
 		}
 		pUser.setRole(r);

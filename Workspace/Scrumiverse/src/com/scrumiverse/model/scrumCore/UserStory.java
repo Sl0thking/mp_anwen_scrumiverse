@@ -20,6 +20,7 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
 
@@ -262,11 +263,7 @@ public class UserStory extends PlanElement {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(dueDate);
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public String toString(){
 		return "UserStory "+getId()+" - Description: "+getDescription();
@@ -279,7 +276,4 @@ public class UserStory extends PlanElement {
 	public void setRisk(int risk) {
 		this.risk = risk;
 	}
-
-
-
 }
