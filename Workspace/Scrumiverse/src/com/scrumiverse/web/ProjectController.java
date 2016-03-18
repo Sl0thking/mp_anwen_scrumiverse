@@ -374,37 +374,17 @@ public class ProjectController extends MetaController {
 			ModelMap map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			map.addAttribute("sprints", sprints);
+			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
+			for(Sprint s:sprints) {
+				chartData.put(s, createChartData(s));
+			}
+			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.reporting);
 			return new ModelAndView("index", map);		
 		} catch(NoSuchUserException | InvalidSessionException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		} catch(NoProjectFoundException e) {
-			return new ModelAndView("redirect:projectOverview.htm");
-		}
-	}
-	
-	@RequestMapping("/selectedSprint.htm")
-	public ModelAndView reportingData(@RequestParam int id, HttpSession session) {
-		try {
-			checkInvalidSession(session);
-			ModelMap  map = this.prepareModelMap(session);
-			Sprint selectedSprint = sprintDAO.getSprint(id);
-			double[] idealRemaining = selectedSprint.getIdealRemainingUS();
-			JSONObject jObject = new JSONObject();
-			JSONArray idealRemainingJSON = new JSONArray();
-			for(int i = 0; i <= idealRemaining.length;i++) {
-				idealRemainingJSON.put(idealRemaining[i]);
-			}
-			jObject.put("idealRemaining", idealRemainingJSON);
-			map.addAttribute("jsonObject", jObject);
-			map.addAttribute("sprint", selectedSprint);
-			map.addAttribute("action", Action.reporting);
-			return new ModelAndView("index", map);
-		} catch (InvalidSessionException | NoSuchUserException e) {
-			return new ModelAndView("redirect:login.htm");
-		} catch (JSONException | NoProjectFoundException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -432,6 +412,23 @@ public class ProjectController extends MetaController {
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
+	}
+	
+	private JSONObject createChartData(Sprint s) {
+		//JSONObject containing all chart data
+		JSONObject jObject = new JSONObject();
+		try {
+		jObject.put("startDate", s.getStartDate());
+		jObject.put("idealRemaining", s.getIdealRemainingUS());
+		jObject.put("backlogScope", s.getBacklogScope());
+		jObject.put("doneItems", s.getDoneItems());
+		jObject.put("remainingItems",s.getRemainingItems());
+		
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jObject;
+		
 	}
 	
 }

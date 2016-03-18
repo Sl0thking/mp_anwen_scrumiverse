@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 /**
@@ -201,36 +203,43 @@ public class Sprint extends PlanElement {
 	}
 	
 	@Transient
-	private int getSprintDayCount() {
-		Date d = new Date();
-		int sprintDayCount = (int) ((d.getTime()*(1000*60*60*24)) - startDate.getTime()*(1000*60*60*24));
-		return sprintDayCount;
-	}
-	
-	@Transient
-	public double[] getIdealRemainingUS() {
-		double[] idealRemaining = null;
+	public JSONArray getIdealRemainingUS() {
+		
+		JSONArray idealRemaining = new JSONArray();
 		double idealUserStoryCount = (double)getUserStories().size();
-		int wholeSprintDayCount = (int) ((endDate.getTime()*(1000 * 60 * 60 * 24)) - (startDate.getTime()*(1000 * 60 * 60 * 24)));
-		double decrement = (double)wholeSprintDayCount / idealUserStoryCount;
+		int wholeSprintDayCount =  endDate.getDate() - startDate.getDate();
+		double decrement = idealUserStoryCount/(double)wholeSprintDayCount;
 		for(int i = 0; i<=wholeSprintDayCount;i++) {
-			idealRemaining[i] = idealUserStoryCount;
-			idealUserStoryCount=idealUserStoryCount-decrement;
+			
+			try {
+				idealRemaining.put(idealUserStoryCount);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			idealUserStoryCount = idealUserStoryCount-decrement;
 		}
 		return idealRemaining;
 		
 	}
 	
-//	@Transient
-//	public int[] getBacklogScope() {
-//		int[] backlogScope = new int[getSprintDayCount()];
-//		for(int i = 0; i<=getSprintDayCount(); i++){
-//			
-//			backlogScope[i] = 
-//		}
-//		
-//		return backlogScope;
-//	}
+	@Transient
+	public JSONArray getBacklogScope() {
+		JSONArray backlogScope = new JSONArray();
+		return backlogScope;
+	}
+	
+	@Transient
+	public JSONArray getDoneItems() {
+		JSONArray doneItems = new JSONArray();
+		return doneItems;
+	}
+	
+	@Transient
+	public JSONArray getRemainingItems() {
+		JSONArray remainingItems = new JSONArray();
+		return remainingItems;
+	}
+
 	
 	@Override
 	public boolean equals(Object obj) {
