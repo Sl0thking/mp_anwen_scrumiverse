@@ -1,5 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.SortedSet;
@@ -16,6 +17,8 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 
 /**
@@ -225,18 +228,62 @@ public class Sprint extends PlanElement {
 	@Transient
 	public JSONArray getBacklogScope() {
 		JSONArray backlogScope = new JSONArray();
+		int userStoryCount = 0;
+		SortedSet<UserStory> us = getUserStories();
+		Date today = new Date();
+		
+		for(UserStory ust:us) {
+			SortedSet<HistoryEntry> history = ust.getHistory();
+				for(HistoryEntry he:history) {
+					
+				}
+			}
+		
 		return backlogScope;
 	}
 	
 	@Transient
 	public JSONArray getDoneItems() {
 		JSONArray doneItems = new JSONArray();
+		int doneItemsCount = 0;
+		SortedSet<UserStory> userstories = this.getUserStories();
+		Date today = new Date();
+		Calendar todayC = Calendar.getInstance();
+		todayC.setTime(today);
+		Calendar sprintStart = Calendar.getInstance();
+		sprintStart.setTime(startDate);
+		for(Date date = sprintStart.getTime(); sprintStart.before(todayC); sprintStart.add(Calendar.DATE, 1)) {
+			for(UserStory us:userstories) {
+				if(us.getPlanState() == PlanState.Done) {
+					doneItemsCount++;
+					doneItems.put(doneItemsCount);
+				}
+			}
+		}
+		System.out.println(doneItems);
 		return doneItems;
 	}
 	
 	@Transient
 	public JSONArray getRemainingItems() {
 		JSONArray remainingItems = new JSONArray();
+		int remainingItemsCount = getUserStories().size();
+		SortedSet<UserStory> userstories = this.getUserStories();
+		Date today = new Date();
+		Calendar todayC = Calendar.getInstance();
+		todayC.setTime(today);
+		Calendar sprintStart = Calendar.getInstance();
+		sprintStart.setTime(startDate);
+		for(Date date = sprintStart.getTime(); sprintStart.before(todayC); sprintStart.add(Calendar.DATE, 1)) {
+			for(UserStory us:userstories) {
+				if(us.getPlanState() == PlanState.Done) {
+					remainingItemsCount--;
+					
+				}
+				remainingItems.put(remainingItemsCount);
+			}
+		}
+		System.out.println(remainingItems);
 		return remainingItems;
 	}
 

@@ -7,22 +7,77 @@
 
 <script>
 $(document).ready(function() {
-	var sprintJSON = JSON.parse($(".form-control").val());
-	var startDate = sprintJSON.startDate
-	startDate = startDate.getDate()
-	alert(startDate)
-	var idealRemaining = "["+sprintJSON.idealRemaining+"]"
-	drawChart(startDate, idealRemaining);
+	var sprintJSON = JSON.parse($(".form-control").val());	
+	drawChart(sprintJSON);
 	$(".form-control").change(function() {
 		sprintJSON = JSON.parse($(".form-control").val());
-		startDate = sprintJSON.startDate
-		idealRemaining = "["+sprintJSON.idealRemaining+"]"
-		alert(idealRemaining)
-		drawChart(idealRemaining, startDate);
+		drawChart(sprintJSON);
 	});
 });
+function prepareIdealRemaining(sprintJSON) {
+	var idealRemaining = [];
+	var data = sprintJSON.idealRemaining;
+	for (var i = 0; i < data.length;i++) {
+		idealRemaining.push([data[i]]);
+	}
+	return idealRemaining
+}
 
-function drawChart(idealRemaining, startDate) {
+function prepareBacklogScope(sprintJSON){
+	var backlogScope = [];
+	var data = sprintJSON.backlogScope;
+	for (var i = 0; i < data.length;i++) {
+		backlogScope.push([data[i]]);
+	}
+	return backlogScope
+}
+
+function prepareDoneItems(sprintJSON){
+	var doneItems = [];
+	var data = sprintJSON.doneItems;
+	for (var i = 0; i < data.length;i++) {
+		doneItems.push([data[i]]);
+	}
+	return doneItems
+}
+
+function prepareRemainingItems(sprintJSON){
+	var remainingItems = [];
+	var data = sprintJSON.remainingItems;
+	for (var i = 0; i < data.length;i++) {
+		remainingItems.push([data[i]]);
+	}
+	return remainingItems
+}
+
+function prepareYear(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	year = startDate.getFullYear();
+	return year
+}
+function prepareMonth(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	month = startDate.getMonth();
+	return month 
+}
+function prepareDay(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	day = startDate.getDate();
+	return day
+}
+function drawChart(sprintJSON) {
+	var year = prepareYear(sprintJSON);
+	var month = prepareMonth(sprintJSON);
+	var day = prepareDay(sprintJSON);
+	var idealRemaining = [];
+	idealRemaining = prepareIdealRemaining(sprintJSON);
+	var backlogScope = [];
+	backlogScope = prepareBacklogScope(sprintJSON);
+	var doneItems = [];
+	doneItems = prepareDoneItems(sprintJSON);
+	var remainingItems = [];
+	remainingItems = prepareRemainingItems(sprintJSON);
+	
 	$('.sprintBurnDown').highcharts({
         chart: {
             type: 'line'
@@ -30,16 +85,25 @@ function drawChart(idealRemaining, startDate) {
         title: {
             text: 'Sprint BurnDown'
         },
+        xAxis: {
+            type: 'datetime',
+        },
        
         yAxis: {
             title: {
             	text: 'Backlog items'
             }
         },
-        series: [{name: 'Scope of Backlog items', data: [1,2,3,4,5] , pointStart: startDate, pointInterval: 24*3600*1000},
-                 {name: 'Ideal Remaining Backlog items', data: [idealRemaining], lineWidth: '1', dashStyle: 'Dash', pointStart: startDate, pointInterval: 24*3600*1000},
-                 {name: 'Remaining Backlog items', color: 'red', data: [], pointStart: startDate, pointInterval: 24*3600*1000},
-                 {name: 'Done Backlog items', color: 'green', data:[], pointStart: startDate, pointInterval: 24*3600*1000}]
+        plotOptions: {
+        	series: {
+        		pointStart: Date.UTC(year,month,day),
+        		pointInterval: 24*3600*1000
+        	}
+        },
+        series: [{name: 'Scope of Backlog items', data: backlogScope},
+                 {name: 'Ideal Remaining Backlog items', data: idealRemaining, lineWidth: '1', dashStyle: 'Dash'},
+                 {name: 'Remaining Backlog items', data: remainingItems, color: 'red'},
+                 {name: 'Done Backlog items', data: doneItems, color: 'green'}]
     });
 };
 
@@ -52,7 +116,7 @@ function drawChart(idealRemaining, startDate) {
 	<div class="sprints">
 		<div class="input-group">
 			<span class="input-group-addon">Sprint:</span>
-			<form:select class="form-control" path="chartData" >
+			<form:select class="form-control" path="chartData">
 				<c:forEach items="${chartData}" var="item">
 					<form:option value="${item.getValue()}">${item.getKey().getDescription()}</form:option>
 				</c:forEach>				
