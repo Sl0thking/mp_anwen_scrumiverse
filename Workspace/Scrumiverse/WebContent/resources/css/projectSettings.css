@@ -3,6 +3,7 @@
 	position: relative;
 	top: 10px;
 	margin: auto;
+	margin-bottom: 45px;
 	width: 900px;
 	background-color: #666666;
 }
@@ -50,7 +51,6 @@
    	box-shadow: 0 1px 0 #666666;
 }
 
-
 #settings-header > .site-title{
     border-bottom: 1px solid white;
 }
@@ -76,8 +76,40 @@
     padding: 0px 10px 0px 10px;
 }
 
+.input-group-fix{
+	margin: 10px 10px 0px 10px;
+    padding-right: 5px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+#selectedRole > fieldset > .input-group-fix {
+	margin: 10px 20px 0px 20px;
+    padding-right: 5px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.addon-fix{
+	position: relative;
+    left: 5px;
+    z-index: 5;
+}
+
+.tab-pane-fix{
+	margin-top: 10px;
+}
+
+.tab-pane-fix > .input-group-fix{
+	margin: 10px 20px 0px 20px;
+    padding-right: 5px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.tab-pane-fix > form {
+    padding: 0px 20px;
+}
+
 .tab-pane > form > .input-group {
-	margin: 0px 10px 10px 10px;
+	margin: 10px 10px 0px 10px;
     padding-right: 5px;
     border-radius: 4px 4px 4px 4px;
 }
@@ -89,29 +121,39 @@
 
 .tab-pane >  form > button {
 	float: right;
-	margin: 0px 10px 10px 0px;	
+	margin: 10px 14px 10px 0px;	
+}
+
+.tab-pane-fix > #selectedRole {
+    padding: 0px 20px;
+}
+
+#selectedRole > fieldset > button{
+	margin-right: 0px;
+	margin-bottom: 10px;
 }
 
 fieldset{
-    padding: 10px 10px 
+    padding: 10px 10px;
 }
 fieldset > .input-group-fix{
     margin-bottom: 10px;
 }
 fieldset > button{
     float: right;
+    margin-right: 15px;
 }
 
-fieldset >.roleSettings {
-    margin: 10px 0px;
+fieldset > .roleSettings {
+    padding: 10px 0px;
 }
-fieldset >.roleSettings > .entity{
+fieldset > .roleSettings > .entity{
     padding: 5px 10px;
     margin-bottom: 5px;
     font-size: 16px;
     border: 1px solid #999999;
 }
-fieldset >.roleSettings > .entity > div{
+fieldset > .roleSettings > .entity > div{
     margin-left: 10px;
     font-size: 14px;
     display: inline-block;

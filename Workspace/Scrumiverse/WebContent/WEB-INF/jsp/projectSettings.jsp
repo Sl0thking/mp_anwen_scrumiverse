@@ -5,14 +5,15 @@
 <script src="resources/colorpicker/js/bootstrap-colorpicker.js"></script>
 
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
+
+var activeTab = ".role-tab";  // <----- ${tabString};
 $(document).ready(function(){
+    $(".quick-button").hide();
+    activateButton(getActiveTab());
+    activateTab();
 	$(".form-control[fid]").change(function() {
 		var fid = $(this).attr("fid");
 		$("form[fid='" + fid + "']").submit();
-	});
-	
-	$("[fid=roleSelect]").change(function() {
-		$(this).submit();
 	});
 	
 	$("#sendInvBtn").click(function () {
@@ -20,7 +21,44 @@ $(document).ready(function(){
 		var targetUrl = "addUserToProject.htm?email=" + email;
 		window.location.href = targetUrl;
 	});
+    
+    $("a[role='tab']").click(function(){
+        setActiveTab($(this).attr("href"));
+        activateButton(getActiveTab());
+    });
 });
+    
+function getActiveTab(){
+    return activeTab;
+}
+function setActiveTab(newTab){
+    activeTab = newTab;
+}
+    
+function activateTab(){
+    $(".nav-tabs").children().each(function(){
+        $(this).removeClass("active");
+    });
+    $(".nav-tabs").children().each(function(){
+        if($(this).children().attr("href")==getActiveTab()){
+            $(this).children(getActiveTab).click();
+        }
+    });
+    $(".tab-content").children().each(function(){
+        $(this).removeClass("active");
+    });
+    $(".tab-content").children(getActiveTab()).addClass("active");
+}
+
+function activateButton(btnTab){
+    $(".quick-button").hide();
+    $(".quick-button").each(function(){
+        if($(this).attr("tab")==btnTab){
+            $(this).show();
+        }
+    });
+}
+    
 </script>
 <div id="settings">
 	<div id="settings-header">
@@ -123,9 +161,9 @@ $(document).ready(function(){
 				</c:if>
 			</div>
 		</div>
-		<div class="role-tab tab-pane fade in">
-        	<div class="input-group">
-                <span class="input-group-addon">Role</span>
+		<div class="role-tab tab-pane fade in tab-pane-fix">
+        	<div class="input-group input-group-fix">
+                <span class="input-group-addon addon-fix">Role</span>
                 <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}">
 		            <form:select class="form-control" path="role">
 						<form:options  itemLabel="name" items="${project.getRoles()}"/>
@@ -208,8 +246,8 @@ $(document).ready(function(){
 	                    </div>
 	                    <div class="input-group input-group-fix colorpicker-component picker">
 	                        <span class="input-group-addon">Color</span>
-	                        <input type="text" data-format="hex" value="#000000" class="form-control"/>
 	                        <span class="input-group-addon color-component"><i></i></span>
+	                        <input type="text" data-format="hex" value="#000000" class="form-control"/>
 	                    </div>
 	                        <script>
 	                            $(function(){
@@ -224,6 +262,7 @@ $(document).ready(function(){
 	                                  },
 	                                    component: '.color-component',
 	                                    format: 'hex',
+	                                    align: "left"
 	                                });
 	                            });
 	                        </script>
@@ -240,7 +279,7 @@ $(document).ready(function(){
 </div>
 <div id="quick-button-container">
 	<c:if test="${inviteToProject}">
-		<div class="quick-button">
+		<div class="quick-button" tab=".detail-tab">
 	        <span class="quick-button-title">+</span>
 	        <div class="quick-button-text">
 	        <!-- form start -->
@@ -258,10 +297,10 @@ $(document).ready(function(){
 	    </div>
 	</c:if>
     
-    <a class="quick-button" href="./addRole.htm">
+    <a class="quick-button" tab=".role-tab" href="./addRole.htm">
         <span class="quick-button-title">R</span><span class="quick-button-text alternative">new Role</span>
     </a>
-    <a class="quick-button" href="./addCategory.htm">
+    <a class="quick-button" tab=".category-tab" href="./addCategory.htm">
         <span class="quick-button-title">C</span><span class="quick-button-text alternative">new Category</span>
     </a>
 </div>
