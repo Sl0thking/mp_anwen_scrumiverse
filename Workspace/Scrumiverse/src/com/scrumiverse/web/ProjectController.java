@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.binder.CategoryBinder;
 import com.scrumiverse.binder.RoleBinder;
 import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
@@ -29,6 +30,7 @@ import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
+import com.scrumiverse.forms.CategoryForm;
 import com.scrumiverse.forms.RoleForm;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
@@ -39,6 +41,8 @@ import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.Category;
+import com.scrumiverse.persistence.DAO.CategoryDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
@@ -67,10 +71,14 @@ public class ProjectController extends MetaController {
 	@Autowired
 	private RoleDAO roleDAO;
 	
+	@Autowired
+	private CategoryDAO categoryDAO;
+	
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Role.class, new RoleBinder(roleDAO));
 		binder.registerCustomEditor(User.class, new UserBinder(userDAO));
+		binder.registerCustomEditor(Category.class, new CategoryBinder(categoryDAO));
 	}
 
 	/**
@@ -201,29 +209,44 @@ public class ProjectController extends MetaController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/projectSettings.htm")
-	public ModelAndView projectSettings(@RequestParam int id, RoleForm receivedRoleForm, HttpSession session)  {
+	public ModelAndView projectSettings(@RequestParam int id, RoleForm receivedRoleForm, CategoryForm receivedCategoryForm, HttpSession session)  {
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);	
 			Project requestedProject = projectDAO.getProject(id);
 			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			ModelMap map = this.prepareModelMap(session);
+			testRight(session, Right.Update_Project);
+			if(receivedRoleForm.getRole() == null && receivedCategoryForm.getCategory() == null) {
+				map.addAttribute("tabString", ".detail-tab");
+			} else if(receivedRoleForm.getRole() != null) {
+				map.addAttribute("tabString", ".role-tab");
+			} else if(receivedCategoryForm.getCategory() != null) {
+				map.addAttribute("tabString", ".category-tab");
+			}
 			if(receivedRoleForm.getRole() == null) {
 				receivedRoleForm.setRole(requestedProject.getRoles().first());
 			}
-			testRight(session, Right.Update_Project);
+			if(requestedProject.getCategories().size() == 0) {
+				receivedCategoryForm.setCategory(new Category());
+			} else if(receivedCategoryForm.getCategory() == null){
+				receivedCategoryForm.setCategory(requestedProject.getCategories().first());
+			}
 			map.addAttribute("project", requestedProject);
 			map.addAttribute("selectedRole", receivedRoleForm.getRole());
 			map.addAttribute("roleForm", receivedRoleForm);
-			map.addAttribute("action", Action.projectSettings);
+			map.addAttribute("selectedCategory", receivedCategoryForm.getCategory());
+			map.addAttribute("categoryForm", receivedCategoryForm);
 			map.addAttribute("removeFromProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Remove_From_Project));
 			map.addAttribute("inviteToProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Invite_To_Project));
 			map.addAttribute("deleteProject", requestedProject.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_Project));
+			map.addAttribute("action", Action.projectSettings);
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		} catch (Exception e1) {
 			session.removeAttribute("currentProjectId");
+			e1.printStackTrace();
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}

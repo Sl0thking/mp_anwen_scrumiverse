@@ -61,6 +61,9 @@
         <bean id="roleDAO" class="com.scrumiverse.persistence.DAO.impl.RoleDAOImpl">
                 <property name="sessionFactory" ref="mySessionFactory"/>
         </bean>
+        <bean id="categoryDAO" class="com.scrumiverse.persistence.DAO.impl.CategoryDAOImpl">
+                <property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
         <bean id="sprintDAO" class="com.scrumiverse.persistence.DAO.impl.SprintDAOImpl">
         		<property name="sessionFactory" ref="mySessionFactory"/>
         </bean>

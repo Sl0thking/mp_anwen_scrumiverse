@@ -6,16 +6,15 @@
 
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
 
-var activeTab = ".role-tab";  // <----- ${tabString};
+var activeTab = "${tabString}";  // <----- ${tabString};
 $(document).ready(function(){
     $(".quick-button").hide();
     activateButton(getActiveTab());
     activateTab();
-	$(".form-control[fid]").change(function() {
+	$("select.form-control[fid]").change(function() {
 		var fid = $(this).attr("fid");
 		$("form[fid='" + fid + "']").submit();
 	});
-	
 	$("#sendInvBtn").click(function () {
 		var email = $("#invEmail").val()
 		var targetUrl = "addUserToProject.htm?email=" + email;
@@ -165,8 +164,8 @@ function activateButton(btnTab){
         	<div class="input-group input-group-fix">
                 <span class="input-group-addon addon-fix">Role</span>
                 <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}">
-		            <form:select class="form-control" path="role">
-						<form:options  itemLabel="name" items="${project.getRoles()}"/>
+		            <form:select fid="roleSelect" class="form-control" path="role">
+						<form:options  itemLabel="name" itemValue="roleID" items="${project.getRoles()}"/>
 					</form:select>
 				</form:form>
 			</div>
@@ -229,25 +228,25 @@ function activateButton(btnTab){
         </div>
         <div class="category-tab tab-pane fade in">
             <div class="category-tab tab-pane fade in">
-	            <form>
 	                <div class="input-group">
 	                    <span class="input-group-addon">Category</span>
-	                    <select class="form-control" name="categories">
-	                        <option>Category</option>
-	                        <option>Category</option>
-	                        <option>Category</option>
-	                        <option>Category</option>
-	                    </select>
+	                     <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}">
+		            		<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
+								<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
+							</form:select>
+						</form:form>
 	                </div>
+	                <form:form commandName="selectedCategory" action="updateCategory.htm">
+	                <form:hidden path="id"/>
 	                <fieldset>
 	                    <div class="input-group input-group-fix">
 	                        <span class="input-group-addon">Name</span>
-	                        <input type="text" class="form-control" name="rolename">
+	                        <form:input type="text" class="form-control" path="name" disabled="${project.getCategories().size() < 1}"/>
 	                    </div>
 	                    <div class="input-group input-group-fix colorpicker-component picker">
 	                        <span class="input-group-addon">Color</span>
 	                        <span class="input-group-addon color-component"><i></i></span>
-	                        <input type="text" data-format="hex" value="#000000" class="form-control"/>
+	                        <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>
 	                    </div>
 	                        <script>
 	                            $(function(){
@@ -266,12 +265,22 @@ function activateButton(btnTab){
 	                                });
 	                            });
 	                        </script>
-	                    <button class="btn btn-default" type="submit">
-	                        <span class="glyphicon glyphicon-save"></span>
-	                        Save
-	                    </button>
+	                    <c:choose>
+	                    	<c:when test="${project.getCategories().size() < 1}">
+	                    		<button class="btn btn-default" type="submit" disabled>
+	                       		<span class="glyphicon glyphicon-save"></span>
+	                        	Save
+	                    		</button>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<button class="btn btn-default" type="submit">
+	                       		<span class="glyphicon glyphicon-save"></span>
+	                        	Save
+	                    		</button>
+	                    	</c:otherwise>
+	                    </c:choose>
 	                </fieldset>
-	            </form>
+	                </form:form>
 	            <div id="settings-options"></div>
 	        </div>
         </div>

@@ -26,6 +26,7 @@ import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
 import com.scrumiverse.model.account.*;
+import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.web.StdRoleNames;
 
 import javax.persistence.JoinColumn;
@@ -47,13 +48,13 @@ public class Project {
 	private Date dueDate;
 	private SortedSet<Sprint> sprints;
 	private SortedSet<UserStory> userstories;
-	//next sprint
-	//private List<Category> categories;
+	private SortedSet<Category> categories;
 	
 	public Project() {
 		name = "New Project";
 		description = "Project Description";
 		projectUsers = new TreeSet<ProjectUser>();
+		categories = new TreeSet<Category>();
 		roles = new TreeSet<Role>();
 		sprints = new TreeSet<Sprint>();
 		dueDate = new Date();
@@ -143,20 +144,27 @@ public class Project {
 	public void setUserstories(SortedSet<UserStory> userstories) {
 		this.userstories = userstories;
 	}
-//	public List<Category> getCategories() {
-//		return categories;
-//	}
-//	public void setCategories(List<Category> categories) {
-//		this.categories = categories;
-//	}
 	
-//	public void addCategory(Category c) {		
-//		this.categories.add(c);				
-//	}
-//	
-//	public void deleteCategory(int CategoryID) {
-//		this.categories.remove(CategoryID);		
-//	}
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Category> getCategories() {
+		return categories;
+	}
+	
+	public void setCategories(SortedSet<Category> categories) {
+		this.categories = categories;
+	}
+	
+	@Transient
+	public void addCategory(Category c) {		
+		this.categories.add(c);				
+	}
+	
+	@Transient
+	public void deleteCategory(int CategoryID) {
+		this.categories.remove(CategoryID);		
+	}
 	
 	public void addProjectUser(User u, Role r) {
 		ProjectUser projectUser = new ProjectUser(u,r);
