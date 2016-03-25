@@ -1,6 +1,7 @@
 package com.scrumiverse.web;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -32,9 +33,12 @@ import com.scrumiverse.forms.RoleForm;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumCore.PlanState;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumCore.Sprint;
+import com.scrumiverse.model.scrumCore.Task;
+import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
@@ -380,6 +384,44 @@ public class ProjectController extends MetaController {
 			}
 			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.reporting);
+			return new ModelAndView("index", map);		
+		} catch(NoSuchUserException | InvalidSessionException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:login.htm");
+		} catch(NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		}
+	}
+	
+	@RequestMapping("/dashboard.htm")
+	public ModelAndView viewDashboard(HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			ModelMap map = this.prepareModelMap(session);
+			int projectId = (int) session.getAttribute("currentProjectId");
+			Project project = loadCurrentProject(session);
+			Sprint currentSprint = new Sprint();
+			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
+			// Prepare Set of all Tasks
+			Set<UserStory> userstories = project.getUserstories();
+			Set<Task> tasks = new HashSet<Task>();
+			for(UserStory us:userstories) {
+				tasks.addAll(us.getTasks());
+			}
+			// Prepare Burndown Chart Data
+			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
+			for(Sprint s:sprints) {
+				// Search for current Sprint in sprints
+				if(s.getPlanState() == PlanState.InProgress) {
+					currentSprint = s;
+				}
+				chartData.put(s, createChartData(s));
+			}
+			map.addAttribute("project", project);
+			map.addAttribute("currentSprint", currentSprint);
+			map.addAttribute("tasks", tasks);
+			map.addAttribute("chartData", chartData);
+			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
 		} catch(NoSuchUserException | InvalidSessionException e) {
 			e.printStackTrace();
