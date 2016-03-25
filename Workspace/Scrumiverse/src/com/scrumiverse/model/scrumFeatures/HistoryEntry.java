@@ -80,4 +80,11 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 	public int compareTo(HistoryEntry o) {
 		return this.date.compareTo(o.getDate());
 	}
+
+	@Override
+	public String toString() {
+		return "HistoryEntry [id=" + id + ", user=" + user + ", changeEvent=" + changeEvent + ", date=" + date + "]";
+	}
+	
+	
 }

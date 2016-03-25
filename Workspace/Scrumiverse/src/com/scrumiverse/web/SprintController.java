@@ -16,9 +16,12 @@ import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.ChangeEvent;
+import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
@@ -50,13 +53,16 @@ public class SprintController extends MetaController {
 	public ModelAndView addSprint(HttpSession session) throws NoProjectFoundException {
 		try {
 			this.checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
 			Sprint sprint = new Sprint();
 			sprintDAO.saveSprint(sprint);
+			sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_CREATED));
+			sprintDAO.updateSprint(sprint);
 			project.addSprint(sprint);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:sprintOverview.htm");	
-		}catch (InvalidSessionException e) {
+		}catch (NoSuchUserException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -86,6 +92,7 @@ public class SprintController extends MetaController {
 	public ModelAndView synchronizeSprintAndBacklog(HttpSession session, @RequestParam int sprintid, @RequestParam String addedStories, @RequestParam String removedStories) {
 		try {
 			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
 			Project activeProject = this.loadCurrentProject(session);
 			Sprint choosenSprint = sprintDAO.getSprint(sprintid);
 			String[] addUserStoryIds = addedStories.split(",");
@@ -96,6 +103,9 @@ public class SprintController extends MetaController {
 					int usid = Integer.parseInt(id);
 					UserStory userStory = userDAO.getUserStory(usid);
 					choosenSprint.addUserStory(userStory);
+					choosenSprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_ASSIGNED));
+					userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_ASSIGNED));
+					userDAO.updateUserStory(userStory);
 					sprintDAO.updateSprint(choosenSprint);
 				}
 			}
@@ -105,14 +115,17 @@ public class SprintController extends MetaController {
 					int usid = Integer.parseInt(id);
 					UserStory userStory = userDAO.getUserStory(usid);
 					choosenSprint.removeUserStory(userStory);
+					choosenSprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_REMOVED));
+					userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_REMOVED));
+					userDAO.updateUserStory(userStory);
 					sprintDAO.updateSprint(choosenSprint);
 				}
 			}
 			return new ModelAndView("redirect:sprintOverview.htm");		
 		} catch (NoProjectFoundException | NoUserStoryFoundException | NoSprintFoundException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
-		} catch (InvalidSessionException e) {
+		} catch (NoSuchUserException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		}
+		} 
 	}
 }

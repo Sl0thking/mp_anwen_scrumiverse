@@ -176,13 +176,20 @@ public class UserStoryController extends MetaController {
 	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {
 		try{
 			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			UserStory userStory = userStoryDAO.getUserStory(id);
+			Sprint sprint = userStory.getRelatedSprint();
+			if(sprint != null) {
+				sprint.addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
+				sprintDAO.updateSprint(sprint);
+			}
 			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
 			return new ModelAndView("redirect:backlog.htm");
-		}catch(NoUserStoryFoundException e){
+		}catch(NoUserStoryFoundException | NoSuchUserException e){
 			return new ModelAndView("redirect:backlog.htm");
 		}catch (InvalidSessionException e){
 			return new ModelAndView("redirect:login.htm");
-		}
+		} 
 	}
 	
 	/**
