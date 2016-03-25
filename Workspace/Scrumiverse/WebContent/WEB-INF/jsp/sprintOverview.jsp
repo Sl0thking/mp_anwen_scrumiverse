@@ -259,47 +259,44 @@ function toggleRemovebtn(){
 							</a>
 						</div>
 		                <div class="input-group">
-		                	<span class="input-group-addon input-group-addon-fix" id="basic-addon2">Sprint Name</span>
-							<input type="text" class="form-control input-control" value="Sprintname" aria-describedby="basic-addon1">
-		                </div>
-		                <div class="input-group">
 		                    <span class="input-group-addon input-group-addon-fix">Description</span>
-		                    <textarea class="form-control input-control" path="description" value="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</textarea>
+		                    <textarea class="form-control input-control" path="description" value="${sprint.description }">${sprint.description }</textarea>
 		                </div>
 		                <div class="input-group">
 		                <span class="input-group-addon input-group-addon-fix">Acceptance Criteria</span>
-		                <textarea class="form-control input-control" path="description" value="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</textarea>
+		                <textarea class="form-control input-control" path="description" value="${sprint.acceptanceCriteria }">${sprint.acceptanceCriteria }</textarea>
 		                </div>
 		                <div class="date-container">
 		                    <div class="input-group input-startdate">
 		                        <span class="input-group-addon input-group-addon-fix">Start Date</span>
-		                        <input type="date" class="form-control input-control">
+		                        <input type="date" class="form-control input-control" value="${sprint.startDate.toString().substring(0,10) }">
 		                    </div>
 		                    <div class="input-group input-duedate">
 		                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
-		                        <input type="date" class="form-control input-control">
+		                        <input type="date" class="form-control input-control" value="${sprint.endDate.toString().substring(0,10) }">
 		                    </div>
 		                </div>
 		                <div class="sprint-data">
 		                    <div class="modal-data-container">
 		                        Time</br>
-		                        ### / ###
+		                        <fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
+	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h
 		                        <div class="progressbar">
-		                            <div class="progress"></div>
+		                            <div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 		                        </div>
 		                    </div>
 		                    <div class="modal-data-container">
 		                        Effort</br>
-		                        ### / ###
+		                        ${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }
 		                        <div class="progressbar">
-		                            <div class="progress"></div>
+		                            <div class="progress" style="width:${sprint.getCompletedEffort() / sprint.getCombinedEffort() * 100}%"></div>
 		                        </div>
 		                    </div>
 		                    <div class="modal-data-container">
 		                        Value</br>
-		                        ### / ###
+		                        ${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }
 		                        <div class="progressbar">
-		                            <div class="progress"></div>
+		                            <div class="progress" style="width:${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
 		                        </div>
 		                    </div>
 		                </div>
