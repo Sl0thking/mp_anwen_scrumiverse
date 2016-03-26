@@ -144,6 +144,12 @@ fieldset > button{
     margin-right: 15px;
 }
 
+#settings #remove-btn{
+    float: right;
+    margin-right: 5px;
+    color: #c11c1c;
+}
+
 fieldset > .roleSettings {
     padding: 10px 0px;
 }

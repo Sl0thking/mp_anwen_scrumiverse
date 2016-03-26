@@ -307,6 +307,28 @@ body::-webkit-scrollbar{
 	display: inline-block;
 }
 
+#quick-button-container > .quick-button > .quick-removebutton-title{
+    width: 30px;
+    background-color: darkred;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#quick-button-container > .quick-button:hover > .quick-removebutton-title {
+	border-radius: 5px 0px 0px 5px;
+}
+
+#quick-button-container > .quick-button > .quick-removebutton-text {
+    padding: 0px 10px 0px 10px;
+    background-color: red;
+	border-left: 1px solid;
+	border-radius: 0px 5px 5px 0px;
+	display: none;
+}
+
+#quick-button-container > .quick-button:hover > .quick-removebutton-text {
+	display: inline-block;
+}
+
 #Planning{
 	background-color: darkgrey;
 }

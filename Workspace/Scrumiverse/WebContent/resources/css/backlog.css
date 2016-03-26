@@ -1,6 +1,6 @@
 #backlog {
     width: 100%;
-    padding: 30px 20px 0px 20px;
+    padding: 30px 20px 45px 20px;
     height: calc(100% - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
@@ -149,7 +149,6 @@
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-timestats{
     height: 50%;
     width: 100%;
-    font-size: 18px;
     padding: 4px 0px 0px 0px;
     text-align: center;
     display: inline-block;
@@ -220,6 +219,7 @@
 /* Cardview */
 #backlog > .note{
     position: relative;
+    float: left;
     background-color: grey;
     color: white;
     height: 160px;
@@ -421,7 +421,7 @@
 	text-decoration: none;
 }
 
-
+/*settings-page*/
 .modal-dialog{
     width: 80%;
 }

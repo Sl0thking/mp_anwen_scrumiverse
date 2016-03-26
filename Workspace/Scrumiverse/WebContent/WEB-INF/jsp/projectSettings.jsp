@@ -20,33 +20,38 @@ $(document).ready(function(){
 		var targetUrl = "addUserToProject.htm?email=" + email;
 		window.location.href = targetUrl;
 	});
-    
     $("a[role='tab']").click(function(){
         setActiveTab($(this).attr("href"));
         activateButton(getActiveTab());
     });
 });
-    
+/* Returns activeTab*/
 function getActiveTab(){
     return activeTab;
 }
+
+/* Sets activeTab*/
 function setActiveTab(newTab){
     activeTab = newTab;
 }
-    
+
+/* Checks the activeTab-variable and selects the tab. */
 function activateTab(){
-    $(".nav-tabs").children().each(function(){
-        $(this).removeClass("active");
-    });
-    $(".nav-tabs").children().each(function(){
-        if($(this).children().attr("href")==getActiveTab()){
-            $(this).children(getActiveTab).click();
-        }
-    });
-    $(".tab-content").children().each(function(){
-        $(this).removeClass("active");
-    });
-    $(".tab-content").children(getActiveTab()).addClass("active");
+	if(activeTab==".detail-tab"){
+	} else{
+	    $(".nav-tabs").children().each(function(){
+	        $(this).removeClass("active");
+	    });
+	    $(".nav-tabs").children().each(function(){
+	        if($(this).children().attr("href")==getActiveTab()){
+	            $(this).children(getActiveTab).click();
+	        }
+	    });
+	    $(".tab-content").children().each(function(){
+	        $(this).removeClass("active");
+	    });
+	    $(".tab-content").children(getActiveTab()).addClass("active");
+	}
 }
 
 function activateButton(btnTab){
@@ -213,6 +218,10 @@ function activateButton(btnTab){
                         		<span class="glyphicon glyphicon-save"></span>
                         		Save
                     		</button>
+							<a href="./removeRole?id=${selectedRole.roleID }" class="btn btn-default" id="remove-btn">
+								<span class="glyphicon glyphicon-trash"></span>
+						  		Remove
+							</a>
                     	</c:when>
                     	<c:otherwise>
                     		<span class="glyphicon glyphicon-warning-sign"></span> This is non changeable standard role
@@ -227,63 +236,66 @@ function activateButton(btnTab){
             <div id="settings-options"></div>
         </div>
         <div class="category-tab tab-pane fade in">
-            <div class="category-tab tab-pane fade in">
-	                <div class="input-group">
-	                    <span class="input-group-addon">Category</span>
-	                     <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}">
-		            		<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
-								<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
-							</form:select>
-						</form:form>
-	                </div>
-	                <form:form commandName="selectedCategory" action="updateCategory.htm">
-	                <form:hidden path="id"/>
-	                <fieldset>
-	                    <div class="input-group input-group-fix">
-	                        <span class="input-group-addon">Name</span>
-	                        <form:input type="text" class="form-control" path="name" disabled="${project.getCategories().size() < 1}"/>
-	                    </div>
-	                    <div class="input-group input-group-fix colorpicker-component picker">
-	                        <span class="input-group-addon">Color</span>
-	                        <span class="input-group-addon color-component"><i></i></span>
-	                        <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>
-	                    </div>
-	                        <script>
-	                            $(function(){
-	                                $('.picker').colorpicker({
-	                                  colorSelectors: {
-	                                    '#000000': '#000000',
-	                                    '#337ab7': '#337ab7',
-	                                    '#5cb85c': '#5cb85c',
-	                                    '#5bc0de': '#5bc0de',
-	                                    '#f0ad4e': '#f0ad4e',
-	                                    '#d9534f': '#d9534f'
-	                                  },
-	                                    component: '.color-component',
-	                                    format: 'hex',
-	                                    align: "left"
-	                                });
-	                            });
-	                        </script>
-	                    <c:choose>
-	                    	<c:when test="${project.getCategories().size() < 1}">
-	                    		<button class="btn btn-default" type="submit" disabled>
-	                       		<span class="glyphicon glyphicon-save"></span>
-	                        	Save
-	                    		</button>
-	                    	</c:when>
-	                    	<c:otherwise>
-	                    		<button class="btn btn-default" type="submit">
-	                       		<span class="glyphicon glyphicon-save"></span>
-	                        	Save
-	                    		</button>
-	                    	</c:otherwise>
-	                    </c:choose>
-	                </fieldset>
-	                </form:form>
-	            <div id="settings-options"></div>
-	        </div>
-        </div>
+             <div class="input-group input-group-fix">
+                 <span class="input-group-addon addon-fix">Category</span>
+                  <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}">
+          		<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
+				<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
+			</form:select>
+		</form:form>
+             </div>
+             <form:form commandName="selectedCategory" action="updateCategory.htm">
+             <form:hidden path="id"/>
+             <fieldset>
+                 <div class="input-group input-group-fix">
+                     <span class="input-group-addon">Name</span>
+                     <form:input type="text" class="form-control" path="name" disabled="${project.getCategories().size() < 1}"/>
+                 </div>
+                 <div class="input-group input-group-fix colorpicker-component picker">
+                     <span class="input-group-addon">Color</span>
+                     <span class="input-group-addon color-component"><i></i></span>
+                     <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>
+                 </div>
+                    <script>
+                    /* BOOTSTRAP COLORPICKER 2.3 */
+                        $(function(){
+                            $('.picker').colorpicker({
+                              colorSelectors: {
+                                '#000000': '#000000',
+                                '#337ab7': '#337ab7',
+                                '#5cb85c': '#5cb85c',
+                                '#5bc0de': '#5bc0de',
+                                '#f0ad4e': '#f0ad4e',
+                                '#d9534f': '#d9534f'
+                              },
+                                component: '.color-component',
+                                format: 'hex',
+                                align: "left"
+                            });
+                        });
+                    </script>
+                 <c:choose>
+                 	<c:when test="${project.getCategories().size() < 1}">
+                 		<button class="btn btn-default" type="submit" disabled>
+                    		<span class="glyphicon glyphicon-save"></span>
+                     	Save
+                 		</button>
+                 	</c:when>
+                 	<c:otherwise>
+                 		<button class="btn btn-default" type="submit">
+                    		<span class="glyphicon glyphicon-save"></span>
+                     	Save
+                 		</button>
+						<a href="./removeCategory?id=${selectedCategory.id }" class="btn btn-default" id="remove-btn">
+							<span class="glyphicon glyphicon-trash"></span>
+					  		Remove
+						</a>
+                 	</c:otherwise>
+                 </c:choose>
+             </fieldset>
+             </form:form>
+         <div id="settings-options"></div>
+     </div>
 	</div>
 </div>
 <div id="quick-button-container">

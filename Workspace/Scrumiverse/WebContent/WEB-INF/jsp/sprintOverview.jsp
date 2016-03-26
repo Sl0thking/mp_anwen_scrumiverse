@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 $(document).ready(function(){
@@ -248,79 +249,109 @@ function toggleRemovebtn(){
 	    <div id="sprintmodal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		    <div class="modal-dialog">
 		        <div class="modal-content sprint-settings">
-		            <form>
-		                <div class="modal-header"> 
-		                    <span>
-						    <span class="glyphicon glyphicon-cog"></span>
-						    SPRINT SETTINGS
-		                    </span>
-		                    <a href="./removeSprint.htm?sprintid=" data-toggle="tooltip" title="Delete Sprint">
-								<span class="glyphicon glyphicon-trash"></span>
-							</a>
-						</div>
-		                <div class="input-group">
-		                    <span class="input-group-addon input-group-addon-fix">Description</span>
-		                    <textarea class="form-control input-control" path="description" value="${sprint.description }">${sprint.description }</textarea>
+	                <div class="modal-header">
+	                    <span>
+					    <span class="glyphicon glyphicon-cog"></span>
+					    SPRINT SETTINGS
+	                    </span>
+	                    <a href="./removeSprint.htm?sprintid=" data-toggle="tooltip" title="Delete Sprint">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+						<ul class="nav nav-tabs">
+                               <li class="active">
+                                   <a data-toggle="tab" role="tab" href=".detail-tab">
+                                       <span class="glyphicon glyphicon-info-sign"></span>
+                                       Detail
+                                   </a>
+                               </li>
+                               <li>
+                                   <a data-toggle="tab" role="tab" href=".history-tab">
+                                       <span class="glyphicon glyphicon-list-alt"></span>
+                                       History
+                                   </a>
+                               </li>
+                           </ul>
+					</div>
+					<div class="tab-content">
+						<div class="modal-body detail-tab tab-pane fade in active">
+						/* Fix for commandName bug */
+						<c:set var="selectedSprint" value="${sprint}"/> 
+							<form:form commandName="${selectedSprint }" action="">
+								<form:hidden path="id"/>
+				                <div class="input-group">
+				                    <span class="input-group-addon input-group-addon-fix">Description</span>
+				                    <form:input class="form-control input-control" path="description" value="${selectedSprint.description }"/>
+				                </div>
+				                <div class="input-group">
+				                <span class="input-group-addon input-group-addon-fix">Acceptance Criteria</span>
+				                <form:textarea class="form-control input-control" path="acceptanceCriteria" value="${selectedSprint.acceptanceCriteria }"></form:textarea>
+				                </div>
+				                <div class="date-container">
+				                    <div class="input-group input-startdate">
+				                        <span class="input-group-addon input-group-addon-fix">Start Date</span>
+				                        <form:input type="date" class="form-control input-control" path="startDate" value="${selectedSprint.startDate.toString().substring(0,10) }"/>
+				                    </div>
+				                    <div class="input-group input-duedate">
+				                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
+				                        <form:input type="date" class="form-control input-control" path="endDate" value="${selectedSprint.endDate.toString().substring(0,10) }"/>
+				                    </div>
+				                </div>
+				                <button type="button" class="btn btn-default" type="submit">
+			                        <span class="glyphicon glyphicon-save"></span>
+			                        Save
+			                    </button>
+			                </form:form>
+			                <div class="sprint-data">
+			                    <div class="modal-data-container">
+			                        Time</br>
+			                        <fmt:formatNumber value="${selectedSprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
+		                        	<fmt:formatNumber value="${selectedSprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h
+			                        <div class="progressbar">
+			                            <div class="progress" style="width:${selectedSprint.getRemainingMinutes() / selectedSprint.getPlannedMinutes() * 100}%"></div>
+			                        </div>
+			                    </div>
+			                    <div class="modal-data-container">
+			                        Effort</br>
+			                        ${selectedSprint.getCompletedEffort()} / ${selectedSprint.getCombinedEffort() }
+			                        <div class="progressbar">
+			                            <div class="progress" style="width:${selectedSprint.getCompletedEffort() / selectedSprint.getCombinedEffort() * 100}%"></div>
+			                        </div>
+			                    </div>
+			                    <div class="modal-data-container">
+			                        Value</br>
+			                        ${selectedSprint.getCompletedBusinessValue()} / ${selectedSprint.getCombinedBusinessValue() }
+			                        <div class="progressbar">
+			                            <div class="progress" style="width:${selectedSprint.getCompletedBusinessValue() / selectedSprint.getCombinedBusinessValue() * 100}%"></div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="userstory-container">
+			                      <c:forEach items="${selectedSprint.getUserStories()}" var="userstory">
+			            			<div usid="${userstory.id }" class="userstory userstory-fix">
+				                		<div class="userstory-titel">${userstory.description }</div>
+				                		<div class="userstory-content">
+					                		Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> / 
+					                		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> / 
+					                		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
+					                		Effort: ${userstory.getEffortValue()}</br>
+					                		Value:  ${userstory.getBusinessValue()}
+				                		</div>
+				            		</div>
+			        			</c:forEach>
+			                </div>
 		                </div>
-		                <div class="input-group">
-		                <span class="input-group-addon input-group-addon-fix">Acceptance Criteria</span>
-		                <textarea class="form-control input-control" path="description" value="${sprint.acceptanceCriteria }">${sprint.acceptanceCriteria }</textarea>
-		                </div>
-		                <div class="date-container">
-		                    <div class="input-group input-startdate">
-		                        <span class="input-group-addon input-group-addon-fix">Start Date</span>
-		                        <input type="date" class="form-control input-control" value="${sprint.startDate.toString().substring(0,10) }">
-		                    </div>
-		                    <div class="input-group input-duedate">
-		                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
-		                        <input type="date" class="form-control input-control" value="${sprint.endDate.toString().substring(0,10) }">
-		                    </div>
-		                </div>
-		                <div class="sprint-data">
-		                    <div class="modal-data-container">
-		                        Time</br>
-		                        <fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
-	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h
-		                        <div class="progressbar">
-		                            <div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
-		                        </div>
-		                    </div>
-		                    <div class="modal-data-container">
-		                        Effort</br>
-		                        ${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }
-		                        <div class="progressbar">
-		                            <div class="progress" style="width:${sprint.getCompletedEffort() / sprint.getCombinedEffort() * 100}%"></div>
-		                        </div>
-		                    </div>
-		                    <div class="modal-data-container">
-		                        Value</br>
-		                        ${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue() }
-		                        <div class="progressbar">
-		                            <div class="progress" style="width:${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
-		                        </div>
-		                    </div>
-		                </div>
-		                <div class="userstory-container">
-		                      <c:forEach items="${sprint.getUserStories()}" var="userstory">
-		            			<div usid="${userstory.id }" class="userstory">
-			                		<div class="userstory-titel">${userstory.description }</div>
-			                		<div class="userstory-content">
-				                		Time:   <fmt:formatNumber value="${userstory.getWorkedMinutes()/60}" maxFractionDigits="0"/> / 
-				                		<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}" maxFractionDigits="0"/> / 
-				                		<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}" maxFractionDigits="0"/> h</br>
-				                		Effort: ${userstory.getEffortValue()}</br>
-				                		Value:  ${userstory.getBusinessValue()}
-			                		</div>
-			            		</div>
-		        			</c:forEach>
-		                </div>
-		                <div class="modal-footer footer-fix">
-		                    <button type="button" class="btn btn-default" type="submit">
-		                        <span class="glyphicon glyphicon-save"></span>
-		                        Save
-		                    </button>
-		                </div>
-		            </form>
+		            	<div class="modal-body history-tab tab-pane fade in">
+		            		<c:forEach items="${selectedSprint.history }" var="history">
+			            		<div class="history-item">
+	                                <div class="history-changeevent">
+	                                	${selectedSprint.changeEvent }
+	                                </div>
+	                                <div class="history-date">${history.date }</div>
+	                                <div class="history-user">${history.user }</div>
+	                            </div>
+                            </c:forEach>
+		            	</div>
+		            </div>
 		        </div>
 		    </div>
 		</div>
