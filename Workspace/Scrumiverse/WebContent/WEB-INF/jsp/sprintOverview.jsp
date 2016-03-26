@@ -274,9 +274,9 @@ function toggleRemovebtn(){
 					</div>
 					<div class="tab-content">
 						<div class="modal-body detail-tab tab-pane fade in active">
-						/* Fix for commandName bug */
-						<c:set var="selectedSprint" value="${sprint}"/> 
-							<form:form commandName="${selectedSprint }" action="">
+						<!--  Fix for commandName bug --> 
+						<c:set var="selectedSprint" value="${sprint}" scope="request"/> 
+							<form:form commandName="selectedSprint" action="">
 								<form:hidden path="id"/>
 				                <div class="input-group">
 				                    <span class="input-group-addon input-group-addon-fix">Description</span>
@@ -341,10 +341,10 @@ function toggleRemovebtn(){
 			                </div>
 		                </div>
 		            	<div class="modal-body history-tab tab-pane fade in">
-		            		<c:forEach items="${selectedSprint.history }" var="history">
+		            		<c:forEach items="${selectedSprint.getHistory() }" var="history">
 			            		<div class="history-item">
 	                                <div class="history-changeevent">
-	                                	${selectedSprint.changeEvent }
+	                                	${history.changeEvent }
 	                                </div>
 	                                <div class="history-date">${history.date }</div>
 	                                <div class="history-user">${history.user }</div>

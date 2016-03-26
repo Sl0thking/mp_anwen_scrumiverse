@@ -14,12 +14,14 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
@@ -27,8 +29,8 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
 /**
  * User Story Model for Scrum Projects.
  * 
- * @author Lasse Jacobs
- * @version 24.02.16
+ * @author Lasse Jacobs, Kevin Jolitz
+ * @version 25.03.16
  *
  */
 @Entity
@@ -36,7 +38,7 @@ public class UserStory extends PlanElement {
 	private int businessValue;
 	private int effortValue;
 	private MoscowState moscow;
-//	private Category category;
+	private Category category;
 	private SortedSet<Task> tasks;
 	private Date dueDate;
 	private Sprint relatedSprint;
@@ -120,15 +122,14 @@ public class UserStory extends PlanElement {
 	public void setMoscow(MoscowState moscow) {
 		this.moscow = moscow;
 	}
-//	@OneToOne
-//	@JoinColumn(name="category_ID")
-//	public Category getCategory() {
-//		return category;
-//	}
-//
-//	public void setCategory(Category category) {
-//		this.category = category;
-//	}
+	@OneToOne
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="UserStoryID")
