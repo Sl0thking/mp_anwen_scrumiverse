@@ -1,7 +1,9 @@
 package com.scrumiverse.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -421,15 +423,35 @@ public class ProjectController extends MetaController {
 		try {
 			checkInvalidSession(session);
 			ModelMap map = this.prepareModelMap(session);
-			int projectId = (int) session.getAttribute("currentProjectId");
 			Project project = loadCurrentProject(session);
+			int projectId = project.getProjectID();
+			User loggedUser = loadActiveUser(session);
 			Sprint currentSprint = new Sprint();
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			// Prepare Set of all Tasks
+			// Prepare Set of all Tasks of logged User
 			Set<UserStory> userstories = project.getUserstories();
 			Set<Task> tasks = new HashSet<Task>();
+			Set<User> taskUsers = new HashSet<User>();
+			List<User> usUsers = new ArrayList<User>();
+			Set<Task> relevantTasks = new HashSet<Task>();
+			Set<UserStory> relevantUserStories = new HashSet<UserStory>();
 			for(UserStory us:userstories) {
 				tasks.addAll(us.getTasks());
+				usUsers = us.getResponsibleUsers();
+				for(User u:usUsers){
+					if(u==loggedUser) {
+						relevantUserStories.add(us);
+					}
+				}
+			}
+			for(Task t:tasks) {
+				taskUsers = t.getResponsibleUsers();
+				for(User u:taskUsers) {
+					if(u==loggedUser) {
+						relevantTasks.add(t);
+					}
+				taskUsers.clear();
+				}
 			}
 			// Prepare Burndown Chart Data
 			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
@@ -442,7 +464,8 @@ public class ProjectController extends MetaController {
 			}
 			map.addAttribute("project", project);
 			map.addAttribute("currentSprint", currentSprint);
-			map.addAttribute("tasks", tasks);
+			map.addAttribute("relevantUserStories", relevantUserStories);
+			map.addAttribute("relevantTasks", relevantTasks);
 			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
