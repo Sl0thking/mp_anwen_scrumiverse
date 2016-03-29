@@ -6,12 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -219,13 +217,6 @@ public class ProjectController extends MetaController {
 			session.setAttribute("currentProjectId", requestedProject.getProjectID());
 			ModelMap map = this.prepareModelMap(session);
 			testRight(session, Right.Update_Project);
-			if(receivedRoleForm.getRole() == null && receivedCategoryForm.getCategory() == null) {
-				map.addAttribute("tabString", "#detail-tab");
-			} else if(receivedRoleForm.getRole() != null) {
-				map.addAttribute("tabString", "#role-tab");
-			} else if(receivedCategoryForm.getCategory() != null) {
-				map.addAttribute("tabString", "#category-tab");
-			}
 			if(receivedRoleForm.getRole() == null) {
 				receivedRoleForm.setRole(requestedProject.getRoles().first());
 			}
@@ -516,7 +507,5 @@ public class ProjectController extends MetaController {
 			e.printStackTrace();
 		}
 		return jObject;
-		
 	}
-	
 }

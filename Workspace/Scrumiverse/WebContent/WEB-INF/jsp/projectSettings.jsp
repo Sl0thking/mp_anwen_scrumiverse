@@ -174,7 +174,7 @@ function activateButton(btnTab){
 		<div id="role-tab" class="tab-pane fade in tab-pane-fix">
         	<div class="input-group input-group-fix">
                 <span class="input-group-addon addon-fix">Role</span>
-                <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}">
+                <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}#role-tab">
 		            <form:select fid="roleSelect" class="form-control" path="role">
 						<form:options  itemLabel="name" itemValue="roleID" items="${project.getRoles()}"/>
 					</form:select>
@@ -224,7 +224,7 @@ function activateButton(btnTab){
                         		<span class="glyphicon glyphicon-save"></span>
                         		Save
                     		</button>
-							<a href="./removeRole?id=${selectedRole.roleID }" class="btn btn-default" id="remove-btn">
+							<a href="./removeRole.htm?id=${selectedRole.roleID }" class="btn btn-default" id="remove-btn">
 								<span class="glyphicon glyphicon-trash"></span>
 						  		Remove
 							</a>
@@ -244,11 +244,11 @@ function activateButton(btnTab){
         <div id="category-tab" class="tab-pane fade in">
              <div class="input-group input-group-fix">
                  <span class="input-group-addon addon-fix">Category</span>
-                  <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}">
-          		<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
-				<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
-			</form:select>
-		</form:form>
+                  <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}#category-tab">
+                  	<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
+						<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
+				    </form:select>
+				  </form:form>
              </div>
              <form:form commandName="selectedCategory" action="updateCategory.htm">
              <form:hidden path="id"/>
@@ -292,7 +292,7 @@ function activateButton(btnTab){
                     		<span class="glyphicon glyphicon-save"></span>
                      	Save
                  		</button>
-						<a href="./removeCategory?id=${selectedCategory.id }" class="btn btn-default" id="remove-btn">
+						<a href="./removeCategory.htm?id=${selectedCategory.id }" class="btn btn-default" id="remove-btn">
 							<span class="glyphicon glyphicon-trash"></span>
 					  		Remove
 						</a>

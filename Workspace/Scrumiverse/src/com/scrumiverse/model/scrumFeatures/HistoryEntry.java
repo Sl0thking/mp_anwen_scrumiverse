@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.scrumiverse.model.account.User;
-import com.scrumiverse.model.scrumCore.PlanElement;
 
 /**
  * Entry of a event
@@ -78,7 +77,7 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 
 	@Override
 	public int compareTo(HistoryEntry o) {
-		return this.date.compareTo(o.getDate());
+		return (this.date.compareTo(o.getDate())*-1);
 	}
 
 	@Override

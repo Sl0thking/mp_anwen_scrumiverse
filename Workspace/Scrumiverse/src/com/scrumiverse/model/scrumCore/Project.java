@@ -426,4 +426,22 @@ public class Project {
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
+
+	public int getUsersWithRoleCount(Role role) {
+		int counter = 0;
+		for(ProjectUser pUser : projectUsers) {
+			if(pUser.getRole().equals(role)) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+
+
+	public void removeCategory(Category category) {
+		for(UserStory uStory : userstories) {
+			uStory.setCategory(null);
+		}
+		this.categories.remove(category);
+	}
 }
