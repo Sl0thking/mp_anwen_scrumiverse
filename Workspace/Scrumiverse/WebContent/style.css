@@ -9,6 +9,9 @@ body {
 body::-webkit-scrollbar{
     display: none;
 }
+*::-webkit-scrollbar{
+    display: none;
+}
 
 /* index page specific css */
 .navbar-placeholder{

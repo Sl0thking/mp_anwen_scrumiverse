@@ -46,7 +46,7 @@ function deselectAll(){
                     <div class="userstory-stats">
                         <div class="time-container">
                             <div class="sandclock"></div>
-                            <div class="duetime">${userStory.dueDate}</div>
+                            <div class="duetime">${userStory.getRemainingDays()} d</div>
                         </div>
                         <div class="info-container">
                             <div class="moscow" data-toggle="tooltip" title="MoSCoW">${userStory.moscow.toString().substring(0,1)}</div>
@@ -104,7 +104,7 @@ function deselectAll(){
 		                   		</c:choose>
 		                    </div>
 		                </div>
-		                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
+		                <a href="#" class="glyphicon glyphicon-triangle-right task-link" id="${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
 		            </div>
 		    	</c:if>
         	</c:forEach>

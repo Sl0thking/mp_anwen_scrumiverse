@@ -301,6 +301,7 @@ fieldset > .roleSettings > .entity > div{
     z-index: 5;
 }
 
+/* Rework for invite-button */
 #quick-button-container > .quick-button > .quick-button-title {
 	float: left;
 	display: block;

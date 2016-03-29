@@ -46,7 +46,7 @@ $(document).ready(function(){
 			        </div>
 			        <div class="timebox">
 				        <div class="userstory-sandclock"></div>
-				        <div class="userstory-time">${userstory.getRemainingDays()}d</div>
+				        <div class="userstory-time">${userstory.getRemainingDays()} d</div>
 			        </div>
 			        <div class="info-container">
 				        <div class="userstory-category">Category</div>
