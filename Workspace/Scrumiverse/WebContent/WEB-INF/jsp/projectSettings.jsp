@@ -6,7 +6,11 @@
 
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
 
-var activeTab = "${tabString}";  // <----- ${tabString};
+if($(location).attr('hash')==""){
+	var activeTab = "#detail-tab";	
+} else {
+	var activeTab = $(location).attr('hash');
+}
 $(document).ready(function(){
     $(".quick-button").hide();
     activateButton(getActiveTab());
@@ -22,6 +26,7 @@ $(document).ready(function(){
 	});
     $("a[role='tab']").click(function(){
         setActiveTab($(this).attr("href"));
+        $(location).attr('hash',$(this).attr("href"));
         activateButton(getActiveTab());
     });
 });
@@ -37,7 +42,8 @@ function setActiveTab(newTab){
 
 /* Checks the activeTab-variable and selects the tab. */
 function activateTab(){
-	if(activeTab==".detail-tab"){
+	if(activeTab=="#detail-tab"){
+        $(location).attr('hash',activeTab);
 	} else{
 	    $(".nav-tabs").children().each(function(){
 	        $(this).removeClass("active");
@@ -78,19 +84,19 @@ function activateButton(btnTab){
 			</c:if>
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a data-toggle="tab" role="tab" href=".detail-tab">
+                    <a data-toggle="tab" role="tab" href="#detail-tab">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         Detail
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tab" role="tab" href=".role-tab">
+                    <a data-toggle="tab" role="tab" href="#role-tab">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         Role
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="tab" role="tab" href=".category-tab">
+                    <a data-toggle="tab" role="tab" href="#category-tab">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         Category
                     </a>
@@ -99,7 +105,7 @@ function activateButton(btnTab){
 		</div>
 	</div>
 	<div class="tab-content">
-        <div class="detail-tab tab-pane fade in active">
+        <div id="detail-tab" class="tab-pane fade in active">
 			<form:form action="saveProject.htm" commandName="project">
 				<div class="input-group">
 					<span class="input-group-addon">Name</span>
@@ -165,7 +171,7 @@ function activateButton(btnTab){
 				</c:if>
 			</div>
 		</div>
-		<div class="role-tab tab-pane fade in tab-pane-fix">
+		<div id="role-tab" class="tab-pane fade in tab-pane-fix">
         	<div class="input-group input-group-fix">
                 <span class="input-group-addon addon-fix">Role</span>
                 <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}">
@@ -235,7 +241,7 @@ function activateButton(btnTab){
                 </form:form>
             <div id="settings-options"></div>
         </div>
-        <div class="category-tab tab-pane fade in">
+        <div id="category-tab" class="tab-pane fade in">
              <div class="input-group input-group-fix">
                  <span class="input-group-addon addon-fix">Category</span>
                   <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}">
@@ -300,7 +306,7 @@ function activateButton(btnTab){
 </div>
 <div id="quick-button-container">
 	<c:if test="${inviteToProject}">
-		<div class="quick-button" tab=".detail-tab">
+		<div class="quick-button" tab="#detail-tab">
 	        <span class="quick-button-title">+</span>
 	        <div class="quick-button-text">
 	        <!-- form start -->
@@ -318,10 +324,10 @@ function activateButton(btnTab){
 	    </div>
 	</c:if>
     
-    <a class="quick-button" tab=".role-tab" href="./addRole.htm">
+    <a class="quick-button" tab="#role-tab" href="./addRole.htm">
         <span class="quick-button-title">R</span><span class="quick-button-text alternative">new Role</span>
     </a>
-    <a class="quick-button" tab=".category-tab" href="./addCategory.htm">
+    <a class="quick-button" tab="#category-tab" href="./addCategory.htm">
         <span class="quick-button-title">C</span><span class="quick-button-text alternative">new Category</span>
     </a>
 </div>

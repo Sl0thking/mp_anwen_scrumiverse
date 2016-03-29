@@ -220,11 +220,11 @@ public class ProjectController extends MetaController {
 			ModelMap map = this.prepareModelMap(session);
 			testRight(session, Right.Update_Project);
 			if(receivedRoleForm.getRole() == null && receivedCategoryForm.getCategory() == null) {
-				map.addAttribute("tabString", ".detail-tab");
+				map.addAttribute("tabString", "#detail-tab");
 			} else if(receivedRoleForm.getRole() != null) {
-				map.addAttribute("tabString", ".role-tab");
+				map.addAttribute("tabString", "#role-tab");
 			} else if(receivedCategoryForm.getCategory() != null) {
-				map.addAttribute("tabString", ".category-tab");
+				map.addAttribute("tabString", "#category-tab");
 			}
 			if(receivedRoleForm.getRole() == null) {
 				receivedRoleForm.setRole(requestedProject.getRoles().first());

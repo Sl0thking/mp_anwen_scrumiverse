@@ -347,7 +347,7 @@ function toggleRemovebtn(){
 	                                	${history.changeEvent }
 	                                </div>
 	                                <div class="history-date">${history.date }</div>
-	                                <div class="history-user">${history.user }</div>
+	                                <div class="history-user">${history.user.getName() }</div>
 	                            </div>
                             </c:forEach>
 		            	</div>
