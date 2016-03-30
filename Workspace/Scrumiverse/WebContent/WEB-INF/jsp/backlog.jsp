@@ -4,35 +4,37 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script>
+/* check the hash of the url */
+function checkView(){
+	if($(location).attr('hash')!="#note"){
+		return "userstory";
+	} else {
+		return $(location).attr('hash').substring(1,$(location).attr('hash').length);
+	}
+}
+
+/* set the active view and set the hast of the userstory-button-url for the backend*/
+function setView(oldView, newView){
+	$(document).find("."+oldView).each(function(){
+	        $(this).removeClass(oldView).addClass(newView);
+	});
+	$(document).find(".quick-button").attr("href","./newUserStory.htm#"+newView);
+}
+
 $(document).ready(function(){
     $(".cardview").click(function(){
-        if($(this).parent().next().attr("class")=="userstory"){
-            var backlog = $(this).parent().parent();
-            $(backlog).children().each(function(){
-                if($(this).attr("class")=="userstory"){
-                    $(this).removeClass("userstory").addClass("note");    
-                }
-            });
-        }
+        setView(checkView(),"note");
     });
     $(".listview").click(function(){
-        if($(this).parent().next().attr("class")=="note"){
-            var backlog = $(this).parent().parent();
-            $(backlog).children().each(function(){
-                if($(this).attr("class")=="note"){
-                    $(this).removeClass("note").addClass("userstory");    
-                }
-            });
-        }
+    	setView(checkView(),"userstory");
     });
-    
 });
 </script>
 
 	<div id="backlog">
 	<div class="backlog-settings">
-		<a href="#" class="listview glyphicon glyphicon-align-justify"></a>
-		<a href="#" class="cardview glyphicon glyphicon-th"></a>
+		<a href="#list" class="listview glyphicon glyphicon-align-justify"></a>
+		<a href="#note" class="cardview glyphicon glyphicon-th"></a>
 	</div>
 		<c:forEach items="${userstories}" var = "userstory">
 			<div class="userstory">

@@ -6,15 +6,17 @@
 
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
 
+/* scans the hash of the url, needed for the active tab-pane */
 if($(location).attr('hash')==""){
 	var activeTab = "#detail-tab";	
 } else {
 	var activeTab = $(location).attr('hash');
 }
+
 $(document).ready(function(){
+	activateTab();
     $(".quick-button").hide();
     activateButton(getActiveTab());
-    activateTab();
 	$("select.form-control[fid]").change(function() {
 		var fid = $(this).attr("fid");
 		$("form[fid='" + fid + "']").submit();
