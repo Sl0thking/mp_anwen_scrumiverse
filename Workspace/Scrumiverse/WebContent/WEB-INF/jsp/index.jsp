@@ -73,6 +73,13 @@
 			<div id="userbar">
 				<div class="user-notifications">
 					<img alt="user notifications" src="resources/images/index/icon_user_notifications.png">
+					<div class="extra-menu">
+						<c:forEach items="${currentUser.getNotifications()}" var="notification">
+							<a class="extra-menuitem" href="#">
+								${notification.triggerUser.name} hat etwas an ${notification.triggerDescription} geändert.
+							</a>
+						</c:forEach>
+					</div>
 					<span class="badge">?</span>
 				</div>
 				<div class="user-messages">

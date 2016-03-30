@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.binder.CategoryBinder;
 import com.scrumiverse.binder.DateBinder;
 import com.scrumiverse.binder.SprintBinder;
 import com.scrumiverse.binder.UserStoryBinder;
@@ -33,14 +34,19 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
+import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 import com.scrumiverse.model.scrumFeatures.MoscowState;
+import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
+import com.scrumiverse.persistence.DAO.CategoryDAO;
 import com.scrumiverse.persistence.DAO.HistoryDAO;
+import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
+import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
 /**
@@ -57,22 +63,20 @@ public class UserStoryController extends MetaController {
 	private UserStoryDAO userStoryDAO;
 	
 	@Autowired
-	private ProjectDAO projectDAO;
-	
-	@Autowired
-	private TaskDAO taskDAO;
-	
-	@Autowired
 	private SprintDAO sprintDAO;
 	
 	@Autowired
 	private HistoryDAO historyDAO;
+	
+	@Autowired
+	private CategoryDAO categoryDAO;
 	
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(UserStory.class, new UserStoryBinder(userStoryDAO));
 		binder.registerCustomEditor(Sprint.class, new SprintBinder(sprintDAO));
 		binder.registerCustomEditor(Date.class, new DateBinder());
+		binder.registerCustomEditor(Category.class, new CategoryBinder(categoryDAO));
 	}
 	
 	/**
@@ -92,22 +96,6 @@ public class UserStoryController extends MetaController {
 			historyDAO.saveHistoryEntry(entry);
 			userStory.addHistoryEntry(entry);
 			userStoryDAO.updateUserStory(userStory);
-			
-			//Dummy Tasks
-//			Random rand = new Random();
-//			Task t = new Task();
-//			taskDAO.saveTask(t);
-//			t.setPlannedTimeOfUser( activeUser, rand.nextInt(((100 - 0) + 1) + 0));
-//			// Worklog wird nicht in Hibernate gespeichert
-//			WorkLog wl = new WorkLog();
-//			wl.setUser( activeUser );
-//			wl.setLoggedMinutes(rand.nextInt(((100 - 0) + 1) + 0));
-//			t.logWork(wl);
-//			taskDAO.updateTask(t);
-//			userStory.addTask(t);
-//			userStoryDAO.updateUserStory(userStory);
-//			System.out.println("------------------------"+t.getWorkMin());
-			//Dummy Tasks
 			project.addUserStory(userStory);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:backlog.htm");
@@ -165,6 +153,7 @@ public class UserStoryController extends MetaController {
 			}else{
 				userStory.addHistoryEntry(ChangeEvent.USER_STORY_UPDATED, user);
 				userStoryDAO.updateUserStory(userStory);
+				generateNotification(session, ChangeEvent.USER_STORY_UPDATED, userStory);
 			}
 			return new ModelAndView("redirect:backlog.htm");
 		}catch (InvalidSessionException | NoSuchUserException e) {
@@ -172,6 +161,28 @@ public class UserStoryController extends MetaController {
 		}
 	}
 	
+	private void generateNotification(HttpSession session, ChangeEvent event, UserStory userstory) {
+		try {
+			User user = this.loadActiveUser(session);
+			Project project = this.loadCurrentProject(session);
+			for(User u: project.getAllUsers()){
+				if(!u.equals(user)){
+					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && userstory.getResponsibleUsers().contains(u))
+						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
+					){
+						Notification notify = new Notification(user, u, event, userstory);
+						messageDAO.saveNotification(notify);
+						u.addNotification(notify);
+					}
+				}
+			}
+		} catch (NoSuchUserException | NoProjectFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
 	@RequestMapping("/removeUserStory.htm")
 	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {
 		try{

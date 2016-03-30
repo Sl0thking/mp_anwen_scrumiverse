@@ -37,6 +37,7 @@
                                 <value>com.scrumiverse.model.account.Role</value>
                                 <value>com.scrumiverse.model.scrumFeatures.WorkLog</value>
                                 <value>com.scrumiverse.model.scrumFeatures.Message</value>
+                                <value>com.scrumiverse.model.scrumFeatures.Notification</value>
                         </list>
                 </property>
                 <property name="hibernateProperties">

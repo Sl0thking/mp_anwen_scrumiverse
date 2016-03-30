@@ -33,5 +33,9 @@ public enum Right{
 	Delete_Task,
 	
 	View_Review,
-	AlertAllNotifications_From_CurrentSprint,
+	
+	//Notifications
+	Notify_UserStory_Task_for_Current_Sprint,
+	Notify_Your_UserStory_Task,
+	Notify_PlannedMin_for_Current_Sprint
 }

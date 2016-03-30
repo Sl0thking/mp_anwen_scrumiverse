@@ -17,13 +17,14 @@ import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Message;
+import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
  * Controller for User-Message interactions
- * @author Toni Serfling
- * @version 17.03.2016
+ * @author Toni Serfling, Lasse Jacobs
+ * @version 29.03.2016
  */
 @Controller
 public class MessageController extends MetaController {
@@ -124,6 +125,49 @@ public class MessageController extends MetaController {
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	/**
+	 * Deletes a Notification
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/deleteNotification.htm")
+	public ModelAndView deleteNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
+		try {
+			checkInvalidSession(session);
+			Notification n = messageDAO.getNotification(id);
+			messageDAO.deleteNotification(n);
+			User u = this.loadActiveUser(session);
+			u.removeNotification(n);
+			userDAO.updateUser(u);
+			String referer = request.getHeader("Referer");
+			return new ModelAndView("redirect:" + referer +"");
+		} catch (InvalidSessionException | NoSuchUserException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	
+	/**
+	 * Marks a Notification as read
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/markNotification.htm")
+	public ModelAndView markNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
+		try {
+			checkInvalidSession(session);
+			Notification n = messageDAO.getNotification(id);
+			n.setSeen(true);
+			messageDAO.updateNotification(n);
+			String referer = request.getHeader("Referer");
+			return new ModelAndView("redirect:" + referer +"");
+		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}

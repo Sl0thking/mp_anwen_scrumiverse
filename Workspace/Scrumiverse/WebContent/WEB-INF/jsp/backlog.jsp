@@ -127,11 +127,11 @@ $(document).ready(function(){
 													</form:select>
 								                </div>
 								                <div class="input-group input-container-right">
-								                	<span class="input-group-addon input-group-addon-fix">Category NOT DONE</span>
-								                	<select class="form-control input-control">
-													    <option>Killing Things</option>
-													    <option>Trying not to be awesome</option>
-													</select>
+								                	<span class="input-group-addon input-group-addon-fix">Category</span>
+								                	<form:select fid="${userstory.id}" path="category" class="form-control input-control">
+								                		<form:option label="" value="0"/>
+														<form:options itemLabel="name" itemValue="id" items="${currentProject.getCategories()}"/>
+													</form:select>
 								                </div>
 								             </div>
 							                <div class="input-container">

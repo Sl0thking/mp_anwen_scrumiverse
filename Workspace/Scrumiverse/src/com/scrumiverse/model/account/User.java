@@ -23,6 +23,7 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumFeatures.Message;
+import com.scrumiverse.model.scrumFeatures.Notification;
 
 /**
  * Datamodell for a scrumiverse user account
@@ -53,6 +54,7 @@ public class User {
 	private String password;
 	private String profileImagePath;
 	private SortedSet<Message> messages;
+	private SortedSet<Notification> notifications;
 	
 	public User() {
 		email = "";
@@ -171,7 +173,24 @@ public class User {
 	public void removeMessage(Message message) {
 		this.messages.remove(message);
 	}
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name="UserID")
+	@Sort(type=SortType.NATURAL)
+	public SortedSet<Notification> getNotifications() {
+		return notifications;
+	}
 
+	public void setNotifications(SortedSet<Notification> notifications) {
+		this.notifications = notifications;
+	}
+	
+	public void addNotification(Notification notify) {
+		this.notifications.add(notify);
+	}
+	
+	public void removeNotification(Notification notify) {
+		this.notifications.remove(notify);
+	}
 	@Override
 	public String toString() {
 		return email;

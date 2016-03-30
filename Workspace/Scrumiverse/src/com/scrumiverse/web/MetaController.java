@@ -33,13 +33,13 @@ import com.scrumiverse.persistence.DAO.UserDAO;
 public abstract class MetaController {
 	
 	@Autowired
-	private UserDAO userDAO;
+	protected UserDAO userDAO;
 	
 	@Autowired
-	private ProjectDAO projectDAO;
+	protected ProjectDAO projectDAO;
 	
 	@Autowired
-	private MessageDAO messageDAO;
+	protected MessageDAO messageDAO;
 	
 	protected User loadActiveUser(HttpSession session) throws NoSuchUserException {
 		int userId = (int) session.getAttribute("userId");

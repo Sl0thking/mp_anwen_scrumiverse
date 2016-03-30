@@ -19,11 +19,13 @@ import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
+import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
@@ -125,10 +127,34 @@ public class TaskController extends MetaController {
 			task.setTags(oldTask.getTags());
 			task.setPlannedMinOfUsers(oldTask.getPlannedMinOfUsers());
 			task.addHistoryEntry(ChangeEvent.TASK_UPDATED, user);
+			generateNotification(session, ChangeEvent.TASK_UPDATED, task);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm");
 		} catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:showTasks.htm");
+		}
+	}
+	
+	private void generateNotification(HttpSession session, ChangeEvent event, Task task) {
+		try {
+			User user = this.loadActiveUser(session);
+			Project project = this.loadCurrentProject(session);
+			Task oldTask = taskDAO.getTask(task.getId());
+			for(User u: project.getAllUsers()){
+				if(u.equals(user)){
+					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && task.getResponsibleUsers().contains(u))
+						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
+						|| 	(project.hasUserRight(Right.Notify_PlannedMin_for_Current_Sprint, u) && task.getPlannedMin() != oldTask.getPlannedMin())
+					){
+						Notification notify = new Notification(user, u, event, task);
+						messageDAO.saveNotification(notify);
+						u.addNotification(notify);
+					}
+				}
+			}
+		} catch (NoSuchUserException | NoProjectFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

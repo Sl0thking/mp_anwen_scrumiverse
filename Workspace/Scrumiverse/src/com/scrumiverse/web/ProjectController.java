@@ -159,6 +159,7 @@ public class ProjectController extends MetaController {
 		member.addRight(Right.Create_Task);
 		member.addRight(Right.Update_Task);
 		member.addRight(Right.Delete_Task);
+		member.addRight(Right.Notify_Your_UserStory_Task);
 		
 		Role scrumMaster = new Role(StdRoleNames.ScrumMaster.name());
 		scrumMaster.setChangeable(false);
@@ -166,7 +167,8 @@ public class ProjectController extends MetaController {
 		scrumMaster.addRight(Right.Read_Task);
 		scrumMaster.addRight(Right.Read_UserStory);
 		scrumMaster.addRight(Right.View_Review);
-		scrumMaster.addRight(Right.AlertAllNotifications_From_CurrentSprint);
+		scrumMaster.addRight(Right.Notify_UserStory_Task_for_Current_Sprint);
+		scrumMaster.addRight(Right.Notify_PlannedMin_for_Current_Sprint);
 		
 		project.addRole(productOwner);
 		project.addRole(member);
