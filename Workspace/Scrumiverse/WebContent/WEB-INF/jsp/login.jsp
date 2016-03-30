@@ -1,14 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<script>
+$(document).ready(function(){
+	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
+})
+</script>
 <div class="background">
 	<div class="login">
 		<div class="error-container">
         	<c:if test="${loginError}">
-        		<div class="alert alert-danger alert-dismissible error">Login failed. Check eamil and/or password.</div>
+        		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check email and/or password.</div>
         	</c:if>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" path="email" element="div"/>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" path="name" element="div"/>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" path="password" element="div"/>
+        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="email" element="div"></form:errors>
+        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="name" element="div"></form:errors>
+        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="password" element="div"></form:errors>
         </div>
         <form:form action="loginCheck.htm" commandName="user">
             <div class="form-group">

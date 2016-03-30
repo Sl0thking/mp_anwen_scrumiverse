@@ -12,7 +12,9 @@ function checkInputs(){
 		return true;
 	}
 }
+
 $(document).ready(function(){
+	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
 	$(".form-group").keyup(function(){
 		var password = $("#password").val();
 		var check = $("#passwordcheck").val();
@@ -34,7 +36,7 @@ $(document).ready(function(){
         <form:form role="form" action="registerUser.htm" commandName="user">
             <div class="form-group">
             	E-Mail:
-                <form:input path="email" type="text" class="form-control" id="email" placeholder="example@mail.com" value=""/>
+                <form:input path="email" type="email" class="form-control" id="email" placeholder="example@mail.com" value=""/>
             </div>
             <div class="form-group">
             	Name:

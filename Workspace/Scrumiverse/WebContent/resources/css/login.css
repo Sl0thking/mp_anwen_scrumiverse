@@ -2,23 +2,3 @@
 #action_content{
 	background-color: black;
 }
-
-.error-container{
-    position: fixed;
-    top: 0px;
-    left: 20%;
-    width: 60%;
-}
-
-.error{
-    width: 100%;
-    padding: 10px 35px 5px 10px;
-    margin-bottom: 0px;
-    border-radius: 0px;
-}
-.error:first-child{
-	border-radius: 0px;
-}
-.error:last-child{
-	border-radius: 0px 0px 4px 4px;
-}
