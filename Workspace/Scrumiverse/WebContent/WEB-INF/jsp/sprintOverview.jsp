@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 $(document).ready(function(){
-    $(".barbtn").click(function(){
+    $(".backlogbar").click(function(){
         openBacklog();
     });
     
