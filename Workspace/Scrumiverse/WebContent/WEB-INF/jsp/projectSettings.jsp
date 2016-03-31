@@ -219,6 +219,12 @@ function activateButton(btnTab){
                             <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Task"/> Update</div>
                             <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Task"/> Delete</div>
                         </div>
+                        <div class="entity">
+                            Notifications<br>  
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_UserStory_Task_for_Current_Sprint"/> Changes to userstories or tasks in current sprint</div><br>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_Your_UserStory_Task"/> Changes to your userstories or tasks in current sprint </div><br>
+                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_PlannedMin_for_Current_Sprint"/> Changes to planned minutes from a task in current sprint</div>
+                        </div>
                     </div>
                     <c:choose>
                     	<c:when test="${selectedRole.isChangeable()}">

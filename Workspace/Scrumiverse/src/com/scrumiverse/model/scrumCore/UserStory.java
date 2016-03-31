@@ -44,19 +44,21 @@ public class UserStory extends PlanElement {
 	private Sprint relatedSprint;
 	private int risk;
 	
-//	public UserStory(){
-//		businessValue = 0;
-//		effortValue = 0;
-//		moscow = MoscowState.Wont;
-//		tasks = new ArrayList<Task>();
-//		//Standartwert?!
-////		category = null;
-//		dueDate = new Date();
-//		relatedSprint = null;
-//		
-//	}
-	
 	public UserStory(){
+		businessValue = 0;
+		effortValue = 0;
+		moscow = MoscowState.Wont;
+		tasks = new TreeSet<Task>();
+		dueDate = new Date();
+		category = null;
+		setDescription("");
+		setPlanState(PlanState.Planning);
+		setAcceptanceCriteria("Everyone dead");
+		setHistory(new TreeSet<HistoryEntry>());
+//		generateRandomValues();
+	}
+	
+	public void generateRandomValues(){
 		Random rand = new Random();
 		//((max - min) + 1) + min
 		businessValue = rand.nextInt((100 - 0) + 1) + 0;
@@ -77,8 +79,6 @@ public class UserStory extends PlanElement {
 			moscow = MoscowState.Wont;
 		}
 		tasks = new TreeSet<Task>();
-//		category = new Category();
-//		category.setName("Tonis Feeding Category");
 		dueDate = new Date();
 		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
 		//planelement
@@ -249,7 +249,7 @@ public class UserStory extends PlanElement {
 	 * @return
 	 */
 	@Transient
-	public String getRemainingDays(){
+	public int getRemainingDays(){
 		Date today = new Date();
 		int result = 0;
 		//Nullpinter abfangen
@@ -257,7 +257,7 @@ public class UserStory extends PlanElement {
 			result = (int) ((dueDate.getTime() - today.getTime())/(1000*60*60*24));
 		}catch (NullPointerException e){
 		}
-		return result+"";
+		return result;
 	}
 	@Transient
 	public String getFormattedDueDate(){
