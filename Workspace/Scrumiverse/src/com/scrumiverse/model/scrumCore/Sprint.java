@@ -240,39 +240,35 @@ public class Sprint extends PlanElement {
 	@Transient
 	public JSONArray getBacklogScope() {
 		JSONArray backlogScope = new JSONArray();
-		// Initializing Counter
+		// Initializing Counters
 		int userStoryCount = 0;
-		SortedSet<UserStory> us = getUserStories();
+		
+		SortedSet<HistoryEntry> he = this.getHistory();
 		// Prepare Dates as iterator variables
-		Calendar todayC = Calendar.getInstance();
-		Date today = new Date();
-		todayC.setTime(today);
-		Calendar sprintStart = Calendar.getInstance();
-		sprintStart.setTime(startDate);
+		Calendar sprintEnd = Calendar.getInstance();
+		sprintEnd.setTime(endDate);
+		Calendar currentDay = Calendar.getInstance();
+		currentDay.setTime(startDate);
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-		// For each day since Sprint start
-		for(Date date = sprintStart.getTime(); sprintStart.before(todayC); sprintStart.add(Calendar.DATE, 1), date = sprintStart.getTime()) {
-			// For each User Story in the Sprint
-			for(UserStory ust:us) {
-				// Prepare a Set of the User Stories HistoryEntries
-				SortedSet<HistoryEntry> history = ust.getHistory();
-					// For Each HistoryEntry
-					for(HistoryEntry he:history) {
-						// Check if HistoryEntry happened on the current date 
-						//and if it contains a ChangeEvent that signals that the UserStory has been added to the Sprint
-						if(sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.SPRINT_ASSIGNED) {
-							// If true, increase counter
-							userStoryCount++;
-							// Check if HistoryEntry happened on the current date 
-							//and if it contains a ChangeEvent that signals that the UserStory has been removed from the Sprint
-						} else if (sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.SPRINT_REMOVED) {
-							// If true, decrease counter
-							userStoryCount--;
-						}
-					}
+		// For each day since Sprint start, until sprint end, unless current Day is before sprint end
+		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <=  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+			int userStoriesAssigned = 0;
+			int userStoriesRemoved = 0;
+			// For Each HistoryEntry
+			for(HistoryEntry entry:he) {
+				// Check if HistoryEntry happened on the current date 
+				//and if it contains a ChangeEvent that signals that a UserStory has been added to the Sprint
+				if(sdf.format(entry.getDate()).equals(sdf.format(date)) && entry.getChangeEvent() == ChangeEvent.USER_STORY_ASSIGNED) {
+					userStoriesAssigned++;
+					// Check if HistoryEntry happened on the current date 
+					//and if it contains a ChangeEvent that signals that a UserStory has been removed from the Sprint
+				} else if (sdf.format(entry.getDate()).equals(sdf.format(date)) && entry.getChangeEvent() == ChangeEvent.USER_STORY_REMOVED) {
+					userStoriesRemoved++;
 				}
+			}
 			// Put current counter value into the Array
+			userStoryCount += userStoriesAssigned - userStoriesRemoved;
 			backlogScope.put(userStoryCount);
 		}
 		return backlogScope;
@@ -288,28 +284,28 @@ public class Sprint extends PlanElement {
 		int doneItemsCount = 0;
 		SortedSet<UserStory> userstories = this.getUserStories();
 		// Prepare dates as iterator variables
-		Date today = new Date();
-		Calendar todayC = Calendar.getInstance();
-		todayC.setTime(today);
-		Calendar sprintStart = Calendar.getInstance();
-		sprintStart.setTime(startDate);
+		Calendar sprintEnd = Calendar.getInstance();
+		sprintEnd.setTime(endDate);
+		Calendar currentDay = Calendar.getInstance();
+		currentDay.setTime(startDate);
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-		// For each day since Sprint start
-		for(Date date = sprintStart.getTime(); sprintStart.before(todayC); sprintStart.add(Calendar.DATE, 1), date = sprintStart.getTime()) {
-			// For each UserStory in the Sprint
-			for(UserStory us:userstories) {
-				// Prepare a Set of the User Stories HistoryEntries
-				SortedSet<HistoryEntry> entries = us.getHistory();
-				// For each HistoryEntry
-				for(HistoryEntry he:entries) {
-					// Check if HistoryEntry happened on the current date, if it contains a ChangeEvent that indicates an UserStory Update
-					//and whether the its UserStory has the PlanState Done
-					if(sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_UPDATED && us.getPlanState() == PlanState.Done) {
-					//If true, increase counter
-						doneItemsCount++;
-					}					
-				}
+		// For each day since Sprint start, until the end of the sprint, unless current Day is before the sprint end
+		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <=  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+				// For each UserStory in the Sprint
+				for(UserStory us:userstories) {
+					// Prepare a Set of the User Stories HistoryEntries
+					SortedSet<HistoryEntry> entries = us.getHistory();
+					// For each HistoryEntry
+					for(HistoryEntry he:entries) {
+						// Check if HistoryEntry happened on the current date, if it contains a ChangeEvent that indicates an UserStory Update
+						//and whether the its UserStory has the PlanState Done
+						if(sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_UPDATED && us.getPlanState() == PlanState.Done) {
+						//If true, increase counter
+							doneItemsCount++;
+						}					
+					}
+				
 			}
 			// Put current counter value into the array
 			doneItems.put(doneItemsCount);
@@ -325,36 +321,42 @@ public class Sprint extends PlanElement {
 		JSONArray remainingItems = new JSONArray();
 		// Initializing counter
 		int remainingItemsCount = 0;
+		
+		SortedSet<HistoryEntry> sprintEntries = this.getHistory();
 		SortedSet<UserStory> userstories = this.getUserStories();
 		// Prepare dates as iterator variables
-		Date today = new Date();
-		Calendar todayC = Calendar.getInstance();
-		todayC.setTime(today);
-		Calendar sprintStart = Calendar.getInstance();
-		sprintStart.setTime(startDate);
+		Calendar sprintEnd = Calendar.getInstance();
+		sprintEnd.setTime(endDate);
+		Calendar currentDay = Calendar.getInstance();
+		currentDay.setTime(startDate);
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-		// For each day since Sprint start
-		for(Date date = sprintStart.getTime(); sprintStart.before(todayC); sprintStart.add(Calendar.DATE, 1), date = sprintStart.getTime()) {
+		// For each day since Sprint start, until the end of the sprint, unless the current Day is before the end of the sprint
+		for (Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <= (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+			// Internal counters
+			int itemsAssigned = 0, itemsRemoved = 0, itemsDone = 0;
+			// For each HistoryEntry
+			for (HistoryEntry he:sprintEntries) {
+				//Check if HistoryEntry happened on the current date, it contains a ChangeEvent that indicates a UserStory has been removed
+				//or added to the Sprint
+				if(sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_REMOVED)
+					itemsRemoved++;
+				else if (sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_ASSIGNED)
+					itemsAssigned++;
+			}
 			// For each UserStory in the Sprint
-			for(UserStory us:userstories) {
+			for (UserStory us:userstories) {
 				// Prepare a Set of the User Stories HistoryEntries
-				SortedSet<HistoryEntry> entries = us.getHistory();
-				// For each HistoryEntry
-				for(HistoryEntry he:entries){
-					// Check if HistoryEntry happened on the current date, it contains a ChangeEvent that indicates an UserStory Update
-					//and whether the its UserStory has the PlanState Done
-					if(sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_UPDATED && us.getPlanState() == PlanState.Done) {					
-						// If true, decrease counter
-						remainingItemsCount--;
-					} else if (sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.SPRINT_ASSIGNED) {
-						remainingItemsCount++;
-					}
+				SortedSet<HistoryEntry> usEntries = us.getHistory();
+				for (HistoryEntry he:usEntries) {
+					//If a UserStory has an update and is Done, increase the counter
+					if (sdf.format(he.getDate()).equals(sdf.format(date)) && he.getChangeEvent() == ChangeEvent.USER_STORY_UPDATED && us.getPlanState() == PlanState.Done)
+						itemsDone++;
 				}
-				
-			}	
+			}
 			// Put current counter value into the array
-			remainingItems.put(remainingItemsCount);			
+			remainingItemsCount += itemsAssigned - itemsDone - itemsRemoved;
+			remainingItems.put(remainingItemsCount);
 		}
 		return remainingItems;
 	}
