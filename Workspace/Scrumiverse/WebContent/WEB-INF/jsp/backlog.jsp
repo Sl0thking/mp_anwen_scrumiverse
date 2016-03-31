@@ -4,12 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script>
-/* check the hash of the url */
-function checkView(){
-	if($(location).attr('hash')!="#note"){
+
+function getView(){
+	console.log(document.cookie)
+	if(document.cookie==""){
+		document.cookie="usview=userstory"
 		return "userstory";
 	} else {
-		return $(location).attr('hash').substring(1,$(location).attr('hash').length);
+		return document.cookie.split("=")[1];
 	}
 }
 
@@ -18,24 +20,23 @@ function setView(oldView, newView){
 	$(document).find("."+oldView).each(function(){
 	        $(this).removeClass(oldView).addClass(newView);
 	});
-	$(document).find(".quick-button").attr("href","./newUserStory.htm#"+newView);
-	$(document).find("form").attr("action","./changeUserStory.htm#"+newView)
+	document.cookie="usview="+newView;
 }
 
 $(document).ready(function(){
-	setView("userstory",checkView());
+	setView("userstory",getView("usview"));
     $(".cardview").click(function(){
-        setView(checkView(),"note");
+        setView(getView(),"note");
     });
     $(".listview").click(function(){
-    	setView(checkView(),"userstory");
+    	setView(getView(),"userstory");
     });
 });
 </script>
 
 	<div id="backlog">
 	<div class="backlog-settings">
-		<a href="#list" class="listview glyphicon glyphicon-align-justify"></a>
+		<a href="#us" class="listview glyphicon glyphicon-align-justify"></a>
 		<a href="#note" class="cardview glyphicon glyphicon-th"></a>
 	</div>
 		<c:forEach items="${userstories}" var = "userstory">
