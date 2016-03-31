@@ -22,6 +22,7 @@ import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
@@ -141,7 +142,7 @@ public class TaskController extends MetaController {
 			Project project = this.loadCurrentProject(session);
 			Task oldTask = taskDAO.getTask(task.getId());
 			for(User u: project.getAllUsers()){
-				if(u.equals(user)){
+				if(!u.equals(user) && isTaskInSprint(task, project.getCurrentSprint())){
 					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && task.getResponsibleUsers().contains(u))
 						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
 						|| 	(project.hasUserRight(Right.Notify_PlannedMin_for_Current_Sprint, u) && task.getPlannedMin() != oldTask.getPlannedMin())
@@ -156,5 +157,17 @@ public class TaskController extends MetaController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isTaskInSprint(Task task, Sprint sprint){
+		boolean result = false;
+		for(UserStory forUserstory: sprint.getUserStories()){
+			for(Task forTask: forUserstory.getTasks()){
+				if(forTask.equals(task)){
+					result = true;
+				}
+			}
+		}
+		return result;
 	}
 }

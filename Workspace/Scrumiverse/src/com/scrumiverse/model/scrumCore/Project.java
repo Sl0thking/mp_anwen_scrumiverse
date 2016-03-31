@@ -444,4 +444,13 @@ public class Project {
 		}
 		this.categories.remove(category);
 	}
+	@Transient
+	public Sprint getCurrentSprint(){
+		for(Sprint sprint: sprints){
+			if(sprint.getPlanState().equals(PlanState.InProgress)){
+				return sprint;
+			}
+		}
+		return null;
+	}
 }

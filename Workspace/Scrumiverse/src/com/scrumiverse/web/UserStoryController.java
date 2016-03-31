@@ -166,7 +166,7 @@ public class UserStoryController extends MetaController {
 			User user = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
 			for(User u: project.getAllUsers()){
-				if(!u.equals(user)){
+				if(!u.equals(user) && project.getCurrentSprint().equals(userstory.getRelatedSprint())){
 					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && userstory.getResponsibleUsers().contains(u))
 						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
 					){
