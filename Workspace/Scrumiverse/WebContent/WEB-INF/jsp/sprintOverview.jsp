@@ -254,7 +254,7 @@ function toggleRemovebtn(){
 					    <span class="glyphicon glyphicon-cog"></span>
 					    SPRINT SETTINGS
 	                    </span>
-	                    <a href="./removeSprint.htm?sprintid=" data-toggle="tooltip" title="Delete Sprint">
+	                    <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 						<ul class="nav nav-tabs">
@@ -276,7 +276,7 @@ function toggleRemovebtn(){
 						<div class="modal-body detail-tab tab-pane fade in active">
 						<!--  Fix for commandName bug --> 
 						<c:set var="selectedSprint" value="${sprint}" scope="request"/> 
-							<form:form commandName="selectedSprint" action="">
+							<form:form action="updateSprint.htm" commandName="selectedSprint">
 								<form:hidden path="id"/>
 				                <div class="input-group">
 				                    <span class="input-group-addon input-group-addon-fix">Description</span>
@@ -296,7 +296,7 @@ function toggleRemovebtn(){
 				                        <form:input type="date" class="form-control input-control" path="endDate" value="${selectedSprint.endDate.toString().substring(0,10) }"/>
 				                    </div>
 				                </div>
-				                <button type="button" class="btn btn-default" type="submit">
+				                <button class="btn btn-default" type="submit">
 			                        <span class="glyphicon glyphicon-save"></span>
 			                        Save
 			                    </button>

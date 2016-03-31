@@ -1,21 +1,28 @@
 package com.scrumiverse.web;
 
+import java.util.Date;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.binder.DateBinder;
+import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
@@ -29,7 +36,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 /**
  * Controller for Sprint interactions
  * @author Toni Serfling, Kevin Jolitz
- * @version 04.03.2016
+ * @version 31.03.2016
  */
 
 @Controller
@@ -43,12 +50,17 @@ public class SprintController extends MetaController {
 	
 	@Autowired
 	private UserStoryDAO userDAO;
+	
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new DateBinder());
+	}
+	
 	/**
 	 * Adds a new Sprint 
 	 * @return
 	 * @throws NoProjectFoundException 
 	 */
-	
 	@RequestMapping("/addSprint.htm") 
 	public ModelAndView addSprint(HttpSession session) throws NoProjectFoundException {
 		try {
@@ -66,6 +78,38 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
+	@RequestMapping("/updateSprint.htm")
+	public ModelAndView updateSprint(HttpSession session, Sprint sprint) {
+		try {
+			checkInvalidSession(session);
+			testRight(session, Right.Update_Sprint);
+			sprintDAO.updateSprint(sprint);
+			return new ModelAndView("redirect:sprintOverview.htm");
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (NoSuchUserException | NoProjectFoundException | InsufficientRightsException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:sprintOverview.htm");
+		}
+	}
+	
+	@RequestMapping("deleteSprint.htm")
+	public ModelAndView deleteSprint(HttpSession session, @RequestParam int id) {
+		try {
+			checkInvalidSession(session);
+			testRight(session, Right.Delete_Sprint);
+			Sprint sprint = sprintDAO.getSprint(id);
+			sprintDAO.deleteSprint(sprint);
+			return new ModelAndView("redirect:sprintOverview.htm");
+		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (NoSprintFoundException | NoProjectFoundException |
+				 NoSuchUserException | InsufficientRightsException e) {
+			return new ModelAndView("redirect:sprintOverview.htm");
+		}
+	}
+
 	/**
 	 * Shows all sprints
 	 * @param session
@@ -93,7 +137,6 @@ public class SprintController extends MetaController {
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
-			Project activeProject = this.loadCurrentProject(session);
 			Sprint choosenSprint = sprintDAO.getSprint(sprintid);
 			String[] addUserStoryIds = addedStories.split(",");
 			String[] removeUserStoryIds = removedStories.split(",");
@@ -113,19 +156,23 @@ public class SprintController extends MetaController {
 			if(!removedStories.equals("")) {
 				for(String id : removeUserStoryIds) {
 					int usid = Integer.parseInt(id);
-					UserStory userStory = userDAO.getUserStory(usid);
-					choosenSprint.removeUserStory(userStory);
-					choosenSprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_REMOVED));
-					userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_REMOVED));
-					userDAO.updateUserStory(userStory);
-					sprintDAO.updateSprint(choosenSprint);
+					UserStory uStory = userDAO.getUserStory(usid);
+					removeUserStoryFromSprint(uStory, choosenSprint, user);
 				}
 			}
 			return new ModelAndView("redirect:sprintOverview.htm");		
-		} catch (NoProjectFoundException | NoUserStoryFoundException | NoSprintFoundException e) {
+		} catch (NoUserStoryFoundException | NoSprintFoundException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (NoSuchUserException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		} 
+	}
+	
+	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws NoUserStoryFoundException {
+		sprint.removeUserStory(userStory);
+		sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_REMOVED));
+		userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_REMOVED));
+		userDAO.updateUserStory(userStory);
+		sprintDAO.updateSprint(sprint);
 	}
 }
