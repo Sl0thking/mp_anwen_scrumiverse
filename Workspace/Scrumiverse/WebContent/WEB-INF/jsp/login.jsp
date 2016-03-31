@@ -9,7 +9,7 @@ $(document).ready(function(){
 	<div class="login">
 		<div class="error-container">
         	<c:if test="${loginError}">
-        		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check email and/or password.</div>
+        		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check e-mail and/or password.</div>
         	</c:if>
         	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="email" element="div"></form:errors>
         	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="name" element="div"></form:errors>

@@ -71,5 +71,5 @@ $(document).ready(function(){
 	Lorem ipsum dolor sit amet,
 </div>
 <div class="navbar-inverse navbar-fixed-bottom">
-    <p class="center">2016 - Scrumiverse - Team Atlas</p>
+    <p class="center">2016 - Scrumiverse - Team Scrum Mid</p>
 </div>
