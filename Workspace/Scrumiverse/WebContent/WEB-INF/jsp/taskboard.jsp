@@ -75,7 +75,7 @@ function deselectAll(){
                         </div>
                     </div>
                 </div>
-                <a id="${userStory.planState.toString() }" class="glyphicon glyphicon-triangle-right userstory-link" href="#"></a>
+                <span id="${userStory.planState.toString() }" class="userstory-link" href="#"></span>
             </div>
         </td>
         <td class="task-section item-section">

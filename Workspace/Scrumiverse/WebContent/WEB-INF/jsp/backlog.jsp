@@ -19,9 +19,11 @@ function setView(oldView, newView){
 	        $(this).removeClass(oldView).addClass(newView);
 	});
 	$(document).find(".quick-button").attr("href","./newUserStory.htm#"+newView);
+	$(document).find("form").attr("action","./changeUserStory.htm#"+newView)
 }
 
 $(document).ready(function(){
+	setView("userstory",checkView());
     $(".cardview").click(function(){
         setView(checkView(),"note");
     });
