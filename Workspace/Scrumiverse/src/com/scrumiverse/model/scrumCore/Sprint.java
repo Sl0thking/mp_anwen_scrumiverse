@@ -153,6 +153,19 @@ public class Sprint extends PlanElement {
 	}
 	
 	/**
+	 * Returns the number of remaining days 
+	 * @return int remainingDays
+	 */
+	@Transient
+	public int getRemainingDays(){
+		int remainingDays = (int) ((endDate.getTime() - new Date().getTime())/1000/60/60/24+2);
+		if(remainingDays<0){
+			remainingDays = 0;
+		}
+		return remainingDays;
+	}
+	
+	/**
 	 * Returns all User Stories of the given PlanState
 	 * @param plan
 	 * @return List<UserStory> userStoriesByState;

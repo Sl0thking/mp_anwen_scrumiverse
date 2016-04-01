@@ -191,7 +191,7 @@ function toggleRemovebtn(){
 	                <div class="sprint-time-overview">
 	                    <div class="sprint-sandclock"></div>
 	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
-	                    <div class="sprint-time"><fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 / 24 }" maxFractionDigits="1" /> d</div>
+	                    <div class="sprint-time"><fmt:formatNumber value="${sprint.getRemainingDays() }" maxFractionDigits="0" /> d</div>
 	                </div>
 	                <div class="sprint-data">
 	                    <div class="data-container">
