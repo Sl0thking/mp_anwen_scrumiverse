@@ -66,8 +66,8 @@ function deselectAll(){
 									</c:forEach>
 			                   	</c:when>
 			                   	<c:otherwise>
-			                   		<c:forEach begin="0" end="5">
-			                   			<div class="userstory-member"><img src="${user.profileImagePath}"/></div>
+			                   		<c:forEach begin="0" end="5" var="user">
+			                   			<div class="userstory-member"><img src="${userStory.getResponsibleUsers()[user].profileImagePath}"/></div>
 			                   		</c:forEach>
 			                   		<div class="userstory-member">...</div>
 			                   	</c:otherwise>

@@ -228,7 +228,7 @@ function toggleRemovebtn(){
 	            </div>
 	        </div>
 	        <div id="${sprint.planState.toString() }" class="sprint-control">
-	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#" data-toggle="modal" data-target="#sprintmodal"></a>
+	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#" data-toggle="modal" data-target="#sprintmodal_${sprint.id }"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
 	        <div class="sprintlog">
@@ -246,7 +246,7 @@ function toggleRemovebtn(){
 		        </c:forEach>
 		    </div>
 		</div>
-	    <div id="sprintmodal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	    <div id="sprintmodal_${sprint.id }" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		    <div class="modal-dialog">
 		        <div class="modal-content sprint-settings">
 	                <div class="modal-header">
