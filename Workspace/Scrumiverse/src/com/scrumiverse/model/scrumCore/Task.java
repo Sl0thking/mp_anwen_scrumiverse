@@ -56,7 +56,7 @@ public class Task extends PlanElement {
 		}
 		return planTime;
 	}
-	
+		
 	@OneToMany(fetch=FetchType.EAGER)
 	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "TaskID")
@@ -183,22 +183,46 @@ public class Task extends PlanElement {
 		}
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
-
-//	@Override
-//	public int compareTo(PlanElement o) {
-//		return new Integer(getId()).compareTo(new Integer(o.getId()));
-//	}
 	
-	@Override
-	public String toString() {
-		return "Task [tags=" + tags + ", getId()=" + getId() + "]";
+	/**
+	 * Add a user to this task
+	 * @param user user that shall be added
+	 */
+	public void addUser(User user) {
+		this.setPlannedTimeOfUser(user, 0);
+	}
+	
+	/**
+	 * Removes a user from this task
+	 * @param user user that shall be removed
+	 */
+	public void removeUser(User user) {
+		this.plannedMinOfUsers.remove(user);
+		// remove all worklogs from this user
+		for (WorkLog workLog : this.getWorkLogsOfUser(user)) {
+			workLogs.remove(workLog);
+		}
 	}
 
 	/**
 	 * Add a new search tag to this task
-	 * @param tag new tag
+	 * @param tag tag that shall be added
 	 */
 	public void addTag(String tag) {
 		this.tags.add(tag);
+		System.out.println();
+	}
+
+	/**
+	 * Removes a search tag from this task
+	 * @param tag tag to be removed
+	 */
+	public void removeTag(String tag) {
+		this.tags.remove(tag);
+	}
+	
+	@Override
+	public String toString() {
+		return "Task [tags=" + tags + ", getId()=" + getId() + "]";
 	}
 }

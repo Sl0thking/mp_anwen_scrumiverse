@@ -54,7 +54,7 @@ $(document).ready(function(){
 				        <div class="userstory-time">${userstory.getRemainingDays()} d</div>
 			        </div>
 			        <div class="info-container">
-				        <div class="userstory-category">Category</div>
+				        <div class="userstory-category">${userstory.category.name}</div>
 				        <div class="userstory-sprint">
 							<c:choose>
 								<c:when test="${userstory.relatedSprint == null}">Backlog</c:when>
@@ -221,11 +221,10 @@ $(document).ready(function(){
 			</form:form>
 		</c:forEach>
 	</div>  
-	<c:if test="${createUserStory}">
-		<div id="quick-button-container">
-    	<a class="quick-button" href="./newUserStory.htm">
-        <span class="quick-button-title">U</span><span class="quick-button-text">new UserStory</span>
-    	</a> 
-	</div>
-	
-	</c:if>
+	<div id="quick-button-container">
+		<c:if test="${createUserStory}">
+	    	<a class="quick-button" href="./newUserStory.htm">
+	        	<span class="quick-button-title">U</span><span class="quick-button-text">new UserStory</span>
+	    	</a>
+		</c:if>
+	</div>	
