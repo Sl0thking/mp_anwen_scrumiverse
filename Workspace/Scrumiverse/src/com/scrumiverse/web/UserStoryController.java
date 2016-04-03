@@ -141,20 +141,18 @@ public class UserStoryController extends MetaController {
 	 * Updates a UserStory in database
 	 * @param userStory
 	 * @return ModelAndView
+	 * @throws NoUserStoryFoundException 
 	 */
 	@RequestMapping("changeUserStory.htm")
-	public ModelAndView updateUserStory(HttpSession session, UserStory userStory, BindingResult result){
+	public ModelAndView updateUserStory(HttpSession session, UserStory userStory, BindingResult result) throws NoUserStoryFoundException{
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
-			
-			if(userStory.getId() == 0){
-				System.out.println("Userstory not found");
-			}else{
-				userStory.addHistoryEntry(ChangeEvent.USER_STORY_UPDATED, user);
-				userStoryDAO.updateUserStory(userStory);
-				generateNotification(session, ChangeEvent.USER_STORY_UPDATED, userStory);
-			}
+			UserStory oldUStory = userStoryDAO.getUserStory(userStory.getId());
+			userStory.setTasks(oldUStory.getTasks());
+			userStory.addHistoryEntry(ChangeEvent.USER_STORY_UPDATED, user);
+			userStoryDAO.updateUserStory(userStory);
+			generateNotification(session, ChangeEvent.USER_STORY_UPDATED, userStory);
 			return new ModelAndView("redirect:backlog.htm");
 		}catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
