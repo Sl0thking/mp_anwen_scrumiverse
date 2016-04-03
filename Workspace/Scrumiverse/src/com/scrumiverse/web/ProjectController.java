@@ -95,6 +95,8 @@ public class ProjectController extends MetaController {
 			User user = loadActiveUser(session);
 			Set<Project> projectList = user.getProjects();
 			Map<Project, Boolean> manageRights = new HashMap<Project, Boolean>();
+			//create a map, to associate every project of user with the right to manage
+			//view can check this map to decide, if link to projectSettings is shown
 			for(Project p : projectList) {
 				manageRights.put(p, p.hasUserRight(Right.Update_Project, user));
 			}

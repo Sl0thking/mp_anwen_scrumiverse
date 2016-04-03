@@ -192,7 +192,6 @@ public class Project {
 	public ProjectUser getProjectUserFromUser(User u) throws NoSuchUserException {
 		ProjectUser requestedProjectUser = null;
 		for(ProjectUser pu : this.projectUsers) {
-			System.out.println(pu.getUser().getName());
 			if(pu.getUser().equals(u)) {
 				requestedProjectUser = pu;
 			}

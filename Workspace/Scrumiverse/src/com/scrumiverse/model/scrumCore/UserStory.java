@@ -51,9 +51,9 @@ public class UserStory extends PlanElement {
 		tasks = new TreeSet<Task>();
 		dueDate = new Date();
 		category = null;
-		setDescription("");
+		setDescription("New UserStory");
 		setPlanState(PlanState.Planning);
-		setAcceptanceCriteria("Everyone dead");
+		setAcceptanceCriteria("");
 		setHistory(new TreeSet<HistoryEntry>());
 //		generateRandomValues();
 	}

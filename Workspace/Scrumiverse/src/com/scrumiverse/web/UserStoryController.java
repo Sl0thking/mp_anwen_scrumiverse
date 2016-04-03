@@ -150,12 +150,47 @@ public class UserStoryController extends MetaController {
 			User user = this.loadActiveUser(session);
 			UserStory oldUStory = userStoryDAO.getUserStory(userStory.getId());
 			userStory.setTasks(oldUStory.getTasks());
+			userStory.setHistory(oldUStory.getHistory());
+			checkSprintChangeEvents(oldUStory, userStory, user);
 			userStory.addHistoryEntry(ChangeEvent.USER_STORY_UPDATED, user);
 			userStoryDAO.updateUserStory(userStory);
 			generateNotification(session, ChangeEvent.USER_STORY_UPDATED, userStory);
 			return new ModelAndView("redirect:backlog.htm");
 		}catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	
+	private void checkSprintChangeEvents(UserStory oldUStory, UserStory userStory, User user) {
+		//Change from Backlog to Sprint (adding or removing)
+		if((oldUStory.getRelatedSprint() == null && userStory.getRelatedSprint() != null) ||
+		   (oldUStory.getRelatedSprint() != null && userStory.getRelatedSprint() == null)) {
+			//Expect adding a userStory to sprint
+			ChangeEvent userStoryEvent;
+			//But when sprint is removed, change events
+			if(userStory.getRelatedSprint() == null) {
+				userStoryEvent = ChangeEvent.SPRINT_REMOVED;
+				oldUStory.getRelatedSprint().addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
+				sprintDAO.updateSprint(oldUStory.getRelatedSprint());
+			} else {
+				userStoryEvent = ChangeEvent.SPRINT_ASSIGNED;
+				userStory.getRelatedSprint().addHistoryEntry(ChangeEvent.USER_STORY_ASSIGNED, user);
+				sprintDAO.updateSprint(userStory.getRelatedSprint());
+			}
+			userStory.addHistoryEntry(userStoryEvent, user);
+			userStoryDAO.updateUserStory(userStory);
+		//Change betweens Sprints
+		} else if(!oldUStory.getRelatedSprint().equals(userStory.getRelatedSprint())) {
+			//save in old sprint event
+			oldUStory.getRelatedSprint().addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
+			sprintDAO.updateSprint(oldUStory.getRelatedSprint());
+			//save in new sprint assignment
+			userStory.getRelatedSprint().addHistoryEntry(ChangeEvent.USER_STORY_ASSIGNED, user);
+			sprintDAO.updateSprint(userStory.getRelatedSprint());
+			//add Sprint Events to User Story
+			userStory.addHistoryEntry(ChangeEvent.SPRINT_REMOVED, user);
+			userStory.addHistoryEntry(ChangeEvent.SPRINT_ASSIGNED, user);
+			userStoryDAO.updateUserStory(userStory);
 		}
 	}
 	

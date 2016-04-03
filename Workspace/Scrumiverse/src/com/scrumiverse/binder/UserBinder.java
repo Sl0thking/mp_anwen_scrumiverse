@@ -28,7 +28,6 @@ public class UserBinder extends PropertyEditorSupport {
 	public void setAsText(String arg0) throws IllegalArgumentException {
 		try {
 			User user = userDAO.getUserByEmail(arg0);
-			System.out.println(user.getEmail());
 			setValue(user);
 		} catch (NoSuchUserException e) {
 			// TODO Auto-generated catch block

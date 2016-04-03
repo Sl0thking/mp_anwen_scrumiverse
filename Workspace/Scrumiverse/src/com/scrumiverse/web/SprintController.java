@@ -84,14 +84,19 @@ public class SprintController extends MetaController {
 		try {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Sprint);
+			User user = this.loadActiveUser(session);
+			Sprint oldSprint = sprintDAO.getSprint(sprint.getId());
+			sprint.setHistory(oldSprint.getHistory());
+			sprint.setUserStories(oldSprint.getUserStories());
+			sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_UPDATED));
 			sprintDAO.updateSprint(sprint);
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoSuchUserException | NoProjectFoundException | InsufficientRightsException e) {
+		} catch (NoSprintFoundException | NoSuchUserException | NoProjectFoundException | InsufficientRightsException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:sprintOverview.htm");
-		}
+		} 
 	}
 	
 	@RequestMapping("deleteSprint.htm")
