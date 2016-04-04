@@ -93,13 +93,13 @@ $(document).ready(function(){
 									</div>
 									<ul class="nav nav-tabs">
 										<li class="active">
-											<a data-toggle="tab" href="#section-detail">
+											<a data-toggle="tab" href="#section-detail-${userstory.id}">
 												<span class="glyphicon glyphicon-info-sign"></span>
 												Detail
 											</a>
 										</li>
 										<li>
-											<a data-toggle="tab" href="#section-history">
+											<a data-toggle="tab" href="#section-history-${userstory.id}">
 												<span class="glyphicon glyphicon-list-alt"></span>
 												History
 											</a>
@@ -108,7 +108,7 @@ $(document).ready(function(){
 								</div>
 								<div class="modal-body">
 									<div class="tab-content">
-										<div id="section-detail" class="tab-pane fade in active">
+										<div id="section-detail-${userstory.id}" class="tab-pane fade in active">
 											<div class="input-group">
 							                    <span class="input-group-addon input-group-addon-fix">Description</span>
 							                    <form:input path="description" class="form-control input-control" />
@@ -204,7 +204,7 @@ $(document).ready(function(){
 							                </div>
 
 					                	</div>
-					                	<div id="section-history" class="modal-body history-tab tab-pane fade in">
+					                	<div id="section-history-${userstory.id }" class="modal-body history-tab tab-pane fade in">
 					                		<c:forEach items="${userstory.getHistory()}" var="history">
 							            		<div class="history-item">
 					                                <div class="history-changeevent">
