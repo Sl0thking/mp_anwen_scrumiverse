@@ -272,7 +272,7 @@ public class ProjectController extends MetaController {
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (NoSuchUserException e) {
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=1");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=4");
 		} catch (NoProjectFoundException | InsufficientRightsException e) {
 			if(hasUpdateRight) {
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
@@ -293,21 +293,20 @@ public class ProjectController extends MetaController {
 	@RequestMapping("/removeProjectUser.htm")
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		int projectId = 0;
-		boolean hasUpdateRight = false;
 		try {
 			checkInvalidSession(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
-			hasUpdateRight = this.testRight(session, Right.Update_Project);
-			this.testRight(session, Right.Remove_From_Project);
+			testRight(session, Right.Remove_From_Project);
 			User user = userDAO.getUser(id);
 			removeUserFromProject(user, project, false);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch(NoSuchUserException | TriedToRemoveAdminException | InsufficientRightsException | NoProjectFoundException e) {
-			if(hasUpdateRight) {
-				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-			}
+		} catch(TriedToRemoveAdminException e) {
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
+		} catch(NoSuchUserException | NoProjectFoundException e) {
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+		} catch(InsufficientRightsException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -491,7 +490,7 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (NoProjectFoundException | RoleNotInProjectException | TriedToRemoveAdminException | NoSuchUserException e) {
 			e.printStackTrace();
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}

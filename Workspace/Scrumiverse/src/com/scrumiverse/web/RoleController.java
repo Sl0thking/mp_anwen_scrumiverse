@@ -14,8 +14,10 @@ import com.scrumiverse.exception.NoProjectFoundException;
 import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.ShutOutException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
+import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.RoleDAO;
@@ -24,7 +26,7 @@ import com.scrumiverse.persistence.DAO.RoleDAO;
  * Controller for role manipulation
  * 
  * @author Kevin Jolitz
- * @version 29.03.2016
+ * @version 04.04.2016
  */
 @Controller
 public class RoleController extends MetaController {
@@ -54,13 +56,21 @@ public class RoleController extends MetaController {
 	
 	@RequestMapping("/updateRole.htm")
 	public ModelAndView updateRole(HttpSession session, Role role) {
+		int projectId = 0;
 		try {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Project);
+			User user = this.loadActiveUser(session);
 			Project activeProject = this.loadCurrentProject(session);
-			int projectId = activeProject.getProjectID();
+			projectId = activeProject.getProjectID();
+			Role oldRole = activeProject.getProjectUserFromUser(user).getRole();
+			if(oldRole.equals(role) && !role.hasRight(Right.Update_Project)) {
+				throw new ShutOutException();
+			}
 			roleDAO.updateRole(role);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
+		} catch (ShutOutException e) {
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=3" + "#role-tab");
 		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
