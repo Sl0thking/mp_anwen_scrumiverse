@@ -165,7 +165,7 @@ fieldset > .roleSettings > .entity > div{
     display: inline-block;
 }
 
-#settings button:hover, #quick-button-container button:hover {
+#settings button[type="submit"]:hover, #quick-button-container button:hover {
 	background-color: green;
 	color: white;
 	border: 1px solid white;
@@ -299,6 +299,10 @@ fieldset > .roleSettings > .entity > div{
     position: relative;
     left: 5px;
     z-index: 5;
+}
+
+.error-container{
+	top: 50px;
 }
 
 /* Rework for invite-button */

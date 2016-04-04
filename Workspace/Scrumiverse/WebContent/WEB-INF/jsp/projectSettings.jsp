@@ -14,7 +14,10 @@ if($(location).attr('hash')==""){
 }
 
 $(document).ready(function(){
+	/* Append the dismis-button for the error-container */
+	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
 	activateTab();
+	/* Hides the buttons in the button-container. Activate the buttons, which are relative for the page/tab */
     $(".quick-button").hide();
     activateButton(getActiveTab());
 	$("select.form-control[fid]").change(function() {
@@ -62,6 +65,7 @@ function activateTab(){
 	}
 }
 
+/* Activate the buttons, which are relative for the page/tab */
 function activateButton(btnTab){
     $(".quick-button").hide();
     $(".quick-button").each(function(){
@@ -70,9 +74,13 @@ function activateButton(btnTab){
         }
     });
 }
-    
 </script>
 <div id="settings">
+	<div class="error-container">
+		<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
+	    <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
+	    <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
+	</div>
 	<div id="settings-header">
 		<div class="site-title">
 			<span>
@@ -167,11 +175,7 @@ function activateButton(btnTab){
 					</form:form>
 				</c:forEach>
 			</div>
-			<div id="settings-options">
-				<c:if test="${param.error eq 1}">
-					<c:out value="An error occured" />
-				</c:if>
-			</div>
+			<div id="settings-options"></div>
 		</div>
 		<div id="role-tab" class="tab-pane fade in tab-pane-fix">
         	<div class="input-group input-group-fix">
