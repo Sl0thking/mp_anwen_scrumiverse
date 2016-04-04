@@ -614,6 +614,8 @@ textarea {
     float: left;
     padding: 2px 10px;
     line-height: 16px;
+    background-color: #999999;
+    border-radius: 4px;
     overflow-x: hidden;
     overflow-y: scroll;
 }

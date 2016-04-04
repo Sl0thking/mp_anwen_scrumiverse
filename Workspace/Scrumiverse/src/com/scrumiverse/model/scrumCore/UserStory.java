@@ -47,7 +47,7 @@ public class UserStory extends PlanElement {
 	public UserStory(){
 		businessValue = 0;
 		effortValue = 0;
-		moscow = MoscowState.Wont;
+		moscow = MoscowState.Could;
 		tasks = new TreeSet<Task>();
 		dueDate = new Date();
 		category = null;
