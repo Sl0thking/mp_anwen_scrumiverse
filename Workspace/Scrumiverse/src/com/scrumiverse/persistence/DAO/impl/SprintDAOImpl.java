@@ -1,6 +1,5 @@
 package com.scrumiverse.persistence.DAO.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +15,8 @@ import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * DAO Implementation of Sprints
- * @author DoctorWhose, Lasse Jacobs, Kevin Jolitz
- * @version 04.03.2016
+ * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
+ * @version 04.04.2016
  */
 
 public class SprintDAOImpl implements SprintDAO {
@@ -43,7 +42,11 @@ public class SprintDAOImpl implements SprintDAO {
 	public void deleteSprint(Sprint sprint){
 		hibernateTemplate.delete(sprint);
 	}
-	
+	/**
+	 * Returns a single sprint by id
+	 * @param int
+	 * @return Sprint
+	 */
 	@Override
 	public Sprint getSprint(int sprintID) throws NoSprintFoundException {
 		List<Sprint> sprints = hibernateTemplate.find("from Sprint where id='" + sprintID + "'");	
@@ -52,7 +55,11 @@ public class SprintDAOImpl implements SprintDAO {
 		}
 		throw new NoSprintFoundException();
 	}
-
+	/**
+	 * returns a set of sprints from specific project
+	 * @param int
+	 * @return Set<Sprint>
+	 */
 	@Override
 	public Set<Sprint> getSprintsFromProject(int projectID) {
 		Project p = new Project();

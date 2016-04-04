@@ -29,7 +29,7 @@ public class MessageDAOImpl implements MessageDAO {
 		hibernateTemplate.save(m);		
 	}
 	/**
-	 * Returns a specific message
+	 * Returns a specific message by messageID
 	 * @param id
 	 * @return Message
 	 */
@@ -39,7 +39,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return message;
 	}
 	/**
-	 * Returns all messages from a specific user
+	 * Returns all messages from a specific user by userID
 	 * @param id
 	 * @return Set<Message>
 	 */

@@ -7,13 +7,16 @@
 
 <script>
 $(document).ready(function() {
+	//get the JSONObject of the selected sprint and draw the chart on page load
 	var sprintJSON = JSON.parse($(".form-control").val());	
 	drawChart(sprintJSON);
+	//get the JSONObject of the selected sprint and draw the chart on change of dropdown-menu
 	$(".form-control").change(function() {
 		sprintJSON = JSON.parse($(".form-control").val());
 		drawChart(sprintJSON);
 	});
 });
+// get the JSONArray idealRemaining from the JSONObject and turn its content into a javascript array
 function prepareIdealRemaining(sprintJSON) {
 	var idealRemaining = [];
 	var data = sprintJSON.idealRemaining;
@@ -22,7 +25,7 @@ function prepareIdealRemaining(sprintJSON) {
 	}
 	return idealRemaining
 }
-
+// get the JSONArray backlogScope from the JSONObject and turn its content into a javascript array
 function prepareBacklogScope(sprintJSON){
 	var backlogScope = [];
 	var data = sprintJSON.backlogScope;
@@ -31,7 +34,7 @@ function prepareBacklogScope(sprintJSON){
 	}
 	return backlogScope
 }
-
+//get the JSONArray doneItems from the JSONObject and turn its content into a javascript array
 function prepareDoneItems(sprintJSON){
 	var doneItems = [];
 	var data = sprintJSON.doneItems;
@@ -40,7 +43,7 @@ function prepareDoneItems(sprintJSON){
 	}
 	return doneItems
 }
-
+//get the JSONArray remainingItems from the JSONObject and turn its content into a javascript array
 function prepareRemainingItems(sprintJSON){
 	var remainingItems = [];
 	var data = sprintJSON.remainingItems;
@@ -49,23 +52,27 @@ function prepareRemainingItems(sprintJSON){
 	}
 	return remainingItems
 }
-
+// get the year from the JSONObject and return it as int
 function prepareYear(sprintJSON) {
 	var startDate = new Date(sprintJSON.startDate);
 	year = startDate.getFullYear();
 	return year
 }
+// get the month from the JSONObject and return it as int
 function prepareMonth(sprintJSON) {
 	var startDate = new Date(sprintJSON.startDate);
 	month = startDate.getMonth();
 	return month 
 }
+// get the day from the JSONObject and return it as int
 function prepareDay(sprintJSON) {
 	var startDate = new Date(sprintJSON.startDate);
 	day = startDate.getDate();
 	return day
 }
+
 function drawChart(sprintJSON) {
+	// prepare variables for chart drawing
 	var year = prepareYear(sprintJSON);
 	var month = prepareMonth(sprintJSON);
 	var day = prepareDay(sprintJSON);
@@ -111,11 +118,13 @@ function drawChart(sprintJSON) {
 </script>
 
 <div class="reporting-page">
+	<%-- Div containing the chart --%>
 	<div class="sprintBurnDown">
 	</div>
 	<div class="sprints">
 		<div class="input-group">
 			<span class="input-group-addon">Sprint:</span>
+			<%--Dropdown-menu with all sprints in the project--%>
 			<form:select class="form-control" path="chartData">
 				<c:forEach items="${chartData}" var="item">
 					<form:option value="${item.getValue()}">${item.getKey().getDescription()}</form:option>

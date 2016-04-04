@@ -52,7 +52,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 14.03.2016
+ * @version 04.04.2016
  *
  */
 
@@ -411,7 +411,11 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
-	
+	/**
+	 * Opens the dashboard
+	 * @param session
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/dashboard.htm")
 	public ModelAndView viewDashboard(HttpSession session) {
 		try {
@@ -420,14 +424,12 @@ public class ProjectController extends MetaController {
 			Project project = loadCurrentProject(session);
 			int projectId = project.getProjectID();
 			User loggedUser = loadActiveUser(session);
-			Sprint currentSprint = new Sprint();
-			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			// Prepare Set of all Tasks of logged User
+			// get the current sprint
+			Sprint currentSprint = project.getCurrentSprint();
+			//Get all Userstories of the user
 			Set<UserStory> userstories = project.getUserstories();
 			Set<Task> tasks = new HashSet<Task>();
-			Set<User> taskUsers = new HashSet<User>();
-			List<User> usUsers = new ArrayList<User>();
-			Set<Task> relevantTasks = new HashSet<Task>();
+			List<User> usUsers = new ArrayList<User>();			
 			Set<UserStory> relevantUserStories = new HashSet<UserStory>();
 			for(UserStory us:userstories) {
 				tasks.addAll(us.getTasks());
@@ -437,23 +439,24 @@ public class ProjectController extends MetaController {
 						relevantUserStories.add(us);
 					}
 				}
+				usUsers.clear();
 			}
+			// Get all tasks of the logged user
+			Set<Task> relevantTasks = new HashSet<Task>();
+			Set<User> taskUsers = new HashSet<User>();
 			for(Task t:tasks) {
 				taskUsers = t.getResponsibleUsers();
 				for(User u:taskUsers) {
 					if(u==loggedUser) {
 						relevantTasks.add(t);
 					}
-				taskUsers.clear();
 				}
+				taskUsers.clear();
 			}
 			// Prepare Burndown Chart Data
+			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
 			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
 			for(Sprint s:sprints) {
-				// Search for current Sprint in sprints
-				if(s.getPlanState() == PlanState.InProgress) {
-					currentSprint = s;
-				}
 				chartData.put(s, createChartData(s));
 			}
 			map.addAttribute("project", project);
@@ -495,7 +498,11 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	
+	/**
+	 * Generates the chart data of a sprint for the burndown chart
+	 * @param s
+	 * @return JSONObject
+	 */
 	private JSONObject createChartData(Sprint s) {
 		//JSONObject containing all chart data
 		JSONObject jObject = new JSONObject();

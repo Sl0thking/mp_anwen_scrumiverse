@@ -15,7 +15,7 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
  * Implementation of the dao for project objects.
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 23.02.2016
+ * @version 04.04.2016
  *
  */
 
@@ -27,27 +27,26 @@ public class ProjectDAOImpl implements ProjectDAO {
 		this.hibernateTemplate = 
 					new HibernateTemplate(sessionFactoryProject); }
 	
-//	public static ProjectDAOImpl instance;
-//	
-//	public static ProjectDAOImpl getInstance() {
-//		if (instance == null) {
-//			instance=new ProjectDAOImpl();
-//		}
-//		return instance;
-//		
-//	}
 
 	@Override
 	public void saveProject(Project p) {
 		hibernateTemplate.save(p);		
 	}
-
+	/**
+	 * returns all projects by userID
+	 * @param int
+	 * @return Set<Project>
+	 */
 	@Override
 	public Set<Project> getProjectsFromUser(int userID) {
 		User relatedUser = (User) hibernateTemplate.find("from User where userID='"+ userID +"'").get(0);
 		return relatedUser.getProjects();
 	}
-	
+	/**
+	 * returns a specific project by projectID
+	 * @param int
+	 * @return Project
+	 */
 	@Override
 	public Project getProject(int projectID) throws NoProjectFoundException{
 		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
