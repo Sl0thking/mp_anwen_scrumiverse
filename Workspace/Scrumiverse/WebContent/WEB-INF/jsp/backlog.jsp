@@ -87,7 +87,7 @@ $(document).ready(function(){
 						        	<div class="info-bar">
 										<span class="glyphicon glyphicon-cog"></span>
 										Userstory
-										<a href="./removeUserStory" data-toggle="tooltip" title="Delete userstory">
+										<a href="./removeUserStory.htm?id=${userstory.id}" data-toggle="tooltip" title="Delete userstory">
 											<span class="glyphicon glyphicon-trash"></span>
 										</a>				
 									</div>
