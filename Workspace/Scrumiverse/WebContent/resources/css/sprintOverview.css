@@ -417,15 +417,34 @@ textarea {
 }
 .input-startdate{
     float: left;
-    width: 49%;
+    width: 22%;
     height: 100%;
     border: none;
 }
 .input-duedate{
-    float: right;
-    width: 49%;
+    float: left;
+    width: 10%;
     height: 100%;
     border: none;
+    margin-left: 5px;
+}
+.input-state{
+    float: right;
+    width: 29%;
+    height: 100%;
+    border: none;
+    margin-left: 5px;
+}
+.input-state-addon-fix{
+    width: 70px;
+    height: 7%;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: normal;
+    text-transform: uppercase;
+    border-right: 2px solid black;
 }
 
 .modal-body .sprint-data {
@@ -463,14 +482,17 @@ textarea {
 }
 
 .history-tab > .history-item{
-    height: 80px;
+    height: 30px;
     background-color: #BBB;
     border-radius: 10px;
+    padding: 5px;	
     margin: 0px 20px 5px 20px;
 }
 
 .history-item > .history-changeevent{
-    height: 75%;
+    height: 100%;
+    width: 50%;
+    float: left;
     padding: 2px 10px;
     line-height: 16px;
     overflow-x: hidden;
@@ -478,17 +500,17 @@ textarea {
 }
 
 .history-item > .history-date{
-    height: 25%;
-    width: 50%;
+    height: 100%;
+    width: 25%;
     float: left;
     padding-left: 10px;
     color: #888888;
 }
 
 .history-item > .history-user{
-    height: 25%;
-    width: 50%;
-    float: right;
+    height: 100%;
+    width: 25%;
+    float: left;
     text-align: right;
     padding-right: 10px;
     color: #888888;

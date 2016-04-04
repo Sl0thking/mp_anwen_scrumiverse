@@ -122,6 +122,7 @@
 #backlog > .userstory > .userstory-container > .info-container > .userstory-category {
     height: 50%;
     width: 100%;
+    padding: 5px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -131,6 +132,7 @@
 #backlog > .userstory > .userstory-container > .info-container > .userstory-sprint {
     height: 50%;
     width: 100%;
+    padding: 5px;
     overflow: hidden;
     white-space: nowrap;
 	text-overflow: ellipsis;
@@ -149,7 +151,8 @@
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-timestats{
     height: 50%;
     width: 100%;
-    padding: 4px 0px 0px 0px;
+    font-size: 16px;
+    padding: 5px 0px 0px 0px;
     text-align: center;
     display: inline-block;
     overflow: hidden;

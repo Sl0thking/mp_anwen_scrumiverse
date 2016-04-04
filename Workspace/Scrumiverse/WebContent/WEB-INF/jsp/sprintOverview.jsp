@@ -191,7 +191,7 @@ function toggleRemovebtn(){
 	                <div class="sprint-time-overview">
 	                    <div class="sprint-sandclock"></div>
 	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
-	                    <div class="sprint-time"><fmt:formatNumber value="${sprint.getRemainingDays() }" maxFractionDigits="0" /> d</div>
+	                    <div class="sprint-time"><c:if test="${sprint.planState.toString()=='InProgress' }"><fmt:formatNumber value="${sprint.getRemainingDays() }" maxFractionDigits="0" /> d</c:if></div>
 	                </div>
 	                <div class="sprint-data">
 	                    <div class="data-container">
@@ -295,6 +295,12 @@ function toggleRemovebtn(){
 				                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
 				                        <form:input type="date" class="form-control input-control" path="endDate" value="${selectedSprint.endDate.toString().substring(0,10) }"/>
 				                    </div>
+				                    <div class="input-group input-state">
+				                        <span class="input-group-addon input-group-addon-fix input-state-addon-fix">State</span>
+				                        <form:select path="planState" class="form-control input-control">
+											<form:options items="${planstates}"/>
+										</form:select>
+				                    </div>
 				                </div>
 				                <button class="btn btn-default" type="submit">
 			                        <span class="glyphicon glyphicon-save"></span>
@@ -346,7 +352,7 @@ function toggleRemovebtn(){
 	                                <div class="history-changeevent">
 	                                	${history.changeEvent }
 	                                </div>
-	                                <div class="history-date">${history.date }</div>
+	                                <div class="history-date">${history.date.toString().substring(0,19) }</div>
 	                                <div class="history-user">${history.user.getName() }</div>
 	                            </div>
                             </c:forEach>

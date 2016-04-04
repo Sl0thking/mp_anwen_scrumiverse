@@ -24,6 +24,7 @@ import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumCore.PlanState;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.UserStory;
@@ -129,6 +130,7 @@ public class SprintController extends MetaController {
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
 			map.addAttribute("sprints", sprints);
+			map.addAttribute("planstates", PlanState.values());
 			map.addAttribute("action", Action.sprintOverview);
 			map.addAttribute("project", this.loadCurrentProject(session));
 			return new ModelAndView("index", map);
