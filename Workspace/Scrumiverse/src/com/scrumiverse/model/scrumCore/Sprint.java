@@ -25,8 +25,8 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
  * Datamodel of Sprints
- * @author Toni Serfling
- * @version 23.02.2016
+ * @author Toni Serfling, Lasse Jacobs
+ * @version 04.04.2016
  */
 @Entity
 public class Sprint extends PlanElement {
@@ -265,7 +265,7 @@ public class Sprint extends PlanElement {
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
 		// For each day since Sprint start, until sprint end, unless current Day is before sprint end
-		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <=  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
 			int userStoriesAssigned = 0;
 			int userStoriesRemoved = 0;
 			// For Each HistoryEntry
@@ -304,7 +304,7 @@ public class Sprint extends PlanElement {
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
 		// For each day since Sprint start, until the end of the sprint, unless current Day is before the sprint end
-		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <=  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+		for(Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <  (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
 				// For each UserStory in the Sprint
 				for(UserStory us:userstories) {
 					// Prepare a Set of the User Stories HistoryEntries
@@ -345,7 +345,7 @@ public class Sprint extends PlanElement {
 		// Date formatting for date comparison
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
 		// For each day since Sprint start, until the end of the sprint, unless the current Day is before the end of the sprint
-		for (Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) <= (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
+		for (Date date = currentDay.getTime(); (currentDay.getTimeInMillis()/1000/60/60/24) <= (sprintEnd.getTimeInMillis()/1000/60/60/24) && (currentDay.getTimeInMillis()/1000/60/60/24) < (Calendar.getInstance().getTimeInMillis()/1000/60/60/24); currentDay.add(Calendar.DATE, 1), date = currentDay.getTime()) {
 			// Internal counters
 			int itemsAssigned = 0, itemsRemoved = 0, itemsDone = 0;
 			// For each HistoryEntry
