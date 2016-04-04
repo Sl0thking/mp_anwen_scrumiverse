@@ -204,7 +204,16 @@ $(document).ready(function(){
 							                </div>
 
 					                	</div>
-					                	<div id="section-history" class="tab-pane fade in">
+					                	<div id="section-history" class="modal-body history-tab tab-pane fade in">
+					                		<c:forEach items="${userstory.getHistory()}" var="history">
+							            		<div class="history-item">
+					                                <div class="history-changeevent">
+					                                	${history.changeEvent }
+					                                </div>
+					                                <div class="history-date">${history.date }</div>
+					                                <div class="history-user">${history.user.getName() }</div>
+					                            </div>
+				                            </c:forEach>
 					                	</div>
 					        		</div>
 					        	</div>
