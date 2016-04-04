@@ -30,7 +30,7 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * User Story Model for Scrum Projects.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 25.03.16
+ * @version 04.04.16
  *
  */
 @Entity
@@ -150,7 +150,7 @@ public class UserStory extends PlanElement {
 		this.dueDate = dueDate;
 	}
 
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
 	@JoinColumn(name = "SprintID")
 	public Sprint getRelatedSprint() {
 		return relatedSprint;
