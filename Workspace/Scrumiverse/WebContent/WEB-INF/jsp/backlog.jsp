@@ -46,12 +46,14 @@ $(document).ready(function(){
 			        <div class="userstory-titel">${userstory.description}</div>
 			        <div class="userstory-memberbox">
 			        	<c:forEach items="${userstory.getResponsibleUsers()}" var="user">
-			        		<img class="user-img" alt="err" src="${user.getProfileImagePath()}">
+			        		<img class="user-img" alt="err" src="${user.getProfileImagePath()}" data-toggle="tooltip" title="${user.name }">
 			        	</c:forEach>
 			        </div>
 			        <div class="timebox">
-				        <div class="userstory-sandclock"></div>
-				        <div class="userstory-time">${userstory.getRemainingDays()} d</div>
+			        	<c:if test="${userstory.planState!='Done'}">
+				        	<div class="userstory-sandclock"></div>
+				        	<div class="userstory-time">${userstory.getRemainingDays()} d</div>
+				        </c:if>
 			        </div>
 			        <div class="info-container">
 				        <div class="userstory-category">${userstory.category.name}</div>

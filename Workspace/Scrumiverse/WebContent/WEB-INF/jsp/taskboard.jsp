@@ -94,12 +94,12 @@ function deselectAll() {
                        		<c:choose>		
 			                   	<c:when test="${userStory.getResponsibleUsers().size() <= 6}">
 									<c:forEach items="${userStory.getResponsibleUsers()}" var="user">
-										<div class="userstory-member"><img src="${user.profileImagePath}"/></div>
+										<div class="userstory-member"><img src="${user.profileImagePath}" data-toggle="tooltip" title="${user.name }"/></div>
 									</c:forEach>
 			                   	</c:when>
 			                   	<c:otherwise>
 			                   		<c:forEach begin="0" end="5" var="user">
-			                   			<div class="userstory-member"><img src="${userStory.getResponsibleUsers()[user].profileImagePath}"/></div>
+			                   			<div class="userstory-member"><img src="${userStory.getResponsibleUsers()[user].profileImagePath}" data-toggle="tooltip" title="${user.name }"/></div>
 			                   		</c:forEach>
 			                   		<div class="userstory-member">...</div>
 			                   	</c:otherwise>
@@ -124,12 +124,12 @@ function deselectAll() {
 		                   		<c:choose>		
 			                   		<c:when test="${task.getResponsibleUsers().size() <= 6}">
 										<c:forEach items="${task.getResponsibleUsers()}" var="user">
-											<div class="task-member"><img src="${user.profileImagePath}"/></div>
+											<div class="task-member"><img src="${user.profileImagePath}" data-toggle="tooltip" title="${user.name }"/></div>
 										</c:forEach>
 			                   		</c:when>
 			                   		<c:otherwise>
 			                   			<c:forEach begin="0" end="5">
-			                   				<div class="task-member"><img src="${user.profileImagePath}"/></div>
+			                   				<div class="task-member"><img src="${user.profileImagePath}" data-toggle="tooltip" title="${user.name }"/></div>
 			                   			</c:forEach>
 			                   			<div class="task-member">...</div>
 			                   		</c:otherwise>

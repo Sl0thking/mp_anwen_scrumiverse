@@ -283,7 +283,7 @@ function toggleRemovebtn(){
 				                    <form:input class="form-control input-control" path="description" value="${selectedSprint.description }"/>
 				                </div>
 				                <div class="input-group">
-				                <span class="input-group-addon input-group-addon-fix">Acceptance Criteria</span>
+				                <span class="input-group-addon input-group-addon-fix">Criteria</span>
 				                <form:textarea class="form-control input-control" path="acceptanceCriteria" value="${selectedSprint.acceptanceCriteria }"></form:textarea>
 				                </div>
 				                <div class="date-container">
