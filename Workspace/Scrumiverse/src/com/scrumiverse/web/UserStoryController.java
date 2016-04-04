@@ -2,7 +2,6 @@ package com.scrumiverse.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.SortedSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,21 +31,15 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanState;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
-import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.Notification;
-import com.scrumiverse.model.scrumFeatures.WorkLog;
 import com.scrumiverse.persistence.DAO.CategoryDAO;
 import com.scrumiverse.persistence.DAO.HistoryDAO;
-import com.scrumiverse.persistence.DAO.MessageDAO;
-import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
-import com.scrumiverse.persistence.DAO.TaskDAO;
-import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
 /**
@@ -102,7 +95,6 @@ public class UserStoryController extends MetaController {
 		} catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
-		
 	}
 	
 	/**
@@ -180,7 +172,7 @@ public class UserStoryController extends MetaController {
 			userStory.addHistoryEntry(userStoryEvent, user);
 			userStoryDAO.updateUserStory(userStory);
 		//Change betweens Sprints
-		} else if(!oldUStory.getRelatedSprint().equals(userStory.getRelatedSprint())) {
+		} else if(oldUStory.getRelatedSprint() != null && userStory.getRelatedSprint() != null && !oldUStory.getRelatedSprint().equals(userStory.getRelatedSprint())) {
 			//save in old sprint event
 			oldUStory.getRelatedSprint().addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
 			sprintDAO.updateSprint(oldUStory.getRelatedSprint());
