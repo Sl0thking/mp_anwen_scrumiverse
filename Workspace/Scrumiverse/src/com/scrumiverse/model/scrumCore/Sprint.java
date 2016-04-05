@@ -1,6 +1,7 @@
 package com.scrumiverse.model.scrumCore;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +22,8 @@ import org.json.JSONException;
 
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
+
+import javafx.util.Duration;
 
 
 /**
@@ -158,9 +161,14 @@ public class Sprint extends PlanElement {
 	 */
 	@Transient
 	public int getRemainingDays(){
-		int remainingDays = (int) ((endDate.getTime() - new Date().getTime())/1000/60/60/24+2);
-		if(remainingDays<0){
-			remainingDays = 0;
+		Date today = new Date();
+		int remainingDays=0;
+		if(today.before(endDate)){
+			// Add one to to the endDate, otherwise you can't calculate with dates(dates day will not appear in calculation)
+			remainingDays = (int) ((endDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24)));
+			if(remainingDays<=0){
+				remainingDays=0;
+			}
 		}
 		return remainingDays;
 	}
