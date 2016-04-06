@@ -250,16 +250,27 @@ function deselectAll() {
 														<td>
 															<%-- choose whether its the currently logged in user --%>
 															<c:choose>
-																<c:when test="${userEntry.key eq currentUser}">
+																<c:when test="${userEntry.key eq currentUser && task.planState eq 'Planning'}">
 																	<input type="text" value="${userEntry.value}">
 																</c:when>
 																<c:otherwise>
-																	${userEntry.value}																	
+																	<fmt:formatNumber value="${userEntry.value / 60}" maxFractionDigits="1"/>h																	
 																</c:otherwise>
 															</c:choose>
 														</td>
-														<td>${userWorkedTimeOfTask[task][userEntry.key]}h</td>
-														<td>6h</td>
+														<td>
+															<fmt:formatNumber value="${userWorkedTimeOfTask[task][userEntry.key] / 60}" maxFractionDigits="1"/>h
+														</td>
+														<td>
+															<c:choose>
+																<c:when test="${((userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60) >= 0}">
+																	<fmt:formatNumber value="${(userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60}" maxFractionDigits="1"/>h
+																</c:when>
+																<c:otherwise>
+																	0h
+																</c:otherwise>
+															</c:choose>
+														</td>
 														<td>
 															<a href="./removeUserFromTask.htm?taskID=${task.id}&userID=${userEntry.key.userID}">
 																<span class="glyphicon glyphicon-remove"></span>
@@ -270,9 +281,16 @@ function deselectAll() {
 												<%-- end for each user/plannedtime in task : create user time row --%>
 												<tr>
 													<td>Total</td>
-													<td>25h</td>
-													<td>17h 30min</td>
-													<td>7h 30min</td>
+													<td>
+														<fmt:formatNumber value="${task.getPlannedMin() / 60}" maxFractionDigits="1"/>h
+													</td>
+													<td>
+														<fmt:formatNumber value="${task.getWorkMin() / 60}" maxFractionDigits="1"/>h
+													</td>
+													<td>
+														<c:set var="remainingMin" value="${task.getPlannedMin() - task.getWorkMin()}" />
+														<fmt:formatNumber value="${remainingMin / 60}" maxFractionDigits="1"/>h
+													</td>
 													<td></td>
 												</tr>
 											</table>
