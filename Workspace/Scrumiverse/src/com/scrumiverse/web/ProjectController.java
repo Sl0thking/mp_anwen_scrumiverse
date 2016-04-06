@@ -198,7 +198,7 @@ public class ProjectController extends MetaController {
 				throw new InsufficientRightsException();
 			}
 			session.setAttribute("currentProjectId", project.getProjectID());
-			return new ModelAndView("redirect:backlog.htm");
+			return new ModelAndView("redirect:dashboard.htm");
 		} catch(NoProjectFoundException | InsufficientRightsException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {

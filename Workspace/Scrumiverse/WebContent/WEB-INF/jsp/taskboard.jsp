@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 $(document).ready(function(){
@@ -288,6 +288,7 @@ function deselectAll() {
 														<fmt:formatNumber value="${task.getWorkMin() / 60}" maxFractionDigits="1"/>h
 													</td>
 													<td>
+														<%-- fix for wrong eclipse error --%>
 														<c:set var="remainingMin" value="${task.getPlannedMin() - task.getWorkMin()}" />
 														<fmt:formatNumber value="${remainingMin / 60}" maxFractionDigits="1"/>h
 													</td>

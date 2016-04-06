@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -21,7 +21,7 @@
 		<title>Scrumiverse</title>
 		
 		<script type="text/javascript">
-		// index site specific JavaScript
+		// handles the selection of the current page in the navigation
 		$(document).ready(function(){
 			var curPage = location.pathname.split("/")[location.pathname.split("/").length-1];
 			$('#menubar a[href="' + curPage + '"]').after('<div class="current-page"></div>');
@@ -36,7 +36,7 @@
 				<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
 				<div class="extra-menu">
 					<c:if test="${currentProject != null}">
-					<a class="extra-menuitem" href="backlog.htm">
+					<a class="extra-menuitem" href="dashboard.htm">
 						<span class="glyphicon glyphicon-th-large"></span>
 						DASHBOARD
 					</a>		
@@ -89,14 +89,14 @@
 				<div id="user-menu">
 					<img alt="user-icon" src="resources/userPictures/default.png">
 					<div class="extra-menu">
-						<a class="extra-menuitem" href="logout.htm">
-							<span class="glyphicon glyphicon-log-out"></span>
-							LOGOUT
-						</a>	
 						<a class="extra-menuitem" href="userSettings.htm">
 							<span class="glyphicon glyphicon-cog"></span>
 							ACCOUNT SETTINGS
-						</a>	
+						</a>
+						<a class="extra-menuitem" href="logout.htm">
+							<span class="glyphicon glyphicon-log-out"></span>
+							LOGOUT
+						</a>		
 					</div>
 				</div>
 			</div>
@@ -104,6 +104,7 @@
 		</div>
 		</c:if>
 		<div id="action_content">
+			<%-- includes the current page (action) --%>
 			<jsp:include page="${action.name()}.jsp" />
 		</div>
 	</body>
