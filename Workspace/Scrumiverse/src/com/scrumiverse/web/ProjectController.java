@@ -420,54 +420,49 @@ public class ProjectController extends MetaController {
 	public ModelAndView viewDashboard(HttpSession session) {
 		try {
 			checkInvalidSession(session);
-			ModelMap map = this.prepareModelMap(session);
 			Project project = loadCurrentProject(session);
-			int projectId = project.getProjectID();
 			User loggedUser = loadActiveUser(session);
-			// get the current sprint
 			Sprint currentSprint = project.getCurrentSprint();
-			//Get all Userstories of the user
-			Set<UserStory> userstories = project.getUserstories();
-			Set<Task> tasks = new HashSet<Task>();
-			List<User> usUsers = new ArrayList<User>();			
+			
+			// get relevant userstories and tasks for the current user
 			Set<UserStory> relevantUserStories = new HashSet<UserStory>();
-			for(UserStory us:userstories) {
-				tasks.addAll(us.getTasks());
-				usUsers = us.getResponsibleUsers();
-				for(User u:usUsers){
-					if(u==loggedUser) {
-						relevantUserStories.add(us);
-					}
-				}
-				usUsers.clear();
-			}
-			// Get all tasks of the logged user
 			Set<Task> relevantTasks = new HashSet<Task>();
-			Set<User> taskUsers = new HashSet<User>();
-			for(Task t:tasks) {
-				taskUsers = t.getResponsibleUsers();
-				for(User u:taskUsers) {
-					if(u==loggedUser) {
-						relevantTasks.add(t);
+			// get planned time and worked time of user per task
+			HashMap<Task, Integer> plannedTimeOnTask = new HashMap<Task, Integer>();
+			HashMap<Task, Integer> workedTimeOnTask = new HashMap<Task, Integer>();
+			for(UserStory us : project.getUserstories()) {
+				// check whether the user is assigned to the userstory
+				if (us.getResponsibleUsers().contains(loggedUser)) {
+					relevantUserStories.add(us);
+					for (Task t : us.getTasks()) {
+						// checks whether the user is assigned to the task
+						if (t.getResponsibleUsers().contains(loggedUser)) {
+							relevantTasks.add(t);
+							// adds planned and worked time of user for task
+							plannedTimeOnTask.put(t, t.getPlannedMinOfUser(loggedUser));
+							workedTimeOnTask.put(t, t.getWorkTimeOfUser(loggedUser));
+						}
 					}
 				}
-				taskUsers.clear();
-			}
-			// Prepare Burndown Chart Data
-			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
+			}	
+			// prepare data for burndown chart
+			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(project.getProjectID());
 			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
-			for(Sprint s:sprints) {
+			for (Sprint s : sprints) {
 				chartData.put(s, createChartData(s));
 			}
-			map.addAttribute("project", project);
+			
+			ModelMap map = this.prepareModelMap(session);
 			map.addAttribute("currentSprint", currentSprint);
 			map.addAttribute("relevantUserStories", relevantUserStories);
 			map.addAttribute("relevantTasks", relevantTasks);
+			map.addAttribute("plannedTimeOnTask", plannedTimeOnTask);
+			map.addAttribute("workedTimeOnTask", workedTimeOnTask);
 			map.addAttribute("chartData", chartData);
+			map.addAttribute("planStates", PlanState.values());
 			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
 		} catch(NoSuchUserException | InvalidSessionException e) {
-			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		} catch(NoProjectFoundException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
@@ -504,15 +499,14 @@ public class ProjectController extends MetaController {
 	 * @return JSONObject
 	 */
 	private JSONObject createChartData(Sprint s) {
-		//JSONObject containing all chart data
+		// JSONObject containing all chart data
 		JSONObject jObject = new JSONObject();
 		try {
-		jObject.put("startDate", s.getStartDate());
-		jObject.put("idealRemaining", s.getIdealRemainingUS());
-		jObject.put("backlogScope", s.getBacklogScope());
-		jObject.put("doneItems", s.getDoneItems());
-		jObject.put("remainingItems",s.getRemainingItems());
-		
+			jObject.put("startDate", s.getStartDate());
+			jObject.put("idealRemaining", s.getIdealRemainingUS());
+			jObject.put("backlogScope", s.getBacklogScope());
+			jObject.put("doneItems", s.getDoneItems());
+			jObject.put("remainingItems",s.getRemainingItems());		
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

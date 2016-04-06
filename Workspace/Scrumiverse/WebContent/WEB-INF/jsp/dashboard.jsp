@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script type="text/javascript">
 $(document).ready(function(){
 	// handles toggling of dashboard elements
@@ -17,18 +18,18 @@ $(document).ready(function(){
 		<div class="element-title">
 			<span class="glyphicon glyphicon-credit-card"></span>
 			PROJECT
-			<span class="toggle-button glyphicon glyphicon-menu-down"></span>
 		</div>
 		<div class="element-content project">
-			<div class="project-name">${project.name}</div>
+			<div class="project-name">${currentProject.name}</div>
 			<hr>
-			<div class="project-description">${project.description}</div>
+			<div class="project-description">${currentProject.description}</div>
 		</div>
 	</div>
 	<div class="dashboard-element">
 		<div class="element-title">
 			<span class="glyphicon glyphicon-retweet"></span>
 			CURRENT SPRINT
+			<span class="toggle-button glyphicon glyphicon-menu-down"></span>
 		</div>
 		<div class="element-content sprint">
 			<div class="sprint-information">
@@ -57,25 +58,59 @@ $(document).ready(function(){
 			<div class="elementlist">
 				<div class="type">USERSTORIES</div>
 				<div class="list">
-					<div class="userstory">
-						<!-- TODO: planstate background-color muss per if abfrage gesetzt werden -->
-						<div class="element-planstate" style="background-color: red;"></div>
-						<div class="userstory-name text-box">[US003] ITSys PLS! WHY U DO THIS TO ME EDEN.</div>
-						<div class="userstory-value value-box" data-toggle="tooltip" title="Value">100</div>
-						<div class="userstory-effort value-box" data-toggle="tooltip" title="Effort">100</div>
-						<div class="userstory-time value-box" data-toggle="tooltip" title="Remaining days">-100d</div>
-					</div>
+					<%-- for each userstory that the current user is assigned to : create userstory element --%>
+					<c:forEach items="${relevantUserStories}" var="userstory">
+						<div class="userstory">							
+							<%-- alters the color of the planstate element depending on the current planstate --%>
+							<c:choose>
+								<c:when test="${userstory.planState eq 'Planning'}">
+									<c:set var="planStateColor" value="darkgrey" />
+								</c:when>
+								<c:when test="${userstory.planState eq 'InProgress'}">
+									<c:set var="planStateColor" value="orange" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="planStateColor" value="green" />
+								</c:otherwise>
+							</c:choose>
+							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+							<div class="userstory-name text-box">${userstory.description}</div>
+							<div class="userstory-value value-box" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
+							<div class="userstory-effort value-box" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
+							<div class="userstory-time value-box" data-toggle="tooltip" title="Remaining days">${userstory.getRemainingDays()}	</div>
+						</div>
+					</c:forEach>
+					<%-- end for each userstory that the current user is assigned to : create userstory element --%>
 				</div>
 			</div>
 			<div class="elementlist">
 				<div class="type">TASKS</div>
 				<div class="list">
-					<div class="task">
-						<!-- TODO: planstate background-color muss per if abfrage gesetzt werden -->
-						<div class="element-planstate" style="background-color: green;"></div>
-						<div class="task-description text-box">Implementierung von 5 Seiten VoIP bullshit.</div>
-						<div class="task-timeplan value-box" data-toggle="tooltip" title="Time planned / Time spent / Time remaining">300h / 100h / 200h</div>
-					</div>
+					<%-- for each task that the current user is assigned to : create task element --%>
+					<c:forEach items="${relevantTasks}" var="task">
+						<div class="task">
+							<%-- alters the color of the planstate element depending on the current planstate --%>
+							<c:choose>
+								<c:when test="${task.planState eq 'Planning'}">
+									<c:set var="planStateColor" value="darkgrey" />
+								</c:when>
+								<c:when test="${task.planState eq 'InProgress'}">
+									<c:set var="planStateColor" value="orange" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="planStateColor" value="green" />
+								</c:otherwise>
+							</c:choose>
+							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+							<div class="task-description text-box">${task.description}</div>
+							<div class="task-timeplan value-box" data-toggle="tooltip" title="Your time planned / time spent / time remaining">
+								<fmt:formatNumber value="${plannedTimeOnTask[task] / 60}" maxFractionDigits="1"/>h / 
+								<fmt:formatNumber value="${workedTimeOnTask[task] / 60}" maxFractionDigits="1"/>h / 
+								<fmt:formatNumber value="${(plannedTimeOnTask[task] - workedTimeOnTask[task]) /60}" maxFractionDigits="1"/>h
+							</div>
+						</div>					
+					</c:forEach>
+					<%-- end for each task that the current user is assigned to : create task element --%>
 				</div>
 			</div>		
 		</div>

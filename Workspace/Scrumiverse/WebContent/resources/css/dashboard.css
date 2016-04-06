@@ -24,7 +24,7 @@
 }
 
 #dashboard hr {
-	margin: 0px 0px 5px 0px;
+	margin: 5px 0px 5px 0px;
 }
 
 #dashboard .value-box {
@@ -54,7 +54,7 @@
 	background-color: #303030;
 }
 
-#dashboard .element-title > span:last-of-type {
+#dashboard .element-title > span.toggle-button {
 	padding: 8px 0px 0px 12px;
 	float: right;
 	width: 40px;
