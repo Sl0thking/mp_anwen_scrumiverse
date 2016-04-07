@@ -96,7 +96,6 @@
 }
 
 #backlog > .userstory > .userstory-container > .timebox > .userstory-sandclock{
-    background-color: black;
     height: 39px;
     width: 100%;
     display: inline-block;
@@ -302,7 +301,6 @@
 }
 
 .note > .userstory-container > .timebox > .userstory-sandclock{
-    background-color: black;
     height: 45px;
     width: 40px;
     display: inline-block;
@@ -636,6 +634,4 @@ textarea {
     text-align: right;
     padding-right: 10px;
     color: #888888;
-}
-
 }

@@ -189,7 +189,12 @@ function toggleRemovebtn(){
 	            <div class="sprint-name">${sprint.description }</div>
 	            <div class="sprint-stats">
 	                <div class="sprint-time-overview">
-	                    <div class="sprint-sandclock"></div>
+	                    <c:choose>
+		        			<c:when test="${sprint.getRemainingDays() > 3}"><img src="./resources/images/sandclock/SandClock_4.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:when test="${sprint.getRemainingDays() > 1}"><img src="./resources/images/sandclock/SandClock_3.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:when test="${sprint.getRemainingDays() == 1}"><img src="./resources/images/sandclock/SandClock_1.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:otherwise><img src="./resources/images/sandclock/SandClock_0.png" alt="" class="sprint-sandclock"></img></c:otherwise>
+		        		</c:choose>
 	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
 	                    <div class="sprint-time"><c:if test="${sprint.planState.toString()=='InProgress' }"><fmt:formatNumber value="${sprint.getRemainingDays() }" maxFractionDigits="0" /> d</c:if></div>
 	                </div>
@@ -254,9 +259,11 @@ function toggleRemovebtn(){
 					    <span class="glyphicon glyphicon-cog"></span>
 					    SPRINT SETTINGS
 	                    </span>
-	                    <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
-							<span class="glyphicon glyphicon-trash"></span>
-						</a>
+                    	<c:if test="${canDeleteSprint}">
+                    		 <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+                    	</c:if>
 						<ul class="nav nav-tabs">
                                <li class="active">
                                    <a data-toggle="tab" role="tab" href=".detail-tab">
@@ -280,7 +287,7 @@ function toggleRemovebtn(){
 								<form:hidden path="id"/>
 				                <div class="input-group">
 				                    <span class="input-group-addon input-group-addon-fix">Description</span>
-				                    <form:input class="form-control input-control" path="description" value="${selectedSprint.description }"/>
+				                    <form:textarea class="form-control input-control" path="description" value="${selectedSprint.description }"></form:textarea>
 				                </div>
 				                <div class="input-group">
 				                <span class="input-group-addon input-group-addon-fix">Criteria</span>
@@ -302,10 +309,20 @@ function toggleRemovebtn(){
 										</form:select>
 				                    </div>
 				                </div>
-				                <button class="btn btn-default" type="submit">
-			                        <span class="glyphicon glyphicon-save"></span>
-			                        Save
-			                    </button>
+				                <c:choose>
+			                    	<c:when test="${canUpdateSprint}">
+			                    		 <button type="submit" class="btn btn-default">
+			                        		<span class="glyphicon glyphicon-save"></span>
+			                        		Save
+			                    		</button>
+			                    	</c:when>
+			                    	<c:otherwise>
+			                    		<button disabled type="submit" class="btn btn-default">
+			                       			<span class="glyphicon glyphicon-save"></span>
+			                        		Save
+			                    		</button>
+			                    	</c:otherwise>
+			                    </c:choose>
 			                </form:form>
 			                <div class="sprint-data">
 			                    <div class="modal-data-container">

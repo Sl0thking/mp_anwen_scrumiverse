@@ -133,6 +133,8 @@ public class SprintController extends MetaController {
 			map.addAttribute("planstates", PlanState.values());
 			map.addAttribute("action", Action.sprintOverview);
 			map.addAttribute("project", this.loadCurrentProject(session));
+			map.addAttribute("canDeleteSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Delete_Sprint));
+			map.addAttribute("canUpdateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);
 		} catch(InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");

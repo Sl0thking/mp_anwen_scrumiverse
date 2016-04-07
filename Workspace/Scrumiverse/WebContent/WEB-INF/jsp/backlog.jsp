@@ -51,7 +51,12 @@ $(document).ready(function(){
 			        </div>
 			        <div class="timebox">
 			        	<c:if test="${userstory.planState!='Done'}">
-				        	<div class="userstory-sandclock"></div>
+			        		<c:choose>
+			        			<c:when test="${userstory.getRemainingDays() > 3}"><img src="./resources/images/sandclock/SandClock_4.png" alt="" class="userstory-sandclock"></img></c:when>
+			        			<c:when test="${userstory.getRemainingDays() > 1}"><img src="./resources/images/sandclock/SandClock_3.png" alt="" class="userstory-sandclock"></img></c:when>
+			        			<c:when test="${userstory.getRemainingDays() == 1}"><img src="./resources/images/sandclock/SandClock_1.png" alt="" class="userstory-sandclock"></img></c:when>
+			        			<c:otherwise><img src="./resources/images/sandclock/SandClock_0.png" alt="" class="userstory-sandclock"></img></c:otherwise>
+			        		</c:choose>
 				        	<div class="userstory-time">${userstory.getRemainingDays()} d</div>
 				        </c:if>
 			        </div>

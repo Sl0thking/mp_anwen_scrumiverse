@@ -150,7 +150,6 @@
 }
 
 .sprint-time-overview .sprint-sandclock{
-    background-color: white;
     height: 60px;
     width: 50px;
     overflow-y: hidden;
@@ -447,8 +446,7 @@ textarea {
     float: right;
     margin-top: 10px
 }
-
-.btn-default:hover {
+button[type="submit"]:hover, .btn-default:hover {
 	background-color: green;
 	color: white;
 	border: 1px solid #303030;
