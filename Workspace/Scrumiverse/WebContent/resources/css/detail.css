@@ -1,0 +1,195 @@
+/*Modal Detail*/
+.modal-detail {
+	color: black;
+}
+.modal-detail a {
+	text-decoration: none;
+	color: black;
+}
+.modal-detail > .modal-dialog {
+	width: 1000px;
+}
+.modal-detail > .modal-dialog > .modal-content {
+	background-color: #666666;
+}
+.modal-detail > .modal-dialog .info-bar {	
+	color: white;
+	font-size: 18px;
+}
+.modal-detail > .modal-dialog .info-bar span.glyphicon-trash {
+	float: right;	
+}
+.modal-detail > .modal-dialog .modal-header {
+	background-color: #303030;
+	padding-bottom: 0px;
+}
+
+
+
+/*Detail Header*/
+.modal-detail > .modal-dialog .modal-header a {
+	color: white;
+}
+.modal-detail > .modal-dialog .modal-header > .info-bar a:hover {
+	color: red;
+}
+.modal-detail > .modal-dialog .modal-header > .nav {
+	margin-top: 10px;
+	border-bottom: none;
+}
+.modal-detail > .modal-dialog .modal-header > .nav > li {
+	margin-left: 5px;
+}
+.modal-detail > .modal-dialog .modal-header > .nav > li > a {
+	z-index: 2;
+	color: white;
+	background-color: #666666;
+    box-shadow: 0 1px 0 #e5e5e5;
+}
+.modal-detail > .modal-dialog .modal-header > .nav > li:not([class="active"]) > a {
+	padding-bottom: 9px;
+}
+.modal-detail > .modal-dialog .modal-header > .nav > li:not([class="active"]) > a:hover {
+	border-color: transparent;
+	background-color: #e5e5e5;
+	color: #303030;
+}
+.modal-detail > .modal-dialog .modal-header > .nav > li.active > a {
+	border-bottom-color: transparent;
+   	box-shadow: 0 1px 0 #666666;
+}
+
+
+
+/*Detail Body*/
+.modal-detail > .modal-dialog .modal-body {
+	color: white;
+}
+
+
+
+/*Member List*/
+.section-detail .member-list {
+	position: absolute;
+	right: 15px;
+	top: -43px;
+	width: 55%;
+	height: 26px;
+}
+.section-detail .member-list > * {
+	float: right;
+}
+.section-detail .member-img {
+	margin-left: 10px;
+	width: 26px;
+	height: 26px;
+	border: 1px solid #666666;
+	background-color: #666666;
+	border-radius: 100%;
+}
+.section-detail .member-list > .member-img:hover {
+	border-color: white;
+}
+
+
+
+/*Input Groups and Container*/
+.section-detail .input-group {
+	margin-bottom: 10px;
+}
+.section-detail .input-group > .input-group-addon {
+	min-width: 150px;
+}
+.input-group {
+	margin-bottom: 10px;
+}
+.input-container {
+	height: 7%;
+    width: 95%;
+    margin: auto;
+}
+.input-container-1-of-2{
+    float: left;
+    width: 49%;
+    height: 100%;
+    border: none;
+}
+.input-container-2-of-2{
+    float: right;
+    width: 49%;
+    height: 100%;
+    border: none;
+}
+.input-container-1-of-3{
+    float: left;
+    width: 33%;
+    height: 100%;
+    border: none;
+}
+.input-container-2-of-3{
+    width: 33%;
+    height: 100%;
+    border: none;
+}
+.input-container-3-of-3{
+    float: right;
+    width: 33%;
+    height: 100%;
+    border: none;
+}
+
+
+
+/*Detail Table*/
+.section-detail .detail-table {
+	margin-top: 10px;
+	width: 100%;
+}
+.section-detail .detail-table th {
+	color: white;
+	text-align: center;
+	border: 1px solid #444444;
+}
+.section-detail .detail-table tr {
+	height: 30px;
+}
+.section-detail .detail-table tr > td {
+	text-align: center;
+	border: 1px solid #444444;
+}
+.section-detail .detail-table tr > td > img{
+	margin: 2px 0px 2px 0px;
+}
+.section-detail .detail-table tr > td:first-of-type {
+	width: 250px;
+}
+.section-detail .detail-table tr:nth-child(even), .section-detail .detail-table tr:nth-child(even) a {
+	background-color: #666666;
+	color: #e5e5e5;	
+}
+.section-detail .detail-table tr:nth-child(odd), .section-detail .detail-table tr:nth-child(odd) a {
+	background-color: #e5e5e5;	
+	color: #303030;
+}
+.section-detail .detail-table tr:first-child, .section-detail .detail-table tr:last-child {
+	border: 1px solid #e5e5e5;
+	background-color: #303030;
+	color: white;
+}
+.section-detail .detail-table tr a:hover {
+	color: red;
+}
+
+
+
+/*Submit Button*/
+.section-detail  button {
+	margin-top: -5px;
+	float: right;
+}
+
+.section-detail  button:hover {
+	background-color: green;
+	color: white;
+	border: 1px solid #303030;
+}
