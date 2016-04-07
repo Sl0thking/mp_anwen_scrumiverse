@@ -133,6 +133,7 @@ public class SprintController extends MetaController {
 			map.addAttribute("planstates", PlanState.values());
 			map.addAttribute("action", Action.sprintOverview);
 			map.addAttribute("project", this.loadCurrentProject(session));
+			map.addAttribute("canReadSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Read_Sprint));
 			map.addAttribute("canDeleteSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Delete_Sprint));
 			map.addAttribute("canUpdateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);

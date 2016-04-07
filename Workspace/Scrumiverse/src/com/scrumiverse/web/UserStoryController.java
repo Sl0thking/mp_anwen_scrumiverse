@@ -119,9 +119,12 @@ public class UserStoryController extends MetaController {
 			map.addAttribute("planstates", PlanState.values());
 			map.addAttribute("moscows", MoscowState.values());
 			map.addAttribute("sdf", new SimpleDateFormat("yyyy-MM-dd"));
+			map.addAttribute("canReadUserstory", project.getProjectUserFromUser(user).getRole().hasRight(Right.Read_UserStory));
+			map.addAttribute("canUpadteUserstory", project.getProjectUserFromUser(user).getRole().hasRight(Right.Update_UserStory));
 			map.addAttribute("canCreateUserStory", project.getProjectUserFromUser(user).getRole().hasRight(Right.Create_UserStory));
-			map.addAttribute("canDeleteUserStory", project.getProjectUserFromUser(user).getRole().hasRight(Right.Create_UserStory));
+			map.addAttribute("canDeleteUserStory", project.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_UserStory));
 			map.addAttribute("canDeleteTask", project.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_Task));
+			map.addAttribute("canUpdateSprint", project.getProjectUserFromUser(user).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.html");
