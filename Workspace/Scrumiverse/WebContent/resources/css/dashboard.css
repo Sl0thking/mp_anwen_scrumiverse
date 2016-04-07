@@ -46,7 +46,7 @@
 	display: inline-block;
 }
 
-#dashboard > .dashboard-element > .element-content {
+#dashboard > .dashboard-element .element-content {
 	width: 100%;
 	overflow: auto;
 	background-color: #666666;
@@ -93,7 +93,7 @@
 	padding: 10px;
 }
 
-#dashboard .project > .project-name, #dashboard .sprint > .sprint-information > .sprint-description {
+#dashboard .project > .project-name, #sprint-information > .sprint-description {
 	height: 30px;
 	line-height: 30px;
 	vertical-align: middle;
@@ -101,23 +101,53 @@
 	font-size: 22px;
 }
 
+#sprint-information > .sprint-description {
+	float: left;
+	margin-right: 20px;
+}
+
 #dashboard .project > .project-description {
 	width: 100%;
 	font-size: 15px;
 }
 
-#dashboard .sprint > .sprint-information {
+#sprint-information {
 	float: left;
 	width: 100%;
 }
 
-#dashboard .sprint > .sprint-information > .sprint-dates {
+#sprint-information > .sprint-dates {
 	line-height: 30px;
 	vertical-align: middle;	
 }
 
-#dashboard .sprint-infoelement > .infoelement-values {
-	
+#sprint-data > .data-container {
+	float: left;
+	width: 220px;
+}
+
+#sprint-data > .data-container > .data-title {
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+#sprint-data > .data-container > .data-values {
+	margin-bottom: 5px;
+}
+
+#sprint-data > .data-container > .progressbar {
+	margin-right: 5px;
+	border: 1px solid #303030;
+	background-color: #e5e5e5;
+}
+
+#sprint-data .progressbar > .progress {
+	margin: 0px;
+	width: 0px;
+	background-color: green;
+	border-radius: 0px;
 }
 
 #dashboard .work-overview .list > div > div {
@@ -152,9 +182,9 @@
 }
 
 #dashboard .work-overview .task > .task-description {
-	width: 250px;
+	width: 215px;
 }
 
 #dashboard .work-overview .task > .task-timeplan {
-	width: 140px;
+	width: 55px;
 }
