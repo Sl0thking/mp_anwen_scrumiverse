@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 @import 'history.css';
 @import 'detail.css';
-=======
+
 #action_content::-webkit-scrollbar{display: none;}
->>>>>>> e209f0f0f9e55a45f20666dd9f4c02b2cf6e1b84
 
 #backlog {
     width: 100%;
