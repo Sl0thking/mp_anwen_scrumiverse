@@ -96,12 +96,15 @@ function setView(oldView, newView){
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="info-bar">
-							<span class="glyphicon glyphicon-cog"></span> USERSTORY DETAIL
-							#${userstory.id} <a
-								href="./removeUserStory.htm?id=${userstory.id}"
-								data-toggle="tooltip" title="Delete userstory"> <span
-								class="glyphicon glyphicon-trash"></span>
-							</a>
+							<span class="glyphicon glyphicon-cog"></span> 
+							USERSTORY DETAIL #${userstory.id} 
+							<c:if test="${canDeleteUserStory}">
+								<a
+									href="./removeUserStory.htm?id=${userstory.id}"
+									data-toggle="tooltip" title="Delete userstory"> <span
+									class="glyphicon glyphicon-trash"></span>
+								</a>
+							</c:if>
 						</div>
 						<ul class="nav nav-tabs">
 							<li class="active"><a data-toggle="tab"
@@ -217,9 +220,11 @@ function setView(oldView, newView){
 											<td><fmt:formatNumber value="${task.getWorkMin()/60}" maxFractionDigits="1" />h</td>
 											<td><fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h</td>
 											<td>
-												<a href="./deleteTask.htm?taskID=${task.id}">
-													<span class="glyphicon glyphicon-remove"></span>
-												</a>											
+												<c:if test="${canDeleteTask}">
+													<a href="./deleteTask.htm?taskID=${task.id}">
+														<span class="glyphicon glyphicon-remove"></span>
+													</a>
+												</c:if>										
 											</td>
 										</tr>
 									</c:forEach>
@@ -257,7 +262,7 @@ function setView(oldView, newView){
 	</c:forEach>
 </div>
 <div id="quick-button-container">
-	<c:if test="${createUserStory}">
+	<c:if test="${canCreateUserStory}">
 		<a class="quick-button" href="./newUserStory.htm"> <span
 			class="quick-button-title">U</span><span class="quick-button-text">new
 				UserStory</span>

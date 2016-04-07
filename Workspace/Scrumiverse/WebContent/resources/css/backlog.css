@@ -3,6 +3,7 @@
 
 #action_content::-webkit-scrollbar{display: none;}
 
+/*General Backlog*/
 #backlog {
     width: 100%;
     padding: 30px 10px 0px 10px;
@@ -10,7 +11,6 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
-
 #backlog > .backlog-settings{
     position: fixed;
     top: 50px;
@@ -21,7 +21,6 @@
     border-bottom: 1px solid #666666;
     z-index: 1;
 }
-
 #backlog > .backlog-settings > .listview{
     float: right;
     padding: 4px;
@@ -37,6 +36,9 @@
     text-decoration: none;
 }
 
+
+
+/*Userstory*/
 #backlog > .userstory{
     position: relative;
     background-color: grey;
@@ -68,9 +70,13 @@
     overflow-y: scroll;
     display: inline-block;
 }
-#backlog > .userstory > .userstory-container > .userstory-titel::-webkit-scrollbar {display: none;}
+#backlog > .userstory > .userstory-container > .userstory-titel::-webkit-scrollbar {
+	display: none;
+}
 
 
+
+/*Images of Userstory-Members*/
 #backlog > .userstory > .userstory-container > .userstory-memberbox{
     width: 7%;
     height: 100%;
@@ -79,7 +85,6 @@
     display: inline-block;
     overflow: hidden;
 }
-
 .user-img{
     position: relative;
     margin: 0px 0px 4px 0px;
@@ -89,6 +94,9 @@
     border-radius: 100%;
 }
 
+
+
+/*Remaining Time and Hourglass*/
 #backlog > .userstory > .userstory-container > .timebox{
     width: 40px;
     height: 100%;
@@ -97,14 +105,12 @@
     padding: 2px 0px 0px 0px;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .timebox > .userstory-sandclock{
     background-color: black;
     height: 39px;
     width: 100%;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .timebox > .userstory-time{
     width: 100%;
     height: 18px;
@@ -115,6 +121,10 @@
     display: inline-block;
     overflow: hidden;
 }
+
+
+
+/*Information from Userstory*/
 #backlog > .userstory > .userstory-container > .info-container{
     height: 100%;
     width: 22%;
@@ -122,7 +132,6 @@
     margin-left: 3px;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .info-container > .userstory-category {
     height: 50%;
     width: 100%;
@@ -132,7 +141,6 @@
     overflow: hidden;
 	text-overflow: ellipsis;
 }
-
 #backlog > .userstory > .userstory-container > .info-container > .userstory-sprint {
     height: 50%;
     width: 100%;
@@ -151,7 +159,6 @@
     font-size: 13px;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-timestats{
     height: 50%;
     width: 100%;
@@ -161,7 +168,6 @@
     display: inline-block;
     overflow: hidden;
 }
-
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-moscow{
     text-align: center;
     height: 20px;
@@ -172,7 +178,6 @@
     overflow: hidden;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-value{
     text-align: center;
     width: 23%;
@@ -183,7 +188,6 @@
     overflow: hidden;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-risk{
     text-align: center;
     width: 23%;
@@ -194,7 +198,6 @@
     overflow: hidden;
     display: inline-block;
 }
-
 #backlog > .userstory > .userstory-container > .userstory-stats > .userstory-effort{
     text-align: center;
     width: 23%;
@@ -207,6 +210,9 @@
     display: inline-block;
 }
 
+
+
+/*Button to open Detailview of Userstory*/
 #backlog > .userstory > .userstory-control{
     float: right;
     height: 60px;
@@ -222,6 +228,8 @@
 	width: 20px;
 	text-decoration: none;
 }
+
+
 
 /* Cardview */
 #backlog > .note{
@@ -427,6 +435,10 @@
 	width: 20px;
 	text-decoration: none;
 }
+
+
+
+/*Progressbars*/
 .progressbar{
     background-color: grey;
     height: 10px;
