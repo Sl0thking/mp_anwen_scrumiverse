@@ -254,7 +254,7 @@ function activateButton(btnTab){
             <div id="settings-options"></div>
         </div>
         <div id="category-tab" class="tab-pane fade in">
-             <div class="input-group input-group-fix">
+             <div class="input-group input-category-fix">
                  <span class="input-group-addon addon-fix">Category</span>
                   <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}#category-tab">
                   	<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
@@ -265,11 +265,11 @@ function activateButton(btnTab){
              <form:form commandName="selectedCategory" action="updateCategory.htm">
              <form:hidden path="id"/>
              <fieldset>
-                 <div class="input-group input-group-fix">
+                 <div class="input-group input-group-fix input-category-fix">
                      <span class="input-group-addon">Name</span>
                      <form:input type="text" class="form-control" path="name" disabled="${project.getCategories().size() < 1}"/>
                  </div>
-                 <div class="input-group input-group-fix colorpicker-component picker">
+                 <div class="input-group input-group-fix input-category-fix colorpicker-component picker">
                      <span class="input-group-addon">Color</span>
                      <span class="input-group-addon color-component"><i></i></span>
                      <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>

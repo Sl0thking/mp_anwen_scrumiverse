@@ -1,3 +1,4 @@
+#action_content::-webkit-scrollbar {display: none;}
 .projectpage {
     width: 100%;
     padding: 20px 30px 20px 40px;
@@ -5,7 +6,6 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.projectpage::-webkit-scrollbar {display: none;}
 
 .projectpage .project{
     position: relative;

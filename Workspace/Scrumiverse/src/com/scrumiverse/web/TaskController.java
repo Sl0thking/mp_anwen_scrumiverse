@@ -201,7 +201,6 @@ public class TaskController extends MetaController {
 			Task task = taskDAO.getTask(taskID);
 			// split comma seperated list of tags
 			List<String> tagList = Arrays.asList(tags.split(","));
-			System.out.println("tags: ");
 			for (String tag : tagList) {
 				task.addTag(tag.trim());
 			}

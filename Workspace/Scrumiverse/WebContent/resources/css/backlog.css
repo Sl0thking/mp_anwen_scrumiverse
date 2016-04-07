@@ -1,14 +1,17 @@
+<<<<<<< HEAD
 @import 'history.css';
 @import 'detail.css';
+=======
+#action_content::-webkit-scrollbar{display: none;}
+>>>>>>> e209f0f0f9e55a45f20666dd9f4c02b2cf6e1b84
 
 #backlog {
     width: 100%;
-    padding: 30px 20px 0px 20px;
+    padding: 30px 10px 0px 10px;
     height: calc(100% - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
 }
-#backlog::-webkit-scrollbar {display: run-in;}
 
 #backlog > .backlog-settings{
     position: fixed;
