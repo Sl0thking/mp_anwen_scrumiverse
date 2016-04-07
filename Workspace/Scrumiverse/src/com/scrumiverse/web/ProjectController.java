@@ -428,8 +428,8 @@ public class ProjectController extends MetaController {
 			Set<UserStory> relevantUserStories = new HashSet<UserStory>();
 			Set<Task> relevantTasks = new HashSet<Task>();
 			// get planned time and worked time of user per task
-			HashMap<Task, Integer> plannedTimeOnTask = new HashMap<Task, Integer>();
-			HashMap<Task, Integer> workedTimeOnTask = new HashMap<Task, Integer>();
+			HashMap<Integer, Integer> plannedTimeOnTask = new HashMap<Integer, Integer>();
+			HashMap<Integer, Integer> workedTimeOnTask = new HashMap<Integer, Integer>();
 			for(UserStory us : project.getUserstories()) {
 				// check whether the user is assigned to the userstory
 				if (us.getResponsibleUsers().contains(loggedUser)) {
@@ -439,8 +439,8 @@ public class ProjectController extends MetaController {
 						if (t.getResponsibleUsers().contains(loggedUser)) {
 							relevantTasks.add(t);
 							// adds planned and worked time of user for task
-							plannedTimeOnTask.put(t, t.getPlannedMinOfUser(loggedUser));
-							workedTimeOnTask.put(t, t.getWorkTimeOfUser(loggedUser));
+							plannedTimeOnTask.put(t.getId(), t.getPlannedMinOfUser(loggedUser));
+							workedTimeOnTask.put(t.getId(), t.getWorkTimeOfUser(loggedUser));
 						}
 					}
 				}
@@ -459,7 +459,6 @@ public class ProjectController extends MetaController {
 			map.addAttribute("plannedTimeOnTask", plannedTimeOnTask);
 			map.addAttribute("workedTimeOnTask", workedTimeOnTask);
 			map.addAttribute("chartData", chartData);
-			map.addAttribute("planStates", PlanState.values());
 			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
 		} catch(NoSuchUserException | InvalidSessionException e) {
