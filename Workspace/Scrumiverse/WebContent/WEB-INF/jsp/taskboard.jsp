@@ -297,9 +297,16 @@ function deselectAll() {
 													</tr>
 												</table>
 					       					</div>
-						       				<div class="section-history tab-pane fade in">
-						       					Preview for Sprint 3
-						       				</div>
+					       					<div class="modal-body history-tab section-history tab-pane fade in">
+												<c:forEach items="${task.getHistory()}" var="history">
+													<div class="history-item">
+														<div class="history-changeevent">${history.changeEvent }
+														</div>
+														<div class="history-date">${history.date }</div>
+														<div class="history-user">${history.user.getName() }</div>
+													</div>
+												</c:forEach>
+											</div>
 						       			</div>
 									</div>
 									<div class="modal-footer">																			

@@ -1,3 +1,5 @@
+@import 'history.css';
+
 #action_content::-webkit-scrollbar {display: none;}
 .taskboard-content{
 	position: relative;
