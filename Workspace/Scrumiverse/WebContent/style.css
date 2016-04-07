@@ -6,8 +6,27 @@ body {
     background-color: black;
     color: white;
 }
-body::-webkit-scrollbar{
-    display: none;
+
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #666666;
+    border: 3px solid #303030;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #e5e5e5;
+}
+
+::-webkit-scrollbar-corner{
+	background-color: transparent;
+	
 }
 
 /* index page specific css */
@@ -217,10 +236,6 @@ body::-webkit-scrollbar{
     overflow: scroll;
 }
 
-#action_content::-webkit-scrollbar{
-    display: none;
-}
-
 .navbar-placeholder{
     height: 50px;
     width: 100%;
@@ -286,7 +301,7 @@ body::-webkit-scrollbar{
 #quick-button-container {
     position: fixed;
     bottom: 10px;
-    right: 10px;
+    right: 20px;
     width: 800px;
     height: 30px;
     text-align: center;

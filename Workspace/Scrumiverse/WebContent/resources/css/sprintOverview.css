@@ -52,9 +52,6 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.backlog > .content::-webkit-scrollbar{
-    display: none;
-}
 
 .content > .userstory{
     width: 100%;
@@ -100,9 +97,6 @@
     padding: 20px 30px 40px 40px;
     height: calc( 100% - 50px );
     overflow-y: scroll;
-}
-.sprintpage::-webkit-scrollbar{
-    display: none;
 }
 
 .sprintpage > .sprint{
@@ -259,13 +253,10 @@
     border-top: 2px solid black;
     overflow-y: scroll;
 }
-.sprint > .sprintlog::-webkit-scrollbar{
-    display: none;
-}
 .userstory{
     position: relative;
     height: 80px;
-    width: 18%;
+    width: 215px;
     margin: 0px 5px 5px 0px;
     padding: 0px 0px 0px 5px;
     display:  inline-block;
@@ -402,20 +393,20 @@ textarea {
 }
 .input-startdate{
     float: left;
-    width: 35%;
+    width: 36%;
     height: 100%;
     border: none;
 }
 .input-duedate{
     float: left;
-    width: 34%;
+    width: 35%;
     height: 100%;
     border: none;
     margin-left: 5px;
 }
 .input-state{
     float: right;
-    width: 30%;
+    width: 28%;
     height: 100%;
     border: none;
 }
@@ -448,11 +439,9 @@ textarea {
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.userstory-container::-webkit-scrollbar{
-    display: none;
-}
+
 .userstory-fix{
-    width: 23.9%;
+    width: 234px;
 }
 .btn-default{
     float: right;
