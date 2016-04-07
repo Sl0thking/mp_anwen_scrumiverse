@@ -1,9 +1,7 @@
 package com.scrumiverse.model.scrumCore;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -22,8 +20,6 @@ import org.json.JSONException;
 
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
-
-import javafx.util.Duration;
 
 
 /**
