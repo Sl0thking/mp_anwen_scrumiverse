@@ -6,6 +6,11 @@ import com.scrumiverse.exception.NoUserStoryFoundException;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
+/**
+ * Binder class for UserStories
+ * @author Lasse Jacobs
+ * @version 08.04.2016
+ */
 public class UserStoryBinder extends PropertyEditorSupport {
 	
 	UserStoryDAO userstoryDAO;

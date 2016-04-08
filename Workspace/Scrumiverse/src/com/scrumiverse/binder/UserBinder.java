@@ -6,6 +6,11 @@ import com.scrumiverse.exception.NoSuchUserException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
+/**
+ * Binder class for Users
+ * @author Kevin Jolitz
+ * @version 08.04.2016
+ */
 public class UserBinder extends PropertyEditorSupport {
 
 	UserDAO userDAO;

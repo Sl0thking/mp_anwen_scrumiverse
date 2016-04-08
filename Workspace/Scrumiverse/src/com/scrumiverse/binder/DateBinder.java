@@ -4,7 +4,12 @@ import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+/**
+ * Binder class for Dates
+ * @author Lasse Jacobs
+ * @version 08.04.2016
+ *
+ */
 public class DateBinder extends PropertyEditorSupport {
 	
 	@Override

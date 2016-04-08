@@ -29,7 +29,7 @@ import com.scrumiverse.model.scrumFeatures.Notification;
  * Datamodell for a scrumiverse user account
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 23.02.2016
+ * @version 08.04.2016
  */
 @Entity
 public class User {

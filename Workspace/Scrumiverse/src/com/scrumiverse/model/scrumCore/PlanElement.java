@@ -24,7 +24,7 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
  * Abstract PlanElement Model for 
- * shared plan attributes between Scrum DataModells.
+ * shared plan attributes between Scrum DataModels.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
  * @version 17.03.16

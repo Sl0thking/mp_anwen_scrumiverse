@@ -7,6 +7,13 @@ import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.persistence.DAO.CategoryDAO;
 
+/**
+ * Binder class for Categories
+ * @author Lasse Jacobs
+ * @version 08.04.2016
+ *
+ */
+
 public class CategoryBinder extends PropertyEditorSupport {
 
 	CategoryDAO categoryDAO;

@@ -6,7 +6,11 @@ import com.scrumiverse.exception.NoSprintFoundException;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 
-
+/**
+ * Binder class for Sprints
+ * @author Lasse Jacobs
+ * @version 08.04.2016
+ */
 public class SprintBinder extends PropertyEditorSupport {
 	SprintDAO sprintDAO;
 	
