@@ -161,7 +161,7 @@ public class Sprint extends PlanElement {
 		int remainingDays=0;
 		if(today.before(endDate)){
 			// Add one to to the endDate, otherwise you can't calculate with dates(dates day will not appear in calculation)
-			remainingDays = (int) ((endDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24)));
+			remainingDays = (int) (endDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24));
 			if(remainingDays<=0){
 				remainingDays=0;
 			}
