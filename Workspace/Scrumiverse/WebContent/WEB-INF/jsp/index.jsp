@@ -51,26 +51,22 @@
 				</div>
 			</div>
 			<div id="menubar">
+				<%-- only show menubar when a project has been selected --%>
 				<c:if test="${currentProjectId != null}">
-				<div class="menuitem">
-					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-					<a href="backlog.htm">BACKLOG</a>							
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
-					<a href="sprintOverview.htm">SPRINTS</a>		
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="todo icon" src="resources/images/index/icon_todo.png">
-					<a href="showTasks.htm">TO-DO</a>
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="report icon" src="resources/images/index/icon_reports.png">
-					<a href="reporting.htm">REPORTING</a>
-				</div>
+					<div class="menuitem">
+						<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
+						<a href="backlog.htm">BACKLOG</a>							
+					</div>
+					<div class="spacer"></div>
+					<div class="menuitem">
+						<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
+						<a href="sprintOverview.htm">SPRINTS</a>		
+					</div>
+					<div class="spacer"></div>
+					<div class="menuitem">
+						<img alt="todo icon" src="resources/images/index/icon_todo.png">
+						<a href="showTasks.htm">TO-DO</a>
+					</div>
 				</c:if>
 			</div>
 			<div id="userbar">
