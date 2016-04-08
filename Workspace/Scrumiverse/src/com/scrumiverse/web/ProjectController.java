@@ -431,12 +431,12 @@ public class ProjectController extends MetaController {
 			HashMap<Integer, Integer> plannedTimeOnTask = new HashMap<Integer, Integer>();
 			HashMap<Integer, Integer> workedTimeOnTask = new HashMap<Integer, Integer>();
 			for(UserStory us : project.getUserstories()) {
-				// check whether the user is assigned to the userstory
-				if (us.getResponsibleUsers().contains(loggedUser)) {
+				// check if the user is assigned to the userstory and the userstory is not done
+				if (us.getResponsibleUsers().contains(loggedUser) && !us.getPlanState().equals(PlanState.Done)) {
 					relevantUserStories.add(us);
 					for (Task t : us.getTasks()) {
-						// checks whether the user is assigned to the task
-						if (t.getResponsibleUsers().contains(loggedUser)) {
+						// checks if the user is assigned to the task and the task is not done
+						if (t.getResponsibleUsers().contains(loggedUser) && !t.getPlanState().equals(PlanState.Done)) {
 							relevantTasks.add(t);
 							// adds planned and worked time of user for task
 							plannedTimeOnTask.put(t.getId(), t.getPlannedMinOfUser(loggedUser));

@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -11,7 +12,113 @@ $(document).ready(function(){
 			$(this).removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
 		$(this).parent().parent().children('.element-content').slideToggle();
 	});
+	
+	//get the JSONObject of the selected sprint and draw the chart on page load
+	var sprintJSON = JSON.parse($(".form-control").val());	
+	drawChart(sprintJSON);
+	//get the JSONObject of the selected sprint and draw the chart on change of dropdown-menu
+	$(".form-control").change(function() {
+		sprintJSON = JSON.parse($(".form-control").val());
+		drawChart(sprintJSON);
+	});
 });
+//get the JSONArray idealRemaining from the JSONObject and turn its content into a javascript array
+function prepareIdealRemaining(sprintJSON) {
+	var idealRemaining = [];
+	var data = sprintJSON.idealRemaining;
+	for (var i = 0; i < data.length;i++) {
+		idealRemaining.push([data[i]]);
+	}
+	return idealRemaining
+}
+// get the JSONArray backlogScope from the JSONObject and turn its content into a javascript array
+function prepareBacklogScope(sprintJSON){
+	var backlogScope = [];
+	var data = sprintJSON.backlogScope;
+	for (var i = 0; i < data.length;i++) {
+		backlogScope.push([data[i]]);
+	}
+	return backlogScope
+}
+//get the JSONArray doneItems from the JSONObject and turn its content into a javascript array
+function prepareDoneItems(sprintJSON){
+	var doneItems = [];
+	var data = sprintJSON.doneItems;
+	for (var i = 0; i < data.length;i++) {
+		doneItems.push([data[i]]);
+	}
+	return doneItems
+}
+//get the JSONArray remainingItems from the JSONObject and turn its content into a javascript array
+function prepareRemainingItems(sprintJSON){
+	var remainingItems = [];
+	var data = sprintJSON.remainingItems;
+	for (var i = 0; i < data.length;i++) {
+		remainingItems.push([data[i]]);
+	}
+	return remainingItems
+}
+// get the year from the JSONObject and return it as int
+function prepareYear(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	year = startDate.getFullYear();
+	return year
+}
+// get the month from the JSONObject and return it as int
+function prepareMonth(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	month = startDate.getMonth();
+	return month 
+}
+// get the day from the JSONObject and return it as int
+function prepareDay(sprintJSON) {
+	var startDate = new Date(sprintJSON.startDate);
+	day = startDate.getDate();
+	return day
+}
+// draws the highchart from a json object
+function drawChart(sprintJSON) {
+	// prepare variables for chart drawing
+	var year = prepareYear(sprintJSON);
+	var month = prepareMonth(sprintJSON);
+	var day = prepareDay(sprintJSON);
+	var idealRemaining = [];
+	idealRemaining = prepareIdealRemaining(sprintJSON);
+	var backlogScope = [];
+	backlogScope = prepareBacklogScope(sprintJSON);
+	var doneItems = [];
+	doneItems = prepareDoneItems(sprintJSON);
+	var remainingItems = [];
+	remainingItems = prepareRemainingItems(sprintJSON);
+	
+	$('.sprintBurnDown').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Sprint BurnDown'
+        },
+        xAxis: {
+            type: 'datetime',
+        },
+       
+        yAxis: {
+            title: {
+            	text: 'Backlog items'
+            }
+        },
+        plotOptions: {
+        	series: {
+        		pointStart: Date.UTC(year,month,day),
+        		pointInterval: 24*3600*1000
+        	}
+        },
+        series: [{name: 'Scope of Backlog items', data: backlogScope},
+                 {name: 'Ideal Remaining Backlog items', data: idealRemaining, lineWidth: '1', dashStyle: 'Dash'},
+                 {name: 'Remaining Backlog items', data: remainingItems, color: 'red'},
+                 {name: 'Done Backlog items', data: doneItems, color: 'green'}]
+    });
+};
 </script>
 <div id="dashboard">
 	<div class="dashboard-element">
@@ -124,28 +231,25 @@ $(document).ready(function(){
 				<div class="list">
 					<%-- for each userstory that the current user is assigned to : create userstory element --%>
 					<c:forEach items="${relevantUserStories}" var="userstory">
-						<%-- checks if the current userstory is not done : will only show userstories in planning or progress --%>
-						<c:if test="${userstory.planState ne 'Done'}">
-							<div class="userstory">							
-								<%-- alters the color of the planstate element depending on the current planstate --%>
-								<c:choose>
-									<c:when test="${userstory.planState eq 'Planning'}">
-										<c:set var="planStateColor" value="darkgrey" />
-									</c:when>
-									<c:when test="${userstory.planState eq 'InProgress'}">
-										<c:set var="planStateColor" value="orange" />
-									</c:when>
-									<c:otherwise>
-										<c:set var="planStateColor" value="green" />
-									</c:otherwise>
-								</c:choose>
-								<div class="element-planstate" style="background-color: ${planStateColor};"></div>
-								<div class="userstory-name text-box" data-toggle="tooltip" title="${userstory.description}">${userstory.description}</div>
-								<div class="userstory-value value-box" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
-								<div class="userstory-effort value-box" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
-								<div class="userstory-time value-box" data-toggle="tooltip" title="Remaining days">${userstory.getRemainingDays()}d</div>
-							</div>
-						</c:if>
+						<div class="userstory">							
+							<%-- alters the color of the planstate element depending on the current planstate --%>
+							<c:choose>
+								<c:when test="${userstory.planState eq 'Planning'}">
+									<c:set var="planStateColor" value="darkgrey" />
+								</c:when>
+								<c:when test="${userstory.planState eq 'InProgress'}">
+									<c:set var="planStateColor" value="orange" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="planStateColor" value="green" />
+								</c:otherwise>
+							</c:choose>
+							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+							<div class="userstory-name text-box" data-toggle="tooltip" title="${userstory.description}">${userstory.description}</div>
+							<div class="userstory-value value-box" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
+							<div class="userstory-effort value-box" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
+							<div class="userstory-time value-box" data-toggle="tooltip" title="Remaining days">${userstory.getRemainingDays()}d</div>
+						</div>
 					</c:forEach>
 					<%-- end for each userstory that the current user is assigned to : create userstory element --%>
 				</div>
@@ -155,42 +259,39 @@ $(document).ready(function(){
 				<div class="list">
 					<%-- for each task that the current user is assigned to : create task element --%>
 					<c:forEach items="${relevantTasks}" var="task">
-						<%-- checks if the current task is not done : will only show tasks in planning or progress --%>
-						<c:if test="${task.planState ne 'Done'}">
-							<div class="task">
-								<%-- alters the color of the planstate element depending on the current planstate --%>
+						<div class="task">
+							<%-- alters the color of the planstate element depending on the current planstate --%>
+							<c:choose>
+								<c:when test="${task.planState eq 'Planning'}">
+									<c:set var="planStateColor" value="darkgrey" />
+								</c:when>
+								<c:when test="${task.planState eq 'InProgress'}">
+									<c:set var="planStateColor" value="orange" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="planStateColor" value="green" />
+								</c:otherwise>
+							</c:choose>
+							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+							<div class="task-description text-box" data-toggle="tooltip" title="${task.description}">${task.description}</div>
+							<div class="task-timeplan value-box" data-toggle="tooltip" title="Time planned">
+								<fmt:formatNumber value="${plannedTimeOnTask[task.id] / 60}" maxFractionDigits="1"/>h
+							</div>
+							<div class="task-timeplan value-box" data-toggle="tooltip" title="Time worked">
+								<fmt:formatNumber value="${workedTimeOnTask[task.id] / 60}" maxFractionDigits="1"/>h
+							</div>
+							<div class="task-timeplan value-box" data-toggle="tooltip" title="Time remaining">
 								<c:choose>
-									<c:when test="${task.planState eq 'Planning'}">
-										<c:set var="planStateColor" value="darkgrey" />
-									</c:when>
-									<c:when test="${task.planState eq 'InProgress'}">
-										<c:set var="planStateColor" value="orange" />
+									<%-- checks if the remaining time is below 0 --%>
+									<c:when test="${((plannedTimeOnTask[task.id] - workedTimeOnTask[task.id]) / 60) >= 0}">
+										<fmt:formatNumber value="${(plannedTimeOnTask[task.id] - workedTimeOnTask[task.id]) / 60}" maxFractionDigits="1"/>h
 									</c:when>
 									<c:otherwise>
-										<c:set var="planStateColor" value="green" />
+										0h
 									</c:otherwise>
 								</c:choose>
-								<div class="element-planstate" style="background-color: ${planStateColor};"></div>
-								<div class="task-description text-box" data-toggle="tooltip" title="${task.description}">${task.description}</div>
-								<div class="task-timeplan value-box" data-toggle="tooltip" title="Time planned">
-									<fmt:formatNumber value="${plannedTimeOnTask[task.id] / 60}" maxFractionDigits="1"/>h
-								</div>
-								<div class="task-timeplan value-box" data-toggle="tooltip" title="Time worked">
-									<fmt:formatNumber value="${workedTimeOnTask[task.id] / 60}" maxFractionDigits="1"/>h
-								</div>
-								<div class="task-timeplan value-box" data-toggle="tooltip" title="Time remaining">
-									<c:choose>
-										<%-- checks if the remaining time is below 0 --%>
-										<c:when test="${((plannedTimeOnTask[task.id] - workedTimeOnTask[task.id]) / 60) >= 0}">
-											<fmt:formatNumber value="${(plannedTimeOnTask[task.id] - workedTimeOnTask[task.id]) / 60}" maxFractionDigits="1"/>h
-										</c:when>
-										<c:otherwise>
-											0h
-										</c:otherwise>
-									</c:choose>
-								</div>
 							</div>
-						</c:if>				
+						</div>				
 					</c:forEach>
 					<%-- end for each task that the current user is assigned to : create task element --%>
 				</div>
@@ -203,8 +304,17 @@ $(document).ready(function(){
 			REPORTING
 			<span class="toggle-button glyphicon glyphicon-menu-up"></span>
 		</div>
-		<div class="element-content reporting">
-		
+		<div id="reporting" class="element-content">			
+			<div class="input-group sprint-selection">
+				<span class="input-group-addon">Sprint</span>
+				<%-- dropdown-menu with all sprints in the project --%>
+				<form:select class="form-control" path="chartData">
+					<c:forEach items="${chartData}" var="item">
+						<form:option value="${item.getValue()}">${item.getKey().getDescription()}</form:option>
+					</c:forEach>				
+				</form:select>
+			</div>
+			<div class="sprintBurnDown"></div>
 		</div>
 	</div>
 </div>
