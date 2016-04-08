@@ -124,10 +124,12 @@ public class SprintController extends MetaController {
 	 */
 	@RequestMapping("/sprintOverview.htm")
 	public ModelAndView sprintOverview(HttpSession session) throws NoProjectFoundException {
+		ModelMap map = new ModelMap();
 		try {
-			this.checkInvalidSession(session);
-			ModelMap map = this.prepareModelMap(session);
+			checkInvalidSession(session);
+			map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
+			testRight(session, Right.Read_Sprint);
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("planstates", PlanState.values());
@@ -136,6 +138,10 @@ public class SprintController extends MetaController {
 			map.addAttribute("canCreateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Create_Sprint));
 			map.addAttribute("canDeleteSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Delete_Sprint));
 			map.addAttribute("canUpdateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Update_Sprint));
+			return new ModelAndView("index", map);
+		} catch(InsufficientRightsException e) {
+			map.addAttribute("action", Action.sprintOverview);
+			map.addAttribute("project", this.loadCurrentProject(session));
 			return new ModelAndView("index", map);
 		} catch(InvalidSessionException | NoSuchUserException e) {
 			return new ModelAndView("redirect:login.htm");

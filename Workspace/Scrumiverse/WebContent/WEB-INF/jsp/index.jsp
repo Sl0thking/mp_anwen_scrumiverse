@@ -87,7 +87,7 @@
 					<span class="badge">?</span>
 				</div>
 				<div id="user-menu">
-					<img alt="user-icon" src="resources/userPictures/default.png">
+					<img alt="user-icon" class="img-circle" src="${currentUser.profileImagePath}">
 					<div class="extra-menu">
 						<a class="extra-menuitem" href="userSettings.htm">
 							<span class="glyphicon glyphicon-cog"></span>

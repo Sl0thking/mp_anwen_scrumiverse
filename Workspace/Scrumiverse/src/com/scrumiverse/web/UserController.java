@@ -1,16 +1,23 @@
 package com.scrumiverse.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.ValidationException;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InvalidSessionException;
@@ -20,6 +27,7 @@ import com.scrumiverse.exception.WrongPasswordException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.utility.Utility;
+
 
 /**
  * Controller for user account interactions
@@ -243,6 +251,35 @@ public class UserController extends MetaController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:userSettings.htm");
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/changeUserPic")
+	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
+		try {
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			checkContentType(file.getContentType());
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			File contextPath = new File(request.getServletContext().getRealPath(""));
+			File image = new File(contextPath + File.separator + "resources" 
+											  + File.separator + "userPictures" 
+					                          + File.separator + "userPic_" + user.getUserID() + ending);
+			String relativePath = "resources/userPictures/userPic_" + user.getUserID() + ending;
+			image.createNewFile();
+			file.transferTo(image);
+			user.setProfileImagePath(relativePath);
+			userDAO.updateUser(user);
+			return new ModelAndView("redirect:userSettings.htm");
+		} catch(InvalidSessionException | NoSuchUserException | IllegalStateException | IOException | InvalidContentTypeException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:userSettings.htm");
+		}
+	}
+
+	private void checkContentType(String contentType) throws InvalidContentTypeException {
+		if(!contentType.equals("image/png") && !contentType.equals("image/jpg")) {
+			throw new InvalidContentTypeException();
 		}
 	}
 }

@@ -151,7 +151,7 @@ function activateButton(btnTab){
 							</div>
 							<div class="user-content">
 								<div class="user-picture">
-									<img class="img-circle" alt="${projectUser.getUser().getName()}" src="./resources/userPictures/1.png" />
+									<img class="img-circle" alt="${projectUser.getUser().getName()}" src="${projectUser.user.profileImagePath}" />
 								</div>
 								<div class="user-info">
 									<div class="user-name">${projectUser.getUser().getName()}</div>

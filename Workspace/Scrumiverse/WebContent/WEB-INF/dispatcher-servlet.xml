@@ -16,6 +16,10 @@
            p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
     <bean id="configurationLoader" class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>  
            <bean id="validator" class="org.springmodules.validation.bean.BeanValidator"  p:configurationLoader-ref="configurationLoader"/>   
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<!-- one of the properties available; the maximum file size in bytes -->
+    	<!-- <property name="maxUploadSize" value="100000"/> -->
+	</bean>
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/scrumiverseDB"/>

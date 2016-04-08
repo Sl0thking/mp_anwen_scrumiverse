@@ -5,10 +5,14 @@
 
 <div id="accountpage">
     <div id="img">
-        <img src="${user.profileImagePath}"/>
+    	<form method="POST" action="changeUserPic.htm" enctype="multipart/form-data" >
+        	<img width=350 height=350 src="${user.profileImagePath}"/>
+        	<input name="image" type="file"/>
+        	<button type="submit">Upload</button>
+        </form>
     </div>
     <div id="editable">
-        <form:form action="saveUserStory.htm" commandName="user">
+        <form:form action="changeUser.htm" commandName="user">
            <div class="input-group">
                <span class="input-group-addon input-group-addon-fix" id="basic-addon2">Username</span>
                <form:input path="name" type="text" class="form-control input-control" placeholder="${user.name }" aria-describedby="basic-addon1" />
@@ -26,6 +30,7 @@
                <form:input path="email" type="text" class="form-control input-control" placeholder="${user.email }" aria-describedby="basic-addon1"/>
             </div>
             <form:hidden path="userID"/>
+            <form:hidden path="profileImagePath"/>
             <button type="submit">save</button>
         </form:form>
     </div>

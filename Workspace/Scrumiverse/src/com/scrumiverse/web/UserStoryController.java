@@ -112,6 +112,8 @@ public class UserStoryController extends MetaController {
 			int projectId = (int) session.getAttribute("currentProjectId");
 			Project project = this.loadCurrentProject(session);
 			User user = this.loadActiveUser(session);
+			//Check if user has right to read user stories
+			//when not, exception is thrown and backend is not loading user stories
 			testRight(session, Right.Read_UserStory);
 			SortedSet<UserStory> userStories = userStoryDAO.getUserStoriesOfProject(projectId);
 			map.addAttribute("userstories", userStories.toArray(new UserStory[userStories.size()]));

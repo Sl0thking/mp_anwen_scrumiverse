@@ -25,6 +25,7 @@ import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanState;
 import com.scrumiverse.model.scrumCore.Project;
+import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
@@ -38,7 +39,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Controller for operations with task data modell
  * 
  * @author Kevin Jolitz
- * @version 17.03.2016
+ * @version 08.04.2016
  */
 @Controller
 public class TaskController extends MetaController {
@@ -54,10 +55,17 @@ public class TaskController extends MetaController {
 	
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
+		ModelMap map = new ModelMap();
+		User user = null;
+		Project project = null;
+		ProjectUser pUser = null;
 		try {
 			checkInvalidSession(session);
-			User user = this.loadActiveUser(session);
-			Project project = loadCurrentProject(session);
+			user = this.loadActiveUser(session);
+			project = loadCurrentProject(session);
+			pUser = project.getProjectUserFromUser(user);
+			map = this.prepareModelMap(session);
+			testRight(session, Right.Read_Task);			
 			Set<UserStory> userStories = project.getUserstories();
 			Map<UserStory, List<Task>> tasksOfUserStoryMap = new HashMap<UserStory, List<Task>>();
 			for(UserStory userStory : userStories) {
@@ -76,19 +84,27 @@ public class TaskController extends MetaController {
 					userWorkedTimesOfTaskMap.put(task, userWorkedTimes);
 				}
 			}
-			ModelMap map = this.prepareModelMap(session);
 			map.addAttribute("action", Action.taskboard);
 			map.addAttribute("userStories", userStories);
 			map.addAttribute("tasksOfUserStories", tasksOfUserStoryMap);
 			map.addAttribute("planStates", PlanState.values());
 			map.addAttribute("userWorkedTimeOfTask", userWorkedTimesOfTaskMap);
-			map.addAttribute("canCreateTask", project.getProjectUserFromUser(user).getRole().hasRight(Right.Create_Task));
-			map.addAttribute("canDeleteTask", project.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_Task));
+			map.addAttribute("canCreateTask", pUser.getRole().hasRight(Right.Create_Task));
+			map.addAttribute("canDeleteTask", pUser.getRole().hasRight(Right.Delete_Task));
 			return new ModelAndView("index", map);
 		} catch(NoProjectFoundException | NoSuchUserException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
+		} catch (InsufficientRightsException e) {
+			if(user != null && project != null && pUser != null) {
+				map.addAttribute("action", Action.taskboard);
+				map.addAttribute("canCreateTask", pUser.getRole().hasRight(Right.Create_Task));
+				map.addAttribute("canDeleteTask", pUser.getRole().hasRight(Right.Delete_Task));
+				return new ModelAndView("index", map);
+			} else {
+				return new ModelAndView("redirect:projectOverview.htm");
+			}
 		}
 	}
 
