@@ -428,6 +428,23 @@ public class Project {
 		return remTime;
 	}
 	/**
+	 * Returns the worked minutes of all UserStories currently not part of a sprint
+	 * @return int
+	 */
+	@Transient
+	public int getIceBoxWorkedTime() {
+		int workTime = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				workTime += us.getWorkedMinutes();
+			}
+		}
+		if(workTime < 0) {
+			return 0;
+		}
+		return workTime;
+	}
+	/**
 	 * Returns the planned minutes of all UserStories currently not part of a Sprint
 	 * @return int
 	 */

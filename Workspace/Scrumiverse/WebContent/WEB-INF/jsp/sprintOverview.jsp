@@ -3,16 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
-$(document).ready(function(){
-    $(".backlogbar").click(function(){
-        openBacklog();
-    });
-    
-    $("#openBacklog").click(function(){
-        openBacklog();
-    });
-});
-
+// open the backlog and handels the "button"
 function openBacklog(){
     if($(".backlog-placeholder").css("left")=="0px"){
         $(".backlog-placeholder").animate({left:"-287px"},500);
@@ -22,10 +13,17 @@ function openBacklog(){
         $(".glyphicon-menu-right").css({transform:"rotate(180deg)"});
     }
 }
-    
+
+// hide buttons and actives the click events
 $(document).ready(function(){
     $(".addusbtn").hide();
     $("#removebtn").hide();
+    $(".backlogbar").click(function(){
+        openBacklog();
+    });
+    $("#openBacklog").click(function(){
+        openBacklog();
+    });
     selectUserstory();
     toggleSprintlog();
     moveUserstories();
@@ -34,6 +32,7 @@ $(document).ready(function(){
     }
 });
 
+// attached the selcted(add/remove) userstory to the url
 function moveUserstories(){
     $(".addusbtn, #removebtn").click(function(){
         var sprint = $(".openlog").attr("sprintid");
@@ -115,7 +114,7 @@ function closeAll(){
 }
 
 //Toggles the Addbtn
-//Check the selected Userstories and one Sprintlog must be open.
+//Check the selected Userstories and one Sprintlog must be open
 function toggleAddbtn(){
     if(checkSelected(".content") && $(".sprint").hasClass("openlog")){
         $(".addusbtn").show();
@@ -143,7 +142,7 @@ function toggleRemovebtn(){
         <div class="backlog-data">
             <div class="data-container">
                 Time</br>
-                <fmt:formatNumber value="${project.getIceBoxRemainingTime()/60}" maxFractionDigits="1"/> /
+                <fmt:formatNumber value="${project.getIceBoxWorkedTime()/60}" maxFractionDigits="1"/> /
                 <fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}" maxFractionDigits="1"/> h
                 <div class="progressbar">
                     <div class="progress" style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"/></div>
@@ -215,7 +214,7 @@ function toggleRemovebtn(){
 	                    <div class="data-container">
 	                        Time
 	                        <div class="count">
-	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
+	                        	<fmt:formatNumber value="${sprint.getWorkedMinutes() / 60 }" maxFractionDigits="1" /> / 
 	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h</div>
 	                        <div class="progressbar">
 	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
@@ -319,7 +318,7 @@ function toggleRemovebtn(){
 										</form:select>
 				                    </div>
 				                 </div>
-	                    		 <button <c:if test="${canUpdateSprint }">disabled</c:if> disabled="${!canUpdateSprint }" type="submit" class="btn btn-default">
+	                    		 <button <c:if test="${!canUpdateSprint }">disabled</c:if> type="submit" class="btn btn-default">
 	                        		<span class="glyphicon glyphicon-save"></span>
 	                        		Save
 	                    		</button>

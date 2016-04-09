@@ -254,7 +254,7 @@ public class UserStory extends PlanElement {
 		int result = 0;
 		//Nullpinter abfangen
 		try{
-			result = (int) ((dueDate.getTime()/(1000*60*60*24)+1  - today.getTime())/(1000*60*60*24));
+			result = (int) (dueDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24));
 			if(result<=0){
 				result=0;
 			}

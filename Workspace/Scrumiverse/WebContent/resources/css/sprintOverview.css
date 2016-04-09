@@ -166,10 +166,11 @@
 
 .sprint .sprint-date{
     width: 100px;
-    height: 44px;
+    height: 70px;
     font-size: 16px;
+    float: right;
+    padding-top: 8px;
     font-weight: 500;
-    display: inline-block;
 }
 
 .sprintpage .sprint .sprint-data{
