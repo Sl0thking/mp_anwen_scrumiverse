@@ -6,7 +6,8 @@ import java.util.Set;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.CannotDeleteProjectWithUsersException;
+import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
@@ -15,7 +16,7 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
  * Implementation of the dao for project objects.
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 04.04.2016
+ * @version 11.04.2016
  *
  */
 
@@ -36,24 +37,35 @@ public class ProjectDAOImpl implements ProjectDAO {
 	 * returns all projects by userID
 	 * @param int
 	 * @return Set<Project>
+	 * @throws ProjectPersistenceException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Project> getProjectsFromUser(int userID) {
-		User relatedUser = (User) hibernateTemplate.find("from User where userID='"+ userID +"'").get(0);
-		return relatedUser.getProjects();
+	public Set<Project> getProjectsFromUser(int userID) throws ProjectPersistenceException {
+		List<User> possibleUsers = hibernateTemplate.find("from User where userID='"+ userID +"'");
+		if(possibleUsers.size() == 1) {
+			User relatedUser = possibleUsers.get(0);
+			return relatedUser.getProjects();
+		//when more or less than one project is found, an exception is thrown
+		} else {
+			throw new ProjectPersistenceException();
+		}
 	}
+	
 	/**
 	 * returns a specific project by projectID
 	 * @param int
 	 * @return Project
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Project getProject(int projectID) throws NoProjectFoundException{
+	public Project getProject(int projectID) throws ProjectPersistenceException{
 		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
-		if(projects.size() != 0) {
+		if(projects.size() == 1) {
 			return projects.get(0);
+		} else {
+			throw new ProjectPersistenceException();
 		}
-		throw new NoProjectFoundException();
 	}
 	
 	@Override
@@ -62,11 +74,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public void deleteProject(Project p) throws Exception {
+	public void deleteProject(Project p) throws CannotDeleteProjectWithUsersException  {
 		if(p.getProjectUsers().size() == 0) {
 			hibernateTemplate.delete(p);
 		} else {
-			throw new Exception();
+			throw new CannotDeleteProjectWithUsersException();
 		}
 	}
 }

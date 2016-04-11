@@ -24,8 +24,8 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
  * Datamodel of Sprints
- * @author Toni Serfling, Lasse Jacobs
- * @version 04.04.2016
+ * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
+ * @version 11.04.2016
  */
 @Entity
 public class Sprint extends PlanElement {
@@ -161,7 +161,7 @@ public class Sprint extends PlanElement {
 		int remainingDays=0;
 		if(today.before(endDate)){
 			// Add one to to the endDate, otherwise you can't calculate with dates(dates day will not appear in calculation)
-			remainingDays = (int) ((endDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24)));
+			remainingDays = (int) (endDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24));
 			if(remainingDays<=0){
 				remainingDays=0;
 			}
@@ -395,10 +395,25 @@ public class Sprint extends PlanElement {
 	
 	@Override
 	public int compareTo(PlanElement o) {
-		int comp = this.getStartDate().compareTo(((Sprint) o).getStartDate());
-		if(comp == 0) {
-			return super.compareTo(o);
+		Sprint otherSprint = (Sprint) o;
+		int comp = this.getStartDate().compareTo(otherSprint.getStartDate());
+		if( comp != 0) {
+			return comp;
+		} else {
+			comp = this.getEndDate().compareTo(otherSprint.getEndDate());
+			if(comp != 0) {
+				return comp;
+			} else {
+				return super.compareTo(o);
+			}
 		}
-		return comp;
 	}
+
+	@Override
+	public String toString() {
+		return "Sprint [startDate=" + startDate + ", endDate=" + endDate + ", getDescription()=" + getDescription()
+				+ ", getId()=" + getId() + "]";
+	}
+	
+	
 }

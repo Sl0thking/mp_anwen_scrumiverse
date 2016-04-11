@@ -116,11 +116,19 @@ function activateButton(btnTab){
 	</div>
 	<div class="tab-content">
         <div id="detail-tab" class="tab-pane fade in active">
-			<form:form action="saveProject.htm" commandName="project">
-				<div class="input-group">
-					<span class="input-group-addon">Name</span>
-					<form:input type="text" class="form-control" path="name" value="${project.getName()}"/>
-				</div>
+        		<form method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
+        			<div class="input-group">
+        				<img src="${project.picPath}" width="150" height="150">
+        				<input name="image" type="file">
+        				<button class="btn btn-default" type="submit">Upload</button>
+        			</div>
+        		</form>
+        
+				<form:form action="saveProject.htm" commandName="project" acceptCharset="UTF-8">
+					<div class="input-group">
+						<span class="input-group-addon">Name</span>
+						<form:input type="text" class="form-control" path="name" value="${project.getName()}"/>
+					</div>
 				<div class="input-group">
 					<span class="input-group-addon">Description</span>
 					<form:textarea class="form-control" style="resize:vertical" path="description" value="${project.getDescription()}"/>
@@ -151,7 +159,7 @@ function activateButton(btnTab){
 							</div>
 							<div class="user-content">
 								<div class="user-picture">
-									<img class="img-circle" alt="${projectUser.getUser().getName()}" src="./resources/userPictures/1.png" />
+									<img class="img-circle" alt="${projectUser.getUser().getName()}" src="${projectUser.user.profileImagePath}" />
 								</div>
 								<div class="user-info">
 									<div class="user-name">${projectUser.getUser().getName()}</div>

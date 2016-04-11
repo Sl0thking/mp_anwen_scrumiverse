@@ -1,15 +1,16 @@
 package com.scrumiverse.web;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.CategoryBinder;
@@ -26,9 +29,10 @@ import com.scrumiverse.binder.RoleBinder;
 import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.SprintPersistenceException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
 import com.scrumiverse.forms.CategoryForm;
 import com.scrumiverse.forms.RoleForm;
@@ -52,7 +56,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 04.04.2016
+ * @version 11.04.2016
  *
  */
 
@@ -104,7 +108,7 @@ public class ProjectController extends MetaController {
 			map.addAttribute("manageRight", manageRights);
 			map.addAttribute("action", Action.projectOverview);
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException | NoSuchUserException | NoProjectFoundException e) {
+		} catch(InvalidSessionException | UserPersistenceException | ProjectPersistenceException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
@@ -129,7 +133,7 @@ public class ProjectController extends MetaController {
 			userDAO.updateUser(user);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectOverview.htm");
-		} catch(InvalidSessionException | NoSuchUserException e) {
+		} catch(InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
@@ -199,7 +203,7 @@ public class ProjectController extends MetaController {
 			}
 			session.setAttribute("currentProjectId", project.getProjectID());
 			return new ModelAndView("redirect:dashboard.htm");
-		} catch(NoProjectFoundException | InsufficientRightsException | NoSuchUserException e) {
+		} catch(ProjectPersistenceException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -271,9 +275,9 @@ public class ProjectController extends MetaController {
 			user.addProject(currentProject);
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=4");
-		} catch (NoProjectFoundException | InsufficientRightsException e) {
+		} catch (ProjectPersistenceException | InsufficientRightsException e) {
 			if(hasUpdateRight) {
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 			}
@@ -304,7 +308,7 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch(TriedToRemoveAdminException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
-		} catch(NoSuchUserException | NoProjectFoundException e) {
+		} catch(UserPersistenceException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch(InsufficientRightsException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
@@ -355,10 +359,10 @@ public class ProjectController extends MetaController {
 	 * Remove user from project and project from internal list in user
 	 * @param user
 	 * @param project
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException 
 	 */
-	private void removeUserFromProject(User user, Project project, boolean forced) throws NoSuchUserException, TriedToRemoveAdminException {
+	private void removeUserFromProject(User user, Project project, boolean forced) throws UserPersistenceException, TriedToRemoveAdminException {
 		user.leaveProject(project);
 		project.removeProjectUser(user, forced);
 		projectDAO.updateProject(project);
@@ -381,7 +385,7 @@ public class ProjectController extends MetaController {
 			project.setUserstories(currentProject.getUserstories());
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
-		} catch (InvalidSessionException | NoProjectFoundException e) {
+		} catch (InvalidSessionException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -404,10 +408,9 @@ public class ProjectController extends MetaController {
 			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.reporting);
 			return new ModelAndView("index", map);		
-		} catch(NoSuchUserException | InvalidSessionException e) {
-			e.printStackTrace();
+		} catch(UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoProjectFoundException e) {
+		} catch(SprintPersistenceException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -428,19 +431,19 @@ public class ProjectController extends MetaController {
 			Set<UserStory> relevantUserStories = new HashSet<UserStory>();
 			Set<Task> relevantTasks = new HashSet<Task>();
 			// get planned time and worked time of user per task
-			HashMap<Task, Integer> plannedTimeOnTask = new HashMap<Task, Integer>();
-			HashMap<Task, Integer> workedTimeOnTask = new HashMap<Task, Integer>();
+			HashMap<Integer, Integer> plannedTimeOnTask = new HashMap<Integer, Integer>();
+			HashMap<Integer, Integer> workedTimeOnTask = new HashMap<Integer, Integer>();
 			for(UserStory us : project.getUserstories()) {
-				// check whether the user is assigned to the userstory
-				if (us.getResponsibleUsers().contains(loggedUser)) {
+				// check if the user is assigned to the userstory and the userstory is not done
+				if (us.getResponsibleUsers().contains(loggedUser) && !us.getPlanState().equals(PlanState.Done)) {
 					relevantUserStories.add(us);
 					for (Task t : us.getTasks()) {
-						// checks whether the user is assigned to the task
-						if (t.getResponsibleUsers().contains(loggedUser)) {
+						// checks if the user is assigned to the task and the task is not done
+						if (t.getResponsibleUsers().contains(loggedUser) && !t.getPlanState().equals(PlanState.Done)) {
 							relevantTasks.add(t);
 							// adds planned and worked time of user for task
-							plannedTimeOnTask.put(t, t.getPlannedMinOfUser(loggedUser));
-							workedTimeOnTask.put(t, t.getWorkTimeOfUser(loggedUser));
+							plannedTimeOnTask.put(t.getId(), t.getPlannedMinOfUser(loggedUser));
+							workedTimeOnTask.put(t.getId(), t.getWorkTimeOfUser(loggedUser));
 						}
 					}
 				}
@@ -459,12 +462,11 @@ public class ProjectController extends MetaController {
 			map.addAttribute("plannedTimeOnTask", plannedTimeOnTask);
 			map.addAttribute("workedTimeOnTask", workedTimeOnTask);
 			map.addAttribute("chartData", chartData);
-			map.addAttribute("planStates", PlanState.values());
 			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
-		} catch(NoSuchUserException | InvalidSessionException e) {
+		} catch(UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoProjectFoundException e) {
+		} catch(ProjectPersistenceException | SprintPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -486,13 +488,35 @@ public class ProjectController extends MetaController {
 			currentProject.setProjectUserRole(user, role);
 			projectDAO.updateProject(currentProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch (NoProjectFoundException | RoleNotInProjectException | TriedToRemoveAdminException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | RoleNotInProjectException | TriedToRemoveAdminException | UserPersistenceException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/changeProjectPic")
+	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
+		try {
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			Project project = this.loadCurrentProject(session);
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			String serverPath = "resources" 
+					  		  + File.separator + "projectPictures" 
+					  		  + File.separator + "projectPic_";
+			String fullPath = serverPath + project.getProjectID() + ending;
+			this.uploadPicture(request, file, serverPath, project.getProjectID());
+			project.setPicPath(fullPath);
+			projectDAO.updateProject(project);
+			return new ModelAndView("redirect:userSettings.htm");
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:userSettings.htm");
+		}
+	}
+	
 	/**
 	 * Generates the chart data of a sprint for the burndown chart
 	 * @param s

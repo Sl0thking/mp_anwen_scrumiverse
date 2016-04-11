@@ -1,25 +1,33 @@
 package com.scrumiverse.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.ValidationException;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.exception.WrongPasswordException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 import com.scrumiverse.utility.Utility;
+
 
 /**
  * Controller for user account interactions
@@ -74,7 +82,7 @@ public class UserController extends MetaController{
 			session.setAttribute("isLogged", true);
 			return new ModelAndView("redirect:projectOverview.htm");
 		//No User with given email address, wrong password or fatal algorithm exception
-		} catch (NoSuchUserException | WrongPasswordException | NoSuchAlgorithmException e) {
+		} catch (UserPersistenceException | WrongPasswordException | NoSuchAlgorithmException e) {
 			map.addAttribute("loginError", true);
 			map.addAttribute("action", Action.login);
 			return new ModelAndView("index", map);
@@ -119,7 +127,7 @@ public class UserController extends MetaController{
 			//when user already in database, throw exception
 			throw new Exception();
 		//Expect this exception
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			userDAO.saveUser(formRegUser);
 			return new ModelAndView("redirect:login.htm");
 		} catch (ValidationException e) {
@@ -135,7 +143,7 @@ public class UserController extends MetaController{
 		return new ModelAndView("index", map);
 	}
 	
-	private boolean checkEmailAvailability(User formRegUser) throws NoSuchUserException {
+	private boolean checkEmailAvailability(User formRegUser) throws UserPersistenceException {
 		String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
 		formRegUser.setEmail(lowerCaseEmail);
 		userDAO.getUserByEmail(lowerCaseEmail);
@@ -205,7 +213,7 @@ public class UserController extends MetaController{
 	 * @param user
 	 * @param name
 	 * @return ModelAndView
-	 * @throws NoSuchUserException 
+	 * @throws UserPersistenceException 
 	 */
 	@RequestMapping("/changeUser.htm")
 	public ModelAndView changeUserName(HttpSession session, User newUserData, BindingResult result) {
@@ -232,15 +240,35 @@ public class UserController extends MetaController{
 				checkEmailAvailability(newUserData);
 				throw new Exception();
 			} else {
-				throw new NoSuchUserException();
+				throw new UserPersistenceException();
 			}
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoSuchUserException e) {
+		} catch(UserPersistenceException e) {
 			userDAO.updateUser(newUserData);
 			session.setAttribute("loggedUser", newUserData);
 			return new ModelAndView("redirect:userSettings.htm");
 		} catch (Exception e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:userSettings.htm");
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/changeUserPic")
+	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
+		try {
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			String serverPath = "resources" 
+					  		  + File.separator + "userPictures" 
+					  		  + File.separator + "userPic_";
+			String fullPath = serverPath + user.getUserID() + ending;
+			this.uploadPicture(request, file, serverPath, user.getUserID());
+			user.setProfileImagePath(fullPath);
+			userDAO.updateUser(user);
+			return new ModelAndView("redirect:userSettings.htm");
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:userSettings.htm");
 		}

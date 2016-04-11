@@ -18,10 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.binder.DateBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSprintFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
-import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.SprintPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
+import com.scrumiverse.exception.UserStoryPersistenceException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanState;
@@ -60,10 +60,10 @@ public class SprintController extends MetaController {
 	/**
 	 * Adds a new Sprint 
 	 * @return
-	 * @throws NoProjectFoundException 
+	 * @throws ProjectPersistenceException 
 	 */
 	@RequestMapping("/addSprint.htm") 
-	public ModelAndView addSprint(HttpSession session) throws NoProjectFoundException {
+	public ModelAndView addSprint(HttpSession session) throws ProjectPersistenceException {
 		try {
 			this.checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
@@ -75,7 +75,7 @@ public class SprintController extends MetaController {
 			project.addSprint(sprint);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:sprintOverview.htm");	
-		}catch (NoSuchUserException | InvalidSessionException e) {
+		}catch (UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -94,7 +94,7 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoSprintFoundException | NoSuchUserException | NoProjectFoundException | InsufficientRightsException e) {
+		} catch (SprintPersistenceException | UserPersistenceException | ProjectPersistenceException | InsufficientRightsException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} 
@@ -110,8 +110,8 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoSprintFoundException | NoProjectFoundException |
-				 NoSuchUserException | InsufficientRightsException e) {
+		} catch (SprintPersistenceException | ProjectPersistenceException |
+				 UserPersistenceException | InsufficientRightsException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		}
 	}
@@ -120,21 +120,30 @@ public class SprintController extends MetaController {
 	 * Shows all sprints
 	 * @param session
 	 * @return ModelAndView
-	 * @throws NoProjectFoundException
+	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/sprintOverview.htm")
-	public ModelAndView sprintOverview(HttpSession session) throws NoProjectFoundException {
+	public ModelAndView sprintOverview(HttpSession session) throws ProjectPersistenceException {
+		ModelMap map = new ModelMap();
 		try {
-			this.checkInvalidSession(session);
-			ModelMap map = this.prepareModelMap(session);
+			checkInvalidSession(session);
+			map = this.prepareModelMap(session);
 			int projectId = (int) session.getAttribute("currentProjectId");
+			testRight(session, Right.Read_Sprint);
 			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
 			map.addAttribute("sprints", sprints);
 			map.addAttribute("planstates", PlanState.values());
 			map.addAttribute("action", Action.sprintOverview);
 			map.addAttribute("project", this.loadCurrentProject(session));
+			map.addAttribute("canCreateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Create_Sprint));
+			map.addAttribute("canDeleteSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Delete_Sprint));
+			map.addAttribute("canUpdateSprint", this.loadCurrentProject(session).getProjectUserFromUser(this.loadActiveUser(session)).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException | NoSuchUserException e) {
+		} catch(InsufficientRightsException e) {
+			map.addAttribute("action", Action.sprintOverview);
+			map.addAttribute("project", this.loadCurrentProject(session));
+			return new ModelAndView("index", map);
+		} catch(InvalidSessionException | UserPersistenceException | SprintPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -168,14 +177,14 @@ public class SprintController extends MetaController {
 				}
 			}
 			return new ModelAndView("redirect:sprintOverview.htm");		
-		} catch (NoUserStoryFoundException | NoSprintFoundException e) {
+		} catch (UserStoryPersistenceException | SprintPersistenceException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
-		} catch (NoSuchUserException | InvalidSessionException e) {
+		} catch (UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		} 
 	}
 	
-	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws NoUserStoryFoundException {
+	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws UserStoryPersistenceException {
 		sprint.removeUserStory(userStory);
 		sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_REMOVED));
 		userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_REMOVED));

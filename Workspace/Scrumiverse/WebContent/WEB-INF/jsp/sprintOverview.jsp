@@ -3,16 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
-$(document).ready(function(){
-    $(".backlogbar").click(function(){
-        openBacklog();
-    });
-    
-    $("#openBacklog").click(function(){
-        openBacklog();
-    });
-});
-
+// open the backlog and handels the "button"
 function openBacklog(){
     if($(".backlog-placeholder").css("left")=="0px"){
         $(".backlog-placeholder").animate({left:"-287px"},500);
@@ -22,10 +13,17 @@ function openBacklog(){
         $(".glyphicon-menu-right").css({transform:"rotate(180deg)"});
     }
 }
-    
+
+// hide buttons and actives the click events
 $(document).ready(function(){
     $(".addusbtn").hide();
     $("#removebtn").hide();
+    $(".backlogbar").click(function(){
+        openBacklog();
+    });
+    $("#openBacklog").click(function(){
+        openBacklog();
+    });
     selectUserstory();
     toggleSprintlog();
     moveUserstories();
@@ -34,6 +32,7 @@ $(document).ready(function(){
     }
 });
 
+// attached the selcted(add/remove) userstory to the url
 function moveUserstories(){
     $(".addusbtn, #removebtn").click(function(){
         var sprint = $(".openlog").attr("sprintid");
@@ -115,7 +114,7 @@ function closeAll(){
 }
 
 //Toggles the Addbtn
-//Check the selected Userstories and one Sprintlog must be open.
+//Check the selected Userstories and one Sprintlog must be open
 function toggleAddbtn(){
     if(checkSelected(".content") && $(".sprint").hasClass("openlog")){
         $(".addusbtn").show();
@@ -133,6 +132,7 @@ function toggleRemovebtn(){
     }
 }
 </script>
+<%-- Creates the backlog on the left side of the sprintpage --%>
 <div class="backlog-placeholder">
     <div class="backlogbar">
         <span class="glyphicon glyphicon-menu-right barbtn"></span>
@@ -142,7 +142,7 @@ function toggleRemovebtn(){
         <div class="backlog-data">
             <div class="data-container">
                 Time</br>
-                <fmt:formatNumber value="${project.getIceBoxRemainingTime()/60}" maxFractionDigits="1"/> /
+                <fmt:formatNumber value="${project.getIceBoxWorkedTime()/60}" maxFractionDigits="1"/> /
                 <fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}" maxFractionDigits="1"/> h
                 <div class="progressbar">
                     <div class="progress" style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"/></div>
@@ -163,6 +163,7 @@ function toggleRemovebtn(){
                 </div>
             </div>
         </div>
+        <%-- content contains all userstory of the backlog --%>
         <div class="content">
         	<c:forEach items="${project.getIceBox()}" var="userstory">
 	            <div usid="${userstory.id }" class="userstory">
@@ -177,11 +178,14 @@ function toggleRemovebtn(){
 				</div>
 			</c:forEach>
         </div>
+        <c:if test="${canUpdateSprint }">
         <a class="addusbtn" href="./syncBacklogAndSprint.htm">Add to Sprint</a>
+        </c:if>
     </div>
 </div>
 
 <div class="sprintpage">
+<%-- Build the sprintpage with the sprints of the project --%>
 	<c:forEach items="${sprints}" var="sprint">
 	    <div sprintid="${sprint.id}" class="sprint">
 	        <div id="${sprint.planState.toString() }" class="sprint-state"></div>
@@ -189,7 +193,13 @@ function toggleRemovebtn(){
 	            <div class="sprint-name">${sprint.description }</div>
 	            <div class="sprint-stats">
 	                <div class="sprint-time-overview">
-	                    <div class="sprint-sandclock"></div>
+	                	<%-- Show the sandclock-icon depending on the remaining days  --%>
+	                    <c:choose>
+		        			<c:when test="${sprint.getRemainingDays() > 3}"><img src="./resources/images/sandclock/SandClock_4.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:when test="${sprint.getRemainingDays() > 1}"><img src="./resources/images/sandclock/SandClock_3.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:when test="${sprint.getRemainingDays() == 1}"><img src="./resources/images/sandclock/SandClock_1.png" alt="" class="sprint-sandclock"></img></c:when>
+		        			<c:otherwise><img src="./resources/images/sandclock/SandClock_0.png" alt="" class="sprint-sandclock"></img></c:otherwise>
+		        		</c:choose>
 	                    <div class="sprint-date">${sprint.startDate.toString().substring(0,10)} -</br>${sprint.endDate.toString().substring(0,10)}</div>
 	                    <div class="sprint-time"><c:if test="${sprint.planState.toString()=='InProgress' }"><fmt:formatNumber value="${sprint.getRemainingDays() }" maxFractionDigits="0" /> d</c:if></div>
 	                </div>
@@ -204,7 +214,7 @@ function toggleRemovebtn(){
 	                    <div class="data-container">
 	                        Time
 	                        <div class="count">
-	                        	<fmt:formatNumber value="${sprint.getRemainingMinutes() / 60 }" maxFractionDigits="1" /> / 
+	                        	<fmt:formatNumber value="${sprint.getWorkedMinutes() / 60 }" maxFractionDigits="1" /> / 
 	                        	<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}" maxFractionDigits="1" /> h</div>
 	                        <div class="progressbar">
 	                        	<div class="progress" style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
@@ -228,10 +238,12 @@ function toggleRemovebtn(){
 	            </div>
 	        </div>
 	        <div id="${sprint.planState.toString() }" class="sprint-control">
+	        	<%-- set the link for the modal detailview of the sprint depending on the sprint id --%>
 	            <a class="glyphicon glyphicon-triangle-right sprint-link" href="#" data-toggle="modal" data-target="#sprintmodal_${sprint.id }"></a>
 	            <span class="glyphicon glyphicon-triangle-bottom sprint-dropdown"></span>
 	        </div>
 	        <div class="sprintlog">
+	        	<%-- Creates the sprintlog with the userstories of the sprint --%>
 		        <c:forEach items="${sprint.getUserStories()}" var="userstory">
 		            <div usid="${userstory.id }" class="userstory">
 		                <div class="userstory-titel">${userstory.description }</div>
@@ -246,6 +258,7 @@ function toggleRemovebtn(){
 		        </c:forEach>
 		    </div>
 		</div>
+		<%-- Creates the sprintdetail-view. Sets the id of the modal with the id of the sprint --%>
 	    <div id="sprintmodal_${sprint.id }" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		    <div class="modal-dialog">
 		        <div class="modal-content sprint-settings">
@@ -254,9 +267,11 @@ function toggleRemovebtn(){
 					    <span class="glyphicon glyphicon-cog"></span>
 					    SPRINT SETTINGS
 	                    </span>
-	                    <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
-							<span class="glyphicon glyphicon-trash"></span>
-						</a>
+                    	<c:if test="${canDeleteSprint}">
+                    		 <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+                    	</c:if>
 						<ul class="nav nav-tabs">
                                <li class="active">
                                    <a data-toggle="tab" role="tab" href=".detail-tab">
@@ -273,40 +288,42 @@ function toggleRemovebtn(){
                            </ul>
 					</div>
 					<div class="tab-content">
+						<%-- detail-tab of the sprintdetail-view --%>
 						<div class="modal-body detail-tab tab-pane fade in active">
-						<!--  Fix for commandName bug --> 
-						<c:set var="selectedSprint" value="${sprint}" scope="request"/> 
+							<%--  Fix for commandName bug  --%> 
+							<c:set var="selectedSprint" value="${sprint}" scope="request"/>
 							<form:form action="updateSprint.htm" commandName="selectedSprint">
 								<form:hidden path="id"/>
 				                <div class="input-group">
 				                    <span class="input-group-addon input-group-addon-fix">Description</span>
-				                    <form:input class="form-control input-control" path="description" value="${selectedSprint.description }"/>
+				                    <form:textarea disabled="${!canUpdateSprint }"  class="form-control input-control" path="description" value="${selectedSprint.description }"></form:textarea>
 				                </div>
 				                <div class="input-group">
 				                <span class="input-group-addon input-group-addon-fix">Criteria</span>
-				                <form:textarea class="form-control input-control" path="acceptanceCriteria" value="${selectedSprint.acceptanceCriteria }"></form:textarea>
+				                <form:textarea disabled="${!canUpdateSprint }" class="form-control input-control" path="acceptanceCriteria" value="${selectedSprint.acceptanceCriteria }"></form:textarea>
 				                </div>
 				                <div class="date-container">
 				                    <div class="input-group input-startdate">
 				                        <span class="input-group-addon input-group-addon-fix">Start Date</span>
-				                        <form:input type="date" class="form-control input-control" path="startDate" value="${selectedSprint.startDate.toString().substring(0,10) }"/>
+				                        <form:input disabled="${!canUpdateSprint }" type="date" class="form-control input-control" path="startDate" value="${selectedSprint.startDate.toString().substring(0,10) }"/>
 				                    </div>
 				                    <div class="input-group input-duedate">
 				                        <span class="input-group-addon input-group-addon-fix">Due Date</span>
-				                        <form:input type="date" class="form-control input-control" path="endDate" value="${selectedSprint.endDate.toString().substring(0,10) }"/>
+				                        <form:input disabled="${!canUpdateSprint }" type="date" class="form-control input-control" path="endDate" value="${selectedSprint.endDate.toString().substring(0,10) }"/>
 				                    </div>
 				                    <div class="input-group input-state">
 				                        <span class="input-group-addon input-group-addon-fix input-state-addon-fix">State</span>
-				                        <form:select path="planState" class="form-control input-control">
+				                        <form:select disabled="${!canUpdateSprint }" path="planState" class="form-control input-control">
 											<form:options items="${planstates}"/>
 										</form:select>
 				                    </div>
-				                </div>
-				                <button class="btn btn-default" type="submit">
-			                        <span class="glyphicon glyphicon-save"></span>
-			                        Save
-			                    </button>
+				                 </div>
+	                    		 <button <c:if test="${!canUpdateSprint }">disabled</c:if> type="submit" class="btn btn-default">
+	                        		<span class="glyphicon glyphicon-save"></span>
+	                        		Save
+	                    		</button>
 			                </form:form>
+			                <%-- Contains the data (Time, Effort, Value) of the sprint --%>
 			                <div class="sprint-data">
 			                    <div class="modal-data-container">
 			                        Time</br>
@@ -331,6 +348,7 @@ function toggleRemovebtn(){
 			                        </div>
 			                    </div>
 			                </div>
+			                <%-- Creates the userstory-container of the sprintdetail-view. --%>
 			                <div class="userstory-container">
 			                      <c:forEach items="${selectedSprint.getUserStories()}" var="userstory">
 			            			<div usid="${userstory.id }" class="userstory userstory-fix">
@@ -346,6 +364,7 @@ function toggleRemovebtn(){
 			        			</c:forEach>
 			                </div>
 		                </div>
+						<%-- history-tab of the sprintdetail-view --%>
 		            	<div class="modal-body history-tab tab-pane fade in">
 		            		<c:forEach items="${selectedSprint.getHistory() }" var="history">
 			            		<div class="history-item">
@@ -362,16 +381,21 @@ function toggleRemovebtn(){
 		    </div>
 		</div>
     </c:forEach>
-
+    <%-- Button-container with the buttons for the creation of  a sprint, removing userstory from 
+    	the sprint and open the backlog. Buttons are shown if the user is allowed to use them.--%>
     <div id="quick-button-container">
 	    <a id="openBacklog" class="quick-button" href="#">
 	        <span class="quick-button-title">B</span><span class="quick-button-text">open Backlog</span>
 	    </a>
-	    <a class="quick-button" href="./addSprint.htm">
-	        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
-	    </a>
-	    <a id="removebtn" class="quick-button" href="./syncBacklogAndSprint.htm">
-	        <span class="quick-removebutton-title">X</span><span class="quick-removebutton-text">remove Userstory</span>
-	    </a>
+	    <c:if test="${canCreateSprint }">
+		    <a class="quick-button" href="./addSprint.htm">
+		        <span class="quick-button-title">S</span><span class="quick-button-text">new Sprint</span>
+		    </a>
+	    </c:if>
+	    <c:if test="${canUpdateSprint }">
+		    <a id="removebtn" class="quick-button" href="./syncBacklogAndSprint.htm">
+		        <span class="quick-removebutton-title">X</span><span class="quick-removebutton-text">remove Userstory</span>
+		    </a>
+        </c:if>
 	</div>
 </div>

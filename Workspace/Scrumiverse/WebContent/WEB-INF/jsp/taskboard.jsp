@@ -61,7 +61,7 @@ function deselectAll() {
     <table class="taskboard-heading">
         <tr>
             <th class="userstory-section">USERSTORY</th>
-            <th class="task-section">PLANED</th>
+            <th class="task-section">PLANNED</th>
             <th class="task-section">TO-DO</th>
             <th class="task-section">DONE</th>
         </tr>

@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
@@ -34,7 +34,7 @@ import javax.persistence.JoinColumn;
 /**
  * Datamodel for a scrumiverse project
  * 
- * @author Kevin Jolitz, Lasse Jacobs
+ * @author Kevin Jolitz, Lasse Jacobs, Toni Serfling
  * @version 14.03.2016
  */
 
@@ -43,6 +43,7 @@ public class Project {
 	private int projectID;
 	private String name;
 	private String description;
+	private String picPath;
 	private SortedSet<Role> roles;
 	private SortedSet<ProjectUser> projectUsers;
 	private Date dueDate;
@@ -58,6 +59,7 @@ public class Project {
 		roles = new TreeSet<Role>();
 		sprints = new TreeSet<Sprint>();
 		dueDate = new Date();
+		picPath = "./resources/projectPictures/default.png";
 	}
 	
 
@@ -131,6 +133,10 @@ public class Project {
 		return userstories;
 	}
 	
+	/**
+	 * Returns all userstories currently not in a sprint
+	 * @return SortedSet<UserStory>
+	 */
 	@Transient
 	public SortedSet<UserStory> getIceBox() {
 		SortedSet<UserStory> iceBox = new TreeSet<UserStory>();
@@ -156,22 +162,40 @@ public class Project {
 		this.categories = categories;
 	}
 	
+	/**
+	 * Adds a category to the project
+	 * @param Category
+	 */
 	@Transient
 	public void addCategory(Category c) {		
 		this.categories.add(c);				
 	}
-	
+	/**
+	 * Removes a category from the project
+	 * @param int
+	 */
 	@Transient
 	public void deleteCategory(int CategoryID) {
 		this.categories.remove(CategoryID);		
 	}
 	
+	/**
+	 * Adds an User with a specific role as a ProjectUser to the project
+	 * @param User
+	 * @param Role
+	 */
 	public void addProjectUser(User u, Role r) {
 		ProjectUser projectUser = new ProjectUser(u,r);
 		projectUsers.add(projectUser);		
 	}
 	
-	public void removeProjectUser(User u) throws NoSuchUserException, TriedToRemoveAdminException {
+	/**
+	 * Removes a ProjectUser from the project
+	 * @param User
+	 * @throws UserPersistenceException
+	 * @throws TriedToRemoveAdminException
+	 */
+	public void removeProjectUser(User u) throws UserPersistenceException, TriedToRemoveAdminException {
 		ProjectUser pu = getProjectUserFromUser(u);
 		if(containsAdminRights(pu.getRole())) {
 			throw new TriedToRemoveAdminException();
@@ -179,7 +203,14 @@ public class Project {
 		projectUsers.remove(pu);		
 	}
 	
-	public void removeProjectUser(User u, boolean forced) throws NoSuchUserException, TriedToRemoveAdminException {
+	/**
+	 * Removes a ProjectUser from the project if boolean forced is set
+	 * @param User
+	 * @param Boolean
+	 * @throws UserPersistenceException
+	 * @throws TriedToRemoveAdminException
+	 */
+	public void removeProjectUser(User u, boolean forced) throws UserPersistenceException, TriedToRemoveAdminException {
 		if(forced) {
 			ProjectUser pu = getProjectUserFromUser(u);
 			projectUsers.remove(pu);
@@ -188,8 +219,14 @@ public class Project {
 		}
 	}
 	
+	/**
+	 * Returns given user as a ProjectUser
+	 * @param User
+	 * @return ProjectUser
+	 * @throws UserPersistenceException
+	 */
 	@Transient
-	public ProjectUser getProjectUserFromUser(User u) throws NoSuchUserException {
+	public ProjectUser getProjectUserFromUser(User u) throws UserPersistenceException {
 		ProjectUser requestedProjectUser = null;
 		for(ProjectUser pu : this.projectUsers) {
 			if(pu.getUser().equals(u)) {
@@ -199,21 +236,34 @@ public class Project {
 		if(requestedProjectUser != null) {
 			return requestedProjectUser;
 		} else {
-			throw new NoSuchUserException();
+			throw new UserPersistenceException();
 		}
 	}
 	
+	/**
+	 * Checks if given User has given Right
+	 * @param Right
+	 * @param User
+	 * @return boolean
+	 */
 	public boolean hasUserRight(Right right, User user) {
 		try {
 			ProjectUser pUser = getProjectUserFromUser(user);
 			return pUser.getRole().hasRight(right);
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			return false;
 		}
 	}
-	
+	/**
+	 * Applies the given Role to given ProjectUser 
+	 * @param User
+	 * @param Role
+	 * @throws RoleNotInProjectException
+	 * @throws TriedToRemoveAdminException
+	 * @throws UserPersistenceException
+	 */
 	@Transient
-	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, TriedToRemoveAdminException, NoSuchUserException {
+	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, TriedToRemoveAdminException, UserPersistenceException {
 		if(!roles.contains(r)) {
 			throw new RoleNotInProjectException();
 		} 
@@ -224,13 +274,21 @@ public class Project {
 		pUser.setRole(r);
 	}
 	
-	//Move to role?
+	/**
+	 * Checks if given Role contains Admin rights
+	 * @param Role
+	 * @return boolean
+	 */
 	private boolean containsAdminRights(Role r) {
 		Set<Right> rights = r.getRights();
 		return rights.contains(Right.Invite_To_Project) &&
 			   rights.contains(Right.Update_Project);
 	}
-
+	
+	/**
+	 * Counts the amount of admin users in the project
+	 * @return int
+	 */
 	private int countAdmins() {
 		int adminCount = 0;
 		for(ProjectUser pUser : projectUsers) {
@@ -241,6 +299,11 @@ public class Project {
 		return adminCount;
 	}
 	
+	/**
+	 * Returns all ProjectUsers with given Role
+	 * @param Role
+	 * @return List<ProjectUser>
+	 */
 	private List<ProjectUser> getProjectUsersWithRole(Role r) {
 		List<ProjectUser> pUsers = new ArrayList<ProjectUser>();
 		for(ProjectUser projectUser : projectUsers) {
@@ -250,7 +313,13 @@ public class Project {
 		}
 		return pUsers;
 	}
-
+	
+	/**
+	 * Deletes given Role from the project
+	 * @param Role
+	 * @throws RoleNotInProjectException
+	 * @throws NotChangeableRoleException
+	 */
 	public void deleteRole(Role r) throws RoleNotInProjectException, NotChangeableRoleException {
 		if(!roles.contains(r)) {
 			throw new RoleNotInProjectException();
@@ -263,10 +332,6 @@ public class Project {
 		this.roles.remove(r);
 	}
 	
-//	public void addRole(Role r) {
-//		this.roles.add(r);
-//	}
-//	
 	public void addSprint(Sprint s) {
 		this.sprints.add(s);
 	}
@@ -282,13 +347,6 @@ public class Project {
 	public void removeUserStory(UserStory userStory) {
 		this.userstories.remove(userStory);
 	}
-//	
-//	@Override
-//	public String toString() {
-//		return "Project [projectID=" + projectID + ", name=" + name + ", description=" + description + ", roles="
-//				+ roles + ", users=" + users + ", sprints=" + sprints + ", userstories=" + userstories + ", categories="
-//				+ categories + "]";
-//	}
 
 	@Override
 	public int hashCode() {
@@ -311,7 +369,11 @@ public class Project {
 			return false;
 		return true;
 	}
-
+	
+	/**
+	 * Adds an User to the Project with the Standart Role Member
+	 * @param User
+	 */
 	public void addProjectUser(User user) {
 		Role role = getRole(StdRoleNames.Member.name());
 		this.addProjectUser(user, role);
@@ -324,7 +386,12 @@ public class Project {
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-
+	
+	/**
+	 * Checks if given User is a member of the Project
+	 * @param User
+	 * @return boolean
+	 */
 	public boolean isUserMember(User user) {
 		for(ProjectUser pUser : projectUsers) {
 			if(pUser.getUser().equals(user)) {
@@ -333,7 +400,10 @@ public class Project {
 		}
 		return false;
 	}
-
+	/**
+	 * Returns all users of the project
+	 * @return Set<User>
+	 */
 	@Transient
 	public Set<User> getAllUsers() {
 		Set<User> users = new HashSet<User>();
@@ -341,8 +411,11 @@ public class Project {
 			users.add(pUser.getUser());
 		}
 		return users;
-	}
-	
+	}	
+	/**
+	 * Returns the remaining minutes of all UserStories currently not part of a sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxRemainingTime() {
 		int remTime = 0;
@@ -356,7 +429,27 @@ public class Project {
 		}
 		return remTime;
 	}
-	
+	/**
+	 * Returns the worked minutes of all UserStories currently not part of a sprint
+	 * @return int
+	 */
+	@Transient
+	public int getIceBoxWorkedTime() {
+		int workTime = 0;
+		for(UserStory us : userstories) {
+			if(us.getRelatedSprint() == null) {
+				workTime += us.getWorkedMinutes();
+			}
+		}
+		if(workTime < 0) {
+			return 0;
+		}
+		return workTime;
+	}
+	/**
+	 * Returns the planned minutes of all UserStories currently not part of a Sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxPlannedTime() {
 		int planTime = 0;
@@ -368,6 +461,10 @@ public class Project {
 		return planTime;
 	}
 	
+	/**
+	 * Returns the BusinessValue of all UserStories currently not part of a sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxValue() {
 		int value = 0;
@@ -378,7 +475,10 @@ public class Project {
 		}
 		return value;
 	}
-	
+	/**
+	 * Returns the value of all done UserStories that are currently not part of a sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxDoneValue() {
 		int value = 0;
@@ -389,7 +489,10 @@ public class Project {
 		}
 		return value;
 	}
-	
+	/**
+	 * Returns the Effort of all UserStories currently not in a sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxEffort() {
 		int value = 0;
@@ -400,7 +503,10 @@ public class Project {
 		}
 		return value;
 	}
-	
+	/**
+	 * Returns the Effort of all done UserStories currently not in a sprint
+	 * @return int
+	 */
 	@Transient
 	public int getIceBoxDoneEffort() {
 		int value = 0;
@@ -411,7 +517,11 @@ public class Project {
 		}
 		return value;
 	}
-	
+	/**
+	 * Returns the Role of the given Rolename
+	 * @param String
+	 * @return Role
+	 */
 	public Role getRole(String rolename) {
 		for(Role role : roles) {
 			if(role.getName().equals(rolename)) {
@@ -425,7 +535,11 @@ public class Project {
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
-
+	/**
+	 * Returns the amount of Users with the given Role
+	 * @param Role
+	 * @return int
+	 */
 	public int getUsersWithRoleCount(Role role) {
 		int counter = 0;
 		for(ProjectUser pUser : projectUsers) {
@@ -436,13 +550,20 @@ public class Project {
 		return counter;
 	}
 
-
+	/**
+	 * Removes given Category from the project
+	 * @param Category
+	 */
 	public void removeCategory(Category category) {
 		for(UserStory uStory : userstories) {
 			uStory.setCategory(null);
 		}
 		this.categories.remove(category);
 	}
+	/**
+	 * Returns the sprint that is currently in progress
+	 * @return Sprint
+	 */
 	@Transient
 	public Sprint getCurrentSprint(){
 		for(Sprint sprint: sprints){
@@ -451,5 +572,13 @@ public class Project {
 			}
 		}
 		return null;
+	}
+
+	public String getPicPath() {
+		return picPath;
+	}
+
+	public void setPicPath(String picPath) {
+		this.picPath = picPath;
 	}
 }

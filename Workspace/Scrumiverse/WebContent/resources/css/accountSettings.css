@@ -11,8 +11,8 @@
 }
 
 #accountpage{
-    height: 320px;
-    width: 830px;
+    height: 430px;
+    width: 900px;
     padding: 10px 10px 10px 10px;
     background-color: #333333;
     border-radius: 5px;
@@ -20,18 +20,16 @@
 }
 
 #img{
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
     float: left;
     display: inline-block;
-    background-color: white;
     border-radius: 5px;
 }
 #editable{
     height: 300px;
     width: 500px;
     margin-left: 10px;
-    padding-top: 10px;
     float: left;
 }
 form{
@@ -64,6 +62,16 @@ form{
     border-radius: 0px;
 }
 button{
+    width: 100%;
+    background-color: #333333;
+    border: none;
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    outline: none;
+}
+input{
     width: 100%;
     background-color: #333333;
     border: none;

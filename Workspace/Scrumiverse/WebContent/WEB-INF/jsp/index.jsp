@@ -14,6 +14,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		
+		<!-- Highcharts -->
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		
 		<!-- Scrumiverse -->
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<link rel="stylesheet" type="text/css" href="resources/css/${action.name()}.css" />		
@@ -48,26 +51,22 @@
 				</div>
 			</div>
 			<div id="menubar">
+				<%-- only show menubar when a project has been selected --%>
 				<c:if test="${currentProjectId != null}">
-				<div class="menuitem">
-					<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-					<a href="backlog.htm">BACKLOG</a>							
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
-					<a href="sprintOverview.htm">SPRINTS</a>		
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="todo icon" src="resources/images/index/icon_todo.png">
-					<a href="showTasks.htm">TO-DO</a>
-				</div>
-				<div class="spacer"></div>
-				<div class="menuitem">
-					<img alt="report icon" src="resources/images/index/icon_reports.png">
-					<a href="reporting.htm">REPORTING</a>
-				</div>
+					<div class="menuitem">
+						<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
+						<a href="backlog.htm">BACKLOG</a>							
+					</div>
+					<div class="spacer"></div>
+					<div class="menuitem">
+						<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
+						<a href="sprintOverview.htm">SPRINTS</a>		
+					</div>
+					<div class="spacer"></div>
+					<div class="menuitem">
+						<img alt="todo icon" src="resources/images/index/icon_todo.png">
+						<a href="showTasks.htm">TO-DO</a>
+					</div>
 				</c:if>
 			</div>
 			<div id="userbar">
@@ -87,7 +86,7 @@
 					<span class="badge">?</span>
 				</div>
 				<div id="user-menu">
-					<img alt="user-icon" src="resources/userPictures/default.png">
+					<img alt="user-icon" class="img-circle" src="${currentUser.profileImagePath}">
 					<div class="extra-menu">
 						<a class="extra-menuitem" href="userSettings.htm">
 							<span class="glyphicon glyphicon-cog"></span>

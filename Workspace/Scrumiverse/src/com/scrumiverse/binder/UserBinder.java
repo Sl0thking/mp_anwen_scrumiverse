@@ -2,10 +2,15 @@ package com.scrumiverse.binder;
 
 import java.beans.PropertyEditorSupport;
 
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
+/**
+ * Binder class for Users
+ * @author Kevin Jolitz
+ * @version 08.04.2016
+ */
 public class UserBinder extends PropertyEditorSupport {
 
 	UserDAO userDAO;
@@ -29,7 +34,7 @@ public class UserBinder extends PropertyEditorSupport {
 		try {
 			User user = userDAO.getUserByEmail(arg0);
 			setValue(user);
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

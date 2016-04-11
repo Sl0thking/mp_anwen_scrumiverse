@@ -5,6 +5,11 @@ import java.beans.PropertyEditorSupport;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.persistence.DAO.RoleDAO;
 
+/**
+ * Binder class for Roles
+ * @author Kevin Jolitz
+ * @version 08.04.2016
+ */
 public class RoleBinder extends PropertyEditorSupport {
 
 	RoleDAO roleDAO;

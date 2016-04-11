@@ -4,7 +4,7 @@ package com.scrumiverse.model.account;
  * Enum of different user rights
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 25.02.2016
+ * @version 08.04.2016
  *
  */
 public enum Right{

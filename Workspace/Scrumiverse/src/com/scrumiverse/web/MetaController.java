@@ -1,17 +1,24 @@
 package com.scrumiverse.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
@@ -27,7 +34,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * on session data
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 27.02.2016
+ * @version 11.04.2016
  *
  */
 public abstract class MetaController {
@@ -41,12 +48,12 @@ public abstract class MetaController {
 	@Autowired
 	protected MessageDAO messageDAO;
 	
-	protected User loadActiveUser(HttpSession session) throws NoSuchUserException {
+	protected User loadActiveUser(HttpSession session) throws UserPersistenceException {
 		int userId = (int) session.getAttribute("userId");
 		return userDAO.getUser(userId);
 	}
 	
-	protected Project loadCurrentProject(HttpSession session) throws NoProjectFoundException {
+	protected Project loadCurrentProject(HttpSession session) throws ProjectPersistenceException {
 		if(session.getAttribute("currentProjectId") != null) {
 			int projectId = (int) session.getAttribute("currentProjectId");
 			return projectDAO.getProject(projectId);
@@ -72,7 +79,7 @@ public abstract class MetaController {
 			&& session.getAttribute("isLogged") != null;
 	}
 	
-	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, NoProjectFoundException, NoSuchUserException {
+	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, ProjectPersistenceException, UserPersistenceException {
 		Project requestedProject = this.loadCurrentProject(session);
 		User currentUser = this.loadActiveUser(session);
 		if(!requestedProject.isUserMember(currentUser)) {
@@ -85,7 +92,7 @@ public abstract class MetaController {
 		return true;
 	}
 	
-	protected ModelMap prepareModelMap(HttpSession session) throws NoSuchUserException, NoProjectFoundException {
+	protected ModelMap prepareModelMap(HttpSession session) throws UserPersistenceException, ProjectPersistenceException {
 		ModelMap map = new ModelMap();
 		User currentUser = loadActiveUser(session);
 		Project currentProject = loadCurrentProject(session);
@@ -108,5 +115,21 @@ public abstract class MetaController {
 		map.addAttribute("currentProject", currentProject);
 		map.addAttribute("action", Action.login);
 		return map;
+	}
+	
+	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException {
+			checkContentType(file.getContentType());
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			File contextPath = new File(request.getServletContext().getRealPath(""));
+			File image = new File(contextPath + File.separator + serverPath + elementId + ending);
+			System.out.println(image.getAbsolutePath());
+			image.createNewFile();
+			file.transferTo(image);
+	}
+	
+	private void checkContentType(String contentType) throws InvalidContentTypeException {
+		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
+			throw new InvalidContentTypeException();
+		}
 	}
 }

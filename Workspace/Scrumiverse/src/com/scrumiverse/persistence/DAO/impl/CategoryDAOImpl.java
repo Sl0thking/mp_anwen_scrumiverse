@@ -13,7 +13,7 @@ import com.scrumiverse.persistence.DAO.CategoryDAO;
  * Implementation of category persistence methods
  * 
  * @author Kevin Jolitz
- * @version 25.03.2016
+ * @version 11.04.2016
  */
 public class CategoryDAOImpl implements CategoryDAO {
 
@@ -28,6 +28,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		hibernateTemplate.save(category);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Category getCategoryById(int id) throws CategoryPersistenceException {
 		List<Category> categories = hibernateTemplate.find("from Category where Id='" + id + "'");

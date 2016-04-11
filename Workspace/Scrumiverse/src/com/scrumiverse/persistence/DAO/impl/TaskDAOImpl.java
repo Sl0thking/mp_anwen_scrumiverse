@@ -1,11 +1,12 @@
 package com.scrumiverse.persistence.DAO.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.scrumiverse.exception.TaskPersistenceException;
 import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.TaskDAO;
@@ -14,7 +15,7 @@ import com.scrumiverse.persistence.DAO.TaskDAO;
  * Hibernate based implementation of task persistence functions 
  * 
  * @author Kevin Jolitz
- * @version 21.02.2016
+ * @version 11.04.2016
  */
 public class TaskDAOImpl implements TaskDAO{
 	private HibernateTemplate hibernateTemplate;
@@ -38,20 +39,31 @@ public class TaskDAOImpl implements TaskDAO{
 		hibernateTemplate.delete(task);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> getAllTasks() {
 		return hibernateTemplate.find("from Task");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Task getTask(int taskID) {
-		return (Task)(hibernateTemplate.find("from Task where id='" + taskID + "'").get(0));
+	public Task getTask(int taskID) throws TaskPersistenceException {
+		List<Task> possibleTasks = hibernateTemplate.find("from Task where id='" + taskID + "'");
+		if(possibleTasks.size() == 1) {
+			return possibleTasks.get(0);
+		} else {
+			throw new TaskPersistenceException();
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Task> getTasksOfUserStory(int userStoryID) {
-		UserStory us = (UserStory) hibernateTemplate.find("from UserStory where id='" + userStoryID + "'").get(0);
-		//us.getTasks();
-		return new ArrayList<Task>();
+	public SortedSet<Task> getTasksOfUserStory(int userStoryID) throws TaskPersistenceException {
+		List<UserStory> possibleUserStories = hibernateTemplate.find("from UserStory where id='" + userStoryID + "'");
+		if(possibleUserStories.size() == 1) {
+			return possibleUserStories.get(0).getTasks();
+		} else {
+			throw new TaskPersistenceException();
+		}
 	}
 }
