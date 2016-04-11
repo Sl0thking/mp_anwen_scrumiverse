@@ -278,7 +278,7 @@ public class UserController extends MetaController{
 	}
 
 	private void checkContentType(String contentType) throws InvalidContentTypeException {
-		if(!contentType.equals("image/png") && !contentType.equals("image/jpg")) {
+		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
 			throw new InvalidContentTypeException();
 		}
 	}
