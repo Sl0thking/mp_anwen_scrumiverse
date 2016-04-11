@@ -18,9 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
-import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.TaskPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
+import com.scrumiverse.exception.UserStoryPersistenceException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanState;
@@ -92,7 +93,7 @@ public class TaskController extends MetaController {
 			map.addAttribute("canCreateTask", pUser.getRole().hasRight(Right.Create_Task));
 			map.addAttribute("canDeleteTask", pUser.getRole().hasRight(Right.Delete_Task));
 			return new ModelAndView("index", map);
-		} catch(NoProjectFoundException | NoSuchUserException e) {
+		} catch(ProjectPersistenceException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -124,7 +125,7 @@ public class TaskController extends MetaController {
 			userStory.addTask(task);
 			userStoryDAO.updateUserStory(userStory);
 			return new ModelAndView("redirect:showTasks.htm");
-		} catch (NoUserStoryFoundException | NoSuchUserException e){
+		} catch (UserStoryPersistenceException | UserPersistenceException e){
 			return new ModelAndView("redirect:showTasks.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -145,9 +146,9 @@ public class TaskController extends MetaController {
 			Task task = taskDAO.getTask(taskID);
 			taskDAO.deleteTask(task);
 			return new ModelAndView("redirect:showTasks.htm");
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm");
@@ -168,9 +169,9 @@ public class TaskController extends MetaController {
 			generateNotification(session, ChangeEvent.TASK_UPDATED, task);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + task.getId());
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + task.getId());
@@ -193,9 +194,9 @@ public class TaskController extends MetaController {
 			task.removeTag(tag);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -222,9 +223,9 @@ public class TaskController extends MetaController {
 			}
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -248,9 +249,9 @@ public class TaskController extends MetaController {
 			task.addUser(user);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -274,9 +275,9 @@ public class TaskController extends MetaController {
 			task.removeUser(user);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -300,7 +301,7 @@ public class TaskController extends MetaController {
 					}
 				}
 			}
-		} catch (NoSuchUserException | NoProjectFoundException e) {
+		} catch (UserPersistenceException | ProjectPersistenceException | TaskPersistenceException e) {
 			e.printStackTrace();
 		}
 	}

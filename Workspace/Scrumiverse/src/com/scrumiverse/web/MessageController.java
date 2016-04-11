@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.model.scrumFeatures.Notification;
@@ -102,7 +102,7 @@ public class MessageController extends MetaController {
 			}
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -124,7 +124,7 @@ public class MessageController extends MetaController {
 			userDAO.updateUser(u);
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -146,7 +146,7 @@ public class MessageController extends MetaController {
 			userDAO.updateUser(u);
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}

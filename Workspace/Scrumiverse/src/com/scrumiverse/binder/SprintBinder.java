@@ -2,7 +2,7 @@ package com.scrumiverse.binder;
 
 import java.beans.PropertyEditorSupport;
 
-import com.scrumiverse.exception.NoSprintFoundException;
+import com.scrumiverse.exception.SprintPersistenceException;
 import com.scrumiverse.model.scrumCore.Sprint;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 
@@ -37,7 +37,7 @@ public class SprintBinder extends PropertyEditorSupport {
 			}else {
 				setValue(sprintDAO.getSprint(Integer.parseInt(arg0)));
 			}
-		} catch (NoSprintFoundException e) {
+		} catch (SprintPersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

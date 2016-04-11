@@ -2,7 +2,7 @@ package com.scrumiverse.binder;
 
 import java.beans.PropertyEditorSupport;
 
-import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.exception.UserStoryPersistenceException;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
@@ -34,7 +34,7 @@ public class UserStoryBinder extends PropertyEditorSupport {
 		try{
 			UserStory userstory = userstoryDAO.getUserStory(Integer.parseInt(arg0));
 			setValue(userstory);
-		} catch (NoUserStoryFoundException e) {
+		} catch (UserStoryPersistenceException e) {
 			e.printStackTrace();
 		}
 	}

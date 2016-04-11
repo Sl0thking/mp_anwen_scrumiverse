@@ -23,9 +23,9 @@ import com.scrumiverse.binder.SprintBinder;
 import com.scrumiverse.binder.UserStoryBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
-import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
+import com.scrumiverse.exception.UserStoryPersistenceException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanState;
@@ -75,10 +75,10 @@ public class UserStoryController extends MetaController {
 	/**
 	 * Create new empty UserStory in database
 	 * @return ModelAndView
-	 * @throws NoProjectFoundException 
+	 * @throws ProjectPersistenceException 
 	 */
 	@RequestMapping("/newUserStory.htm")
-	public ModelAndView createNewUserStory(HttpSession session) throws NoProjectFoundException{
+	public ModelAndView createNewUserStory(HttpSession session) throws ProjectPersistenceException{
 		try {
 			checkInvalidSession(session);
 			User activeUser = this.loadActiveUser(session);
@@ -92,7 +92,7 @@ public class UserStoryController extends MetaController {
 			project.addUserStory(userStory);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:backlog.htm");
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -101,10 +101,10 @@ public class UserStoryController extends MetaController {
 	 * Shows backlog site with all UserStories
 	 * @param session
 	 * @return ModelAndView
-	 * @throws NoProjectFoundException 
+	 * @throws ProjectPersistenceException 
 	 */
 	@RequestMapping("/backlog.htm")
-	public ModelAndView backlog(HttpSession session) throws NoProjectFoundException{
+	public ModelAndView backlog(HttpSession session) throws ProjectPersistenceException{
 		ModelMap map = new ModelMap();
 		try {
 			checkInvalidSession(session);
@@ -127,7 +127,7 @@ public class UserStoryController extends MetaController {
 			map.addAttribute("canDeleteTask", project.getProjectUserFromUser(user).getRole().hasRight(Right.Delete_Task));
 			map.addAttribute("canUpdateSprint", project.getProjectUserFromUser(user).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);
-		} catch (InvalidSessionException | NoSuchUserException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.html");
 		} catch (InsufficientRightsException e) {
 			map.addAttribute("action", Action.backlog);
@@ -139,10 +139,10 @@ public class UserStoryController extends MetaController {
 	 * Updates a UserStory in database
 	 * @param userStory
 	 * @return ModelAndView
-	 * @throws NoUserStoryFoundException 
+	 * @throws UserStoryPersistenceException 
 	 */
 	@RequestMapping("changeUserStory.htm")
-	public ModelAndView updateUserStory(HttpSession session, UserStory userStory, BindingResult result) throws NoUserStoryFoundException{
+	public ModelAndView updateUserStory(HttpSession session, UserStory userStory, BindingResult result) throws UserStoryPersistenceException{
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
@@ -154,7 +154,7 @@ public class UserStoryController extends MetaController {
 			userStoryDAO.updateUserStory(userStory);
 			generateNotification(session, ChangeEvent.USER_STORY_UPDATED, userStory);
 			return new ModelAndView("redirect:backlog.htm");
-		}catch (InvalidSessionException | NoSuchUserException e) {
+		}catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -207,7 +207,7 @@ public class UserStoryController extends MetaController {
 					}
 				}
 			}
-		} catch (NoSuchUserException | NoProjectFoundException e) {
+		} catch (UserPersistenceException | ProjectPersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -227,7 +227,7 @@ public class UserStoryController extends MetaController {
 			}
 			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
 			return new ModelAndView("redirect:backlog.htm");
-		}catch(NoUserStoryFoundException | NoSuchUserException e){
+		}catch(UserStoryPersistenceException | UserPersistenceException e){
 			return new ModelAndView("redirect:backlog.htm");
 		}catch (InvalidSessionException e){
 			return new ModelAndView("redirect:login.htm");
@@ -247,11 +247,11 @@ public class UserStoryController extends MetaController {
 			ModelMap map = this.prepareModelMap(session);
 			UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
 			map.addAttribute("detailUserStory", loadedUserStory);
-		} catch (NoUserStoryFoundException e) {
+		} catch (UserStoryPersistenceException e) {
 			e.printStackTrace();
-		} catch (InvalidSessionException  | NoSuchUserException e) {
+		} catch (InvalidSessionException  | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (NoProjectFoundException e) {
+		} catch (ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 		return new ModelAndView("redirect:backlog.htm");

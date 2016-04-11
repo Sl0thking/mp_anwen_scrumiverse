@@ -1,22 +1,20 @@
 package com.scrumiverse.persistence.DAO.impl;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.scrumiverse.exception.NoSprintFoundException;
+import com.scrumiverse.exception.SprintPersistenceException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.Sprint;
-import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * DAO Implementation of Sprints
  * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
- * @version 04.04.2016
+ * @version 11.04.2016
  */
 
 public class SprintDAOImpl implements SprintDAO {
@@ -29,8 +27,7 @@ public class SprintDAOImpl implements SprintDAO {
 
 	@Override
 	public void saveSprint(Sprint s) {
-		hibernateTemplate.save(s);
-		
+		hibernateTemplate.save(s);	
 	}
 	
 	@Override
@@ -47,28 +44,31 @@ public class SprintDAOImpl implements SprintDAO {
 	 * @param int
 	 * @return Sprint
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Sprint getSprint(int sprintID) throws NoSprintFoundException {
+	public Sprint getSprint(int sprintID) throws SprintPersistenceException {
 		List<Sprint> sprints = hibernateTemplate.find("from Sprint where id='" + sprintID + "'");	
-		if(sprints.size() != 0){
+		if(sprints.size() == 1){
 			return sprints.get(0);
+		} else {
+			throw new SprintPersistenceException();
 		}
-		throw new NoSprintFoundException();
 	}
+	
 	/**
 	 * returns a set of sprints from specific project
 	 * @param int
 	 * @return Set<Sprint>
+	 * @throws SprintPersistenceException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Sprint> getSprintsFromProject(int projectID) {
-		Project p = new Project();
-		try {
-			p = (Project) hibernateTemplate.find("from Project where ProjectID='"+ projectID + "'").get(0);
-		} catch(NullPointerException n) {
-			n.printStackTrace();	
-			return new HashSet<Sprint>();
+	public Set<Sprint> getSprintsFromProject(int projectID) throws SprintPersistenceException {
+		List<Project> possibleProjects = hibernateTemplate.find("from Project where ProjectID='"+ projectID + "'");
+		if(possibleProjects.size() == 1) {
+			return possibleProjects.get(0).getSprints();
+		} else {
+			throw new SprintPersistenceException();
 		}
-		return (Set<Sprint>) p.getSprints();
 	}
 }

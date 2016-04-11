@@ -10,8 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.ShutOutException;
@@ -49,7 +49,7 @@ public class RoleController extends MetaController {
 			activeProject.addRole(role);
 			projectDAO.updateProject(activeProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -71,7 +71,7 @@ public class RoleController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
 		} catch (ShutOutException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=3" + "#role-tab");
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
 	}
@@ -93,7 +93,7 @@ public class RoleController extends MetaController {
 				//show with error
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
 			}
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException | RoleNotInProjectException | NotChangeableRoleException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
 	}

@@ -2,7 +2,7 @@ package com.scrumiverse.persistence.DAO;
 
 import java.util.Set;
 
-import com.scrumiverse.exception.NoProjectFoundException;
+import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.model.scrumCore.Project;
 
 /**
@@ -16,6 +16,6 @@ public interface ProjectDAO {
 	public void saveProject(Project p);
 	public void updateProject(Project p);
 	public void deleteProject(Project p) throws Exception;
-	public Set<Project> getProjectsFromUser(int userID);
-	public Project getProject(int projectID) throws NoProjectFoundException;
+	public Set<Project> getProjectsFromUser(int userID) throws ProjectPersistenceException;
+	public Project getProject(int projectID) throws ProjectPersistenceException;
 }

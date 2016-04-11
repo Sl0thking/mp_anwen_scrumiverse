@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.scrumiverse.exception.CategoryPersistenceException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumFeatures.Category;
@@ -46,7 +46,7 @@ public class CategoryController extends MetaController {
 			activeProject.addCategory(category);
 			projectDAO.updateProject(activeProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -60,7 +60,7 @@ public class CategoryController extends MetaController {
 			int projectId = activeProject.getProjectID();
 			categoryDAO.updateCategory(category);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -76,7 +76,7 @@ public class CategoryController extends MetaController {
 			activeProject.removeCategory(category);
 			projectDAO.updateProject(activeProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
-		} catch (NoProjectFoundException | InvalidSessionException | InsufficientRightsException | NoSuchUserException | CategoryPersistenceException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | CategoryPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}

@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.User;
@@ -48,12 +48,12 @@ public abstract class MetaController {
 	@Autowired
 	protected MessageDAO messageDAO;
 	
-	protected User loadActiveUser(HttpSession session) throws NoSuchUserException {
+	protected User loadActiveUser(HttpSession session) throws UserPersistenceException {
 		int userId = (int) session.getAttribute("userId");
 		return userDAO.getUser(userId);
 	}
 	
-	protected Project loadCurrentProject(HttpSession session) throws NoProjectFoundException {
+	protected Project loadCurrentProject(HttpSession session) throws ProjectPersistenceException {
 		if(session.getAttribute("currentProjectId") != null) {
 			int projectId = (int) session.getAttribute("currentProjectId");
 			return projectDAO.getProject(projectId);
@@ -79,7 +79,7 @@ public abstract class MetaController {
 			&& session.getAttribute("isLogged") != null;
 	}
 	
-	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, NoProjectFoundException, NoSuchUserException {
+	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, ProjectPersistenceException, UserPersistenceException {
 		Project requestedProject = this.loadCurrentProject(session);
 		User currentUser = this.loadActiveUser(session);
 		if(!requestedProject.isUserMember(currentUser)) {
@@ -92,7 +92,7 @@ public abstract class MetaController {
 		return true;
 	}
 	
-	protected ModelMap prepareModelMap(HttpSession session) throws NoSuchUserException, NoProjectFoundException {
+	protected ModelMap prepareModelMap(HttpSession session) throws UserPersistenceException, ProjectPersistenceException {
 		ModelMap map = new ModelMap();
 		User currentUser = loadActiveUser(session);
 		Project currentProject = loadCurrentProject(session);

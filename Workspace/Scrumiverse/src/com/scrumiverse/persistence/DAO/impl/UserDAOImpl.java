@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
@@ -35,10 +35,10 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public User getUserByEmail(String email) throws NoSuchUserException {
+	public User getUserByEmail(String email) throws UserPersistenceException {
 		List<User> users = hibernateTemplate.find("from User where email='" + email + "'");
 		if(users.size() == 0) {
-			throw new NoSuchUserException();
+			throw new UserPersistenceException();
 		}
 		return users.get(0);
 	}
@@ -49,10 +49,10 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public User getUser(int id) throws NoSuchUserException {
+	public User getUser(int id) throws UserPersistenceException {
 		List<User> users = hibernateTemplate.find("from User where userID='" + id + "'"); 
 		if(users.size() == 0 || users.size() > 1) {
-			throw new NoSuchUserException();
+			throw new UserPersistenceException();
 		}
 		return users.get(0);
 	}

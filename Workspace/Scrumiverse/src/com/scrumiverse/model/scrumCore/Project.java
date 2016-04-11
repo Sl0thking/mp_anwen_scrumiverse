@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
@@ -192,10 +192,10 @@ public class Project {
 	/**
 	 * Removes a ProjectUser from the project
 	 * @param User
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException
 	 */
-	public void removeProjectUser(User u) throws NoSuchUserException, TriedToRemoveAdminException {
+	public void removeProjectUser(User u) throws UserPersistenceException, TriedToRemoveAdminException {
 		ProjectUser pu = getProjectUserFromUser(u);
 		if(containsAdminRights(pu.getRole())) {
 			throw new TriedToRemoveAdminException();
@@ -207,10 +207,10 @@ public class Project {
 	 * Removes a ProjectUser from the project if boolean forced is set
 	 * @param User
 	 * @param Boolean
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException
 	 */
-	public void removeProjectUser(User u, boolean forced) throws NoSuchUserException, TriedToRemoveAdminException {
+	public void removeProjectUser(User u, boolean forced) throws UserPersistenceException, TriedToRemoveAdminException {
 		if(forced) {
 			ProjectUser pu = getProjectUserFromUser(u);
 			projectUsers.remove(pu);
@@ -223,10 +223,10 @@ public class Project {
 	 * Returns given user as a ProjectUser
 	 * @param User
 	 * @return ProjectUser
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 */
 	@Transient
-	public ProjectUser getProjectUserFromUser(User u) throws NoSuchUserException {
+	public ProjectUser getProjectUserFromUser(User u) throws UserPersistenceException {
 		ProjectUser requestedProjectUser = null;
 		for(ProjectUser pu : this.projectUsers) {
 			if(pu.getUser().equals(u)) {
@@ -236,7 +236,7 @@ public class Project {
 		if(requestedProjectUser != null) {
 			return requestedProjectUser;
 		} else {
-			throw new NoSuchUserException();
+			throw new UserPersistenceException();
 		}
 	}
 	
@@ -250,7 +250,7 @@ public class Project {
 		try {
 			ProjectUser pUser = getProjectUserFromUser(user);
 			return pUser.getRole().hasRight(right);
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			return false;
 		}
 	}
@@ -260,10 +260,10 @@ public class Project {
 	 * @param Role
 	 * @throws RoleNotInProjectException
 	 * @throws TriedToRemoveAdminException
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 */
 	@Transient
-	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, TriedToRemoveAdminException, NoSuchUserException {
+	public void setProjectUserRole(User user, Role r) throws RoleNotInProjectException, TriedToRemoveAdminException, UserPersistenceException {
 		if(!roles.contains(r)) {
 			throw new RoleNotInProjectException();
 		} 

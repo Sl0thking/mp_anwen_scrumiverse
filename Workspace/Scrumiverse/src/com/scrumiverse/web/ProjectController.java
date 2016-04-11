@@ -29,9 +29,10 @@ import com.scrumiverse.binder.RoleBinder;
 import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoSuchUserException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.SprintPersistenceException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
 import com.scrumiverse.forms.CategoryForm;
 import com.scrumiverse.forms.RoleForm;
@@ -107,7 +108,7 @@ public class ProjectController extends MetaController {
 			map.addAttribute("manageRight", manageRights);
 			map.addAttribute("action", Action.projectOverview);
 			return new ModelAndView("index", map);
-		} catch(InvalidSessionException | NoSuchUserException | NoProjectFoundException e) {
+		} catch(InvalidSessionException | UserPersistenceException | ProjectPersistenceException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
@@ -132,7 +133,7 @@ public class ProjectController extends MetaController {
 			userDAO.updateUser(user);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectOverview.htm");
-		} catch(InvalidSessionException | NoSuchUserException e) {
+		} catch(InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
@@ -202,7 +203,7 @@ public class ProjectController extends MetaController {
 			}
 			session.setAttribute("currentProjectId", project.getProjectID());
 			return new ModelAndView("redirect:dashboard.htm");
-		} catch(NoProjectFoundException | InsufficientRightsException | NoSuchUserException e) {
+		} catch(ProjectPersistenceException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch(InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
@@ -274,9 +275,9 @@ public class ProjectController extends MetaController {
 			user.addProject(currentProject);
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch (NoSuchUserException e) {
+		} catch (UserPersistenceException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=4");
-		} catch (NoProjectFoundException | InsufficientRightsException e) {
+		} catch (ProjectPersistenceException | InsufficientRightsException e) {
 			if(hasUpdateRight) {
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 			}
@@ -307,7 +308,7 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch(TriedToRemoveAdminException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
-		} catch(NoSuchUserException | NoProjectFoundException e) {
+		} catch(UserPersistenceException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch(InsufficientRightsException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
@@ -358,10 +359,10 @@ public class ProjectController extends MetaController {
 	 * Remove user from project and project from internal list in user
 	 * @param user
 	 * @param project
-	 * @throws NoSuchUserException
+	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException 
 	 */
-	private void removeUserFromProject(User user, Project project, boolean forced) throws NoSuchUserException, TriedToRemoveAdminException {
+	private void removeUserFromProject(User user, Project project, boolean forced) throws UserPersistenceException, TriedToRemoveAdminException {
 		user.leaveProject(project);
 		project.removeProjectUser(user, forced);
 		projectDAO.updateProject(project);
@@ -384,7 +385,7 @@ public class ProjectController extends MetaController {
 			project.setUserstories(currentProject.getUserstories());
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + project.getProjectID());
-		} catch (InvalidSessionException | NoProjectFoundException e) {
+		} catch (InvalidSessionException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
@@ -407,10 +408,9 @@ public class ProjectController extends MetaController {
 			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.reporting);
 			return new ModelAndView("index", map);		
-		} catch(NoSuchUserException | InvalidSessionException e) {
-			e.printStackTrace();
+		} catch(UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoProjectFoundException e) {
+		} catch(SprintPersistenceException | ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -464,9 +464,9 @@ public class ProjectController extends MetaController {
 			map.addAttribute("chartData", chartData);
 			map.addAttribute("action", Action.dashboard);
 			return new ModelAndView("index", map);		
-		} catch(NoSuchUserException | InvalidSessionException e) {
+		} catch(UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch(NoProjectFoundException e) {
+		} catch(ProjectPersistenceException | SprintPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
@@ -488,7 +488,7 @@ public class ProjectController extends MetaController {
 			currentProject.setProjectUserRole(user, role);
 			projectDAO.updateProject(currentProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch (NoProjectFoundException | RoleNotInProjectException | TriedToRemoveAdminException | NoSuchUserException e) {
+		} catch (ProjectPersistenceException | RoleNotInProjectException | TriedToRemoveAdminException | UserPersistenceException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
 		} catch (InvalidSessionException e) {
@@ -511,7 +511,7 @@ public class ProjectController extends MetaController {
 			project.setPicPath(fullPath);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:userSettings.htm");
-		} catch(InvalidSessionException | NoSuchUserException | IllegalStateException | IOException | InvalidContentTypeException | NoProjectFoundException e) {
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:userSettings.htm");
 		}

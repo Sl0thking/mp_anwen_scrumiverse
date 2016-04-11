@@ -8,8 +8,8 @@ import java.util.SortedSet;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.scrumiverse.exception.NoProjectFoundException;
-import com.scrumiverse.exception.NoUserStoryFoundException;
+import com.scrumiverse.exception.ProjectPersistenceException;
+import com.scrumiverse.exception.UserStoryPersistenceException;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
@@ -52,22 +52,22 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	}
 	
 	@Override
-	public UserStory getUserStory(int userStoryID) throws NoUserStoryFoundException{
+	public UserStory getUserStory(int userStoryID) throws UserStoryPersistenceException{
 		List<UserStory> userstories = hibernateTemplate.find("from UserStory where id='" + userStoryID + "'");
 		if(userstories.size() != 0){
 			return userstories.get(0);
 		}
-		throw new NoUserStoryFoundException();
+		throw new UserStoryPersistenceException();
 	}
 	
 	@Override
-	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws NoProjectFoundException{
+	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws ProjectPersistenceException{
 		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
 		if(projects.size() != 0) {
 			Project project = projects.get(0);
 			return project.getUserstories();
 		}
-		throw new NoProjectFoundException();
+		throw new ProjectPersistenceException();
 	}
 
 }
