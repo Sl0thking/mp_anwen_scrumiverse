@@ -24,8 +24,8 @@ import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
  * Datamodel of Sprints
- * @author Toni Serfling, Lasse Jacobs
- * @version 04.04.2016
+ * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
+ * @version 11.04.2016
  */
 @Entity
 public class Sprint extends PlanElement {
@@ -395,10 +395,25 @@ public class Sprint extends PlanElement {
 	
 	@Override
 	public int compareTo(PlanElement o) {
-		int comp = this.getStartDate().compareTo(((Sprint) o).getStartDate());
-		if(comp == 0) {
-			return super.compareTo(o);
+		Sprint otherSprint = (Sprint) o;
+		int comp = this.getStartDate().compareTo(otherSprint.getStartDate());
+		if( comp != 0) {
+			return comp;
+		} else {
+			comp = this.getEndDate().compareTo(otherSprint.getEndDate());
+			if(comp != 0) {
+				return comp;
+			} else {
+				return super.compareTo(o);
+			}
 		}
-		return comp;
 	}
+
+	@Override
+	public String toString() {
+		return "Sprint [startDate=" + startDate + ", endDate=" + endDate + ", getDescription()=" + getDescription()
+				+ ", getId()=" + getId() + "]";
+	}
+	
+	
 }
