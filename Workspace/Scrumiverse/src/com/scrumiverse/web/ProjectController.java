@@ -1,15 +1,16 @@
 package com.scrumiverse.web;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.CategoryBinder;
@@ -52,7 +55,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 04.04.2016
+ * @version 11.04.2016
  *
  */
 
@@ -492,6 +495,28 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/changeProjectPic")
+	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
+		try {
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			Project project = this.loadCurrentProject(session);
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			String serverPath = "resources" 
+					  		  + File.separator + "projectPictures" 
+					  		  + File.separator + "projectPic_";
+			String fullPath = serverPath + project.getProjectID() + ending;
+			this.uploadPicture(request, file, serverPath, project.getProjectID());
+			project.setPicPath(fullPath);
+			projectDAO.updateProject(project);
+			return new ModelAndView("redirect:userSettings.htm");
+		} catch(InvalidSessionException | NoSuchUserException | IllegalStateException | IOException | InvalidContentTypeException | NoProjectFoundException e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:userSettings.htm");
+		}
+	}
+	
 	/**
 	 * Generates the chart data of a sprint for the burndown chart
 	 * @param s

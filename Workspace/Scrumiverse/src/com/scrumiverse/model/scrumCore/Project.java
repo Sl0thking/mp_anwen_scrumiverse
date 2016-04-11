@@ -43,6 +43,7 @@ public class Project {
 	private int projectID;
 	private String name;
 	private String description;
+	private String picPath;
 	private SortedSet<Role> roles;
 	private SortedSet<ProjectUser> projectUsers;
 	private Date dueDate;
@@ -58,6 +59,7 @@ public class Project {
 		roles = new TreeSet<Role>();
 		sprints = new TreeSet<Sprint>();
 		dueDate = new Date();
+		picPath = "./resources/projectPictures/default.png";
 	}
 	
 
@@ -570,5 +572,13 @@ public class Project {
 			}
 		}
 		return null;
+	}
+
+	public String getPicPath() {
+		return picPath;
+	}
+
+	public void setPicPath(String picPath) {
+		this.picPath = picPath;
 	}
 }

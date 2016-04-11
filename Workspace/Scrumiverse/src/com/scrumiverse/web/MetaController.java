@@ -1,12 +1,19 @@
 package com.scrumiverse.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
@@ -27,7 +34,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * on session data
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 27.02.2016
+ * @version 11.04.2016
  *
  */
 public abstract class MetaController {
@@ -108,5 +115,21 @@ public abstract class MetaController {
 		map.addAttribute("currentProject", currentProject);
 		map.addAttribute("action", Action.login);
 		return map;
+	}
+	
+	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException {
+			checkContentType(file.getContentType());
+			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+			File contextPath = new File(request.getServletContext().getRealPath(""));
+			File image = new File(contextPath + File.separator + serverPath + elementId + ending);
+			System.out.println(image.getAbsolutePath());
+			image.createNewFile();
+			file.transferTo(image);
+	}
+	
+	private void checkContentType(String contentType) throws InvalidContentTypeException {
+		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
+			throw new InvalidContentTypeException();
+		}
 	}
 }

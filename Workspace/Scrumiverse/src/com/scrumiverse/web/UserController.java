@@ -259,27 +259,18 @@ public class UserController extends MetaController{
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
-			checkContentType(file.getContentType());
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
-			File contextPath = new File(request.getServletContext().getRealPath(""));
-			File image = new File(contextPath + File.separator + "resources" 
-											  + File.separator + "userPictures" 
-					                          + File.separator + "userPic_" + user.getUserID() + ending);
-			String relativePath = "resources/userPictures/userPic_" + user.getUserID() + ending;
-			image.createNewFile();
-			file.transferTo(image);
-			user.setProfileImagePath(relativePath);
+			String serverPath = "resources" 
+					  		  + File.separator + "userPictures" 
+					  		  + File.separator + "userPic_";
+			String fullPath = serverPath + user.getUserID() + ending;
+			this.uploadPicture(request, file, serverPath, user.getUserID());
+			user.setProfileImagePath(fullPath);
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:userSettings.htm");
 		} catch(InvalidSessionException | NoSuchUserException | IllegalStateException | IOException | InvalidContentTypeException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:userSettings.htm");
-		}
-	}
-
-	private void checkContentType(String contentType) throws InvalidContentTypeException {
-		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
-			throw new InvalidContentTypeException();
 		}
 	}
 }

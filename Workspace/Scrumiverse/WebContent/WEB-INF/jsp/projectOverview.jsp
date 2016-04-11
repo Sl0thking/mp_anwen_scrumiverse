@@ -3,7 +3,7 @@
 <div class="projectpage">
 	<c:forEach items="${projectList}" var="project">
 		<div class="project">
-		<div class="project-logo"></div>
+		<div class="project-logo"><img src="${project.picPath }" height="100" width="100"/></div>
 		<div class="project-name">${project.name }</div>
 		<div class="project-desc">${project.description }</div>
 		<div class="project-member">Projectmembers: ${project.projectUsers.size()}</div>
