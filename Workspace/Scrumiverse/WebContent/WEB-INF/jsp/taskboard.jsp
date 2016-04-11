@@ -20,7 +20,7 @@ $(document).ready(function(){
     // handles load of modal on pageload 
     var target = document.location.hash.replace("#", "");
     if (target.length) {
-        var targetModal = $('.taskmodal[taskid="' + target + '"]');
+        var targetModal = $('.modal-detail[taskid="' + target + '"]');
         if (targetModal) {
         	targetModal.modal('show');
         	history.pushState("", document.title, window.location.pathname);
@@ -29,8 +29,8 @@ $(document).ready(function(){
     
     // handles adding of users to task
     $('.section-detail .user-add button').click(function(e){
-    	var taskID = $(this).closest('.taskmodal').attr('taskid');
-    	var userID = $('.taskmodal[taskid="' + taskID + '"] .section-detail .user-add select > option:selected').attr('value');
+    	var taskID = $(this).closest('.modal-detail').attr('taskid');
+    	var userID = $('.modal-detail[taskid="' + taskID + '"] .section-detail .user-add select > option:selected').attr('value');
     	if (userID) {
 			var targetUrl = './addUserToTask.htm?taskID=' + taskID + '&userID=' + userID;
 			window.location.href = targetUrl;  		
@@ -40,7 +40,7 @@ $(document).ready(function(){
     // handles adding of tags to task
 	$('.section-detail input.add-tag').keypress(function(e) {
 		if (e.which == 13) {
-			var taskID = $(this).closest('.taskmodal').attr('taskid');
+			var taskID = $(this).closest('.modal-detail').attr('taskid');
 			var tags = $.trim($(this).val());
 			if (tags != "") {
 				var targetUrl = './addTagsToTask.htm?taskID=' + taskID + '&tags=' + tags;
@@ -137,9 +137,9 @@ function deselectAll() {
 			                   		</c:choose>
 			                    </div>
 			                </div>
-			                <a href="#" class="glyphicon glyphicon-triangle-right task-link" id="${task.planState.toString()}" data-toggle="modal" data-target=".taskmodal[taskid='${task.getId()}']"></a>
+			                <a href="#" class="glyphicon glyphicon-triangle-right task-link" id="${task.planState.toString()}" data-toggle="modal" data-target=".modal-detail[taskid='${task.getId()}']"></a>
 			            </div>		            
-						<div class="taskmodal modal fade" taskid="${task.id}" role="dialog">
+						<div class="modal-detail modal fade" taskid="${task.id}" role="dialog">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -154,13 +154,13 @@ function deselectAll() {
 										</div>
 										<ul class="nav nav-tabs">
 											<li class="active">
-												<a data-toggle="tab" href=".taskmodal[taskid='${task.id}'] .section-detail">
+												<a data-toggle="tab" href=".modal-detail[taskid='${task.id}'] .section-detail">
 													<span class="glyphicon glyphicon-info-sign"></span>
 													Detail
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href=".taskmodal[taskid='${task.id}'] .section-history">
+												<a data-toggle="tab" href=".modal-detail[taskid='${task.id}'] .section-history">
 													<span class="glyphicon glyphicon-list-alt"></span>
 													History
 												</a>
@@ -170,10 +170,10 @@ function deselectAll() {
 									<div class="modal-body">
 										<div class="tab-content">
 						       				<div class="section-detail tab-pane fade in active">
-						       					<div class="user-list">
+						       					<div class="member-list">
 													<%-- for each user in task : create user bubble --%>
 													<c:forEach items="${task.responsibleUsers}" var="user">
-														<img class="img-circle" alt="${user.getName()}" src="${user.profileImagePath}" data-toggle="tooltip" title="${user.getName()}"/>
+														<img class="member-img" alt="${user.getName()}" src="${user.profileImagePath}" data-toggle="tooltip" title="${user.getName()}"/>
 													</c:forEach>
 													<%-- end for each user in task : create user bubble --%>
 												</div>
@@ -200,40 +200,45 @@ function deselectAll() {
 										        </div>
 										        <c:set var="selectedTask" value="${task}" scope="request" />
 										        <form:form action="updateTask.htm" modelAttribute="selectedTask">
-										        	<form:hidden path="id" />	
-										        	<div class="input-group">				
-										        		<span class="input-group-addon">Planstate</span>	
-												        <form:select class="form-control input-control" path="planState">
-												        	<form:options items="${planStates}" />
-												        </form:select>			
-												    </div>
 							       					<div class="input-group">
 														<span class="input-group-addon">Description</span>
 														<form:textarea class="form-control" style="resize:vertical" path="description" value="${selectedTask.description}" />
 													</div>
 							       					<div class="input-group">
 														<span class="input-group-addon">Criteria</span>
-														<form:textarea class="form-control" style="resize:vertical" path="acceptanceCriteria" value="${selectedTask.acceptanceCriteria}" />												</div>													
-												</form:form>
-												<div class="tag-list-header">
-													Tags
-												</div>
-												<div class="tag-list">
-													<div class="tag-container">
-														<%-- for each tag in task : create tag element --%>
-														<c:forEach items="${task.getTags()}" var="tag">
-															<div class="tag">
-																${tag}
-																<a href="./removeTagFromTask.htm?taskID=${task.id}&tag=${tag}">
-																	<span class="glyphicon glyphicon-remove"></span>
-																</a>
-															</div>
-														</c:forEach>
-														<%-- end for each tag in task : create tag element --%>
+														<form:textarea class="form-control" style="resize:vertical" path="acceptanceCriteria" value="${selectedTask.acceptanceCriteria}" />	
+													</div>		
+													<div class="input-group">				
+										        		<span class="input-group-addon">Planstate</span>	
+												        <form:select class="form-control input-control" path="planState">
+												        	<form:options items="${planStates}" />
+												        </form:select>			
+												    </div>
+													<div class="tag-list-header">
+														Tags
 													</div>
-													<input class="add-tag" type="text" placeholder="Add tag (Seperate multiple tags with commas)"></input>
-												</div>
-												<table class="time-table">
+													<div class="tag-list">
+														<div class="tag-container">
+															<%-- for each tag in task : create tag element --%>
+															<c:forEach items="${task.getTags()}" var="tag">
+																<div class="tag">
+																	${tag}
+																	<a href="./removeTagFromTask.htm?taskID=${task.id}&tag=${tag}">
+																		<span class="glyphicon glyphicon-remove"></span>
+																	</a>
+																</div>
+															</c:forEach>
+															<%-- end for each tag in task : create tag element --%>
+														</div>
+														<input class="add-tag" type="text" placeholder="Add tag (Seperate multiple tags with commas)"></input>
+													</div>
+												    <button type="submit" class="btn btn-submit btn-default">
+														<span class="glyphicon glyphicon-save"></span> Save
+													</button>
+													<form:hidden path="id"/>
+												</form:form>
+												<div class="info-bar">Timetable for users</div>
+												<table class="detail-table">
 													<tr>
 														<th>Users</th>
 														<th>Estimated</th>
@@ -245,7 +250,7 @@ function deselectAll() {
 													<c:forEach items="${task.getPlannedMinOfUsers()}" var="userEntry">
 														<tr>
 															<td>
-																<img class="img-circle" alt="${userEntry.key.name}" src="${userEntry.key.profileImagePath}" data-toggle="tooltip" title="${userEntry.key.name}"/>
+																<img class="member-img" alt="${userEntry.key.name}" src="${userEntry.key.profileImagePath}" data-toggle="tooltip" title="${userEntry.key.name}"/>
 																${userEntry.key.name}
 															</td>
 															<td>
@@ -309,12 +314,6 @@ function deselectAll() {
 											</div>
 						       			</div>
 									</div>
-									<div class="modal-footer">																			
-										<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-											<span class="glyphicon glyphicon-save"></span>
-											Save
-										</button>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -339,7 +338,7 @@ function deselectAll() {
 			                        <div class="task-member"></div>
 			                    </div>
 			                </div>
-			                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target=".taskmodal[taskid='${task.id}']"></a>
+			                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target=".modal-detail[taskid='${task.id}']"></a>
 			            </div>		            
 			    	</c:if>
 	        	</c:forEach>
@@ -362,7 +361,7 @@ function deselectAll() {
 			                        <div class="task-member"></div>
 			                    </div>
 			                </div>
-			                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#taskmodal"></a>
+			                <a href="#" class="glyphicon glyphicon-triangle-right task-link ${task.planState.toString()}" data-toggle="modal" data-target="#modal-detail"></a>
 			            </div>
 			    	</c:if>
 	        	</c:forEach>

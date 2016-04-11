@@ -75,9 +75,11 @@
 	top: -43px;
 	width: 55%;
 	height: 26px;
-}
-.section-detail .member-list > * {
 	float: right;
+}
+.section-detail .member-list  * {
+	float: right;
+	position: relative;
 }
 .section-detail .member-img {
 	margin-left: 10px;
@@ -183,12 +185,12 @@
 
 
 /*Submit Button*/
-.section-detail  button {
+.section-detail  .btn-submit {
 	margin-top: -5px;
 	float: right;
 }
 
-.section-detail  button:hover {
+.section-detail  .btn-submit:hover {
 	background-color: green;
 	color: white;
 	border: 1px solid #303030;

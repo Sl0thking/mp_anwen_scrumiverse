@@ -192,7 +192,7 @@ function setView(oldView, newView){
 										<form:input class="form-control input-control" path="risk"
 											type="number" />
 									</div>
-									<button type="submit" class="btn btn-default">
+									<button type="submit" class="btn btn-submit btn-default">
 										<span class="glyphicon glyphicon-save"></span> Save
 									</button>
 									<form:hidden path="id"/>

@@ -1,4 +1,5 @@
 @import 'history.css';
+@import 'detail.css';
 
 #action_content::-webkit-scrollbar {display: none;}
 .taskboard-content{
@@ -289,7 +290,7 @@
     outline: 2px solid white;
 }
 
-/* quick buttons specific css 
+/* quick buttons specific css */
 #quick-button-container {
     position: fixed;
     bottom: 10px;
@@ -339,82 +340,6 @@
 	display: inline-block;
 }
 
-*/
-/* task-detailview modal specific css */
-.taskmodal {
-	color: black;
-}
-
-.taskmodal a {
-	text-decoration: none;
-	color: black;
-}
-
-.taskmodal > .modal-dialog {
-	width: 1000px;
-}
-
-.taskmodal > .modal-dialog > .modal-content {
-	background-color: #666666;
-}
-
-.taskmodal > .modal-dialog .modal-header {
-	background-color: #303030;
-	padding-bottom: 0px;
-}
-
-.taskmodal > .modal-dialog .modal-header > .info-bar {	
-	color: white;
-	font-size: 18px;
-}
-
-.taskmodal > .modal-dialog .modal-header a {
-	color: white;
-}
-
-.taskmodal > .modal-dialog .modal-header > .info-bar a:hover {
-	color: red;
-}
-
-.taskmodal > .modal-dialog .info-bar span.glyphicon-trash {
-	float: right;	
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav {
-	margin-top: 10px;
-	border-bottom: none;
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav > li {
-	margin-left: 5px;
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav > li > a {
-	z-index: 2;
-	color: white;
-	background-color: #666666;
-    box-shadow: 0 1px 0 #e5e5e5;
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav > li:not([class="active"]) > a {
-	padding-bottom: 9px;
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav > li:not([class="active"]) > a:hover {
-	border-color: transparent;
-	background-color: #e5e5e5;
-	color: #303030;
-}
-
-.taskmodal > .modal-dialog .modal-header > .nav > li.active > a {
-	border-bottom-color: transparent;
-   	box-shadow: 0 1px 0 #666666;
-}
-
-.taskmodal > .modal-dialog .modal-body {
-	color: white;
-}
-
 .section-detail .tag-list-header {
 	height: 30px;
 	width: 150px;
@@ -431,6 +356,7 @@
 .section-detail .tag-list {
 	width: 100%;
 	padding-bottom: 4px;
+	margin-bottom: 10px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 0px 4px 4px 4px;
@@ -469,18 +395,14 @@
 	border: none;
 }
 
-.section-detail .user-list {
+/*Überschreibt die Memberlist aus detail.css, um Platz fürs user adden zu machen*/
+.section-detail .member-list {
 	position: absolute;
 	right: 230px;
 	top: -43px;
 	width: 55%;
 	height: 26px;
 }
-
-.section-detail .user-list > * {
-	float: right;
-}
-
 .section-detail .user-add {
 	position: absolute;
 	top: -45px;
@@ -490,87 +412,4 @@
 
 .section-detail .user-add > .selectpicker > * {
 	float: right;
-}
-
-.section-detail .img-circle {
-	margin-left: 10px;
-	width: 26px;
-	height: 26px;
-	border: 1px solid #666666;
-	background-color: #666666;
-}
-
-.section-detail user-list > .img-circle:hover {
-	border-color: white;
-}
-
-.section-detail .input-group {
-	margin-bottom: 10px;
-}
-
-.section-detail .time-table {
-	margin-top: 10px;
-	width: 100%;
-}
-
-.section-detail .time-table th {
-	color: white;
-	text-align: center;
-}
-
-.section-detail .time-table tr {
-	height: 30px;
-	border-left: 1px solid #e5e5e5;
-	border-right: 1px solid #e5e5e5;
-}
-
-.section-detail .time-table tr > td {
-	text-align: center;
-}
-
-.section-detail .time-table tr > td:first-of-type {
-	width: 250px;
-}
-
-.section-detail .time-table tr:nth-child(even), .section-detail .time-table tr:nth-child(even) a {
-	background-color: #666666;
-	color: #e5e5e5;	
-}
-
-.section-detail .time-table tr:nth-child(odd), .section-detail .time-table tr:nth-child(odd) a {
-	background-color: #e5e5e5;	
-	color: #303030;
-}
-
-.section-detail .time-table tr:first-child, .section-detail .time-table tr:last-child {
-	border: 1px solid #e5e5e5;
-	background-color: #303030;
-	color: white;
-}
-
-.section-detail .time-table tr a:hover {
-	color: red;
-}
-
-.section-detail .input-group > .input-group-addon {
-	min-width: 150px;
-}
-
-.section-detail .section-btn {
-	position: relative;
-	top: 55px;
-}
-
-.taskmodal > .modal-dialog .modal-footer {
-	height: 51px;
-}
-
-.taskmodal > .modal-dialog .modal-footer > button {
-	margin-top: -5px;
-}
-
-.taskmodal > .modal-dialog .modal-footer > button:hover {
-	background-color: green;
-	color: white;
-	border: 1px solid #303030;
 }

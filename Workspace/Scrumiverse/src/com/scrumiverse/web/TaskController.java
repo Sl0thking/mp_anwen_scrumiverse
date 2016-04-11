@@ -291,10 +291,12 @@ public class TaskController extends MetaController {
 	
 	public boolean isTaskInSprint(Task task, Sprint sprint){
 		boolean result = false;
-		for(UserStory forUserstory: sprint.getUserStories()){
-			for(Task forTask: forUserstory.getTasks()){
-				if(forTask.equals(task)){
-					result = true;
+		if (sprint != null){
+			for(UserStory forUserstory: sprint.getUserStories()){
+				for(Task forTask: forUserstory.getTasks()){
+					if(forTask.equals(task)){
+						result = true;
+					}
 				}
 			}
 		}
