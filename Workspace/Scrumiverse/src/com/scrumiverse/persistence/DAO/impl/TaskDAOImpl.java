@@ -51,9 +51,8 @@ public class TaskDAOImpl implements TaskDAO{
 		List<Task> possibleTasks = hibernateTemplate.find("from Task where id='" + taskID + "'");
 		if(possibleTasks.size() == 1) {
 			return possibleTasks.get(0);
-		} else {
-			throw new TaskPersistenceException();
 		}
+		throw new TaskPersistenceException();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -62,8 +61,7 @@ public class TaskDAOImpl implements TaskDAO{
 		List<UserStory> possibleUserStories = hibernateTemplate.find("from UserStory where id='" + userStoryID + "'");
 		if(possibleUserStories.size() == 1) {
 			return possibleUserStories.get(0).getTasks();
-		} else {
-			throw new TaskPersistenceException();
-		}
+		} 
+		throw new TaskPersistenceException();
 	}
 }

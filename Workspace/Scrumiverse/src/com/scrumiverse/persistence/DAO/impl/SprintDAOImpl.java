@@ -13,6 +13,7 @@ import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * DAO Implementation of Sprints
+ * 
  * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
  * @version 11.04.2016
  */
@@ -50,9 +51,8 @@ public class SprintDAOImpl implements SprintDAO {
 		List<Sprint> sprints = hibernateTemplate.find("from Sprint where id='" + sprintID + "'");	
 		if(sprints.size() == 1){
 			return sprints.get(0);
-		} else {
-			throw new SprintPersistenceException();
 		}
+		throw new SprintPersistenceException();
 	}
 	
 	/**
@@ -67,8 +67,7 @@ public class SprintDAOImpl implements SprintDAO {
 		List<Project> possibleProjects = hibernateTemplate.find("from Project where ProjectID='"+ projectID + "'");
 		if(possibleProjects.size() == 1) {
 			return possibleProjects.get(0).getSprints();
-		} else {
-			throw new SprintPersistenceException();
 		}
+		throw new SprintPersistenceException();
 	}
 }

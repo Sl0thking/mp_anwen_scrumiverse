@@ -2,6 +2,7 @@ package com.scrumiverse.binder;
 
 import java.beans.PropertyEditorSupport;
 
+import com.scrumiverse.exception.RolePersistenceException;
 import com.scrumiverse.model.account.Role;
 import com.scrumiverse.persistence.DAO.RoleDAO;
 
@@ -25,15 +26,18 @@ public class RoleBinder extends PropertyEditorSupport {
 		if(o == null) {
 			return null;
 		} else {
-			System.err.println("ROLE-GIVEN: " + ((Role) o).getName());
 			return Integer.toString( ((Role) o).getRoleID() );
 		}
 	}
 
 	@Override
 	public void setAsText(String id) throws IllegalArgumentException {
-		Role role = roleDAO.getRole(Integer.parseInt(id));
-		setValue(role);
+		Role role;
+		try {
+			role = roleDAO.getRole(Integer.parseInt(id));
+			setValue(role);
+		} catch (RolePersistenceException e) {
+			e.printStackTrace();
+		}
 	}
-	
 }

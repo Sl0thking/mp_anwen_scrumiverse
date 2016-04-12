@@ -14,6 +14,7 @@ import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
+import com.scrumiverse.exception.RolePersistenceException;
 import com.scrumiverse.exception.ShutOutException;
 import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.account.Role;
@@ -93,7 +94,7 @@ public class RoleController extends MetaController {
 				//show with error
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
 			}
-		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException | RolePersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
 	}

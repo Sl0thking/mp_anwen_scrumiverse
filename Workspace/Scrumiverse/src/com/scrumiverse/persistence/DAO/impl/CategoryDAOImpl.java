@@ -32,10 +32,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public Category getCategoryById(int id) throws CategoryPersistenceException {
 		List<Category> categories = hibernateTemplate.find("from Category where Id='" + id + "'");
-		if(categories.size() > 1 || categories.size() <= 0) {
-			throw new CategoryPersistenceException();
+		if(categories.size() == 1) {
+			return categories.get(0);
 		}
-		return categories.get(0);
+		throw new CategoryPersistenceException();
 	}
 
 	@Override

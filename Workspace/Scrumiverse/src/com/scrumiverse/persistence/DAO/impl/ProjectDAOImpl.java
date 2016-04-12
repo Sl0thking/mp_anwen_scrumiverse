@@ -47,9 +47,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 			User relatedUser = possibleUsers.get(0);
 			return relatedUser.getProjects();
 		//when more or less than one project is found, an exception is thrown
-		} else {
-			throw new ProjectPersistenceException();
-		}
+		} 
+		throw new ProjectPersistenceException();
 	}
 	
 	/**
@@ -63,9 +62,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
 		if(projects.size() == 1) {
 			return projects.get(0);
-		} else {
-			throw new ProjectPersistenceException();
-		}
+		} 
+		throw new ProjectPersistenceException();
 	}
 	
 	@Override
@@ -75,10 +73,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void deleteProject(Project p) throws CannotDeleteProjectWithUsersException  {
+		//Check if Users are inside the project, when not throw exception
 		if(p.getProjectUsers().size() == 0) {
 			hibernateTemplate.delete(p);
-		} else {
-			throw new CannotDeleteProjectWithUsersException();
-		}
+		} 
+		throw new CannotDeleteProjectWithUsersException();
 	}
 }

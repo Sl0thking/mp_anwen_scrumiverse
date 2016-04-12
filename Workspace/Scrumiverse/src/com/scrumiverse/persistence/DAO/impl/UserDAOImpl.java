@@ -13,7 +13,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Implementation of the dao for user objects.
  * 
  * @author Kevin Jolitz
- * @version 16.02.2016
+ * @version 12.04.2016
  *
  */
 public class UserDAOImpl implements UserDAO{
@@ -34,26 +34,29 @@ public class UserDAOImpl implements UserDAO{
 		hibernateTemplate.update(user);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserByEmail(String email) throws UserPersistenceException {
 		List<User> users = hibernateTemplate.find("from User where email='" + email + "'");
-		if(users.size() == 0) {
-			throw new UserPersistenceException();
+		if(users.size() == 1) {
+			return users.get(0);
 		}
-		return users.get(0);
+		throw new UserPersistenceException();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
 		return hibernateTemplate.find("from User");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User getUser(int id) throws UserPersistenceException {
 		List<User> users = hibernateTemplate.find("from User where userID='" + id + "'"); 
-		if(users.size() == 0 || users.size() > 1) {
-			throw new UserPersistenceException();
+		if(users.size() == 1) {
+			return users.get(0);
 		}
-		return users.get(0);
+		throw new UserPersistenceException();
 	}
 }

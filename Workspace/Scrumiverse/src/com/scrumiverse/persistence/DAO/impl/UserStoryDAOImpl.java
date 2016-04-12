@@ -1,8 +1,6 @@
 package com.scrumiverse.persistence.DAO.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.hibernate.SessionFactory;
@@ -18,8 +16,8 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Implementation of Interface UserStoryDAO for handling 
  * the database for User Story interactions
  * 
- * @author Lasse Jacobs
- * @version 22.02.16
+ * @author Lasse Jacobs, Kevin Jolitz
+ * @version 12.04.16
  *
  */
 
@@ -46,28 +44,30 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 		hibernateTemplate.delete(userStory);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserStory> getAllUserstories() {
 		return hibernateTemplate.find("from UserStory");
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public UserStory getUserStory(int userStoryID) throws UserStoryPersistenceException{
 		List<UserStory> userstories = hibernateTemplate.find("from UserStory where id='" + userStoryID + "'");
-		if(userstories.size() != 0){
+		if(userstories.size() == 1){
 			return userstories.get(0);
 		}
 		throw new UserStoryPersistenceException();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws ProjectPersistenceException{
 		List<Project> projects = hibernateTemplate.find("from Project where id='" + projectID +"'");
-		if(projects.size() != 0) {
+		if(projects.size() == 1) {
 			Project project = projects.get(0);
 			return project.getUserstories();
 		}
 		throw new ProjectPersistenceException();
 	}
-
 }
