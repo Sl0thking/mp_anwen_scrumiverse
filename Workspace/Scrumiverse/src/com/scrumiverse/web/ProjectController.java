@@ -498,10 +498,12 @@ public class ProjectController extends MetaController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/changeProjectPic")
 	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
+		int projectId = 0;
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
+			projectId = project.getProjectID();
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
 			String serverPath = "resources" 
 					  		  + File.separator + "projectPictures" 
@@ -510,10 +512,10 @@ public class ProjectController extends MetaController {
 			this.uploadPicture(request, file, serverPath, project.getProjectID());
 			project.setPicPath(fullPath);
 			projectDAO.updateProject(project);
-			return new ModelAndView("redirect:userSettings.htm");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException e) {
 			e.printStackTrace();
-			return new ModelAndView("redirect:userSettings.htm");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		}
 	}
 	
