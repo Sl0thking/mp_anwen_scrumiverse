@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="resources/javascript/dialog.js"></script>
 <script>
 // open the backlog and handels the "button"
 function openBacklog(){
@@ -132,6 +133,14 @@ function toggleRemovebtn(){
     }
 }
 </script>
+<div id="user-dialog">
+    <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title"></span></div>
+    <div class="dialog-body">
+        <div class="dialog-text"></div>
+        <a id="dialog-hide" class="btn btn-danger">No</a>
+        <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
+    </div>
+</div>
 <%-- Creates the backlog on the left side of the sprintpage --%>
 <div class="backlog-placeholder">
     <div class="backlogbar">
@@ -268,7 +277,8 @@ function toggleRemovebtn(){
 					    SPRINT SETTINGS
 	                    </span>
                     	<c:if test="${canDeleteSprint}">
-                    		 <a href="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" title="Delete Sprint">
+                    		 <a class="dialog_action" link="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip" 
+                    		 	title="Delete Sprint" msg="Do you really want to delete this sprint?">
 								<span class="glyphicon glyphicon-trash"></span>
 							</a>
                     	</c:if>

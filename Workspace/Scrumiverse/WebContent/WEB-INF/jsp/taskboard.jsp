@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="resources/javascript/dialog.js"></script>
 <script>
 $(document).ready(function(){
 	$(".quick-button").hide();
@@ -57,6 +58,14 @@ function deselectAll() {
     });
 }
 </script>
+<div id="user-dialog">
+    <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title">Delete Project</span></div>
+    <div class="dialog-body">
+        <div class="dialog-text"></div>
+        <a id="dialog-hide" class="btn btn-danger">No</a>
+        <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
+    </div>
+</div>
 <div>
     <table class="taskboard-heading">
         <tr>
@@ -147,7 +156,8 @@ function deselectAll() {
 											<span class="glyphicon glyphicon-cog"></span>
 											TASK DETAIL #${task.id}
 											<c:if test="${canDeleteTask}">
-												<a href="./deleteTask.htm?taskID=${task.id}" data-toggle="tooltip" title="Delete task">
+												<a class="dialog_action" link="./deleteTask.htm?taskID=${task.id}" data-toggle="tooltip" 
+													title="Delete Task" msg="Do you really want to delete this task?">
 													<span class="glyphicon glyphicon-trash"></span>
 												</a>
 											</c:if>			
@@ -278,7 +288,8 @@ function deselectAll() {
 																</c:choose>
 															</td>
 															<td>
-																<a href="./removeUserFromTask.htm?taskID=${task.id}&userID=${userEntry.key.userID}">
+																<a class="dialog_action"  link="./removeUserFromTask.htm?taskID=${task.id}&userID=${userEntry.key.userID}"
+																	data-toggle="tooltip" title="Remove User" msg="Do you really want to remove ${userEntry.key.name} from this task?">
 																	<span class="glyphicon glyphicon-remove"></span>
 																</a>
 															</td>

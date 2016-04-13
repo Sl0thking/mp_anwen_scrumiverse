@@ -162,7 +162,7 @@ function activateButton(btnTab){
 								<!-- insert messaging button here -->
 								<c:if test="${removeFromProject}">
 									<a class="dialog_action" link="./removeProjectUser.htm?id=${projectUser.user.userID}" 
-										data-toggle="tooltip" title="Remove member" msg="Do you really want to remove ${projectUser.user.name} from this project?">
+										data-toggle="tooltip" title="Remove User" msg="Do you really want to remove ${projectUser.user.name} from this project?">
 										<span class="glyphicon glyphicon-remove"></span>
 									</a>
 								</c:if>

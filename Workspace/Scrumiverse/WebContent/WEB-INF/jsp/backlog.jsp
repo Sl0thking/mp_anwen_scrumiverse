@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<script src="resources/javascript/dialog.js"></script>
 <script>
 $(document).ready(function(){
 	setView("userstory",getView("usview"));
@@ -32,7 +33,14 @@ function setView(oldView, newView){
 	document.cookie="usview="+newView;
 }
 </script>
-
+<div id="user-dialog">
+    <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title"></span></div>
+    <div class="dialog-body">
+        <div class="dialog-text"></div>
+        <a id="dialog-hide" class="btn btn-danger">No</a>
+        <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
+    </div>
+</div>
 <div id="backlog">
 	<div class="backlog-settings">
 		<a href="#us" class="listview glyphicon glyphicon-align-justify"></a>
@@ -100,8 +108,8 @@ function setView(oldView, newView){
 							<span class="glyphicon glyphicon-cog"></span> 
 							USERSTORY DETAIL 
 							<c:if test="${canDeleteUserStory}">
-								<a href="./removeUserStory.htm?id=${userstory.id}"
-									data-toggle="tooltip" title="Delete userstory">
+								<a class="dialog_action" link="./removeUserStory.htm?id=${userstory.id}" 
+									data-toggle="tooltip" title="Delete Userstory" msg="Do you really want to delete this userstory?">
 									<span class="glyphicon glyphicon-trash"></span>
 								</a>
 							</c:if>
@@ -217,7 +225,8 @@ function setView(oldView, newView){
 											<td><fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h</td>
 											<td>
 												<c:if test="${canDeleteTask}">
-													<a href="./deleteTask.htm?taskID=${task.id}">
+													<a class="dialog_acition" link="./deleteTask.htm?taskID=${task.id}"
+														data-toggle="tooltip" title="Delete Task" msg="Do you really want to delete this task?">
 														<span class="glyphicon glyphicon-remove"></span>
 													</a>
 												</c:if>										

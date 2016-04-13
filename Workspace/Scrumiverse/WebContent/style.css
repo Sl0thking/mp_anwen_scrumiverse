@@ -312,7 +312,7 @@ body {
     width: 340px;
     background-color: #666666;
     border: 2px solid black;
-    z-index: 50;
+    z-index: 1100;
 }
 #user-dialog > .dialog-header{
     height: 30px;
