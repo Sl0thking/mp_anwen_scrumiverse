@@ -5,16 +5,16 @@ $(document).ready(function(){
 	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
 })
 </script>
+<div class="error-container">
+	<c:if test="${loginError}">
+		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check e-mail and/or password.</div>
+	</c:if>
+	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="email" element="div"></form:errors>
+	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="name" element="div"></form:errors>
+	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="password" element="div"></form:errors>
+</div>
 <div class="background">
 	<div class="login">
-		<div class="error-container">
-        	<c:if test="${loginError}">
-        		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check e-mail and/or password.</div>
-        	</c:if>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="email" element="div"></form:errors>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="name" element="div"></form:errors>
-        	<form:errors cssClass="alert alert-danger alert-dismissible error" role="alert" path="password" element="div"></form:errors>
-        </div>
         <form:form action="loginCheck.htm" commandName="user">
             <div class="form-group">
             	E-Mail:

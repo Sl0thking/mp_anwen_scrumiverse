@@ -59,6 +59,20 @@
 	padding-left: 10px;
 }
 
+.project-picture{
+    float: left;
+    margin-bottom: 10px;
+}
+.project-picture > img{
+    margin-left: 60px
+}
+.project-picture > .input-group > input{
+    margin-bottom: 5px;
+}
+.project-picture > .input-group > button{
+    float: right
+}
+
 #detail-tab > .user-list-title {
 	height: 40px;
 	width: 100%;
@@ -71,22 +85,18 @@
 	display: inline-block;
 }
 
-#detail-tab > form {
-	float: left;
-}
-
 .tab-pane > form {
     padding: 0px 10px 0px 10px;
 }
 
 .input-group-fix{
 	margin: 10px 10px 0px 10px;
-    padding-right: 5px;
     border-radius: 4px 4px 4px 4px;
 }
 
-.input-category-fix{
+#category-tab >.input-category-fix{
     margin: 10px 20px 0px 20px;
+    padding-right: 5px;
 }
 
 fieldset > .input-category-fix{
@@ -152,7 +162,7 @@ fieldset > .input-group-fix{
 }
 fieldset > button{
     float: right;
-    margin-right: 15px;
+    margin-right: 10px
 }
 
 #settings #remove-btn{

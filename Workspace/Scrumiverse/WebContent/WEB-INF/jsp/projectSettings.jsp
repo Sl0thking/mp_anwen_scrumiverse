@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link rel="stylesheet" type="text/css" href="resources/colorpicker/css/bootstrap-colorpicker.css"/>
 <script src="resources/colorpicker/js/bootstrap-colorpicker.js"></script>
-
+<script src="resources/javascript/dialog.js"></script>
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
 
 /* scans the hash of the url, needed for the active tab-pane */
@@ -76,6 +76,14 @@ function activateButton(btnTab){
 }
 </script>
 <div id="settings">
+	<div id="user-dialog">
+	    <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title">Delete Project</span></div>
+	    <div class="dialog-body">
+	        <div class="dialog-text"></div>
+	        <a id="dialog-hide" class="btn btn-danger">No</a>
+	        <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
+	    </div>
+	</div>
 	<div class="error-container">
 		<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
 	    <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
@@ -88,7 +96,8 @@ function activateButton(btnTab){
 				PROJECT SETTINGS
 			</span>
 			<c:if test="${deleteProject}">
-				<a href="./removeProject.htm" data-toggle="tooltip" title="Delete project">
+				<a class="dialog_action" link="./removeProject.htm" 
+					data-toggle="tooltip" title="Delete project" msg="Do you really want to delete this project?">
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</c:if>
@@ -116,9 +125,9 @@ function activateButton(btnTab){
 	</div>
 	<div class="tab-content">
         <div id="detail-tab" class="tab-pane fade in active">
-        		<form method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
+        		<form class="project-picture" method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
+        		<img src="${project.picPath}" width="150" height="150">
         			<div class="input-group">
-        				<img src="${project.picPath}" width="150" height="150">
         				<input name="image" type="file">
         				<button class="btn btn-default" type="submit">Upload</button>
         			</div>
@@ -152,7 +161,8 @@ function activateButton(btnTab){
 							<div class="user-card-header">
 								<!-- insert messaging button here -->
 								<c:if test="${removeFromProject}">
-									<a href="./removeProjectUser.htm?id=${projectUser.user.userID}" data-toggle="tooltip" title="Remove member">
+									<a class="dialog_action" link="./removeProjectUser.htm?id=${projectUser.user.userID}" 
+										data-toggle="tooltip" title="Remove member" msg="Do you really want to remove ${projectUser.user.name} from this project?">
 										<span class="glyphicon glyphicon-remove"></span>
 									</a>
 								</c:if>
@@ -244,7 +254,8 @@ function activateButton(btnTab){
                         		<span class="glyphicon glyphicon-save"></span>
                         		Save
                     		</button>
-							<a href="./removeRole.htm?id=${selectedRole.roleID }" class="btn btn-default" id="remove-btn">
+							<a class="dialog_action btn btn-default" link="./removeRole.htm?id=${selectedRole.roleID }" id="remove-btn"
+								data-toggle="tooltip" title="Delete role" msg="Do you really want to delete ${selectedRole.name}?">
 								<span class="glyphicon glyphicon-trash"></span>
 						  		Remove
 							</a>
@@ -312,7 +323,8 @@ function activateButton(btnTab){
                     		<span class="glyphicon glyphicon-save"></span>
                      	Save
                  		</button>
-						<a href="./removeCategory.htm?id=${selectedCategory.id }" class="btn btn-default" id="remove-btn">
+						<a class="dialog_action btn btn-default"  link="./removeCategory.htm?id=${selectedCategory.id }" id="remove-btn"
+							data-toggle="tooltip" title="Delete category" msg="Do you really want to delete ${selectedCategory.name}?">
 							<span class="glyphicon glyphicon-trash"></span>
 					  		Remove
 						</a>
