@@ -286,6 +286,9 @@ public class Sprint extends PlanElement {
 			}
 			// Put current counter value into the Array
 			userStoryCount += userStoriesAssigned - userStoriesRemoved;
+			if (userStoryCount < 0) {
+				userStoryCount = 0;
+			}
 			backlogScope.put(userStoryCount);
 		}
 		return backlogScope;
@@ -373,6 +376,9 @@ public class Sprint extends PlanElement {
 			}
 			// Put current counter value into the array
 			remainingItemsCount += itemsAssigned - itemsDone - itemsRemoved;
+			if (remainingItemsCount < 0) {
+				remainingItemsCount = 0;
+			}
 			remainingItems.put(remainingItemsCount);
 		}
 		return remainingItems;
