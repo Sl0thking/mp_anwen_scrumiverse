@@ -269,9 +269,10 @@ public class UserController extends MetaController{
 			user.setProfileImagePath(fullPath);
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:userSettings.htm");
-		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | InvaldFileSizeException e) {
-			e.printStackTrace();
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException e) {
 			return new ModelAndView("redirect:userSettings.htm");
+		} catch(InvalidContentTypeException | InvaldFileSizeException e) {
+			return new ModelAndView("redirect:userSettings.htm?error=2");
 		}
 	}
 }

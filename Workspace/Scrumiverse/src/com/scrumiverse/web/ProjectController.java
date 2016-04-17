@@ -502,7 +502,6 @@ public class ProjectController extends MetaController {
 		int projectId = 0;
 		try {
 			checkInvalidSession(session);
-			User user = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
@@ -514,9 +513,10 @@ public class ProjectController extends MetaController {
 			project.setPicPath(fullPath);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException | InvaldFileSizeException e) {
-			e.printStackTrace();
+		} catch(InvalidSessionException | IllegalStateException | IOException |  ProjectPersistenceException e) {
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
+		} catch (InvalidContentTypeException | InvaldFileSizeException e) {
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=4");
 		}
 	}
 	
