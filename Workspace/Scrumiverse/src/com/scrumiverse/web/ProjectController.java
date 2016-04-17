@@ -28,6 +28,7 @@ import com.scrumiverse.binder.CategoryBinder;
 import com.scrumiverse.binder.RoleBinder;
 import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
+import com.scrumiverse.exception.InvaldFileSizeException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.exception.UserPersistenceException;
@@ -56,7 +57,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 11.04.2016
+ * @version 17.04.2016
  *
  */
 
@@ -513,7 +514,7 @@ public class ProjectController extends MetaController {
 			project.setPicPath(fullPath);
 			projectDAO.updateProject(project);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
-		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException e) {
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | ProjectPersistenceException | InvaldFileSizeException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		}

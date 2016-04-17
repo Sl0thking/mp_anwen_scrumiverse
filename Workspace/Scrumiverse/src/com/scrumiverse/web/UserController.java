@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.InvaldFileSizeException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
@@ -33,7 +34,7 @@ import com.scrumiverse.utility.Utility;
  * Controller for user account interactions
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 01.03.2016
+ * @version 17.04.2016
  *
  */
 @Controller
@@ -268,7 +269,7 @@ public class UserController extends MetaController{
 			user.setProfileImagePath(fullPath);
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:userSettings.htm");
-		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException e) {
+		} catch(InvalidSessionException | UserPersistenceException | IllegalStateException | IOException | InvalidContentTypeException | InvaldFileSizeException e) {
 			e.printStackTrace();
 			return new ModelAndView("redirect:userSettings.htm");
 		}

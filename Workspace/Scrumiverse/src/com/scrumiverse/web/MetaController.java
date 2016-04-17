@@ -11,11 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.exception.InsufficientRightsException;
+import com.scrumiverse.exception.InvaldFileSizeException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.exception.UserPersistenceException;
@@ -34,7 +33,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * on session data
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 11.04.2016
+ * @version 17.04.2016
  *
  */
 public abstract class MetaController {
@@ -47,6 +46,8 @@ public abstract class MetaController {
 	
 	@Autowired
 	protected MessageDAO messageDAO;
+	
+	private static final long MAX_SIZE_MB = 4;
 	
 	protected User loadActiveUser(HttpSession session) throws UserPersistenceException {
 		int userId = (int) session.getAttribute("userId");
@@ -117,8 +118,9 @@ public abstract class MetaController {
 		return map;
 	}
 	
-	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException {
+	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException, InvaldFileSizeException {
 			checkContentType(file.getContentType());
+			checkFileSize(file.getSize());
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
 			File contextPath = new File(request.getServletContext().getRealPath(""));
 			File image = new File(contextPath + File.separator + serverPath + elementId + ending);
@@ -127,6 +129,14 @@ public abstract class MetaController {
 			file.transferTo(image);
 	}
 	
+	private void checkFileSize(long size) throws InvaldFileSizeException {
+		long sizeInMb = size / 1000000L;
+		System.out.println("SIZE IN MB: " + size);
+		if(sizeInMb > MAX_SIZE_MB) {
+			throw new InvaldFileSizeException();
+		}
+	}
+
 	private void checkContentType(String contentType) throws InvalidContentTypeException {
 		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
 			throw new InvalidContentTypeException();
