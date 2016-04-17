@@ -1,5 +1,7 @@
 @import 'history.css';
 @import 'detail.css';
+@import 'hourglass.css';
+
 
 #action_content::-webkit-scrollbar {display: none;}
 .taskboard-content{
