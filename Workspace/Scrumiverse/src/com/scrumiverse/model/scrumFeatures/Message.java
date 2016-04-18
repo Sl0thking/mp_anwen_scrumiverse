@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import com.scrumiverse.model.account.User;
 /**
  * Datamodel of Messages
+ * 
  * @author Toni Serfling
  * @version 15.03.2016
  */
@@ -57,6 +58,7 @@ public class Message {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "UserID")
 	public User getSender() {
@@ -66,7 +68,8 @@ public class Message {
 	public void setSender(User sender) {
 		this.sender = sender;
 	}
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER,  mappedBy = "messages")
 	public Set<User> getRecievers() {
 		return recievers;
 	}
@@ -74,6 +77,7 @@ public class Message {
 	public void setRecievers(Set<User> recievers) {
 		this.recievers = recievers;
 	}
+	
 	@Column(columnDefinition="TEXT")
 	public String getContent() {
 		return content;

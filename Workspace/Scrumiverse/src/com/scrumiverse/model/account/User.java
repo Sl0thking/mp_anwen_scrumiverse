@@ -155,8 +155,11 @@ public class User {
 	public void setProfileImagePath(String profileImagePath) {
 		this.profileImagePath = profileImagePath;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name="MessageID")
+	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(name = "message_user", joinColumns={
+			@JoinColumn(name = "UserID", nullable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "messageID", nullable = false)})
 	@Sort(type=SortType.NATURAL)
 	public SortedSet<Message> getMessages() {
 		return messages;
