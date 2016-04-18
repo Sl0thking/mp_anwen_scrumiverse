@@ -160,6 +160,7 @@ function activateButton(btnTab){
 				MEMBERLIST
 			</div>
 			<div id="user-list">
+				<%-- Creates the usercard for each project-member --%>
 				<c:forEach items="${project.getProjectUsers()}" var="projectUser">
 					<!-- fix for commandName value bug -->
 					<c:set var="projectUser" scope="request" value="${projectUser}"/> 
@@ -203,6 +204,7 @@ function activateButton(btnTab){
 			<div id="settings-options"></div>
 		</div>
 		<div id="role-tab" class="tab-pane fade in">
+			<%-- role selection --%>
         	<div class="input-group">
                 <span class="input-group-addon">Role</span>
                 <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}#role-tab">
@@ -211,6 +213,7 @@ function activateButton(btnTab){
 					</form:select>
 				</form:form>
 			</div>
+			<%-- build the rights of the selected role, splitted in sections --%>
             <form:form commandName="selectedRole" action="updateRole.htm">
             <form:hidden path="roleID"/>
             	<fieldset>
@@ -235,7 +238,6 @@ function activateButton(btnTab){
                         </div>
                         <div class="entity">
                             User Story<br>
-
                             <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_UserStory"/> Create</span>
                             <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_UserStory"/> Read </span>
                             <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_UserStory"/> Update</span>
@@ -255,6 +257,8 @@ function activateButton(btnTab){
                             <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_PlannedMin_for_Current_Sprint"/> Changes to planned minutes from a task in current sprint</span>
                         </div>
                     </div>
+                    <%-- Sets the remove and save button if the member is allowed to change rights.
+						If the member isn't allowed the remove button will not be placed an the save button is disabled. --%>
                     <c:choose>
                     	<c:when test="${selectedRole.isChangeable()}">
                     		 <button type="submit" class="btn btn-default">
@@ -276,10 +280,11 @@ function activateButton(btnTab){
                     	</c:otherwise>
                     </c:choose>
                 </fieldset>
-                </form:form>
+           	</form:form>
             <div id="settings-options"></div>
         </div>
         <div id="category-tab" class="tab-pane fade in">
+        	<%-- category selection --%>
              <div class="input-group">
                  <span class="input-group-addon">Category</span>
                   <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}#category-tab">
@@ -288,6 +293,7 @@ function activateButton(btnTab){
 				    </form:select>
 				  </form:form>
              </div>
+             <%-- build the category form with the BOOTSTRAP COLORPICKER 2.3(Originally written by @eyecon and maintained by @mjolnic and the Github community.)  --%>
              <form:form commandName="selectedCategory" action="updateCategory.htm">
              <form:hidden path="id"/>
              <fieldset>
@@ -300,24 +306,26 @@ function activateButton(btnTab){
                      <span class="input-group-addon color-component"><i id="i"></i></span>
                      <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>
                  </div>
-                    <script>
-                    /* BOOTSTRAP COLORPICKER 2.3 */
-                        $(function(){
-                            $('.picker').colorpicker({
-                              colorSelectors: {
-                                '#000000': '#000000',
-                                '#337ab7': '#337ab7',
-                                '#5cb85c': '#5cb85c',
-                                '#5bc0de': '#5bc0de',
-                                '#f0ad4e': '#f0ad4e',
-                                '#d9534f': '#d9534f'
-                              },
-                                component: '.color-component',
-                                format: 'hex',
-                                align: "left"
-                            });
-                        });
-                    </script>
+                 <script>
+                 /* BOOTSTRAP COLORPICKER 2.3 */
+                     $(function(){
+                         $('.picker').colorpicker({
+                           colorSelectors: {
+                             '#000000': '#000000',
+                             '#337ab7': '#337ab7',
+                             '#5cb85c': '#5cb85c',
+                             '#5bc0de': '#5bc0de',
+                             '#f0ad4e': '#f0ad4e',
+                             '#d9534f': '#d9534f'
+                           },
+                             component: '.color-component',
+                             format: 'hex',
+                             align: "left"
+                         });
+                     });
+                 </script>
+                 <%-- Sets the remove and save button if the member is allowed to change categories.
+                 	If the member isn't allowed the remove button will not be placed an the save button is disabled. --%>
                  <c:choose>
                  	<c:when test="${project.getCategories().size() < 1}">
                  		<button class="btn btn-default" type="submit" disabled>
@@ -362,7 +370,6 @@ function activateButton(btnTab){
 	        </div>
 	    </div>
 	</c:if>
-    
     <a class="quick-button" tab="#role-tab" href="./addRole.htm">
         <span class="quick-button-title">R</span><span class="quick-button-text alternative">new Role</span>
     </a>
