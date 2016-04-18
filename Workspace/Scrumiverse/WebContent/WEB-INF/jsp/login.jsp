@@ -5,7 +5,7 @@ $(document).ready(function(){
 	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
 })
 </script>
-<div class="error-container">
+<div id="error-login" class="error-container">
 	<c:if test="${loginError}">
 		<div class="alert alert-danger alert-dismissible error" role="alert">Login failed. Check e-mail and/or password.</div>
 	</c:if>

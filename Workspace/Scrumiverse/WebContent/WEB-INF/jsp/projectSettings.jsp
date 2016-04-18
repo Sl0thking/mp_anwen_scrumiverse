@@ -75,6 +75,12 @@ function activateButton(btnTab){
     });
 }
 </script>
+<div class="error-container">
+	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
+    <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
+    <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
+    <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
+</div>
 <div id="settings">
 	<div id="user-dialog">
 	    <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title">Delete Project</span></div>
@@ -83,12 +89,6 @@ function activateButton(btnTab){
 	        <a id="dialog-hide" class="btn btn-danger">No</a>
 	        <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
 	    </div>
-	</div>
-	<div class="error-container">
-		<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
-	    <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
-	    <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
-	    <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
 	</div>
 	<div id="settings-header">
 		<div class="site-title">

@@ -241,17 +241,16 @@ body {
 }
 
 /* error */
-#action_content > .error-container{
-    margin: auto;
-    position: relative;
-    top: -50px;
-    width: 900px;
-    z-index: 10;
+#error-login{
+    top: 0px;
 }
 
 .error-container{
     position: fixed;
-    top: 0px;
+    left: 0;
+    right: 15px;
+    top: 50px;
+    margin: auto;
     width: 900px;
     z-index: 10;
 }
@@ -268,6 +267,9 @@ body {
 }
 .error:last-child{
 	border-radius: 0px 0px 4px 4px;
+}
+.error > button{
+	width: 21px;
 }
 
 /* login page specific css */

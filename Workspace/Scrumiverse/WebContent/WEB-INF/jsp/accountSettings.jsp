@@ -3,6 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+<script>
+$(document).ready(function(){
+	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
+})
+</script>
 <div class="error-container">
 	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
 	<c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
