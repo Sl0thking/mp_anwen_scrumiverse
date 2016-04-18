@@ -313,7 +313,8 @@ body {
     left: 35%;
     width: 340px;
     background-color: #666666;
-    border: 2px solid black;
+    border: 1px solid #FFF;
+    box-shadow: 0px 0px 10px #999999;
     z-index: 1100;
     display: none;
 }
