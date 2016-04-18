@@ -7,10 +7,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
@@ -33,32 +36,35 @@ public class MessageController extends MetaController {
 	@Autowired
 	private UserDAO userDAO;
 	
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(User.class, new UserBinder(userDAO));
+	}
+	
 	/**
 	 * Sends a Message to the recievers
-	 * @param message
+	 * @param message the message that shall be sent
 	 * @param session
 	 * @param request
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/sendMessage.htm")
-	public ModelAndView sendMessage(@RequestParam Message message, HttpSession session, HttpServletRequest request) {
+	public ModelAndView sendMessage(Message message, HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
 			messageDAO.saveMessage(message);
 			Set<User> recievers = message.getRecievers();
-			for(User u: recievers) {
+			for (User u: recievers) {
 				u.addMessage(message);
 				userDAO.updateUser(u);
 			}
 			String referer = request.getHeader("Referer");
-			return new ModelAndView("redirect:" + referer +"");
-			
+			return new ModelAndView("redirect:" + referer +"");			
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		}
-	
-		
+		}		
 	}
+	
 	/**
 	 * Marks a message as read/seen
 	 * @param id

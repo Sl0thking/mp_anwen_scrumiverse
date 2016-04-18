@@ -24,7 +24,7 @@ import com.scrumiverse.model.account.User;
  * @version 15.03.2016
  */
 @Entity
-public class Message {
+public class Message implements Comparable<Message> {
 	
 	private int messageID;
 	private Date date;
@@ -37,7 +37,7 @@ public class Message {
 		date = new Date();
 		sender = new User();
 		recievers = new TreeSet<User>();
-		content = null;
+		content = "";
 		isSeen = false;
 	}
 	
@@ -51,6 +51,7 @@ public class Message {
 	public void setMessageID(int messageID) {
 		this.messageID = messageID;
 	}
+	
 	public Date getDate() {
 		return date;
 	}
@@ -95,11 +96,8 @@ public class Message {
 		this.isSeen = seen;
 	}
 	
-	public int compareTo(Message m) {
-		int comp = this.getDate().compareTo(((Message) m).getDate());
-		if(comp == 0) {
-			return compareTo(m);
-		}
-		return comp;
+	@Override
+	public int compareTo(Message mes){
+		return ((Integer)this.getMessageID()).compareTo((Integer)mes.getMessageID());
 	}
 }

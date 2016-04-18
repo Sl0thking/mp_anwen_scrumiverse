@@ -202,7 +202,7 @@
 											<div class="input-group"> 
 												<span class="input-group-addon">Recievers</span>
 												<form:select class="form-control input-control" path="recievers">
-													<form:options itemLabel="name" itemValue="userID" items="${potentialRecievers}" />
+													<form:options itemLabel="name" itemValue="email" items="${potentialRecievers}" />
 												</form:select>
 											</div>
 											<div class="input-group">
