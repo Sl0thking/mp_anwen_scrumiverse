@@ -29,6 +29,10 @@ body {
 	
 }
 
+a{
+	cursor: pointer;
+}
+
 /* index page specific css */
 .navbar-placeholder{
     width: 100%;

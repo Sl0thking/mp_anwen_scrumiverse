@@ -17,7 +17,7 @@
 	color: #c11c1c;
 }
 
-/* tab/navigation */
+/* tab / navigation */
 .nav {
     color: black;
 	border-bottom: none;
@@ -70,7 +70,41 @@
 	padding-left: 10px;
 }
 
-/* detail-tab*/
+#settings-header > .site-title > a {
+	float: right;
+	margin-right: 10px;
+	height: 100%;
+	display: inline-block;
+}
+
+#settings-header > .site-title > a > span {
+	line-height: 40px;
+}
+
+.input-group-addon{
+	min-width: 110px;
+}
+
+.tab-pane{
+	margin-top: 10px;
+}
+
+.tab-pane > .input-group{
+	margin: 10px 10px 0px 10px;
+}
+
+.tab-pane > form {
+    padding: 10px 10px;
+}
+
+fieldset{
+    padding: 0px 10px
+}
+
+.input-group{
+    margin-bottom: 10px;
+}
+
 #settings button{
     float: right;
 }
@@ -99,17 +133,7 @@ button[disabled]:hover{
 	border: 1px solid white;
 }
 
-#settings-header > .site-title > a {
-	float: right;
-	margin-right: 10px;
-	height: 100%;
-	display: inline-block;
-}
-
-#settings-header > .site-title > a > span {
-	line-height: 40px;
-}
-
+/* detail-tab*/
 .project-picture{
     float: left;
     margin-bottom: 10px;
@@ -209,30 +233,6 @@ button[disabled]:hover{
 
 #user-list .user-card > .user-role > .input-group > .input-group-addon {
 	min-width: 70px;
-}
-
-.input-group-addon{
-	min-width: 110px;
-}
-
-.tab-pane{
-	margin-top: 10px;
-}
-
-.tab-pane > .input-group{
-	margin: 10px 10px 0px 10px;
-}
-
-.tab-pane > form {
-    padding: 10px 10px;
-}
-
-fieldset{
-    padding: 0px 10px
-}
-
-.input-group{
-    margin-bottom: 10px;
 }
 
 /* role-tab specific */
