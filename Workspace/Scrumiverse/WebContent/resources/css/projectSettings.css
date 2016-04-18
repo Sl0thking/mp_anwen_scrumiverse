@@ -17,6 +17,7 @@
 	color: #c11c1c;
 }
 
+/* tab/navigation */
 .nav {
     color: black;
 	border-bottom: none;
@@ -47,149 +48,7 @@
 }
 
 #settings .nav > li.active > a {
-	border-bottom-color: transparent;
    	box-shadow: 0 1px 0 #666666;
-}
-
-#settings-header > .site-title{
-    border-bottom: 1px solid white;
-}
-
-#settings-header > * {
-	padding-left: 10px;
-}
-
-.project-picture{
-    float: left;
-    margin-bottom: 10px;
-}
-.project-picture > img{
-    margin-left: 60px
-}
-.project-picture > .input-group > input{
-    margin-bottom: 5px;
-}
-.project-picture > .input-group > button{
-    float: right
-}
-
-#detail-tab > .user-list-title {
-	height: 40px;
-	width: 100%;
-	padding-left: 10px;
-	line-height: 40px;
-	vertical-align: middle;
-	font-weight: bold;
-	color: white;
-	background-color: #303030;
-	display: inline-block;
-}
-
-.tab-pane > form {
-    padding: 0px 10px 0px 10px;
-}
-
-.input-group-fix{
-	margin: 10px 10px 0px 10px;
-    border-radius: 4px 4px 4px 4px;
-}
-
-#category-tab >.input-category-fix{
-    margin: 10px 20px 0px 20px;
-    padding-right: 5px;
-}
-
-fieldset > .input-category-fix{
-    margin: 0px 10px 0px 10px;
-}
-
-#selectedRole > fieldset > .input-group-fix {
-	margin: 10px 20px 0px 20px;
-    padding-right: 5px;
-    border-radius: 4px 4px 4px 4px;
-}
-
-.addon-fix{
-	position: relative;
-    left: 5px;
-    z-index: 5;
-}
-
-.tab-pane-fix{
-	margin-top: 10px;
-}
-
-.tab-pane-fix > .input-group-fix{
-	margin: 10px 20px 0px 20px;
-    padding-right: 5px;
-    border-radius: 4px 4px 4px 4px;
-}
-
-.tab-pane-fix > form {
-    padding: 0px 20px;
-}
-
-.tab-pane > form > .input-group {
-	margin: 10px 10px 0px 10px;
-    padding-right: 5px;
-    border-radius: 4px 4px 4px 4px;
-}
-.tab-pane > form > .input-group > .input-group-addon{
-    position: relative;
-    left: 5px;
-    z-index: 5;
-}
-
-.tab-pane >  form > button {
-	float: right;
-	margin: 10px 14px 10px 0px;	
-}
-
-.tab-pane-fix > #selectedRole {
-    padding: 0px 20px;
-}
-
-#selectedRole > fieldset > button{
-	margin-right: 0px;
-	margin-bottom: 10px;
-}
-
-fieldset{
-    padding: 10px 10px;
-}
-fieldset > .input-group-fix{
-    margin-bottom: 10px;
-}
-fieldset > button{
-    float: right;
-    margin-right: 10px
-}
-
-#settings #remove-btn{
-    float: right;
-    margin-right: 5px;
-    color: #c11c1c;
-}
-
-fieldset > .roleSettings {
-    padding: 10px 0px;
-}
-fieldset > .roleSettings > .entity{
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-    border: 1px solid #999999;
-}
-fieldset > .roleSettings > .entity > div{
-    margin-left: 10px;
-    font-size: 14px;
-    display: inline-block;
-}
-
-#settings button[type="submit"]:hover, #quick-button-container button:hover {
-	background-color: green;
-	color: white;
-	border: 1px solid white;
 }
 
 #settings-header > .site-title, #settings-options {
@@ -201,12 +60,25 @@ fieldset > .roleSettings > .entity > div{
 	vertical-align: middle;
 	background-color: #303030;
 }
+
 #settings-header > .site-title{
-    height: 82px
+    border-bottom: 1px solid white;
+    height: 82px;
 }
 
-#settings-header > .site-title > span {
-	display: inline-block;
+#settings-header > * {
+	padding-left: 10px;
+}
+
+/* detail-tab*/
+#settings button{
+    float: right;
+}
+#settings button[type="submit"]:hover, #quick-button-container button:hover {
+    float: right;
+	background-color: green;
+	color: white;
+	border: 1px solid white;
 }
 
 #settings-header > .site-title > a {
@@ -218,20 +90,28 @@ fieldset > .roleSettings > .entity > div{
 
 #settings-header > .site-title > a > span {
 	line-height: 40px;
-	vertical-align: middle;
 }
 
-#settings-header > .project-name {
-	width: 100%;
+.project-picture{
+    float: left;
+    margin-bottom: 10px;
+}
+.project-picture > img{
+    width: 150px;
+    height: 150px;
+    margin-left: 50px;
+}
+
+.user-list-title {
 	height: 40px;
+	width: 100%;
+	padding-left: 10px;
 	line-height: 40px;
 	vertical-align: middle;
-	font-size: 20px;
-}
-
-#settings-header > .project-description {
-	padding-bottom: 10px;
-	width: 100%;
+	font-weight: bold;
+	color: white;
+	background-color: #303030;
+	display: inline-block;
 }
 
 #user-list {
@@ -255,14 +135,7 @@ fieldset > .roleSettings > .entity > div{
 
 #user-list .user-card > .user-card-header > a {
 	float: right;
-	margin-right: 5px;
-	height: 100%;
-	display: inline-block;
-}
-
-#user-list .user-card > .user-card-header > a > span {
-	line-height: 25px;
-	vertical-align: middle;	
+    padding: 5px
 }
 
 #user-list .user-card > .user-content {
@@ -303,7 +176,6 @@ fieldset > .roleSettings > .entity > div{
 	width: 18px;
 	text-align: center;
 	line-height: 18px;
-	vertical-align: middle;
 	height: 100%;
 }
 
@@ -316,10 +188,57 @@ fieldset > .roleSettings > .entity > div{
 	margin: 0px 10px 10px 10px;
 }
 
-#user-list .user-card > .user-role > .input-group > .input-group-addon{
-    position: relative;
-    left: 5px;
-    z-index: 5;
+
+#user-list .user-card > .user-role > .input-group > .input-group-addon {
+	min-width: 70px;
+}
+
+.input-group-addon{
+	min-width: 110px;
+}
+
+.tab-pane{
+	margin-top: 10px;
+}
+
+.tab-pane > .input-group{
+	margin: 10px 10px 0px 10px;
+}
+
+.tab-pane > form {
+    padding: 10px 10px;
+}
+
+fieldset{
+    padding: 0px 10px
+}
+
+.input-group{
+    margin-bottom: 10px;
+}
+
+#settings #remove-btn{
+    float: right;
+    margin-right: 5px;
+    color: #c11c1c;
+}
+
+/* role-tab specific */
+fieldset > .roleSettings > .entity{
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    border: 1px solid #999999;
+}
+fieldset > .roleSettings > .entity > span{
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+/* Category specific */
+/* Colorpicker extentions */
+#i {
+    width: 80px;
 }
 
 /* Rework for invite-button */

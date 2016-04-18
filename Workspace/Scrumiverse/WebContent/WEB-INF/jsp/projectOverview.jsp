@@ -7,7 +7,7 @@
 			<div class="project-name">${project.name }</div>
 			<div class="project-desc">${project.description }</div>
 			<div class="project-member">Projectmembers: ${project.projectUsers.size()}</div>
-			<div class="project-date">Duedate: ${project.dueDate}</div>
+			<div class="project-date">Duedate: ${project.dueDate.toString().substring(0,10)}</div>
 			<div class="project-control">
 				<c:if test="${manageRight[project]}">
 					<a class="glyphicon glyphicon-cog project-settings" href="./projectSettings.htm?id=${project.projectID }"></a>

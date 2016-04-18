@@ -1,5 +1,6 @@
 package com.scrumiverse.model.scrumCore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -379,6 +380,12 @@ public class Project {
 		this.addProjectUser(user, role);
 	}
 
+	@Transient
+	public String getFormattedDueDate(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(dueDate);
+	}
+	
 	public Date getDueDate() {
 		return dueDate;
 	}

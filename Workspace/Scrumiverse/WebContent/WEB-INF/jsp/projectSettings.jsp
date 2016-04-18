@@ -126,28 +126,34 @@ function activateButton(btnTab){
 	</div>
 	<div class="tab-content">
         <div id="detail-tab" class="tab-pane fade in active">
-        		<form class="project-picture" method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
-        		<img src="${project.picPath}" width="150" height="150">
-        			<div class="input-group">
-        				<input name="image" type="file">
-        				<button class="btn btn-default" type="submit">Upload</button>
-        			</div>
-        		</form>
+        	<form class="project-picture" method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
+        		<img src="${project.picPath}" width="150" height="150"/>
+       			<div class="input-group">
+       				<input name="image" type="file">
+       				<button class="btn btn-default" type="submit">Upload</button>
+       			</div>
+       		</form>
         
-				<form:form action="saveProject.htm" commandName="project" acceptCharset="UTF-8">
+			<form:form action="saveProject.htm" commandName="project" acceptCharset="UTF-8">
+				<fieldset>
 					<div class="input-group">
 						<span class="input-group-addon">Name</span>
 						<form:input type="text" class="form-control" path="name" value="${project.getName()}"/>
 					</div>
-				<div class="input-group">
-					<span class="input-group-addon">Description</span>
-					<form:textarea class="form-control" style="resize:vertical" path="description" value="${project.getDescription()}"/>
-				</div>
-				<form:hidden path="projectID"/>
-				<button class="btn btn-default" type="submit">
-					<span class="glyphicon glyphicon-save"></span>
-					Save
-				</button>
+					<div class="input-group">
+						<span class="input-group-addon">Description</span>
+						<form:textarea class="form-control" style="resize:vertical" path="description" value="${project.getDescription()}"/>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Due Date</span>
+						<form:input class="form-control" path="dueDate" type="date" value="${project.getFormattedDueDate()}" />
+					</div>
+					<form:hidden path="projectID"/>
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-save"></span>
+						Save
+					</button>
+				</fieldset>
 			</form:form>
 			<div class="user-list-title">
 				<span class="glyphicon glyphicon-th-list"></span>
@@ -157,7 +163,7 @@ function activateButton(btnTab){
 				<c:forEach items="${project.getProjectUsers()}" var="projectUser">
 					<!-- fix for commandName value bug -->
 					<c:set var="projectUser" scope="request" value="${projectUser}"/> 
-					<form:form fid="${projectUser.id}" action="changeProjectUser.htm" commandName="projectUser"> 
+					<form:form fid="${projectUser.id}" action="changeProjectUser.htm" commandName="projectUser">
 						<div class="user-card">
 							<div class="user-card-header">
 								<!-- insert messaging button here -->
@@ -196,9 +202,9 @@ function activateButton(btnTab){
 			</div>
 			<div id="settings-options"></div>
 		</div>
-		<div id="role-tab" class="tab-pane fade in tab-pane-fix">
-        	<div class="input-group input-group-fix">
-                <span class="input-group-addon addon-fix">Role</span>
+		<div id="role-tab" class="tab-pane fade in">
+        	<div class="input-group">
+                <span class="input-group-addon">Role</span>
                 <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}#role-tab">
 		            <form:select fid="roleSelect" class="form-control" path="role">
 						<form:options  itemLabel="name" itemValue="roleID" items="${project.getRoles()}"/>
@@ -207,7 +213,7 @@ function activateButton(btnTab){
 			</div>
             <form:form commandName="selectedRole" action="updateRole.htm">
             <form:hidden path="roleID"/>
-             <fieldset>
+            	<fieldset>
                    	<div class="input-group">
                         <span class="input-group-addon">Rolename</span>
                         <form:input disabled="${!selectedRole.isChangeable()}"  type="text" class="form-control" path="name"/>
@@ -215,38 +221,38 @@ function activateButton(btnTab){
                     <div class="roleSettings">
                         <div class="entity">
                             Project<br>
-							<div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Project"/> Update</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Project"/> Delete</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Invite_To_Project"/> Invite Members</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Remove_From_Project"/> Remove Members</div>
+							<span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Project"/> Update</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Project"/> Delete</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Invite_To_Project"/> Invite Members</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Remove_From_Project"/> Remove Members</span>
                         </div>
                         <div class="entity">
                             Sprint<br>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Sprint"/> Create</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Sprint"/> Read </div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Sprint"/> Update</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Sprint"/> Delete</div>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Sprint"/> Create</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Sprint"/> Read </span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Sprint"/> Update</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Sprint"/> Delete</span>
                         </div>
                         <div class="entity">
                             User Story<br>
 
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_UserStory"/> Create</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_UserStory"/> Read </div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_UserStory"/> Update</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_UserStory"/> Delete</div>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_UserStory"/> Create</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_UserStory"/> Read </span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_UserStory"/> Update</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_UserStory"/> Delete</span>
                         </div>
                         <div class="entity">
                             Task<br>  
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Task"/> Create</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Task"/> Read </div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Task"/> Update</div>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Task"/> Delete</div>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Create_Task"/> Create</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Read_Task"/> Read </span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Update_Task"/> Update</span>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Delete_Task"/> Delete</span>
                         </div>
                         <div class="entity">
                             Notifications<br>  
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_UserStory_Task_for_Current_Sprint"/> Changes to userstories or tasks in current sprint</div><br>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_Your_UserStory_Task"/> Changes to your userstories or tasks in current sprint </div><br>
-                            <div><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_PlannedMin_for_Current_Sprint"/> Changes to planned minutes from a task in current sprint</div>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_UserStory_Task_for_Current_Sprint"/> Changes to userstories or tasks in current sprint</span><br>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_Your_UserStory_Task"/> Changes to your userstories or tasks in current sprint </span><br>
+                            <span><form:checkbox disabled="${!selectedRole.isChangeable()}" path="rights" value="Notify_PlannedMin_for_Current_Sprint"/> Changes to planned minutes from a task in current sprint</span>
                         </div>
                     </div>
                     <c:choose>
@@ -274,8 +280,8 @@ function activateButton(btnTab){
             <div id="settings-options"></div>
         </div>
         <div id="category-tab" class="tab-pane fade in">
-             <div class="input-group input-category-fix">
-                 <span class="input-group-addon addon-fix">Category</span>
+             <div class="input-group">
+                 <span class="input-group-addon">Category</span>
                   <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}#category-tab">
                   	<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
 						<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
@@ -285,13 +291,13 @@ function activateButton(btnTab){
              <form:form commandName="selectedCategory" action="updateCategory.htm">
              <form:hidden path="id"/>
              <fieldset>
-                 <div class="input-group input-group-fix input-category-fix">
+                 <div class="input-group">
                      <span class="input-group-addon">Name</span>
                      <form:input type="text" class="form-control" path="name" disabled="${project.getCategories().size() < 1}"/>
                  </div>
-                 <div class="input-group input-group-fix input-category-fix colorpicker-component picker">
+                 <div class="input-group colorpicker-component picker">
                      <span class="input-group-addon">Color</span>
-                     <span class="input-group-addon color-component"><i></i></span>
+                     <span class="input-group-addon color-component"><i id="i"></i></span>
                      <form:input type="text" data-format="hex" path="colorCode" class="form-control" disabled="${project.getCategories().size() < 1}"/>
                  </div>
                     <script>

@@ -2,6 +2,7 @@ package com.scrumiverse.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.CategoryBinder;
+import com.scrumiverse.binder.DateBinder;
 import com.scrumiverse.binder.RoleBinder;
 import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
@@ -83,6 +85,7 @@ public class ProjectController extends MetaController {
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Role.class, new RoleBinder(roleDAO));
 		binder.registerCustomEditor(User.class, new UserBinder(userDAO));
+		binder.registerCustomEditor(Date.class, new DateBinder());
 		binder.registerCustomEditor(Category.class, new CategoryBinder(categoryDAO));
 	}
 
