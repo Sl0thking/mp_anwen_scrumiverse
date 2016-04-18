@@ -230,6 +230,197 @@ a{
 	float: right;
 }
 
+#userbar .alert {
+	margin-bottom: 0px;
+	width: 300px;
+	text-align: center;
+}
+
+/* message and notification list */
+#userbar .object-list {
+	margin-top: -8px;
+	float: right;
+	background-color: #666666;
+	display: none;
+}
+
+#userbar > div:hover > .object-list {
+	display: inline-block;
+}
+
+#userbar div.object-list > div.list-header {
+	padding-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+}
+
+#userbar div.object-list > div.list-header > a {
+	float: right;
+}
+
+#userbar div.object-list > div.list-header > a:hover {
+	color: green;
+}
+
+#userbar div.object-list > div.list-header > div.list-options {
+	margin-right: 10px;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	float: right;
+}
+
+#userbar div.list-header > div.list-options .glyphicon {
+	margin-top: 6px;
+}
+
+#userbar div.object-list > div.list-container {
+	padding: 0px 5px 5px 5px;
+}
+
+#userbar list {
+	border: 1px solid #e5e5e5;
+}
+
+#userbar .list > tbody {
+	display: block;
+	overflow-y: scroll;
+	max-height: 50vh;
+}
+
+#userbar .list > tbody::-webkit-scrollbar {
+	background-color: #303030;
+}
+
+#userbar .list tr {
+	height: 25px;
+	line-height: 25px;
+	vertical-align: middle;
+}
+
+#userbar .list td {
+	float: left;
+	display: block;
+}
+
+#userbar .list td > *.glyphicon {
+	margin-top: 4px;
+}
+
+#userbar .list .glyphicon-trash:hover {
+	color: red;
+}
+
+#userbar .list .object-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* message list */
+#userbar .message:nth-child(even) {
+	background-color: #e5e5e5;
+	color: #303030;
+}
+#userbar .message > td:nth-child(1) {
+	width: 20px;
+	text-align: center;
+}
+
+#userbar .message > td:nth-child(2) {
+	width: 120px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#userbar .message > td:nth-child(3) {
+	padding: 0px 5px 0px 5px;
+	width: 285px;
+	text-align: center;
+}
+
+#userbar .message > td:nth-child(4) {
+	width: 45px;
+	text-align: center;
+}
+
+/* notification list */
+#userbar .notification > td:nth-child(1) {
+	width: 120px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#userbar .notification > td:nth-child(2) {
+	padding: 0px 5px 0px 5px;
+	width: 285px;
+	text-align: center;
+}
+
+#userbar .notification > td:nth-child(3) {
+	
+}
+
+#userbar .notification > td:nth-child(4) {
+	width: 45px;
+	text-align: center;
+}
+
+/* modal for message creation */
+#messagemodal {
+	color: #303030;
+}
+
+#messagemodal button.btn-submit:hover {
+	background-color: green;
+	color: white;
+	border: 1px solid #303030;
+}
+
+#messagemodal .input-group > .input-group-addon {
+	min-width: 150px;
+}
+
+#messagemodal .modal-header {
+	color: white;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #303030;
+}
+
+#messagemodal .modal-header > button {
+	color: white;
+}
+
+#messagemodal .modal-footer {
+	border-top: 1px solid #e5e5e5;
+	background-color: #303030;
+}
+
+#messagemodal .modal-content {
+	background-color: #666666;
+}
+
+#messagemodal .input-group {
+	margin-bottom: 10px;
+}
+
+#messagemodal .input-group:last-of-type {
+	margin-bottom: 0px;
+}
+
+#messagemodal textarea {
+	resize: vertical;
+}
+
+.modal-backdrop {
+	z-index: auto;
+}
+
 #action_content {
 	z-index: 0;
 	padding-top: 50px;

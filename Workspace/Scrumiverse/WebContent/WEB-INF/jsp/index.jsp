@@ -29,78 +29,214 @@
 			var curPage = location.pathname.split("/")[location.pathname.split("/").length-1];
 			$('#menubar a[href="' + curPage + '"]').after('<div class="current-page"></div>');
 		});
+		
+		// handles the toggles for notifications and messages
+		$('#userbar .object-list .list tr .object-text').click(function(){
+			$(this).toggleClass('open');
+		});
 		</script>
 	</head>
 	<body>
 		<c:if test="${isLogged}">
-		<div id="navbar">
-			<img alt="test" src="resources/images/index/scrumiverse_sidestripe_left.png">
-			<div id="logo">
-				<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
-				<div class="extra-menu">
-					<c:if test="${currentProject != null}">
-					<a class="extra-menuitem" href="dashboard.htm">
-						<span class="glyphicon glyphicon-th-large"></span>
-						DASHBOARD
-					</a>		
-					</c:if>
-					<a class="extra-menuitem" href="projectOverview.htm">
-						<span class="glyphicon glyphicon-th-list"></span>
-						PROJECT OVERVIEW
-					</a>	
-				</div>
-			</div>
-			<div id="menubar">
-				<%-- only show menubar when a project has been selected --%>
-				<c:if test="${currentProjectId != null}">
-					<div class="menuitem">
-						<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
-						<a href="backlog.htm">BACKLOG</a>							
-					</div>
-					<div class="spacer"></div>
-					<div class="menuitem">
-						<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
-						<a href="sprintOverview.htm">SPRINTS</a>		
-					</div>
-					<div class="spacer"></div>
-					<div class="menuitem">
-						<img alt="todo icon" src="resources/images/index/icon_todo.png">
-						<a href="showTasks.htm">TO-DO</a>
-					</div>
-				</c:if>
-			</div>
-			<div id="userbar">
-				<div class="user-notifications">
-					<img alt="user notifications" src="resources/images/index/icon_user_notifications.png">
+			<div id="navbar">
+				<img alt="test" src="resources/images/index/scrumiverse_sidestripe_left.png">
+				<div id="logo">
+					<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
 					<div class="extra-menu">
-						<c:forEach items="${currentUser.getNotifications()}" var="notification">
-							<a class="extra-menuitem" href="#">
-								${notification.triggerUser.name} hat etwas an ${notification.triggerDescription} geändert.
-							</a>
-						</c:forEach>
-					</div>
-					<span class="badge">?</span>
-				</div>
-				<div class="user-messages">
-					<img alt="user messages" src="resources/images/index/icon_user_messages.png">
-					<span class="badge">?</span>
-				</div>
-				<div id="user-menu">
-					<img alt="user-icon" class="img-circle" src="${currentUser.profileImagePath}">
-					<div class="extra-menu">
-						<a class="extra-menuitem" href="userSettings.htm">
-							<span class="glyphicon glyphicon-cog"></span>
-							ACCOUNT SETTINGS
-						</a>
-						<a class="extra-menuitem" href="logout.htm">
-							<span class="glyphicon glyphicon-log-out"></span>
-							LOGOUT
+						<c:if test="${currentProject != null}">
+						<a class="extra-menuitem" href="dashboard.htm">
+							<span class="glyphicon glyphicon-th-large"></span>
+							DASHBOARD
 						</a>		
+						</c:if>
+						<a class="extra-menuitem" href="projectOverview.htm">
+							<span class="glyphicon glyphicon-th-list"></span>
+							PROJECT OVERVIEW
+						</a>	
 					</div>
 				</div>
+				<div id="menubar">
+					<%-- only show menubar when a project has been selected --%>
+					<c:if test="${currentProjectId != null}">
+						<div class="menuitem">
+							<img alt="backlog icon" src="resources/images/index/icon_backlog.png">
+							<a href="backlog.htm">BACKLOG</a>							
+						</div>
+						<div class="spacer"></div>
+						<div class="menuitem">
+							<img alt="sprints icon" src="resources/images/index/icon_sprints.png">
+							<a href="sprintOverview.htm">SPRINTS</a>		
+						</div>
+						<div class="spacer"></div>
+						<div class="menuitem">
+							<img alt="todo icon" src="resources/images/index/icon_todo.png">
+							<a href="showTasks.htm">TO-DO</a>
+						</div>
+					</c:if>
+				</div>
+				<div id="userbar">
+					<div class="user-notifications">
+						<img alt="user notifications" src="resources/images/index/icon_user_notifications.png">
+						<span class="badge" style='<c:if test="${unreadNotifications eq 0}">visibility:hidden</c:if>'>${unreadNotifications}</span>	
+						<div class="object-list">
+							<div class="list-header">
+								<span class="glyphicon glyphicon-bell"></span>
+								NOTIFICATIONS
+								<div class="list-options">
+									<c:if test="${currentUser.notifications.size() ne 0}">
+										<a href="#" data-toggle="tooltip" title="Mark all as seen">							
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>				
+									</c:if>				
+								</div>
+							</div>
+							<div class="list-container">
+								<c:choose>
+									<c:when test="${currentUser.notifications.size() eq 0}">
+										<div class="alert alert-info">
+											You currently have no notifications
+										</div>
+									</c:when>
+									<c:otherwise>									
+										<table class="list">
+											<tbody>
+												<c:forEach items="${currentUser.notifications}" var="notification">
+													<tr class="notification">
+														<td>${notification.triggerUser.name}</td>
+														<td class="object-text">${notification.triggerDescription}</td>
+														<td>${notification.changeEvent}</td>
+														<td class="object-options">
+															<c:choose>
+																<c:when test="${notification.isSeen()}">
+																	<span class="glyphicon glyphicon-eye-open"></span>
+																</c:when>
+																<c:otherwise>
+																	<a href="#" data-toggle="tooltip" title="Mark as seen">
+																		<span class="glyphicon glyphicon-eye-close"></span>
+																	</a>
+																</c:otherwise>
+															</c:choose>
+															<a href="./deleteNotification.htm?id=${notification.notificationID}" data-toggle="tooltip" title="Delete notification">
+																<span class="glyphicon glyphicon-trash"></span>
+															</a>
+														</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+					</div>
+					<div class="user-messages">
+						<img alt="user messages" src="resources/images/index/icon_user_messages.png">
+						<span class="badge" style='<c:if test="${unreadMessages eq 0}">visibility:hidden</c:if>'>${unreadMessages}</span>						
+						<div class="object-list">
+							<div class="list-header">
+								<span class="glyphicon glyphicon-envelope"></span>
+								MESSAGES
+								<div class="list-options">
+									<a data-toggle="tooltip" title="Write new message">							
+										<span class="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#messagemodal"></span>
+									</a>
+									<c:if test="${currentUser.messages.size() ne 0}">
+										<a href="#" data-toggle="tooltip" title="Mark all as seen">							
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>				
+									</c:if>				
+								</div>
+							</div>
+							<div class="list-container">
+								<c:choose>
+									<c:when test="${currentUser.messages.size() eq 0}">
+										<div class="alert alert-info">
+											You currently have no messages
+										</div>
+									</c:when>
+									<c:otherwise>									
+										<table class="list">
+											<tbody>
+												<c:forEach items="${currentUser.messages}" var="message">
+													<tr class="message">
+														<td data-toggle="tooltip" title="${message.date}">
+															<span class="glyphicon glyphicon-calendar"></span>
+														</td>
+														<td data-toggle="tooltip" title="Sender">${message.sender.name}</td>
+														<td class="object-text">${message.content}</td>
+														<td class="object-options">
+															<c:choose>
+																<c:when test="${message.isSeen()}">
+																	<span class="glyphicon glyphicon-eye-open"></span>
+																</c:when>
+																<c:otherwise>
+																	<a href="#" data-toggle="tooltip" title="Mark as seen">
+																		<span class="glyphicon glyphicon-eye-close"></span>
+																	</a>
+																</c:otherwise>
+															</c:choose>
+															<a href="./deleteMessage.htm?id=${message.messageID}" data-toggle="tooltip" title="Delete message">
+																<span class="glyphicon glyphicon-trash"></span>
+															</a>
+														</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+						<div id="messagemodal" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">
+											<span class="glyphicon glyphicon-envelope"></span>
+											NEW MESSAGE
+										</h4>
+									</div>
+									<form:form action="sendMessage.htm" modelAttribute="message">
+										<div class="modal-body">
+											<div class="input-group"> 
+												<span class="input-group-addon">Recievers</span>
+												<form:select class="form-control input-control" path="recievers">
+													<form:options itemLabel="name" itemValue="userID" items="${potentialRecievers}" />
+												</form:select>
+											</div>
+											<div class="input-group">
+												<span class="input-group-addon">Message</span>
+												<form:textarea class="form-control" path="content" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-submit btn-default">
+												<span class="glyphicon glyphicon-send"></span>
+												Send
+											</button>
+										</div>								
+									</form:form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="user-menu">
+						<img alt="user-icon" class="img-circle" src="${currentUser.profileImagePath}">
+						<div class="extra-menu">
+							<a class="extra-menuitem" href="userSettings.htm">
+								<span class="glyphicon glyphicon-cog"></span>
+								ACCOUNT SETTINGS
+							</a>
+							<a class="extra-menuitem" href="logout.htm">
+								<span class="glyphicon glyphicon-log-out"></span>
+								LOGOUT
+							</a>		
+						</div>
+					</div>
+				</div>
+				<img alt="test" src="resources/images/index/scrumiverse_sidestripe_right.png">
 			</div>
-			<img alt="test" src="resources/images/index/scrumiverse_sidestripe_right.png">
-		</div>
 		</c:if>
 		<div id="action_content">
 			<%-- includes the current page (action) --%>

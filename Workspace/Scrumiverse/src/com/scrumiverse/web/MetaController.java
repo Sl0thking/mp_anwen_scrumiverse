@@ -24,6 +24,7 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumFeatures.Message;
+import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
@@ -94,26 +95,42 @@ public abstract class MetaController {
 	}
 	
 	protected ModelMap prepareModelMap(HttpSession session) throws UserPersistenceException, ProjectPersistenceException {
+		// preperation of standard attributes
 		ModelMap map = new ModelMap();
 		User currentUser = loadActiveUser(session);
 		Project currentProject = loadCurrentProject(session);
 		boolean isLogged = currentUser != null;
-		// Preparation of Message System
+		
+		// preperation of message system attributes
 		Message message = new Message();
 		message.setSender(currentUser);
+		// add all potential message receivers
 		Set<Project> projects = currentUser.getProjects();
 		Set<User> recievers = new HashSet<User>();
-		for(Project p: projects) {
-			recievers.addAll((p.getAllUsers()));
+		for (Project p: projects) {
+			for (User u: p.getAllUsers()) {
+				if (!u.equals(currentUser))
+					recievers.add(u);
+			}
 		}
-		Set<Message> userMessages = currentUser.getMessages();
+		// count unread messages and notifications
+		int unreadMessages = 0, unreadNotifications = 0;
+		for (Message m: currentUser.getMessages()) {
+			if (!m.isSeen())
+				unreadMessages++;
+		}
+		for (Notification n: currentUser.getNotifications()) {
+			if (!n.isSeen())
+				unreadNotifications++;
+		}
 		
-		map.addAttribute("message", message);
-		map.addAttribute("potentialRecievers", recievers);
-		map.addAttribute("messageList", userMessages);
 		map.addAttribute("currentUser", currentUser);
 		map.addAttribute("isLogged", isLogged);
 		map.addAttribute("currentProject", currentProject);
+		map.addAttribute("message", message);
+		map.addAttribute("potentialRecievers", recievers);
+		map.addAttribute("unreadMessages", unreadMessages);
+		map.addAttribute("unreadNotifications", unreadNotifications);
 		map.addAttribute("action", Action.login);
 		return map;
 	}
