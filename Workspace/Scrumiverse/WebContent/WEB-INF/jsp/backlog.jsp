@@ -106,7 +106,7 @@ function setView(oldView, newView){
 					<div class="modal-header">
 						<div class="info-bar">
 							<span class="glyphicon glyphicon-cog"></span> 
-							USERSTORY DETAIL #${userstory.id}
+							USERSTORY DETAIL
 							<c:if test="${canDeleteUserStory}">
 								<a class="dialog_action" link="./removeUserStory.htm?id=${userstory.id}" 
 									data-toggle="tooltip" title="Delete Userstory" msg="Do you really want to delete this userstory?">

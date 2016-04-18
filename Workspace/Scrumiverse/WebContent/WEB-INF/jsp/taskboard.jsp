@@ -5,84 +5,56 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="resources/javascript/dialog.js"></script>
 <script>
-	$(document)
-			.ready(
-					function() {
-						$(".quick-button").hide();
+	$(document).ready(function() {
+		$(".quick-button").hide();
+		$(".userstory").click(function() {
+			deselectAll();
+			$(this).addClass("selected");
+			if ('${canCreateTask}') {
+				$('.quick-button[href="./addTask.htm"]').show();
+				var userStoryId = $(this).attr("userStoryId");
+				$(".quick-button").attr("href","addTask.htm?id="+ userStoryId);
+			}
+		});
 
-						$(".userstory")
-								.click(
-										function() {
-											deselectAll();
-											$(this).addClass("selected");
-											if ('${canCreateTask}') {
-												$(
-														'.quick-button[href="./addTask.htm"]')
-														.show();
-												var userStoryId = $(this).attr(
-														"userStoryId");
-												$(".quick-button").attr(
-														"href",
-														"addTask.htm?id="
-																+ userStoryId);
-											}
-										});
+		// task-details specific JavaScript    
+		// handles load of modal on pageload 
+		var target = document.location.hash.replace("#", "");
+		if (target.length) {
+			var targetModal = $('.modal-detail[taskid="'+ target + '"]');
+			if (targetModal) {
+				targetModal.modal('show');
+				history.pushState("", document.title,window.location.pathname);
+			}
+		}
 
-						// task-details specific JavaScript    
-						// handles load of modal on pageload 
-						var target = document.location.hash.replace("#", "");
-						if (target.length) {
-							var targetModal = $('.modal-detail[taskid="'
-									+ target + '"]');
-							if (targetModal) {
-								targetModal.modal('show');
-								history.pushState("", document.title,
-										window.location.pathname);
-							}
-						}
+		// handles adding of users to task
+		$('.section-detail .user-add button').click(function(e) {
+			var taskID = $(this).closest('.modal-detail').attr('taskid');
+			var userID = $('.modal-detail[taskid="'+ taskID
+			          		+ '"] .section-detail .user-add select > option:selected')
+			          		.attr('value');
+			if (userID) {
+				var targetUrl = './addUserToTask.htm?taskID='+ taskID+ '&userID='
+									+ userID;
+				window.location.href = targetUrl;
+			}
+		});
 
-						// handles adding of users to task
-						$('.section-detail .user-add button')
-								.click(
-										function(e) {
-											var taskID = $(this).closest(
-													'.modal-detail').attr(
-													'taskid');
-											var userID = $(
-													'.modal-detail[taskid="'
-															+ taskID
-															+ '"] .section-detail .user-add select > option:selected')
-													.attr('value');
-											if (userID) {
-												var targetUrl = './addUserToTask.htm?taskID='
-														+ taskID
-														+ '&userID='
-														+ userID;
-												window.location.href = targetUrl;
-											}
-										});
-
-						// handles adding of tags to task
-						$('.section-detail input.add-tag')
-								.keypress(
-										function(e) {
-											if (e.which == 13) {
-												var taskID = $(this).closest(
-														'.modal-detail').attr(
-														'taskid');
-												var tags = $
-														.trim($(this).val());
-												if (tags != "") {
-													var targetUrl = './addTagsToTask.htm?taskID='
-															+ taskID
-															+ '&tags='
-															+ tags;
-													window.location.href = targetUrl;
-												}
-												return false;
-											}
-										});
-					});
+		// handles adding of tags to task
+		$('.section-detail input.add-tag').keypress(function(e) {
+			if (e.which == 13) {
+				var taskID = $(this).closest('.modal-detail').attr('taskid');
+				var tags = $.trim($(this).val());
+				if (tags != "") {
+					var targetUrl = './addTagsToTask.htm?taskID='+ taskID
+										+ '&tags='+ tags;
+					window.location.href = targetUrl;
+				}
+				return false;
+			}
+		});
+	});
 
 	function deselectAll() {
 		$(".userstory").each(function() {
