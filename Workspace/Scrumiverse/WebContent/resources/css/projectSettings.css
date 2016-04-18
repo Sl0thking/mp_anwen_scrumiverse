@@ -74,10 +74,28 @@
 #settings button{
     float: right;
 }
-#settings button[type="submit"]:hover, #quick-button-container button:hover {
-    float: right;
+
+button[type="submit"]:hover, #quick-button-container button:hover {
 	background-color: green;
 	color: white;
+	border: 1px solid white;
+}
+
+button[disabled]:hover{
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+
+#settings #remove-btn{
+    float: right;
+    margin-right: 5px;
+    color: #c11c1c;
+}
+
+#settings #remove-btn:hover{
+    color: white;
+    background-color: #c11c1c;
 	border: 1px solid white;
 }
 
@@ -215,12 +233,6 @@ fieldset{
 
 .input-group{
     margin-bottom: 10px;
-}
-
-#settings #remove-btn{
-    float: right;
-    margin-right: 5px;
-    color: #c11c1c;
 }
 
 /* role-tab specific */
