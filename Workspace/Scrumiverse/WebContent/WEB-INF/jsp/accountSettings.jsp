@@ -17,7 +17,7 @@ $(document).ready(function(){
     	<form method="POST" action="changeUserPic.htm" enctype="multipart/form-data" >
         	<img src="${user.profileImagePath}"/>
         	<input name="image" type="file"/>
-        	<button type="submit">Upload</button>
+        	<button class="btn btn-default" type="submit">Upload</button>
         </form>
     </div>
     <div id="editable">
@@ -40,7 +40,7 @@ $(document).ready(function(){
             </div>
             <form:hidden path="userID"/>
             <form:hidden path="profileImagePath"/>
-            <button type="submit">save</button>
+            <button class="btn btn-default" type="submit">save</button>
         </form:form>
     </div>
 </div>
