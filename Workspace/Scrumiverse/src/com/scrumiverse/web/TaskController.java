@@ -2,20 +2,25 @@ package com.scrumiverse.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.binder.DateBinder;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
@@ -32,14 +37,14 @@ import com.scrumiverse.model.scrumCore.Task;
 import com.scrumiverse.model.scrumCore.UserStory;
 import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.Notification;
+import com.scrumiverse.model.scrumFeatures.WorkLog;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
 /**
- * Controller for operations with task data modell
- * 
- * @author Kevin Jolitz
+ * Controller for operations with task data model
+ * @author Kevin Jolitz, Joshua Ward
  * @version 08.04.2016
  */
 @Controller
@@ -53,6 +58,11 @@ public class TaskController extends MetaController {
 	
 	@Autowired
 	ProjectDAO projectDAO;
+	
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new DateBinder());
+	}	
 	
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
@@ -86,6 +96,7 @@ public class TaskController extends MetaController {
 				}
 			}
 			map.addAttribute("action", Action.taskboard);
+			map.addAttribute("worklog", new WorkLog());
 			map.addAttribute("userStories", userStories);
 			map.addAttribute("tasksOfUserStories", tasksOfUserStoryMap);
 			map.addAttribute("planStates", PlanState.values());
@@ -283,6 +294,31 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}	
 	}
+	
+	/**
+	 * Handles logging of work from a user
+	 * @param workLog work that shall be logged
+	 * @param session
+	 */
+	@RequestMapping("/logWork.htm")
+	public ModelAndView logWork(@RequestParam int taskID, WorkLog workLog, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			testRight(session, Right.Update_Task);
+			Task task = taskDAO.getTask(taskID);
+			User currentUser = loadActiveUser(session);
+			workLog.setUser(currentUser);
+			task.logWork(workLog);
+			taskDAO.updateTask(task);
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		} catch (InvalidSessionException | UserPersistenceException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InsufficientRightsException e) {
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		}	
+	}	
 	
 	private void generateNotification(HttpSession session, ChangeEvent event, Task task) {
 		try {

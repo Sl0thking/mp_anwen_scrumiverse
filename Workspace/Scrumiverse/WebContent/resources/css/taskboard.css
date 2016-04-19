@@ -3,8 +3,11 @@
 @import 'hourglass.css';
 
 
-#action_content::-webkit-scrollbar {display: none;}
-.taskboard-content{
+#action_content::-webkit-scrollbar {
+	display: none;
+}
+
+.taskboard-content {
 	position: relative;
     top: 25px;
     height: 100%;
@@ -21,11 +24,24 @@
     overflow-x: hidden;
 }
 
+/* planstate formatting for userstories and tasks */
+.taskboard *[planstate=Planning] {
+	background-color: darkgrey;
+}
+
+.taskboard *[planstate=InProgress] {
+	background-color: orange;
+}
+
+.taskboard *[planstate=Done] {
+	background-color: green;
+}
+
 .taskboard, .taskboard th, .taskboard td{
     border: 1px solid #444444;
 }
 
-.taskboard-heading{
+.taskboard-heading {
     position: fixed;
     top: 50px;
     width: 100%;
