@@ -279,97 +279,95 @@ a{
 	padding: 0px 5px 5px 5px;
 }
 
-#userbar list {
-	border: 1px solid #e5e5e5;
-}
-
-#userbar .list > tbody {
-	display: block;
+#userbar div.list {
+	border: 1px solid #e5e5e5;	
 	overflow-y: scroll;
 	max-height: 50vh;
 }
 
-#userbar .list > tbody::-webkit-scrollbar {
+#userbar div.list::-webkit-scrollbar {
 	background-color: #303030;
 }
 
-#userbar .list tr {
+#userbar div.list > div.list-object {
 	height: 25px;
 	line-height: 25px;
 	vertical-align: middle;
 }
 
-#userbar .list td {
+#userbar div.list > div.list-object > div {
 	float: left;
-	display: block;
+	height: 100%;
 }
 
-#userbar .list td > *.glyphicon {
+#userbar div.list > div.list-object .glyphicon {
 	margin-top: 4px;
 }
 
-#userbar .list .glyphicon-trash:hover {
+#userbar div.list > div.list-object .glyphicon-trash:hover {
 	color: red;
 }
 
-#userbar .list .object-text {
+#userbar div.list > div.list-object > div.object-text {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-/* message list */
-#userbar .message:nth-child(even) {
+#userbar div.list > div.list-object:nth-child(odd) {
+	background-color: #303030;
+	color: #e5e5e5;
+}
+
+#userbar div.list > div.list-object:nth-child(odd) span {
+	color: #e5e5e5;
+}
+
+#userbar div.list > div.list-object:nth-child(even) {
 	background-color: #e5e5e5;
 	color: #303030;
 }
-#userbar .message > td:nth-child(1) {
-	width: 20px;
+
+#userbar div.list > div.list-object:nth-child(even) span {
+	color: #303030;
+}
+
+/* message list */
+#userbar div.list > div.message {
+	width: 500px;
+}
+
+#userbar div.list > div.message > div.message-text {
+	cursor: pointer;
+}
+
+#userbar div.list > div.message > div.message-text.open {
+	white-space: normal;
+	overflow: visible;
+	text-overflow: clip;
+}
+
+#userbar div.list > div.message > div:nth-child(1) {
+	width: 25px;
 	text-align: center;
 }
 
-#userbar .message > td:nth-child(2) {
+#userbar div.list > div.message > div:nth-child(2) {
 	width: 120px;
-	text-align: center;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
-#userbar .message > td:nth-child(3) {
+#userbar div.list > div.message > div:nth-child(3) {
 	padding: 0px 5px 0px 5px;
-	width: 285px;
-	text-align: center;
+	width: 310px;
 }
 
-#userbar .message > td:nth-child(4) {
+#userbar div.list > div.message > div:nth-child(4) {
 	width: 45px;
 	text-align: center;
 }
 
 /* notification list */
-#userbar .notification > td:nth-child(1) {
-	width: 120px;
-	text-align: center;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
 
-#userbar .notification > td:nth-child(2) {
-	padding: 0px 5px 0px 5px;
-	width: 285px;
-	text-align: center;
-}
-
-#userbar .notification > td:nth-child(3) {
-	
-}
-
-#userbar .notification > td:nth-child(4) {
-	width: 45px;
-	text-align: center;
-}
 
 /* modal for message creation */
 #messagemodal {

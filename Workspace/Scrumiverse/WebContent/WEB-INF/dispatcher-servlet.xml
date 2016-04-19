@@ -78,6 +78,9 @@
         <bean id="messageDAO" class="com.scrumiverse.persistence.DAO.impl.MessageDAOImpl">
         		<property name="sessionFactory" ref="mySessionFactory"/>
         </bean>
+        <bean id="notificationDAO" class="com.scrumiverse.persistence.DAO.impl.NotificationDAOImpl">
+        		<property name="sessionFactory" ref="mySessionFactory"/>
+        </bean>
          <bean id="historyDAO" class="com.scrumiverse.persistence.DAO.impl.HistoryDAOImpl">
         		<property name="sessionFactory" ref="mySessionFactory"/>
         </bean>

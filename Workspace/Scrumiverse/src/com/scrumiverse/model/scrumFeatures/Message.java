@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
@@ -34,11 +33,10 @@ public class Message implements Comparable<Message> {
 	private boolean isSeen;
 	
 	public Message() {
-		date = new Date();
-		sender = new User();
-		recievers = new TreeSet<User>();
-		content = "";
-		isSeen = false;
+		this.date = new Date();
+		this.recievers = new TreeSet<User>();
+		this.content = "";
+		this.isSeen = false;
 	}
 	
 	@Id
@@ -60,7 +58,7 @@ public class Message implements Comparable<Message> {
 		this.date = date;
 	}
 	
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	@JoinColumn(name = "UserID")
 	public User getSender() {
 		return sender;
@@ -70,7 +68,7 @@ public class Message implements Comparable<Message> {
 		this.sender = sender;
 	}
 	
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER,  mappedBy = "messages")
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER,  mappedBy = "messages")
 	public Set<User> getRecievers() {
 		return recievers;
 	}

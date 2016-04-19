@@ -296,7 +296,7 @@ public class TaskController extends MetaController {
 						|| 	(project.hasUserRight(Right.Notify_PlannedMin_for_Current_Sprint, u) && task.getPlannedMin() != oldTask.getPlannedMin())
 					){
 						Notification notify = new Notification(user, u, event, task);
-						messageDAO.saveNotification(notify);
+						notificationDAO.saveNotification(notify);
 						u.addNotification(notify);
 					}
 				}

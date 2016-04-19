@@ -24,8 +24,8 @@ import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
  * Controller for User-Message interactions
- * @author Toni Serfling, Lasse Jacobs
- * @version 29.03.2016
+ * @author Toni Serfling, Joshua Ward
+ * @version 19.04.2016
  */
 @Controller
 public class MessageController extends MetaController {
@@ -52,6 +52,7 @@ public class MessageController extends MetaController {
 	public ModelAndView sendMessage(Message message, HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
+			message.setSender(loadActiveUser(session));
 			messageDAO.saveMessage(message);
 			Set<User> recievers = message.getRecievers();
 			for (User u: recievers) {
@@ -60,7 +61,7 @@ public class MessageController extends MetaController {
 			}
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");			
-		} catch (InvalidSessionException e) {
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}		
 	}
@@ -110,6 +111,7 @@ public class MessageController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
 	/**
 	 * Deletes a Message
 	 * @param id
@@ -121,59 +123,14 @@ public class MessageController extends MetaController {
 	public ModelAndView deleteMessage(@RequestParam int id, HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
-			Message m =messageDAO.getMessage(id);
-			messageDAO.deleteMessage(m);
-			User u = this.loadActiveUser(session);
-			u.removeMessage(m);
-			userDAO.updateUser(u);
+			Message message = messageDAO.getMessage(id);
+			User currentUser = this.loadActiveUser(session);
+			currentUser.removeMessage(message);
+			userDAO.updateUser(currentUser);
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
-	}
-	/**
-	 * Deletes a Notification
-	 * @param id
-	 * @param session
-	 * @param request
-	 * @return ModelAndView
-	 */
-	@RequestMapping("/deleteNotification.htm")
-	public ModelAndView deleteNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
-		try {
-			checkInvalidSession(session);
-			Notification n = messageDAO.getNotification(id);
-			messageDAO.deleteNotification(n);
-			User u = this.loadActiveUser(session);
-			u.removeNotification(n);
-			userDAO.updateUser(u);
-			String referer = request.getHeader("Referer");
-			return new ModelAndView("redirect:" + referer +"");
-		} catch (InvalidSessionException | UserPersistenceException e) {
-			return new ModelAndView("redirect:login.htm");
-		}
-	}
-	
-	/**
-	 * Marks a Notification as read
-	 * @param id
-	 * @param session
-	 * @param request
-	 * @return ModelAndView
-	 */
-	@RequestMapping("/markNotification.htm")
-	public ModelAndView markNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
-		try {
-			checkInvalidSession(session);
-			Notification n = messageDAO.getNotification(id);
-			n.setSeen(true);
-			messageDAO.updateNotification(n);
-			String referer = request.getHeader("Referer");
-			return new ModelAndView("redirect:" + referer +"");
-		} catch (InvalidSessionException e) {
-			return new ModelAndView("redirect:login.htm");
-		}
-	}
-	
+	}	
 }

@@ -39,6 +39,7 @@ import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.CategoryDAO;
 import com.scrumiverse.persistence.DAO.HistoryDAO;
+import com.scrumiverse.persistence.DAO.NotificationDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
 import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
@@ -63,6 +64,9 @@ public class UserStoryController extends MetaController {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@Autowired
+	private NotificationDAO notificationDAO;
 	
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
@@ -202,13 +206,12 @@ public class UserStoryController extends MetaController {
 						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
 					){
 						Notification notify = new Notification(user, u, event, userstory);
-						messageDAO.saveNotification(notify);
+						notificationDAO.saveNotification(notify);
 						u.addNotification(notify);
 					}
 				}
 			}
 		} catch (UserPersistenceException | ProjectPersistenceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

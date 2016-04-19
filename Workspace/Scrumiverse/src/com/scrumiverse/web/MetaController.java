@@ -25,7 +25,7 @@ import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
 import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.model.scrumFeatures.Notification;
-import com.scrumiverse.persistence.DAO.MessageDAO;
+import com.scrumiverse.persistence.DAO.NotificationDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
@@ -46,7 +46,7 @@ public abstract class MetaController {
 	protected ProjectDAO projectDAO;
 	
 	@Autowired
-	protected MessageDAO messageDAO;
+	protected NotificationDAO notificationDAO;
 	
 	private static final long MAX_SIZE_MB = 4;
 	
@@ -103,7 +103,6 @@ public abstract class MetaController {
 		
 		// preperation of message system attributes
 		Message message = new Message();
-		message.setSender(currentUser);
 		// add all potential message receivers
 		Set<Project> projects = currentUser.getProjects();
 		Set<User> recievers = new HashSet<User>();

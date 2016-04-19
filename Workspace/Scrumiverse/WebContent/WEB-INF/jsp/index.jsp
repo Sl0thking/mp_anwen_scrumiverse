@@ -28,11 +28,11 @@
 		$(document).ready(function(){
 			var curPage = location.pathname.split("/")[location.pathname.split("/").length-1];
 			$('#menubar a[href="' + curPage + '"]').after('<div class="current-page"></div>');
-		});
-		
-		// handles the toggles for notifications and messages
-		$('#userbar .object-list .list tr .object-text').click(function(){
-			$(this).toggleClass('open');
+
+			// handles the toggles for messages
+			//$('#userbar div.list > div.message > div.message-text').click(function(){
+			//	$(this).toggleClass('open');
+			//});
 		});
 		</script>
 	</head>
@@ -155,34 +155,36 @@
 										</div>
 									</c:when>
 									<c:otherwise>									
-										<table class="list">
-											<tbody>
-												<c:forEach items="${currentUser.messages}" var="message">
-													<tr class="message">
-														<td data-toggle="tooltip" title="${message.date}">
-															<span class="glyphicon glyphicon-calendar"></span>
-														</td>
-														<td data-toggle="tooltip" title="Sender">${message.sender.name}</td>
-														<td class="object-text">${message.content}</td>
-														<td class="object-options">
-															<c:choose>
-																<c:when test="${message.isSeen()}">
-																	<span class="glyphicon glyphicon-eye-open"></span>
-																</c:when>
-																<c:otherwise>
-																	<a href="#" data-toggle="tooltip" title="Mark as seen">
-																		<span class="glyphicon glyphicon-eye-close"></span>
-																	</a>
-																</c:otherwise>
-															</c:choose>
-															<a href="./deleteMessage.htm?id=${message.messageID}" data-toggle="tooltip" title="Delete message">
-																<span class="glyphicon glyphicon-trash"></span>
-															</a>
-														</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+										<div class="list">
+											<c:forEach items="${currentUser.messages}" var="message">
+												<div class="list-object message">
+													<div data-toggle="tooltip" title="${message.date.toString().substring(0,16)}">
+														<span class="glyphicon glyphicon-calendar"></span>
+													</div>
+													<div class="object-text" data-toggle="tooltip" title="${message.sender.name}">
+														${message.sender.name}
+													</div>
+													<div class="object-text message-text" data-toggle="tooltip" title="Click to enlarge">
+														${message.content}
+													</div>
+													<div class="object-options">
+														<c:choose>
+															<c:when test="${message.isSeen()}">
+																<span class="glyphicon glyphicon-eye-open"></span>
+															</c:when>
+															<c:otherwise>
+																<a href="#" data-toggle="tooltip" title="Mark as seen">
+																	<span class="glyphicon glyphicon-eye-close"></span>
+																</a>
+															</c:otherwise>
+														</c:choose>
+														<a href="./deleteMessage.htm?id=${message.messageID}" data-toggle="tooltip" title="Delete message">
+															<span class="glyphicon glyphicon-trash"></span>
+														</a>
+													</div>
+												</div>
+											</c:forEach>
+										</div>
 									</c:otherwise>
 								</c:choose>
 							</div>
