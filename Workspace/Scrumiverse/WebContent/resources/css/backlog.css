@@ -37,9 +37,7 @@
     text-decoration: none;
 }
 
-
-
-/*Userstory*/
+/*Userstory listview*/
 #backlog > .userstory{
     position: relative;
     background-color: grey;
@@ -75,8 +73,6 @@
 	display: none;
 }
 
-
-
 /*Images of Userstory-Members*/
 #backlog > .userstory > .userstory-container > .userstory-memberbox{
     width: 7%;
@@ -95,7 +91,7 @@
     border-radius: 100%;
 }
 
-/*Information from Userstory*/
+/*Information about Userstory*/
 #backlog > .userstory > .userstory-container > .info-container{
     height: 100%;
     width: 22%;
@@ -181,8 +177,6 @@
     display: inline-block;
 }
 
-
-
 /*Button to open Detailview of Userstory*/
 #backlog > .userstory > .userstory-control{
     float: right;
@@ -199,8 +193,6 @@
 	width: 20px;
 	text-decoration: none;
 }
-
-
 
 /* Cardview */
 #backlog > .note{
@@ -244,6 +236,7 @@
 }
 .note > .userstory-container > .userstory-titel::-webkit-scrollbar {display: none;}
 
+/*Information about Userstory*/
 .note > .userstory-container > .info-container{
     position: relative;
     top: -70px;
@@ -370,6 +363,7 @@
     overflow: hidden;
 }
 
+/*Images of Userstory-Members*/
 .note > .userstory-container > .userstory-memberbox{
     position: relative;
     top: 25px;
@@ -389,6 +383,7 @@
     border-radius: 100%;
 }
 
+/*Button to open Detailview of Userstory*/
 .note > .userstory-control{
     float: right;
     height: 100%;
@@ -405,8 +400,6 @@
 	width: 20px;
 	text-decoration: none;
 }
-
-
 
 /*Progressbars*/
 .progressbar{
