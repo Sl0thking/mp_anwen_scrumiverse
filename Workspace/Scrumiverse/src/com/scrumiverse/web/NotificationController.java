@@ -1,9 +1,12 @@
 package com.scrumiverse.web;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +22,7 @@ import com.scrumiverse.persistence.DAO.NotificationDAO;
  * @author Lasse Jacobs, Joshua Ward
  * @version 19.04.2016
  */
+@Controller
 public class NotificationController extends MetaController {
 	
 	@Autowired
@@ -48,14 +52,14 @@ public class NotificationController extends MetaController {
 	}
 	
 	/**
-	 * Marks a Notification as read
+	 * Marks a Notification as seen
 	 * @param id
 	 * @param session
 	 * @param request
 	 * @return ModelAndView
 	 */
-	@RequestMapping("/markNotification.htm")
-	public ModelAndView markNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
+	@RequestMapping("/markAsSeen.htm")
+	public ModelAndView markAsSeen(@RequestParam int id, HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
 			Notification n = notificationDAO.getNotification(id);
@@ -64,6 +68,31 @@ public class NotificationController extends MetaController {
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException e) {
+			return new ModelAndView("redirect:login.htm");
+		}
+	}
+	
+	/**
+	 * Marks all notifications of the current user as seen
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/markAllAsSeen.htm")
+	public ModelAndView markAllAsRead(HttpSession session, HttpServletRequest request) {
+		try {
+			checkInvalidSession(session);
+			User currentUser = this.loadActiveUser(session);
+			Set<Notification> notificationList = currentUser.getNotifications();
+			for(Notification n : notificationList){
+				if(!n.isSeen()) {
+					n.setSeen(true);
+					notificationDAO.updateNotification(n);
+				}
+			}
+			String referer = request.getHeader("Referer");
+			return new ModelAndView("redirect:" + referer +"");
+		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}

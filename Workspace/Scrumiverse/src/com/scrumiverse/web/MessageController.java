@@ -18,7 +18,6 @@ import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Message;
-import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
@@ -79,14 +78,14 @@ public class MessageController extends MetaController {
 			checkInvalidSession(session);
 			Message m = messageDAO.getMessage(id);
 			m.setSeen(true);
-			messageDAO.saveMessage(m);
-			
+			messageDAO.updateMessage(m);
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
 	/**
 	 * Marks all messages of an user as read
 	 * @param session
@@ -97,10 +96,10 @@ public class MessageController extends MetaController {
 	public ModelAndView markAllAsRead(HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
-			User u = this.loadActiveUser(session);
-			Set<Message> messageList = u.getMessages();
+			User currentUser = this.loadActiveUser(session);
+			Set<Message> messageList = currentUser.getMessages();
 			for(Message m:messageList){
-				if(m.isSeen()==false) {
+				if(!m.isSeen()) {
 					m.setSeen(true);
 					messageDAO.updateMessage(m);
 				}
@@ -123,14 +122,37 @@ public class MessageController extends MetaController {
 	public ModelAndView deleteMessage(@RequestParam int id, HttpSession session, HttpServletRequest request) {
 		try {
 			checkInvalidSession(session);
-			Message message = messageDAO.getMessage(id);
+			Message message = messageDAO.getMessage(id);			
+			// remove message from user
 			User currentUser = this.loadActiveUser(session);
 			currentUser.removeMessage(message);
-			userDAO.updateUser(currentUser);
+			userDAO.updateUser(currentUser);			
+			// delete message if the current user was the last user attached to it
+			message = messageDAO.getMessage(id);
+			if (wasLastRecieverInMessage(message))
+				messageDAO.deleteMessage(message);
+			
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
 		}
-	}	
+	}
+	
+	/**
+	 * Iterates over all recievers of the Message m, and checks if they
+	 * are still attached to the 
+	 * @param m The message that shall be checked
+	 * @return
+	 */
+	private boolean wasLastRecieverInMessage(Message m) {
+		boolean toReturn = true;
+		// iterate over recievers to check if they are still attached to the message
+		for (User reciever : m.getRecievers()) {
+			// check if the reciever still has this message
+			if (reciever.getMessages().contains(m))
+				toReturn = false;
+		}
+		return toReturn;
+	}
 }

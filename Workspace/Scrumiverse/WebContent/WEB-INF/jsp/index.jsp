@@ -84,7 +84,7 @@
 								NOTIFICATIONS
 								<div class="list-options">
 									<c:if test="${currentUser.notifications.size() ne 0}">
-										<a href="#" data-toggle="tooltip" title="Mark all as seen">							
+										<a href="./markAllAsSeen.htm" data-toggle="tooltip" title="Mark all as seen">							
 											<span class="glyphicon glyphicon-eye-open"></span>
 										</a>				
 									</c:if>				
@@ -98,32 +98,34 @@
 										</div>
 									</c:when>
 									<c:otherwise>									
-										<table class="list">
-											<tbody>
-												<c:forEach items="${currentUser.notifications}" var="notification">
-													<tr class="notification">
-														<td>${notification.triggerUser.name}</td>
-														<td class="object-text">${notification.triggerDescription}</td>
-														<td>${notification.changeEvent}</td>
-														<td class="object-options">
-															<c:choose>
-																<c:when test="${notification.isSeen()}">
-																	<span class="glyphicon glyphicon-eye-open"></span>
-																</c:when>
-																<c:otherwise>
-																	<a href="#" data-toggle="tooltip" title="Mark as seen">
-																		<span class="glyphicon glyphicon-eye-close"></span>
-																	</a>
-																</c:otherwise>
-															</c:choose>
-															<a href="./deleteNotification.htm?id=${notification.notificationID}" data-toggle="tooltip" title="Delete notification">
-																<span class="glyphicon glyphicon-trash"></span>
-															</a>
-														</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+										<div class="list">
+											<c:forEach items="${currentUser.notifications}" var="notification">
+												<div class="list-object notification">
+													<div class="object-text" data-toggle="tooltip" title="${notification.triggerUser.name}">
+														${notification.triggerUser.name}
+													</div>
+													<div class="object-text" data-toggle="tooltip" title="${notification.triggerDescription}">
+														${notification.triggerDescription}
+													</div>
+													<div>${notification.changeEvent}</div>
+													<div class="object-options">
+														<c:choose>
+															<c:when test="${notification.isSeen()}">
+																<span class="glyphicon glyphicon-eye-open"></span>
+															</c:when>
+															<c:otherwise>
+																<a href="./markAsSeen.htm?id=${notification.notificationID}" data-toggle="tooltip" title="Mark as seen">
+																	<span class="glyphicon glyphicon-eye-close"></span>
+																</a>
+															</c:otherwise>
+														</c:choose>
+														<a href="./deleteNotification.htm?id=${notification.notificationID}" data-toggle="tooltip" title="Delete notification">
+															<span class="glyphicon glyphicon-trash"></span>
+														</a>
+													</div>
+												</div>
+											</c:forEach>
+										</div>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -141,7 +143,7 @@
 										<span class="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#messagemodal"></span>
 									</a>
 									<c:if test="${currentUser.messages.size() ne 0}">
-										<a href="#" data-toggle="tooltip" title="Mark all as seen">							
+										<a href="./markAllAsRead.htm" data-toggle="tooltip" title="Mark all as seen">							
 											<span class="glyphicon glyphicon-eye-open"></span>
 										</a>				
 									</c:if>				
@@ -173,7 +175,7 @@
 																<span class="glyphicon glyphicon-eye-open"></span>
 															</c:when>
 															<c:otherwise>
-																<a href="#" data-toggle="tooltip" title="Mark as seen">
+																<a href="./markAsRead.htm?id=${message.messageID}" data-toggle="tooltip" title="Mark as seen">
 																	<span class="glyphicon glyphicon-eye-close"></span>
 																</a>
 															</c:otherwise>

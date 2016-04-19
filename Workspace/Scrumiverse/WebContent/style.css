@@ -314,21 +314,21 @@ a{
 	text-overflow: ellipsis;
 }
 
-#userbar div.list > div.list-object:nth-child(odd) {
+#userbar div.list > div.list-object:nth-child(even) {
 	background-color: #303030;
 	color: #e5e5e5;
 }
 
-#userbar div.list > div.list-object:nth-child(odd) span {
+#userbar div.list > div.list-object:nth-child(even) span {
 	color: #e5e5e5;
 }
 
-#userbar div.list > div.list-object:nth-child(even) {
+#userbar div.list > div.list-object:nth-child(odd) {
 	background-color: #e5e5e5;
 	color: #303030;
 }
 
-#userbar div.list > div.list-object:nth-child(even) span {
+#userbar div.list > div.list-object:nth-child(odd) span {
 	color: #303030;
 }
 
@@ -367,7 +367,28 @@ a{
 }
 
 /* notification list */
+#userbar div.list > div.notification {
+	width: 600px;
+}
 
+#userbar div.list > div.notification > div:nth-child(1) {
+	width: 120px;
+	padding-left: 5px;
+}
+
+#userbar div.list > div.notification > div:nth-child(2) {
+	padding: 0px 5px 0px 5px;
+	width: 250px;
+}
+
+#userbar div.list > div.notification > div:nth-child(3) {
+	width: 180px;
+}
+
+#userbar div.list > div.notification > div:nth-child(4) {
+	width: 45px;
+	text-align: center;
+}
 
 /* modal for message creation */
 #messagemodal {

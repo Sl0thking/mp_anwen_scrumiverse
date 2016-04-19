@@ -53,14 +53,17 @@ public class Notification implements Comparable<Notification>{
 	public void setNotificationID(int notificationID) {
 		this.notificationID = notificationID;
 	}
+	
 	@OneToOne
 	public User getTriggerUser() {
 		return triggerUser;
 	}
+	
 	public void setTriggerUser(User triggerUser) {
 		this.triggerUser = triggerUser;
 	}
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	
+	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	@JoinColumn(name="UserID")
 	public User getAlertedUser() {
 		return alertedUser;
