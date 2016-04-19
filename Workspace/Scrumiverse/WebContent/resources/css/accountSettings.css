@@ -11,93 +11,41 @@
 }
 
 #accountpage{
-    height: 430px;
     width: 900px;
     padding: 10px 10px 10px 10px;
     background-color: #333333;
-    border-radius: 5px;
     margin: auto; 
 }
 
-#img{
+#account-img{
     width: 350px;
-    height: 350px;
-    float: left;
-    display: inline-block;
-    border-radius: 5px;
+    height: 330px;
+    margin: auto;
+}
+#account-img > form > img{
+    position: relative;
+    left: 50px;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 5px;
 }
 #editable{
-    height: 300px;
     width: 500px;
-    margin-left: 10px;
-    float: left;
+    margin: auto;
 }
-form{
-    height: 100%;
+#editable > form > .input-group{
+    margin-bottom: 5px;
 }
-.input-group{
-    width: 500px;
-    background-color: #333333;
+#editable > form > .input-group > .input-group-addon{
+    min-width: 110px;
 }
 
-.input-group-addon-fix{
-    width: 110px;
-    background-color: transparent;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    border-radius: 0px;
-    border-right: 2px solid black;
-    border: 0px;
-}
-.input-control{
-    height: 60px;
-    width: 400px;
-    padding: 2px 0px 0px 25px;
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    background-color: transparent;
-    border: transparent;
-    border-radius: 0px;
-}
 button{
     width: 100%;
-    background-color: #333333;
-    border: none;
-    color: white;
-    font-size: 20px;
-    text-transform: uppercase;
-    font-weight: 600;
-    outline: none;
 }
-input{
-    width: 100%;
-    background-color: #333333;
-    border: none;
-    color: white;
-    font-size: 20px;
-    text-transform: uppercase;
-    font-weight: 600;
-    outline: none;
-}
-form > *{
-    border-right: 2px solid #666666;
-    border-left: 2px solid #666666;
-}
-form > *:first-child{
-    border-radius: 10px 10px 0px 0px;
-    border-top: 2px solid #666666;
-}
-form> *:last-child{
-    border-radius: 0px 0px 10px 10px;
-    border-bottom: 2px solid #666666;
-}
-input:focus{
-    outline: none;
-    box-shadow: none;
-}
-button:focus{
-    outline: none;
-    border: 2px solid #777777;
+
+.btn:hover {
+	background-color: green;
+	color: white;
+	border: 1px solid white;
 }

@@ -13,9 +13,9 @@ $(document).ready(function(){
 	<c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
 </div>
 <div id="accountpage">
-    <div id="img">
+    <div id="account-img">
     	<form method="POST" action="changeUserPic.htm" enctype="multipart/form-data" >
-        	<img width=350 height=350 src="${user.profileImagePath}"/>
+        	<img src="${user.profileImagePath}"/>
         	<input name="image" type="file"/>
         	<button type="submit">Upload</button>
         </form>
@@ -23,19 +23,19 @@ $(document).ready(function(){
     <div id="editable">
         <form:form action="changeUser.htm" commandName="user">
            <div class="input-group">
-               <span class="input-group-addon input-group-addon-fix" id="basic-addon2">Username</span>
+               <span class="input-group-addon" id="basic-addon2">Username</span>
                <form:input path="name" type="text" class="form-control input-control" placeholder="${user.name }" aria-describedby="basic-addon1" />
             </div>            
             <div class="input-group">
-               <span class="input-group-addon input-group-addon-fix" id="basic-addon2">Password</span>
+               <span class="input-group-addon" id="basic-addon2">Password</span>
                <form:password path="password" type="password" class="form-control input-control" aria-describedby="basic-addon1"/>
             </div>
             <div class="input-group">
-               <span class="input-group-addon input-group-addon-fix" id="basic-addon2">Password</span>
+               <span class="input-group-addon" id="basic-addon2">Password</span>
                <input type="password" class="form-control input-control" aria-describedby="basic-addon1"/>
             </div>
             <div class="input-group">
-               <span class="input-group-addon input-group-addon-fix" id="basic-addon2">E-Mail</span>
+               <span class="input-group-addon" id="basic-addon2">E-Mail</span>
                <form:input path="email" type="text" class="form-control input-control" placeholder="${user.email }" aria-describedby="basic-addon1"/>
             </div>
             <form:hidden path="userID"/>
