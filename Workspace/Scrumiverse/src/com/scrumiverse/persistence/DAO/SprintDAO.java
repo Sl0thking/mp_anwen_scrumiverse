@@ -10,7 +10,6 @@ import com.scrumiverse.model.scrumCore.Sprint;
  * @author DoctorWhose
  * @version 23.02.2016
  */
-
 public interface SprintDAO {
 	public void saveSprint(Sprint s);
 	public Set<Sprint> getSprintsFromProject(int projectID) throws SprintPersistenceException;

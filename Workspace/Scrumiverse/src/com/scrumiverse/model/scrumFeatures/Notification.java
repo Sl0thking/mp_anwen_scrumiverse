@@ -15,7 +15,7 @@ import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanElement;
 
 /**
- * Datamodel of natifications
+ * Datamodel of notifications
  * @author Lasse Jacobs
  * @version 29.03.2016
  */

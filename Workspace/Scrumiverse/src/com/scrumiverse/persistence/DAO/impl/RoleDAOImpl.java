@@ -30,7 +30,11 @@ public class RoleDAOImpl implements RoleDAO {
 	public void saveRole(Role r) {
 		hibernateTemplate.save(r);
 	}
-
+	/**
+	 * Returns role by id
+	 * @param int
+	 * @return Role
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Role getRole(int id) throws RolePersistenceException {
@@ -40,7 +44,10 @@ public class RoleDAOImpl implements RoleDAO {
 		} 
 		throw new RolePersistenceException();
 	}
-
+	/**
+	 * Returns all roles
+	 * @return SortedSet<Role>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public SortedSet<Role> getRoles() {

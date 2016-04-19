@@ -10,7 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.scrumiverse.model.account.User;
-
+/**
+ * Datamodel of Worklogs
+ * @author Kevin Jolitz
+ * @version 19.04.2016
+ */
 @Entity
 public class WorkLog implements Comparable<WorkLog> {
 	private int logId;

@@ -20,8 +20,8 @@ import com.scrumiverse.model.account.User;
 /**
  * Datamodel of Messages
  * 
- * @author Toni Serfling
- * @version 15.03.2016
+ * @author Toni Serfling, Kevin Jolitz
+ * @version 19.04.2016
  */
 @Entity
 public class Message implements Comparable<Message> {

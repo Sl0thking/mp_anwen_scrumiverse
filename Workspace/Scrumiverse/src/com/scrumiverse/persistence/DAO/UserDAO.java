@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.model.account.User;
-
+/**
+ * DAO Interface of Users
+ * @author Kevin Jolitz
+ * @version 19.04.2016
+ */
 public interface UserDAO {
 	public void saveUser(User user); 
 	public User getUserByEmail(String email) throws UserPersistenceException;

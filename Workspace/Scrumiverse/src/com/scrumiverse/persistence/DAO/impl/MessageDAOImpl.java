@@ -12,7 +12,7 @@ import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.MessageDAO;
 
 /**
- * DAO Implementation of Messages
+ * DAO Implementation of Messages and Notifications
  * @author Toni Serfling, Lasse Jacobs
  * @version 29.03.2016
  */

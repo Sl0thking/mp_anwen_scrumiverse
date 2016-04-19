@@ -38,13 +38,20 @@ public class TaskDAOImpl implements TaskDAO{
 	public void deleteTask(Task task) {
 		hibernateTemplate.delete(task);
 	}
-
+	/**
+	 * Returns all tasks
+	 * @return List<Task>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> getAllTasks() {
 		return hibernateTemplate.find("from Task");
 	}
-
+	/**
+	 * Returns a task by taskID
+	 * @param int
+	 * @return Task
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Task getTask(int taskID) throws TaskPersistenceException {
@@ -54,7 +61,11 @@ public class TaskDAOImpl implements TaskDAO{
 		}
 		throw new TaskPersistenceException();
 	}
-	
+	/**
+	 * Returns all tasks of given UserStory
+	 * @param int 
+	 * @return SortedSet<Task>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public SortedSet<Task> getTasksOfUserStory(int userStoryID) throws TaskPersistenceException {

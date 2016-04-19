@@ -33,7 +33,11 @@ public class UserDAOImpl implements UserDAO{
 	public void updateUser(User user){
 		hibernateTemplate.update(user);
 	}
-
+	/**
+	 * Returns user by Email
+	 * @param String
+	 * @return User
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserByEmail(String email) throws UserPersistenceException {
@@ -43,13 +47,20 @@ public class UserDAOImpl implements UserDAO{
 		}
 		throw new UserPersistenceException();
 	}
-
+	/**
+	 * Returns all users
+	 * @return List<User>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
 		return hibernateTemplate.find("from User");
 	}
-
+	/**
+	 * Returns user by id
+	 * @param int
+	 * @return User
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUser(int id) throws UserPersistenceException {

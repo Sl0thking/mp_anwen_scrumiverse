@@ -6,9 +6,9 @@ import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.model.scrumFeatures.Notification;
 
 /**
- * DAO Interface of Messages
- * @author DoctorWhose
- * @version 11.03.2016
+ * DAO Interface of Messages/Notifications
+ * @author Toni Serfling, Lasse Jacobs
+ * @version 19.04.2016
  */
 public interface MessageDAO {	
 	public void saveMessage(Message m);

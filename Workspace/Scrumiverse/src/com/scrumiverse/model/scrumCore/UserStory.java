@@ -58,6 +58,9 @@ public class UserStory extends PlanElement {
 //		generateRandomValues();
 	}
 	
+	/**
+	 * Pls delete this
+	 */
 	public void generateRandomValues(){
 		Random rand = new Random();
 		//((max - min) + 1) + min
@@ -176,7 +179,7 @@ public class UserStory extends PlanElement {
 		return userlist;
 	}
 	/**
-	 * Returns all planned minutes from tasks in this UseStory
+	 * Returns all planned minutes from tasks in this UserStory
 	 * @return Number of planned minutes
 	 */
 	@Transient
@@ -190,7 +193,7 @@ public class UserStory extends PlanElement {
 		return result;
 	}
 	/**
-	 * Returns all remaining minutes from tasks in this UseStory
+	 * Returns all remaining minutes from tasks in this UserStory
 	 * @return Number of remaining minutes
 	 */
 	@Transient
@@ -207,7 +210,7 @@ public class UserStory extends PlanElement {
 		return result;
 	}
 	/**
-	 * Returns all logged minutes of work from tasks in this UseStory
+	 * Returns all logged minutes of work from tasks in this UserStory
 	 * @return Number of worked minutes
 	 */
 	@Transient
@@ -245,8 +248,8 @@ public class UserStory extends PlanElement {
 		return (List<WorkLog>) result;
 	}
 	/**
-	 * 
-	 * @return
+	 * Returns remaining days until due date
+	 * @return int
 	 */
 	@Transient
 	public int getRemainingDays(){
@@ -262,6 +265,10 @@ public class UserStory extends PlanElement {
 		}
 		return result;
 	}
+	/**
+	 * Returns the due date in the yyyy-MM-dd format
+	 * @return String
+	 */
 	@Transient
 	public String getFormattedDueDate(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

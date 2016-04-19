@@ -27,7 +27,7 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * Task data-model of a scrum implementation.
  * 
  * @author Kevin Jolitz
- * @version 27.02.2016
+ * @version 19.04.2016
  *
  */
 @Entity
@@ -48,6 +48,10 @@ public class Task extends PlanElement {
 		return plannedMinOfUsers.get(user);
 	}
 	
+	/**
+	 * Returns the combined planned minutes of all users
+	 * @return int
+	 */
 	@Transient
 	public int getPlannedMin() {
 		int planTime = 0;
@@ -174,6 +178,10 @@ public class Task extends PlanElement {
 		return estimatedTimeInMin - loggedTimeInMin;
 	}
 	
+	/**
+	 * Returns the remaining time for this task
+	 * @return int
+	 */
 	@Transient
 	public int getRemainingMin() {
 		int estimatedTimeInMin = this.getPlannedMin();

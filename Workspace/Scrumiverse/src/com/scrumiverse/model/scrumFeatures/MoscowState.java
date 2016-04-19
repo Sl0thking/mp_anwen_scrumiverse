@@ -1,6 +1,10 @@
 package com.scrumiverse.model.scrumFeatures;
 
-
+/**
+ * Enum of Moscow (Must, Should, Could, Wont) States
+ * @author Lasse Jacobs
+ * @version 19.04.2016
+ */
 public enum MoscowState {
 	Must, Should, Could, Wont;
 

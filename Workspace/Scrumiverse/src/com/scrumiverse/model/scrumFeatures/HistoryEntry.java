@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import com.scrumiverse.model.account.User;
 
 /**
- * Entry of a event
+ * Entry of an event
  * 
  * @author Kevin Jolitz
  * @version 29.02.2016

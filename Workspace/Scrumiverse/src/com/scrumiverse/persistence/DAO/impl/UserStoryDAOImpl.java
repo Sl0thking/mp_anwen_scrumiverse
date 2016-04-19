@@ -43,13 +43,20 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 	public void deleteUserStory(UserStory userStory){
 		hibernateTemplate.delete(userStory);
 	}
-
+	/**
+	 * Returns all Userstories
+	 * @return List<UserStory>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserStory> getAllUserstories() {
 		return hibernateTemplate.find("from UserStory");
 	}
-	
+	/**
+	 * Returns Userstory by id
+	 * @param int
+	 * @return UserStory
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public UserStory getUserStory(int userStoryID) throws UserStoryPersistenceException{
@@ -59,7 +66,11 @@ public class UserStoryDAOImpl implements UserStoryDAO {
 		}
 		throw new UserStoryPersistenceException();
 	}
-	
+	/**
+	 * Returns all Userstories of a given project by projectID
+	 * @param int
+	 * @return SortedSet<UserStory>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public SortedSet<UserStory> getUserStoriesOfProject(int projectID) throws ProjectPersistenceException{

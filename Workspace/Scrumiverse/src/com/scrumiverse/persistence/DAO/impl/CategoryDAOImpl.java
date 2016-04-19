@@ -27,7 +27,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public void saveCategory(Category category) {
 		hibernateTemplate.save(category);
 	}
-
+	/**
+	 * Returns a category by given id
+	 * @param int
+	 * @return Category
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Category getCategoryById(int id) throws CategoryPersistenceException {
