@@ -630,12 +630,15 @@ a{
 	display: inline-block;
 }
 
-#Planning{
+/* planstate formatting of the entities */
+*[planstate=Planning] {
 	background-color: darkgrey;
 }
-#InProgress{
+
+*[planstate=InProgress] {
 	background-color: orange;
 }
-#Done{
+
+*[planstate=Done] {
 	background-color: green;
 }

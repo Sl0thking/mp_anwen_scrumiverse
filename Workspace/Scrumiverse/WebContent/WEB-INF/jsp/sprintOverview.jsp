@@ -232,7 +232,7 @@
 	<%-- Build the sprintpage with the sprints of the project --%>
 	<c:forEach items="${sprints}" var="sprint">
 		<div sprintid="${sprint.id}" class="sprint">
-			<div id="${sprint.planState.toString() }" class="sprint-state"></div>
+			<div planstate="${sprint.planState.toString() }" class="sprint-state"></div>
 			<div class="sprint-content">
 				<div class="sprint-name">${sprint.description }</div>
 				<div class="sprint-stats">
@@ -310,7 +310,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="${sprint.planState.toString() }" class="sprint-control">
+			<div planstate="${sprint.planState.toString() }" class="sprint-control">
 				<%-- set the link for the modal detailview of the sprint depending on the sprint id --%>
 				<a class="glyphicon glyphicon-triangle-right sprint-link" href="#"
 					data-toggle="modal" data-target=".modal-detail[sprintid='${sprint.id}']"></a> 

@@ -48,7 +48,7 @@ function setView(oldView, newView){
 	</div>
 	<c:forEach items="${userstories}" var = "userstory">
 		<div class="userstory">
-			<div class="userstory-planstate" id="${userstory.planState}"></div>
+			<div class="userstory-planstate" planstate="${userstory.planState}"></div>
 	        <div class="userstory-container">
 		        <div class="userstory-titel">${userstory.description}</div>
 		        <div class="userstory-memberbox">
@@ -94,7 +94,7 @@ function setView(oldView, newView){
 					<div class="userstory-effort" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
 				</div>
 			</div>
-			<div class="userstory-control" id="${userstory.planState}">
+			<div class="userstory-control" planstate="${userstory.planState}">
 				<a class="glyphicon glyphicon-triangle-right userstory-settings" href="#" data-toggle="modal" 
 					data-target=".modal-detail[userstoryid='${userstory.id}']"></a>
 			</div>
