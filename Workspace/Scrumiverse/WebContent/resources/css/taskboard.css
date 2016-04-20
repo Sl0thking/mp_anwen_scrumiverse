@@ -2,7 +2,6 @@
 @import 'detail.css';
 @import 'hourglass.css';
 
-
 #action_content::-webkit-scrollbar {
 	display: none;
 }
@@ -17,27 +16,14 @@
     overflow-x: hidden;
 }
 
-.taskboard{
+.taskboard {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
-/* planstate formatting for userstories and tasks */
-.taskboard *[planstate=Planning] {
-	background-color: darkgrey;
-}
-
-.taskboard *[planstate=InProgress] {
-	background-color: orange;
-}
-
-.taskboard *[planstate=Done] {
-	background-color: green;
-}
-
-.taskboard, .taskboard th, .taskboard td{
+.taskboard, .taskboard th, .taskboard td {
     border: 1px solid #444444;
 }
 
@@ -52,32 +38,35 @@
     z-index: 1;
 }
 
-.taskboard-heading{
+.taskboard-heading {
     color: white;
 }
 
-.userstory-section{
+.userstory-section {
     width: 28%;
     text-align: inherit;
 }
-.task-section{
+
+.task-section {
     width: 24%;
     text-align: inherit;
 }
-.item-section{
+
+.item-section {
     vertical-align: top;
     padding: 5px 5px 5px 5px;
     overflow: hidden;
 }
 
-.userstory{
+.userstory {
     position: relative;
     background-color: grey;
     height: 160px;
     width: 100%;
     color: white;
 }
-.userstory > .userstory-state{
+
+.userstory > .userstory-state {
     width: 1.5%;
     min-width: 5px;
     height: 100%;
@@ -85,14 +74,14 @@
     display: inline-block;
 }
 
-.userstory > .userstory-content{
+.userstory > .userstory-content {
     width: 92%;
     height: 100%;
     display: inline-block;
     overflow: hidden;
 }
 
-.userstory-content > .userstory-titel{
+.userstory-content > .userstory-titel {
     height: 90px;
     width: 95%;
     float: left;
@@ -103,7 +92,7 @@
     overflow: hidden;
 }
 
-.userstory-content > .userstory-stats{
+.userstory-content > .userstory-stats {
     height: 70px;
     width: 98%;
     float: left;
@@ -111,19 +100,20 @@
     line-height: 18px;
 }
 
-.userstory-stats > .time-container{
+.userstory-stats > .time-container {
     height: 100%;
     width: 17%;
     float: left;
     display: inline-block;
 }
 
-.time-container > .sandclock{
+.time-container > .sandclock {
     height: 50px;
     width: 100%;
     background-color: black;
 }
-.time-container > .duetime{
+
+.time-container > .duetime {
     height: 20px;
     width: 100%;
     text-align: center;
@@ -131,7 +121,7 @@
     font-weight: 500;
 }
 
-.userstory-stats > .info-container{
+.userstory-stats > .info-container {
     width: 61%;
     height: 100%;
     float: left;
@@ -141,7 +131,8 @@
     display: inline-block;
     overflow: hidden;
 }
-.info-container > .moscow{
+
+.info-container > .moscow {
     width: 30%;
     height: 30%;
     float: left;
@@ -153,7 +144,8 @@
     background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
-.info-container > .value{
+
+.info-container > .value {
     width: 30%;
     height: 30%;
     float: left;
@@ -164,7 +156,8 @@
     background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
-.info-container > .risk{
+
+.info-container > .risk {
     width: 30%;
     height: 30%;
     float: left;
@@ -176,7 +169,8 @@
     background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
-.info-container >  .effort{
+
+.info-container > .effort {
     width: 30%;
     height: 30%;
     margin-left: 3%;
@@ -188,7 +182,8 @@
     background: rgba(54, 25, 25, .5);
     overflow: hidden;
 }
-.info-container > .timestats{
+
+.info-container > .timestats {
     width: 100%;
     height: 36%;
     line-height: 22px;
@@ -198,7 +193,7 @@
     overflow: hidden;
 }
 
-.userstory-stats > .member-container{
+.userstory-stats > .member-container {
     width: 22%;
     height: 100%;
     float: right;
@@ -207,7 +202,8 @@
     display: inline-block;
     overflow: hidden;
 }
-.member-container > .userstory-member{ 
+
+.member-container > .userstory-member { 
     margin-bottom: 3px;
     width: 25px;
     height: 25px;
@@ -221,7 +217,7 @@
     border-radius: 100%;
 }
 
-.userstory > .userstory-link{
+.userstory > .userstory-link {
     position: relative;
     top: 0px;
     float: right;
@@ -233,13 +229,15 @@
     color: white;
     text-decoration: none;
 }
-.task{
+
+.task {
     margin-bottom: 5px;
     background-color: grey;
     height: 50px;
     width: 100%;
 }
-.task > .task-content{
+
+.task > .task-content {
     position: relative;
     height: 50px;
     width: 93%;
@@ -247,7 +245,8 @@
     display: inline-block;
     overflow: hidden;
 }
-.task > .task-link{
+
+.task > .task-link {
     position: relative;
     top: 0px;
     height: 100%;
@@ -259,7 +258,8 @@
     color: white;
     text-decoration: none;
 }
-.task-content > .task-name{
+
+.task-content > .task-name {
     height: 25px;
     padding: 2px 0px 0px 5px;
     color: inherit;
@@ -269,7 +269,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.task-content > .task-time{
+
+.task-content > .task-time {
     position: relative;
     height: 25px;
     width: 60%;
@@ -278,7 +279,8 @@
     color: inherit;
     display: inline-block;
 }
-.task-content > .task-memberbox{
+
+.task-content > .task-memberbox {
     position: relative;
     bottom: 2px;
     height: 25px;
@@ -287,7 +289,8 @@
     display: inline-block;
     overflow: hidden;
 }
-.task-member{
+
+.task-member {
     float: right;
     width: 25px;
     height: 25px;
@@ -304,7 +307,8 @@
     display: inline-block;
     border-radius: 100%;
 }
-.selected{
+
+.selected {
     outline: 2px solid white;
 }
 
@@ -358,6 +362,7 @@
 	display: inline-block;
 }
 
+/* taskmodal */
 .section-detail .tag-list-header {
 	height: 30px;
 	width: 150px;
@@ -413,7 +418,93 @@
 	border: none;
 }
 
-/*�berschreibt die Memberlist aus detail.css, um Platz f�rs user adden zu machen*/
+.section-detail .detail-table input.est-time-input {
+	width: 100%;
+	height: 100%;
+	color: inherit;
+	text-align: center;
+	background-color: inherit;
+	border: none;
+}
+
+/* worklogs */
+.section-worklogs .input-group-addon {
+	min-width: 150px;
+}
+
+.section-worklogs .detail-table {
+	margin-top: 10px;
+	width: 100%;
+}
+
+.section-worklogs .detail-table th {
+	color: white;
+	text-align: center;
+	border: 1px solid #444444;
+}
+
+.section-worklogs .detail-table tr {
+	height: 30px;
+}
+
+.section-worklogs .detail-table tr > td {
+	text-align: center;
+	border: 1px solid #444444;
+}
+
+.section-worklogs .detail-table tr > td > img {
+	margin: 2px 0px 2px 0px;
+}
+
+.section-worklogs .detail-table tr > td:first-of-type {
+	width: 250px;
+}
+
+.section-worklogs .detail-table tr:nth-child(even), .section-worklogs .detail-table tr:nth-child(even) a {
+	background-color: #666666;
+	color: #e5e5e5;	
+}
+
+.section-worklogs .detail-table tr:nth-child(odd), .section-worklogs .detail-table tr:nth-child(odd) a {
+	background-color: #e5e5e5;	
+	color: #303030;
+}
+
+.section-worklogs .detail-table tr:first-child {
+	border: 1px solid #e5e5e5;
+	background-color: #303030;
+	color: white;
+}
+
+.section-worklogs .detail-table tr a:hover {
+	color: red;
+}
+
+.section-worklogs  .btn-submit {
+	margin-top: -5px;
+	float: right;
+}
+
+.section-worklogs  .btn-submit:hover {
+	background-color: green;
+	color: white;
+	border: 1px solid #303030;
+}
+
+.section-worklogs .member-img {
+	margin-left: 10px;
+	width: 26px;
+	height: 26px;
+	border: 1px solid #666666;
+	background-color: #666666;
+	border-radius: 100%;
+}
+
+.section-worklogs .member-img:hover {
+	border-color: white;
+}
+
+/* overrides the memberlist from detail.css to add space for adding a user */
 .section-detail .member-list {
 	position: absolute;
 	right: 230px;
@@ -421,6 +512,7 @@
 	width: 55%;
 	height: 26px;
 }
+
 .section-detail .user-add {
 	position: absolute;
 	top: -45px;

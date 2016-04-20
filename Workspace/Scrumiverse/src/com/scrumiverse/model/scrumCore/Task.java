@@ -128,8 +128,8 @@ public class Task extends PlanElement {
 	 * Delete a specific worklog entry
 	 * @param log
 	 */
-	public void delWorkLog(WorkLog log) {
-		this.workLogs.remove(log);
+	public void deleteWorkLog(int logId) {
+		this.workLogs.removeIf((WorkLog element) -> element.getLogId() == logId);
 	}
 	
 	/**

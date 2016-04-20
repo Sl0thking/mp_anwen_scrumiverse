@@ -14,11 +14,11 @@ $(document).ready(function(){
 	});
 	
 	//get the JSONObject of the selected sprint and draw the chart on page load
-	var sprintJSON = JSON.parse($(".form-control").val());	
+	var sprintJSON = JSON.parse($("#sprint-burndown-select").val());	
 	drawChart(sprintJSON);
 	//get the JSONObject of the selected sprint and draw the chart on change of dropdown-menu
-	$(".form-control").change(function() {
-		sprintJSON = JSON.parse($(".form-control").val());
+	$("#sprint-burndown-select").change(function() {
+		sprintJSON = JSON.parse($("#sprint-burndown-select").val());
 		drawChart(sprintJSON);
 	});
 });
@@ -231,20 +231,8 @@ function drawChart(sprintJSON) {
 				<div class="list">
 					<%-- for each userstory that the current user is assigned to : create userstory element --%>
 					<c:forEach items="${relevantUserStories}" var="userstory">
-						<div class="userstory">							
-							<%-- alters the color of the planstate element depending on the current planstate --%>
-							<c:choose>
-								<c:when test="${userstory.planState eq 'Planning'}">
-									<c:set var="planStateColor" value="darkgrey" />
-								</c:when>
-								<c:when test="${userstory.planState eq 'InProgress'}">
-									<c:set var="planStateColor" value="orange" />
-								</c:when>
-								<c:otherwise>
-									<c:set var="planStateColor" value="green" />
-								</c:otherwise>
-							</c:choose>
-							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+						<div class="userstory">
+							<div class="element-planstate" planstate="${userstory.planState}"></div>
 							<div class="userstory-name text-box" data-toggle="tooltip" title="${userstory.description}">${userstory.description}</div>
 							<div class="userstory-value value-box" data-toggle="tooltip" title="Value">${userstory.businessValue}</div>
 							<div class="userstory-effort value-box" data-toggle="tooltip" title="Effort">${userstory.effortValue}</div>
@@ -260,19 +248,7 @@ function drawChart(sprintJSON) {
 					<%-- for each task that the current user is assigned to : create task element --%>
 					<c:forEach items="${relevantTasks}" var="task">
 						<div class="task">
-							<%-- alters the color of the planstate element depending on the current planstate --%>
-							<c:choose>
-								<c:when test="${task.planState eq 'Planning'}">
-									<c:set var="planStateColor" value="darkgrey" />
-								</c:when>
-								<c:when test="${task.planState eq 'InProgress'}">
-									<c:set var="planStateColor" value="orange" />
-								</c:when>
-								<c:otherwise>
-									<c:set var="planStateColor" value="green" />
-								</c:otherwise>
-							</c:choose>
-							<div class="element-planstate" style="background-color: ${planStateColor};"></div>
+							<div class="element-planstate" planstate="${task.planState}"></div>
 							<div class="task-description text-box" data-toggle="tooltip" title="${task.description}">${task.description}</div>
 							<div class="task-timeplan value-box" data-toggle="tooltip" title="Time planned">
 								<fmt:formatNumber value="${plannedTimeOnTask[task.id] / 60}" maxFractionDigits="1"/>h
@@ -308,7 +284,7 @@ function drawChart(sprintJSON) {
 			<div class="input-group sprint-selection">
 				<span class="input-group-addon">Sprint</span>
 				<%-- dropdown-menu with all sprints in the project --%>
-				<form:select class="form-control" path="chartData">
+				<form:select id="sprint-burndown-select" class="form-control" path="chartData">
 					<c:forEach items="${chartData}" var="item">
 						<form:option value="${item.getValue()}">${item.getKey().getDescription()}</form:option>
 					</c:forEach>				

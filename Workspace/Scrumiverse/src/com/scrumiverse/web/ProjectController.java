@@ -393,31 +393,7 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	/**
-	 * Opens the reporting page
-	 * @param session
-	 * @return ModelAndView
-	 */	
-	@RequestMapping("/reporting.htm")
-	public ModelAndView reporting(HttpSession session) {
-		try {
-			checkInvalidSession(session);
-			ModelMap map = this.prepareModelMap(session);
-			int projectId = (int) session.getAttribute("currentProjectId");
-			Set<Sprint> sprints = sprintDAO.getSprintsFromProject(projectId);
-			Map<Sprint, JSONObject> chartData = new HashMap<Sprint, JSONObject>();
-			for(Sprint s:sprints) {
-				chartData.put(s, createChartData(s));
-			}
-			map.addAttribute("chartData", chartData);
-			map.addAttribute("action", Action.reporting);
-			return new ModelAndView("index", map);		
-		} catch(UserPersistenceException | InvalidSessionException e) {
-			return new ModelAndView("redirect:login.htm");
-		} catch(SprintPersistenceException | ProjectPersistenceException e) {
-			return new ModelAndView("redirect:projectOverview.htm");
-		}
-	}
+
 	/**
 	 * Opens the dashboard
 	 * @param session

@@ -64,6 +64,11 @@ public class TaskController extends MetaController {
 		binder.registerCustomEditor(Date.class, new DateBinder());
 	}	
 	
+	/**
+	 * Handles creation of the taskboard
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
 		ModelMap map = new ModelMap();
@@ -121,8 +126,10 @@ public class TaskController extends MetaController {
 	}
 
 	/**
-	 * Create new empty task in database
-	 * @return ModelAndView
+	 * Handles creation of a task for a specific userstory
+	 * @param id id of the specific userstory
+	 * @param session
+	 * @return
 	 */
 	@RequestMapping("/addTask.htm")
 	public ModelAndView createNewTask(@RequestParam int id, HttpSession session) {
@@ -166,6 +173,12 @@ public class TaskController extends MetaController {
 		}
 	}
 	
+	/**
+	 * Handles update of specific task
+	 * @param task id of the specific task
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/updateTask.htm")
 	public ModelAndView updateTask(Task task, HttpSession session) {
 		try {
@@ -191,7 +204,7 @@ public class TaskController extends MetaController {
 	
 	/**
 	 * Handles removing of tag from task
-	 * @param taskID id of the task
+	 * @param taskID id of specific the task
 	 * @param tag tag that shall be removed
 	 * @param session
 	 * @return
@@ -212,6 +225,31 @@ public class TaskController extends MetaController {
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}	
+	}
+	
+	/**
+	 * Handles deletion of a worklog from a specific task
+	 * @param taskID id of the specific task
+	 * @param logId id of the worklog
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/removeWorkLogFromTask.htm")
+	public ModelAndView removeWorkLogFromTask(@RequestParam int taskID, @RequestParam int logId, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			testRight(session, Right.Update_Task);
+			Task task = taskDAO.getTask(taskID);
+			task.deleteWorkLog(logId);
+			taskDAO.updateTask(task);
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		} catch (InvalidSessionException | UserPersistenceException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InsufficientRightsException e) {
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		}
 	}
 	
 	/**
@@ -318,7 +356,33 @@ public class TaskController extends MetaController {
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}	
-	}	
+	}
+	
+	/**
+	 * Handles the estimation of work time from a user on a specific task
+	 * @param taskID id of the specific task
+	 * @param estTime estimated time from user
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/setEstimatedTimeOfUser.htm")
+	public ModelAndView setEstimatedTimeOfUser(@RequestParam int taskID, @RequestParam int estTime, HttpSession session) {
+		try {
+			checkInvalidSession(session);
+			testRight(session, Right.Update_Task);
+			Task task = taskDAO.getTask(taskID);
+			User currentUser = loadActiveUser(session);
+			task.setPlannedTimeOfUser(currentUser, estTime);
+			taskDAO.updateTask(task);
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		} catch (InvalidSessionException | UserPersistenceException e) {
+			return new ModelAndView("redirect:login.htm");
+		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InsufficientRightsException e) {
+			return new ModelAndView("redirect:showTasks.htm#" + taskID);
+		}
+	}
 	
 	private void generateNotification(HttpSession session, ChangeEvent event, Task task) {
 		try {

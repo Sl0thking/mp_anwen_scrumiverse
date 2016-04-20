@@ -21,6 +21,14 @@
 	border-radius: 5px;	
 }
 
+#dashboard *[planstate=Planning] {
+	background-color: darkgrey;
+}
+
+#dashboard *[planstate=InProgress] {
+	background-color: orange;
+}
+
 #dashboard > .dashboard-element {
 	width: 100%;
 	background-color: #666666;
