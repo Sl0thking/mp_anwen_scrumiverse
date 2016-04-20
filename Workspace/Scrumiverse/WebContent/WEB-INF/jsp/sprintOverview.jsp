@@ -345,7 +345,6 @@
 					<div class="modal-header">
 						<div class="info-bar">
 							<span class="glyphicon glyphicon-cog"></span> SPRINT DETAIL
-							#${sprint.id}
 							<c:if test="${canDeleteSprint}">
 								<a class="dialog_action"
 									link="./deleteSprint.htm?id=${sprint.id}" data-toggle="tooltip"
