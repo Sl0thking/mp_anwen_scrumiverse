@@ -383,7 +383,12 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}
 	}
-	
+	/**
+	 * Generates a notification for given event at given task
+	 * @param HttpSession
+	 * @param ChangeEvent
+	 * @param Task
+	 */
 	private void generateNotification(HttpSession session, ChangeEvent event, Task task) {
 		try {
 			User user = this.loadActiveUser(session);
@@ -405,7 +410,12 @@ public class TaskController extends MetaController {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Checks if given task is in given sprint
+	 * @param Task
+	 * @param Sprint
+	 * @return
+	 */
 	public boolean isTaskInSprint(Task task, Sprint sprint){
 		boolean result = false;
 		if (sprint != null){

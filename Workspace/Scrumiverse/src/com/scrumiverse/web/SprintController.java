@@ -59,7 +59,8 @@ public class SprintController extends MetaController {
 	
 	/**
 	 * Adds a new Sprint 
-	 * @return
+	 * @param HttpSession
+	 * @return ModelAndView
 	 * @throws ProjectPersistenceException 
 	 */
 	@RequestMapping("/addSprint.htm") 
@@ -79,7 +80,12 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	
+	/**
+	 * Updates given Sprint
+	 * @param HttpSession
+	 * @param Sprint
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/updateSprint.htm")
 	public ModelAndView updateSprint(HttpSession session, Sprint sprint) {
 		try {
@@ -99,7 +105,12 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} 
 	}
-	
+	/**
+	 * Deletes given sprint by id
+	 * @param HttpSession
+	 * @param int
+	 * @return ModelAndView
+	 */
 	@RequestMapping("deleteSprint.htm")
 	public ModelAndView deleteSprint(HttpSession session, @RequestParam int id) {
 		try {
@@ -147,7 +158,14 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	
+	/**
+	 * Handles the addition and removal of multiple UserStories to given sprint by id
+	 * @param HttpSession
+	 * @param int
+	 * @param String (addedStories)
+	 * @param String (removedStories)
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/syncBacklogAndSprint.htm")
 	public ModelAndView synchronizeSprintAndBacklog(HttpSession session, @RequestParam int sprintid, @RequestParam String addedStories, @RequestParam String removedStories) {
 		try {
@@ -183,7 +201,13 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		} 
 	}
-	
+	/**
+	 * Removes given UserStory from given Sprint
+	 * @param UserStory
+	 * @param Sprint
+	 * @param User
+	 * @throws UserStoryPersistenceException
+	 */
 	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws UserStoryPersistenceException {
 		sprint.removeUserStory(userStory);
 		sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_REMOVED));

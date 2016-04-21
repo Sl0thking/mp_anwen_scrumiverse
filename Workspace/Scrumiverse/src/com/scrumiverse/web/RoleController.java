@@ -37,7 +37,11 @@ public class RoleController extends MetaController {
 	
 	@Autowired
 	ProjectDAO projectDAO;
-	
+	/**
+	 * Adds a role to the current project
+	 * @param HttpSession
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/addRole.htm")
 	public ModelAndView addRole(HttpSession session) {
 		try {
@@ -54,7 +58,12 @@ public class RoleController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
-	
+	/**
+	 * Updates given role in current project
+	 * @param HttpSession
+	 * @param Role
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/updateRole.htm")
 	public ModelAndView updateRole(HttpSession session, Role role) {
 		int projectId = 0;
@@ -76,7 +85,12 @@ public class RoleController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
 	}
-	
+	/**
+	 * Removes given role by id from the current project
+	 * @param HttpSession
+	 * @param int
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/removeRole.htm")
 	public ModelAndView removeRole(HttpSession session, @RequestParam int id) {
 		try {

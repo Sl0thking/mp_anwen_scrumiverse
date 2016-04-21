@@ -143,7 +143,12 @@ public class UserController extends MetaController{
 		map.addAttribute("user", formRegUser);
 		return new ModelAndView("index", map);
 	}
-	
+	/**
+	 * Checks whether chosen email from given user is still available
+	 * @param User
+	 * @return boolean
+	 * @throws UserPersistenceException
+	 */
 	private boolean checkEmailAvailability(User formRegUser) throws UserPersistenceException {
 		String lowerCaseEmail = formRegUser.getEmail().toLowerCase();
 		formRegUser.setEmail(lowerCaseEmail);
@@ -254,7 +259,13 @@ public class UserController extends MetaController{
 			return new ModelAndView("redirect:userSettings.htm");
 		}
 	}
-	
+	/**
+	 * Changes the avatar of the current user
+	 * @param HttpServletRequest
+	 * @param HttpSession
+	 * @param MultipartFile (image)
+	 * @return ModelAndView
+	 */
 	@RequestMapping(method=RequestMethod.POST, value="/changeUserPic")
 	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
 		try {

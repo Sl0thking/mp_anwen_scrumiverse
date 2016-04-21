@@ -141,7 +141,10 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
-	
+	/**
+	 * Adds the three standard roles of Scrum (Product Owner, Scrum Master, Member) to given project
+	 * @param Project
+	 */
 	private void prepareStdRoles(Project project) {
 		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
 		productOwner.setChangeable(false);
@@ -189,7 +192,7 @@ public class ProjectController extends MetaController {
 
 	
 	/**
-	 * select specific project and redirect to backlog
+	 * select specific project and redirect to its dashboard
 	 * @param id
 	 * @param session
 	 * @return ModelAndView
@@ -215,9 +218,11 @@ public class ProjectController extends MetaController {
 	}
 	
 	/**
-	 * Opens settings of selected project
-	 * @param project
-	 * @param session
+	 * Opens the settings of given project by id and recieve its roles and categories
+	 * @param int
+	 * @param RoleForm
+	 * @param CategoryForm
+	 * @param HttpSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/projectSettings.htm")
@@ -256,13 +261,13 @@ public class ProjectController extends MetaController {
 		}
 	}
 	
+	
 	/**
-	 * Add a user to a project and redirect to settings
-	 * @param project
-	 * @param user
+	 * Adds a user given by his email to the current project
+	 * @param HttpSession
+	 * @param String (email)
 	 * @return ModelAndView
 	 */
-	
 	@RequestMapping("/addUserToProject.htm")
 	public ModelAndView addUser(HttpSession session, @RequestParam String email) {
 		int projectId = 0;
@@ -270,6 +275,7 @@ public class ProjectController extends MetaController {
 		try {
 			checkInvalidSession(session);
 			Project currentProject = this.loadCurrentProject(session);
+			//check the rights of the user trying to complete the operation
 			hasUpdateRight = testRight(session, Right.Update_Project);
 			projectId = currentProject.getProjectID();
 			testRight(session, Right.Invite_To_Project);
@@ -291,13 +297,14 @@ public class ProjectController extends MetaController {
 		}
 	}
 	
+
+
 	/**
-	 * Remove a user from a project and redirect to settings
-	 * @param project
-	 * @param user
+	 * Removes an user given by id from the project
+	 * @param HttpSession
+	 * @param int
 	 * @return ModelAndView
 	 */
-	
 	@RequestMapping("/removeProjectUser.htm")
 	public ModelAndView removeProjectUser(HttpSession session, @RequestParam int id) {
 		int projectId = 0;
@@ -305,6 +312,7 @@ public class ProjectController extends MetaController {
 			checkInvalidSession(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
+			//Checks if user trying to complete the operation has right to remove other users
 			testRight(session, Right.Remove_From_Project);
 			User user = userDAO.getUser(id);
 			removeUserFromProject(user, project, false);
@@ -363,6 +371,7 @@ public class ProjectController extends MetaController {
 	 * Remove user from project and project from internal list in user
 	 * @param user
 	 * @param project
+	 * @param boolean
 	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException 
 	 */
@@ -374,9 +383,9 @@ public class ProjectController extends MetaController {
 	}
 	
 	/**
-	 * Rename a project and return to Settings
-	 * @param project
-	 * @param name
+	 * Updates a project with its current elements
+	 * @param Project
+	 * @param HttpSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/saveProject.htm")
@@ -475,7 +484,13 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
-	
+	/**
+	 * Change the avatar of current project
+	 * @param HttpServletRequest
+	 * @param HttpSession
+	 * @param MultipartFile (image)
+	 * @return ModelAndView
+	 */
 	@RequestMapping(method=RequestMethod.POST, value="/changeProjectPic")
 	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
 		int projectId = 0;
@@ -501,7 +516,7 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Generates the chart data of a sprint for the burndown chart
-	 * @param s
+	 * @param Sprint
 	 * @return JSONObject
 	 */
 	private JSONObject createChartData(Sprint s) {
