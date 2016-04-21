@@ -24,15 +24,25 @@
 		<title>Scrumiverse</title>
 		
 		<script type="text/javascript">
-		// handles the selection of the current page in the navigation
 		$(document).ready(function(){
+			// handles the selection of the current page in the navigation
 			var curPage = location.pathname.split("/")[location.pathname.split("/").length-1];
 			$('#menubar a[href="' + curPage + '"]').after('<div class="current-page"></div>');
 
 			// handles the toggles for messages
-			//$('#userbar div.list > div.message > div.message-text').click(function(){
-			//	$(this).toggleClass('open');
-			//});
+			$('#userbar div.list > div.message > div.message-text').click(function(){
+				$(this).toggleClass('open');
+			});
+			
+			// handles button disabled/enabled
+			$('#messagemodal .form-control').focusout(function(){
+				var recieversForm = $('#messagemodal .form-message-recievers').val();
+				var textForm = $('#messagemodal .form-message-text').val();
+				if (recieversForm != null && textForm != "")
+					$('#messagemodal button.btn-submit').prop('disabled', false);
+				else
+					$('#messagemodal button.btn-submit').prop('disabled', true);
+			});
 		});
 		</script>
 	</head>
@@ -44,10 +54,10 @@
 					<img alt="Scrumiverse" src="resources/images/index/scrumiverse_logo.png">
 					<div class="extra-menu">
 						<c:if test="${currentProject != null}">
-						<a class="extra-menuitem" href="dashboard.htm">
-							<span class="glyphicon glyphicon-th-large"></span>
-							DASHBOARD
-						</a>		
+							<a class="extra-menuitem" href="dashboard.htm">
+								<span class="glyphicon glyphicon-th-large"></span>
+								DASHBOARD
+							</a>		
 						</c:if>
 						<a class="extra-menuitem" href="projectOverview.htm">
 							<span class="glyphicon glyphicon-th-list"></span>
@@ -205,17 +215,17 @@
 										<div class="modal-body">
 											<div class="input-group"> 
 												<span class="input-group-addon">Recievers</span>
-												<form:select class="form-control input-control" path="recievers">
+												<form:select class="form-control input-control form-message-recievers" path="recievers">
 													<form:options itemLabel="name" itemValue="email" items="${potentialRecievers}" />
 												</form:select>
 											</div>
 											<div class="input-group">
 												<span class="input-group-addon">Message</span>
-												<form:textarea class="form-control" path="content" />
+												<form:textarea class="form-control form-message-text" path="content" />
 											</div>
 										</div>
 										<div class="modal-footer">
-											<button type="submit" class="btn btn-submit btn-default">
+											<button disabled type="submit" class="btn btn-submit btn-default">
 												<span class="glyphicon glyphicon-send"></span>
 												Send
 											</button>

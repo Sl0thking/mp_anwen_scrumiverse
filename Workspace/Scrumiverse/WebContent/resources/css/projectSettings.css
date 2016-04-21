@@ -224,6 +224,7 @@ button[disabled]:hover{
 #user-list .user-card > .user-content > .user-info > .user-email > span:nth-child(2) {
 	margin-left: 5px;
 	width: 157px;
+	word-wrap: break-word;
 }
 
 #user-list .user-card > .user-role > .input-group {

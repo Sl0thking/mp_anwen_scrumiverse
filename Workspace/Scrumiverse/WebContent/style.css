@@ -290,14 +290,15 @@ a{
 }
 
 #userbar div.list > div.list-object {
-	height: 25px;
+	height: auto;
 	line-height: 25px;
 	vertical-align: middle;
+	overflow: auto;
 }
 
 #userbar div.list > div.list-object > div {
 	float: left;
-	height: 100%;
+	height: 25px;
 }
 
 #userbar div.list > div.list-object .glyphicon {
@@ -345,6 +346,8 @@ a{
 	white-space: normal;
 	overflow: visible;
 	text-overflow: clip;
+	word-wrap: break-word;
+	height: auto;
 }
 
 #userbar div.list > div.message > div:nth-child(1) {
