@@ -50,11 +50,23 @@ public abstract class MetaController {
 	
 	private static final long MAX_SIZE_MB = 4;
 	
+	/**
+	 * Returns the currently logged in user in this session
+	 * @param HttpSession
+	 * @return User
+	 * @throws UserPersistenceException
+	 */
 	protected User loadActiveUser(HttpSession session) throws UserPersistenceException {
 		int userId = (int) session.getAttribute("userId");
 		return userDAO.getUser(userId);
 	}
 	
+	/**
+	 * Returns the currently loaded project in this session, if it exists
+	 * @param HttpSession
+	 * @return Project
+	 * @throws ProjectPersistenceException
+	 */
 	protected Project loadCurrentProject(HttpSession session) throws ProjectPersistenceException {
 		if(session.getAttribute("currentProjectId") != null) {
 			int projectId = (int) session.getAttribute("currentProjectId");
@@ -63,24 +75,45 @@ public abstract class MetaController {
 			return null;
 		}
 	}
-	
+	/**
+	 * Checks if the current Session is still valid
+	 * @param HttpSession
+	 * @throws InvalidSessionException
+	 */
 	protected void checkInvalidSession(HttpSession session) throws InvalidSessionException {
 		if(!isSessionValid(session)) {
 			throw new InvalidSessionException();
 		}
 	}
-	
+	/**
+	 * Checks if the current Session is valid
+	 * @param HttpSession
+	 * @throws SessionIsNotClearedException
+	 */
 	protected void checkValidSession(HttpSession session) throws SessionIsNotClearedException {
 		if(isSessionValid(session)) {
 			throw new SessionIsNotClearedException();
 		}
 	}
-	
+	/**
+	 * Returns whether the current session is still valid
+	 * @param session
+	 * @return boolean
+	 */
 	protected boolean isSessionValid(HttpSession session) {
 		return session.getAttribute("userId") != null 
 			&& session.getAttribute("isLogged") != null;
 	}
 	
+	/**
+	 * Checks whether the current user has the given fitting right for the current project
+	 * @param HttpSession
+	 * @param Right
+	 * @return boolean
+	 * @throws InsufficientRightsException
+	 * @throws ProjectPersistenceException
+	 * @throws UserPersistenceException
+	 */
 	protected boolean testRight(HttpSession session, Right right) throws InsufficientRightsException, ProjectPersistenceException, UserPersistenceException {
 		Project requestedProject = this.loadCurrentProject(session);
 		User currentUser = this.loadActiveUser(session);
@@ -94,14 +127,21 @@ public abstract class MetaController {
 		return true;
 	}
 	
+	/**
+	 * Prepares a standard Model Map from the session, containing the current user, his projects and his messages
+	 * @param HttpSession
+	 * @return ModelMap
+	 * @throws UserPersistenceException
+	 * @throws ProjectPersistenceException
+	 */
 	protected ModelMap prepareModelMap(HttpSession session) throws UserPersistenceException, ProjectPersistenceException {
-		// preperation of standard attributes
+		// preparation of standard attributes
 		ModelMap map = new ModelMap();
 		User currentUser = loadActiveUser(session);
 		Project currentProject = loadCurrentProject(session);
 		boolean isLogged = currentUser != null;
 		
-		// preperation of message system attributes
+		// preparation of message system attributes
 		Message message = new Message();
 		// add all potential message receivers
 		Set<Project> projects = currentUser.getProjects();
@@ -133,10 +173,20 @@ public abstract class MetaController {
 		map.addAttribute("action", Action.login);
 		return map;
 	}
-	
+	/**
+	 * Uploads a picture to the server
+	 * @param HttpServletRequest
+	 * @param MultipartFile (the picture)
+	 * @param String (serverPath)
+	 * @param int (elementID)
+	 * @throws InvalidContentTypeException
+	 * @throws IOException
+	 * @throws InvaldFileSizeException
+	 */
 	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException, InvaldFileSizeException {
 			checkContentType(file.getContentType());
 			checkFileSize(file.getSize());
+			// Assemble imagefile from several elements
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
 			File contextPath = new File(request.getServletContext().getRealPath(""));
 			File image = new File(contextPath + File.separator + serverPath + elementId + ending);
@@ -144,7 +194,11 @@ public abstract class MetaController {
 			image.createNewFile();
 			file.transferTo(image);
 	}
-	
+	/**
+	 * Checks if upload file size is greater than 4 Megabytes
+	 * @param long
+	 * @throws InvaldFileSizeException
+	 */
 	private void checkFileSize(long size) throws InvaldFileSizeException {
 		long sizeInMb = size / 1000000L;
 		System.out.println("SIZE IN MB: " + size);
@@ -152,7 +206,11 @@ public abstract class MetaController {
 			throw new InvaldFileSizeException();
 		}
 	}
-
+	/**
+	 * Checks if given content is a .png or .jpeg file
+	 * @param String (contentType)
+	 * @throws InvalidContentTypeException
+	 */
 	private void checkContentType(String contentType) throws InvalidContentTypeException {
 		if(!(contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
 			throw new InvalidContentTypeException();

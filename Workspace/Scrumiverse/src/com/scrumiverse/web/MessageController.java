@@ -42,9 +42,9 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Sends a Message to the recievers
-	 * @param message the message that shall be sent
-	 * @param session
-	 * @param request
+	 * @param Message
+	 * @param HttpSession
+	 * @param HttpServletRequest
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/sendMessage.htm")
@@ -53,11 +53,13 @@ public class MessageController extends MetaController {
 			checkInvalidSession(session);
 			message.setSender(loadActiveUser(session));
 			messageDAO.saveMessage(message);
+			// Updates each User that is a reciever of the message
 			Set<User> recievers = message.getRecievers();
 			for (User u: recievers) {
 				u.addMessage(message);
 				userDAO.updateUser(u);
 			}
+			//redirect to the page that was previously loaded after sending the message
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");			
 		} catch (InvalidSessionException | UserPersistenceException e) {
@@ -66,10 +68,10 @@ public class MessageController extends MetaController {
 	}
 	
 	/**
-	 * Marks a message as read/seen
-	 * @param id
-	 * @param session
-	 * @param request
+	 * Marks a message given by id as read/seen
+	 * @param int
+	 * @param HttpSession
+	 * @param HttpServletRequest
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/markAsRead.htm")
@@ -79,6 +81,7 @@ public class MessageController extends MetaController {
 			Message m = messageDAO.getMessage(id);
 			m.setSeen(true);
 			messageDAO.updateMessage(m);
+			//redirect to the page that was previously loaded after marking the message as read
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException e) {
@@ -88,8 +91,8 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Marks all messages of an user as read
-	 * @param session
-	 * @param request
+	 * @param HttpSession
+	 * @param HttpServletRequest
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/markAllAsRead.htm")
@@ -98,12 +101,14 @@ public class MessageController extends MetaController {
 			checkInvalidSession(session);
 			User currentUser = this.loadActiveUser(session);
 			Set<Message> messageList = currentUser.getMessages();
+			//set each message that isnt already marked as reas as read and update the message
 			for(Message m:messageList){
 				if(!m.isSeen()) {
 					m.setSeen(true);
 					messageDAO.updateMessage(m);
 				}
 			}
+			//redirect to the page that was previously loaded after marking all messages as read
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException | UserPersistenceException e) {
@@ -112,10 +117,10 @@ public class MessageController extends MetaController {
 	}
 	
 	/**
-	 * Deletes a Message
-	 * @param id
-	 * @param session
-	 * @param request
+	 * Deletes a Message given by id
+	 * @param int
+	 * @param HttpSession
+	 * @param HttpServletRequest
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/deleteMessage.htm")
@@ -131,7 +136,7 @@ public class MessageController extends MetaController {
 			message = messageDAO.getMessage(id);
 			if (wasLastRecieverInMessage(message))
 				messageDAO.deleteMessage(message);
-			
+			//redirect to the page that was previously loaded after deleting the message
 			String referer = request.getHeader("Referer");
 			return new ModelAndView("redirect:" + referer +"");
 		} catch (InvalidSessionException | UserPersistenceException e) {
@@ -141,9 +146,9 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Iterates over all recievers of the Message m, and checks if they
-	 * are still attached to the 
-	 * @param m The message that shall be checked
-	 * @return
+	 * are still attached to it
+	 * @param Message
+	 * @return boolean
 	 */
 	private boolean wasLastRecieverInMessage(Message m) {
 		boolean toReturn = true;

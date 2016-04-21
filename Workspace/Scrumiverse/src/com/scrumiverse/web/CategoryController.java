@@ -33,7 +33,11 @@ public class CategoryController extends MetaController {
 	
 	@Autowired
 	ProjectDAO projectDAO;
-	
+	/**
+	 * Adds a category to the current project
+	 * @param HttpSession
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/addCategory.htm")
 	public ModelAndView addCategory(HttpSession session) {
 		try {
@@ -51,6 +55,12 @@ public class CategoryController extends MetaController {
 		}
 	}
 	
+	/**
+	 * Updates given category in current project
+	 * @param HttpSession
+	 * @param Category
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/updateCategory.htm")
 	public ModelAndView updateCategory(HttpSession session, Category category) {
 		try {
@@ -64,7 +74,12 @@ public class CategoryController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
-	
+	/**
+	 * Removes category from project by given category id
+	 * @param HttpSession
+	 * @param int
+	 * @return ModelAndView
+	 */
 	@RequestMapping("/removeCategory.htm")
 	public ModelAndView removeCategory(HttpSession session, @RequestParam int id) {
 		try {
