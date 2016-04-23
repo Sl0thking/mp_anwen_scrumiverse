@@ -83,6 +83,7 @@ function activateButton(btnTab){
     <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
     <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
     <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
+	<c:if test="${param.error eq 5}"><div class="alert alert-danger alert-dismissible error" role="alert">user doesn't exist</div></c:if>
 </div>
 <%-- Userdialog of the projectsettings. Appears when an object would be removed for ever. --%>
 <div id="user-dialog">
