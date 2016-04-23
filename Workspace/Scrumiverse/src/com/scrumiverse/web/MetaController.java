@@ -184,15 +184,19 @@ public abstract class MetaController {
 	 * @throws InvaldFileSizeException
 	 */
 	protected void uploadPicture(HttpServletRequest request, MultipartFile file, String serverPath, int elementId) throws InvalidContentTypeException, IOException, InvaldFileSizeException {
-			checkContentType(file.getContentType());
-			checkFileSize(file.getSize());
-			// Assemble imagefile from several elements
-			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
-			File contextPath = new File(request.getServletContext().getRealPath(""));
-			File image = new File(contextPath + File.separator + serverPath + elementId + ending);
-			System.out.println(image.getAbsolutePath());
-			image.createNewFile();
-			file.transferTo(image);
+			if(file != null) {
+				checkContentType(file.getContentType());
+				checkFileSize(file.getSize());
+				// Assemble imagefile from several elements
+				String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+				File contextPath = new File(request.getServletContext().getRealPath(""));
+				File image = new File(contextPath + File.separator + serverPath + elementId + ending);
+				System.out.println(image.getAbsolutePath());
+				image.createNewFile();
+				file.transferTo(image);
+			} else {
+				throw new InvalidContentTypeException();
+			}
 	}
 	/**
 	 * Checks if upload file size is greater than 4 Megabytes
@@ -201,7 +205,7 @@ public abstract class MetaController {
 	 */
 	private void checkFileSize(long size) throws InvaldFileSizeException {
 		long sizeInMb = size / 1000000L;
-		System.out.println("SIZE IN MB: " + size);
+		System.out.println("SIZE IN MB: " + sizeInMb);
 		if(sizeInMb > MAX_SIZE_MB) {
 			throw new InvaldFileSizeException();
 		}

@@ -498,6 +498,9 @@ public class ProjectController extends MetaController {
 			checkInvalidSession(session);
 			Project project = this.loadCurrentProject(session);
 			projectId = project.getProjectID();
+			if(file.isEmpty()) {
+				throw new InvalidContentTypeException();
+			}
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
 			String serverPath = "resources" 
 					  		  + File.separator + "projectPictures" 

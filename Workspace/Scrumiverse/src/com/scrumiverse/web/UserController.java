@@ -270,6 +270,9 @@ public class UserController extends MetaController{
 	public ModelAndView changeUserPic(HttpServletRequest request, HttpSession session, @RequestParam("image") MultipartFile file) {
 		try {
 			checkInvalidSession(session);
+			if(file.isEmpty()) {
+				throw new InvalidContentTypeException();
+			}
 			User user = this.loadActiveUser(session);
 			String ending = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
 			String serverPath = "resources" 
