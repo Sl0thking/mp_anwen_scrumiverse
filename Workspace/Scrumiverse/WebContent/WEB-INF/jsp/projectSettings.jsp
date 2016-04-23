@@ -6,11 +6,10 @@
 <script src="resources/javascript/dialog.js"></script>
 <script type="text/javascript"> // projectSettings specific JavaScript/jQuery
 
-/* scans the hash of the url, needed for the active tab-pane */
-if($(location).attr('hash')==""){
-	var activeTab = "#detail-tab";	
-} else {
-	var activeTab = $(location).attr('hash');
+/* scans the url for the tab, needed for the active tab-pane */
+var activeTab = "#"+"${param.tab}";
+if(activeTab==="#"){
+	activeTab = "#detail-tab";
 }
 
 $(document).ready(function(){
@@ -31,10 +30,15 @@ $(document).ready(function(){
 	});
     $("a[role='tab']").click(function(){
         setActiveTab($(this).attr("href"));
-        $(location).attr('hash',$(this).attr("href"));
         activateButton(getActiveTab());
     });
 });
+
+function changeURL(value){
+	var params = $.param();
+	params["tab"] = value;
+	var url = "?"+$.param(params);
+}
 /* Returns activeTab*/
 function getActiveTab(){
     return activeTab;
@@ -47,9 +51,7 @@ function setActiveTab(newTab){
 
 /* Checks the activeTab-variable and selects the tab. */
 function activateTab(){
-	if(activeTab=="#detail-tab"){
-        $(location).attr('hash',activeTab);
-	} else{
+	if(activeTab!="#detail-tab"){
 	    $(".nav-tabs").children().each(function(){
 	        $(this).removeClass("active");
 	    });
@@ -75,12 +77,14 @@ function activateButton(btnTab){
     });
 }
 </script>
+<%-- Errorcontainer appears with in error if the url have the parameter error=X --%>
 <div class="error-container">
 	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
     <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
     <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
     <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
 </div>
+<%-- Userdialog of the projectsettings. Appears when an object would be removed for ever. --%>
 <div id="user-dialog">
     <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title">Delete Project</span></div>
     <div class="dialog-body">
@@ -89,6 +93,7 @@ function activateButton(btnTab){
         <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
     </div>
 </div>
+<%-- Projectsetting main page --%>
 <div id="settings">
 	<div id="settings-header">
 		<div class="site-title">
@@ -102,6 +107,7 @@ function activateButton(btnTab){
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</c:if>
+			<%-- Navbar tabs --%>
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a data-toggle="tab" role="tab" href="#detail-tab">
@@ -124,8 +130,12 @@ function activateButton(btnTab){
             </ul>
 		</div>
 	</div>
+	<%--Tabcontent with the 3 tabs --%>
 	<div class="tab-content">
+		<%--Detailtab with project settings(projectpicture, name, description and duedate)
+			and the members with their role --%> 
         <div id="detail-tab" class="tab-pane fade in active">
+        	<%-- Projectpicture form --%>
         	<form class="project-picture" method="POST" action="changeProjectPic.htm" enctype="multipart/form-data" >
         		<img src="${project.picPath}" width="150" height="150"/>
        			<div class="input-group">
@@ -133,7 +143,7 @@ function activateButton(btnTab){
        				<button class="btn btn-default" type="submit">Upload</button>
        			</div>
        		</form>
-        
+        	<%-- Projectdetails form --%>
 			<form:form action="saveProject.htm" commandName="project" acceptCharset="UTF-8">
 				<fieldset>
 					<div class="input-group">
@@ -159,6 +169,7 @@ function activateButton(btnTab){
 				<span class="glyphicon glyphicon-th-list"></span>
 				MEMBERLIST
 			</div>
+			<%-- Userlist of the project --%>
 			<div id="user-list">
 				<%-- Creates the usercard for each project-member --%>
 				<c:forEach items="${project.getProjectUsers()}" var="projectUser">
@@ -175,6 +186,7 @@ function activateButton(btnTab){
 									</a>
 								</c:if>
 							</div>
+							<%-- Details about the user --%>
 							<div class="user-content">
 								<div class="user-picture">
 									<img class="img-circle" alt="${projectUser.getUser().getName()}" src="${projectUser.user.profileImagePath}" />
@@ -187,6 +199,7 @@ function activateButton(btnTab){
 									</div>
 								</div>
 							</div>
+							<%-- Role of the user --%>
 							<div class="user-role" fid="${projectUser.id}">
 								<div class="input-group">
 									<span class="input-group-addon">Role</span>
@@ -203,6 +216,7 @@ function activateButton(btnTab){
 			</div>
 			<div id="settings-options"></div>
 		</div>
+		<%-- Roletab with the roles of the project--%>
 		<div id="role-tab" class="tab-pane fade in">
 			<%-- role selection --%>
         	<div class="input-group">
@@ -283,6 +297,7 @@ function activateButton(btnTab){
            	</form:form>
             <div id="settings-options"></div>
         </div>
+        <%-- Categorytab --%>
         <div id="category-tab" class="tab-pane fade in">
         	<%-- category selection --%>
              <div class="input-group">
@@ -351,6 +366,7 @@ function activateButton(btnTab){
      </div>
 	</div>
 </div>
+<%-- Buttoncontainer of the projectsettings. With Javascript the button are hidden when their tab isn't active --%>
 <div id="quick-button-container">
 	<c:if test="${inviteToProject}">
 		<div class="quick-button" tab="#detail-tab">

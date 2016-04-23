@@ -44,8 +44,7 @@
 
 	// attached the selcted(add/remove) userstory to the url
 	function moveUserstories() {
-		$(".addusbtn, #removebtn").click(
-				function() {
+		$(".addusbtn, #removebtn").click(function() {
 					var sprint = $(".openlog").attr("sprintid");
 					var backlogusids = [];
 					var sprintusids = [];
@@ -61,25 +60,21 @@
 							$(".addusbtn").attr("href") + urlchange);
 					$("#removebtn").attr("href",
 							$("#removebtn").attr("href") + urlchange);
-					//$.post("addToSprint.htm",change,deselectAll());
 				});
 	}
 
 	//Closes all Sprintlogs and deselect all Userstories.
 	//Set the needed classes to the Sprintlogs.
 	function toggleSprintlog() {
-		$(".sprint-dropdown").click(
-				function() {
+		$(".sprint-dropdown").click(function() {
 					if ($(this).hasClass("glyphicon-triangle-bottom")) {
 						closeAll();
-						$(this).removeClass("glyphicon-triangle-bottom")
-								.addClass("glyphicon-triangle-top");
+						$(this).removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
 						$(this).parents(".sprint").addClass("openlog");
 						deselectAll();
 					} else {
 						closeAll();
-						$(this).removeClass("glyphicon-triangle-top").addClass(
-								"glyphicon-triangle-bottom");
+						$(this).removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 						$(this).parents(".sprint").removeClass("openlog");
 						deselectAll();
 					}
@@ -124,13 +119,11 @@
 
 	// Close all Sprintlogs
 	function closeAll() {
-		$(".sprint").each(
-				function() {
-					$(this).removeClass("openlog");
-					$(".glyphicon-triangle-top").removeClass(
-							"glyphicon-triangle-top").addClass(
-							"glyphicon-triangle-bottom");
-				});
+		$(".sprint").each(function() {
+			$(this).removeClass("openlog");
+			$(".glyphicon-triangle-top").removeClass("glyphicon-triangle-top")
+												.addClass("glyphicon-triangle-bottom");
+		});
 	}
 
 	//Toggles the Addbtn
@@ -154,13 +147,13 @@
 </script>
 <div id="user-dialog">
 	<div class="dialog-header">
-		<span class="glyphicon glyphicon-alert"></span> <span
-			id="dialog-title"></span>
+		<span class="glyphicon glyphicon-alert"></span>
+		<span id="dialog-title"></span>
 	</div>
 	<div class="dialog-body">
 		<div class="dialog-text"></div>
-		<a id="dialog-hide" class="btn btn-danger">No</a> <a href="#"
-			id="dialog-delete" class="btn btn-success">Yes</a>
+		<a id="dialog-hide" class="btn btn-danger">No</a>
+		<a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
 	</div>
 </div>
 <%-- Creates the backlog on the left side of the sprintpage --%>
@@ -170,6 +163,8 @@
 	</div>
 	<div class="backlog">
 		<div class="backlog-header">Backlog</div>
+		<%-- Creation of the data-containers which list up the data-delta digital and with a horizontal bar
+			and contains the time, effort and value of all userstories in the backlog --%>
 		<div class="backlog-data">
 			<div class="data-container">
 				Time</br>
@@ -178,29 +173,30 @@
 				/
 				<fmt:formatNumber value="${project.getIceBoxPlannedTime()/60}"
 					maxFractionDigits="1" />
-				h
+				 h
 				<div class="progressbar">
 					<div class="progress"
-						style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%" /></div>
+						style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"></div>
 				</div>
 			</div>
 			<div class="data-container">
-				Effort</br> ${project.getIceBoxDoneEffort()} /
-				${project.getIceBoxEffort()}
+				Effort</br>
+				${project.getIceBoxDoneEffort()} / ${project.getIceBoxEffort()}
 				<div class="progressbar">
 					<div class="progress"
-						style="width:${project.getIceBoxDoneEffort() / project.getIceBoxEffort() * 100}%" /></div>
+						style="width:${project.getIceBoxDoneEffort() / project.getIceBoxEffort() * 100}%"></div>
 				</div>
 			</div>
 			<div class="data-container">
-				Value</br> ${project.getIceBoxDoneValue()} / ${project.getIceBoxValue()}
+				Value</br>
+				${project.getIceBoxDoneValue()} / ${project.getIceBoxValue()}
 				<div class="progressbar">
 					<div class="progress"
-						style="width:${project.getIceBoxDoneValue() / project.getIceBoxValue() * 100}%" /></div>
+						style="width:${project.getIceBoxDoneValue() / project.getIceBoxValue() * 100}%"></div>
 				</div>
 			</div>
 		</div>
-		<%-- content contains all userstory of the backlog --%>
+		<%-- content contains all userstories of the backlog --%>
 		<div class="content">
 			<c:forEach items="${project.getIceBox()}" var="userstory">
 				<div usid="${userstory.id }" class="userstory">
@@ -215,15 +211,16 @@
 						/
 						<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}"
 							maxFractionDigits="1" />
-						h</br> Effort: ${userstory.getEffortValue()}</br> Value:
-						${userstory.getBusinessValue()}
+						 h</br>
+						 Effort: ${userstory.getEffortValue()}</br> 
+						 Value: ${userstory.getBusinessValue()}
 					</div>
 				</div>
 			</c:forEach>
 		</div>
+		<%-- create or not create the button depending on the rights of the user --%>
 		<c:if test="${canUpdateSprint }">
-			<a class="addusbtn" href="./syncBacklogAndSprint.htm">Add to
-				Sprint</a>
+			<a class="addusbtn" href="./syncBacklogAndSprint.htm">Add to Sprint</a>
 		</c:if>
 	</div>
 </div>
@@ -232,7 +229,7 @@
 	<%-- Build the sprintpage with the sprints of the project --%>
 	<c:forEach items="${sprints}" var="sprint">
 		<div sprintid="${sprint.id}" class="sprint">
-			<div planstate="${sprint.planState.toString() }" class="sprint-state"></div>
+			<div class="sprint-state" planstate="${sprint.planState }" ></div>
 			<div class="sprint-content">
 				<div class="sprint-name">${sprint.description }</div>
 				<div class="sprint-stats">
@@ -264,10 +261,13 @@
 									maxFractionDigits="0" /> d</c:if>
 						</div>
 					</div>
+					<%-- Creation of the data-containers which list up the data-delta digital and with 
+						a horizontal bar and contains the time, effort and value of all userstories of
+						the sprint --%>
 					<div class="sprint-data">
 						<div class="data-container">
 							Userstories
-							<div class="count">${sprint.getFinishedUserStories() }/
+							<div class="count">${sprint.getFinishedUserStories() } /
 								${sprint.getUserStories().size()}</div>
 							<div class="progressbar">
 								<div class="progress"
@@ -278,11 +278,9 @@
 							Time
 							<div class="count">
 								<fmt:formatNumber value="${sprint.getWorkedMinutes() / 60 }"
-									maxFractionDigits="1" />
-								/
+									maxFractionDigits="1" /> /
 								<fmt:formatNumber value="${sprint.getPlannedMinutes() / 60}"
-									maxFractionDigits="1" />
-								h
+									maxFractionDigits="1" /> h
 							</div>
 							<div class="progressbar">
 								<div class="progress"
@@ -291,8 +289,7 @@
 						</div>
 						<div class="data-container">
 							Effort
-							<div class="count">${sprint.getCompletedEffort()}/
-								${sprint.getCombinedEffort() }</div>
+							<div class="count">${sprint.getCompletedEffort()} / ${sprint.getCombinedEffort() }</div>
 							<div class="progressbar">
 								<div class="progress"
 									style="width:${sprint.getCompletedEffort() / sprint.getCombinedEffort() * 100}%"></div>
@@ -300,8 +297,7 @@
 						</div>
 						<div class="data-container">
 							Value
-							<div class="count">${sprint.getCompletedBusinessValue()}/
-								${sprint.getCombinedBusinessValue() }</div>
+							<div class="count">${sprint.getCompletedBusinessValue()} / ${sprint.getCombinedBusinessValue()}</div>
 							<div class="progressbar">
 								<div class="progress"
 									style="width:${sprint.getCompletedBusinessValue() / sprint.getCombinedBusinessValue() * 100}%"></div>
@@ -310,7 +306,7 @@
 					</div>
 				</div>
 			</div>
-			<div planstate="${sprint.planState.toString() }" class="sprint-control">
+			<div class="sprint-control" planstate="${sprint.planState }">
 				<%-- set the link for the modal detailview of the sprint depending on the sprint id --%>
 				<a class="glyphicon glyphicon-triangle-right sprint-link" href="#"
 					data-toggle="modal" data-target=".modal-detail[sprintid='${sprint.id}']"></a> 
@@ -331,8 +327,9 @@
 							/
 							<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}"
 								maxFractionDigits="0" />
-							h</br> Effort: ${userstory.getEffortValue()}</br> Value:
-							${userstory.getBusinessValue()}
+							h</br>
+							Effort: ${userstory.getEffortValue()}</br>
+							Value: ${userstory.getBusinessValue()}
 						</div>
 					</div>
 				</c:forEach>
