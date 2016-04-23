@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import com.scrumiverse.model.account.User;
 /**
  * Datamodel of Worklogs
+ * 
  * @author Kevin Jolitz
  * @version 19.04.2016
  */
@@ -77,6 +78,11 @@ public class WorkLog implements Comparable<WorkLog> {
 
 	@Override
 	public int compareTo(WorkLog o) {
-		return this.getDate().compareTo(o.getDate());
+		int comp = this.getDate().compareTo(o.getDate());
+		if(comp == 0) {
+			return new Integer(logId).compareTo(o.getLogId());
+		} else {
+			return comp;
+		}
 	}
 }
