@@ -58,6 +58,7 @@ public class WorkLog implements Comparable<WorkLog> {
 		this.loggedMinutes = loggedMinutes;
 	}
 	
+	@Column(columnDefinition="TEXT")
 	public String getLogText() {
 		return logText;
 	}
