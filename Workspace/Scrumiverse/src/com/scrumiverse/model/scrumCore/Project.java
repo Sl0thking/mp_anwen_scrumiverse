@@ -349,6 +349,49 @@ public class Project {
 		this.userstories.remove(userStory);
 	}
 
+	public boolean isPartOfProject(PlanElement element) throws Exception {
+		if(element instanceof Sprint) {
+			return sprints.contains((Sprint) element);
+		} else if(element instanceof UserStory) {
+			boolean isInBacklog = userstories.contains((UserStory) element);
+			if(isInBacklog) {
+				return true;
+			} else {
+				for(Sprint sprint : sprints) {
+					if(sprint.getUserStories().contains((UserStory) element)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		} else if(element instanceof Task) {
+			for(UserStory userStory : userstories) {
+				if(userStory.getTasks().contains((Task) element)) {
+					return true;
+				}
+			}
+			for(Sprint sprint : sprints) {
+				for(UserStory userStory : sprint.getUserStories()) {
+					if(userStory.getTasks().contains((Task) element)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		} else {
+			throw new Exception();
+		}
+	}
+	
+	public boolean isPartOfProject(Category category) {
+		return categories.contains(category);
+	}
+	
+	public boolean isPartOfProject(Role role) {
+		return roles.contains(role);
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

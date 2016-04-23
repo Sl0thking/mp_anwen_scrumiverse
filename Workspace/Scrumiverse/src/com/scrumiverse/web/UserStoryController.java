@@ -21,6 +21,7 @@ import com.scrumiverse.binder.CategoryBinder;
 import com.scrumiverse.binder.DateBinder;
 import com.scrumiverse.binder.SprintBinder;
 import com.scrumiverse.binder.UserStoryBinder;
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
@@ -47,7 +48,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Controller for User Story interactions.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 17.03.16
+ * @version 23.04.16
  *
  */
 @Controller
@@ -223,6 +224,8 @@ public class UserStoryController extends MetaController {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
 			UserStory userStory = userStoryDAO.getUserStory(id);
+			testIsPartOfCurrentProject(session, userStory);
+			testRight(session, Right.Delete_UserStory);
 			Sprint sprint = userStory.getRelatedSprint();
 			if(sprint != null) {
 				sprint.addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
@@ -230,9 +233,11 @@ public class UserStoryController extends MetaController {
 			}
 			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
 			return new ModelAndView("redirect:backlog.htm");
-		}catch(UserStoryPersistenceException | UserPersistenceException e){
+		}catch(UserStoryPersistenceException | UserPersistenceException |ProjectPersistenceException e){
 			return new ModelAndView("redirect:backlog.htm");
-		}catch (InvalidSessionException e){
+		} catch(InsufficientRightsException | AccessViolationException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InvalidSessionException e){
 			return new ModelAndView("redirect:login.htm");
 		} 
 	}
@@ -249,12 +254,14 @@ public class UserStoryController extends MetaController {
 			checkInvalidSession(session);
 			ModelMap map = this.prepareModelMap(session);
 			UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
+			testIsPartOfCurrentProject(session, loadedUserStory);
+			testRight(session, Right.Read_UserStory);
 			map.addAttribute("detailUserStory", loadedUserStory);
 		} catch (UserStoryPersistenceException e) {
 			e.printStackTrace();
 		} catch (InvalidSessionException  | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException e) {
+		} catch (ProjectPersistenceException | InsufficientRightsException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 		return new ModelAndView("redirect:backlog.htm");

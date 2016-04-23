@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.DateBinder;
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
@@ -45,7 +46,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 /**
  * Controller for operations with task data model
  * @author Kevin Jolitz, Joshua Ward
- * @version 08.04.2016
+ * @version 23.04.2016
  */
 @Controller
 public class TaskController extends MetaController {
@@ -136,18 +137,23 @@ public class TaskController extends MetaController {
 		try{
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
+			UserStory userStory = userStoryDAO.getUserStory(id);
+			testIsPartOfCurrentProject(session, userStory);
+			testRight(session, Right.Create_Task);
 			Task task = new Task();
 			task.addHistoryEntry(ChangeEvent.TASK_CREATED, user);
 			taskDAO.saveTask(task);		
-			UserStory userStory = userStoryDAO.getUserStory(id);
 			userStory.addTask(task);
 			userStoryDAO.updateUserStory(userStory);
 			return new ModelAndView("redirect:showTasks.htm");
-		} catch (UserStoryPersistenceException | UserPersistenceException e){
+		} catch (UserStoryPersistenceException | UserPersistenceException 
+				 | ProjectPersistenceException | InsufficientRightsException e){
 			return new ModelAndView("redirect:showTasks.htm");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		}
+		} catch (AccessViolationException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} 
 	}
 	
 	/**
@@ -162,11 +168,12 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Delete_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			taskDAO.deleteTask(task);
 			return new ModelAndView("redirect:showTasks.htm");
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm");
@@ -215,16 +222,17 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			task.removeTag(tag);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
-		}	
+		} 
 	}
 	
 	/**
@@ -240,12 +248,13 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			task.deleteWorkLog(logId);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -265,6 +274,7 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			// split comma seperated list of tags
 			List<String> tagList = Arrays.asList(tags.split(","));
 			for (String tag : tagList) {
@@ -274,7 +284,7 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -294,19 +304,23 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			User user = userDAO.getUser(userID);
+			testIsPartOfCurrentProject(session, user);
 			task.addUser(user);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}	
 	}
 	
+
+
 	/**
 	 * Handles removal of user from task
 	 * @param taskID id of the task
@@ -320,13 +334,15 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			User user = userDAO.getUser(userID);
+			testIsPartOfCurrentProject(session, user);
 			task.removeUser(user);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -344,6 +360,7 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			User currentUser = loadActiveUser(session);
 			workLog.setUser(currentUser);
 			task.logWork(workLog);
@@ -351,7 +368,7 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
@@ -371,13 +388,14 @@ public class TaskController extends MetaController {
 			checkInvalidSession(session);
 			testRight(session, Right.Update_Task);
 			Task task = taskDAO.getTask(taskID);
+			testIsPartOfCurrentProject(session, task);
 			User currentUser = loadActiveUser(session);
 			task.setPlannedTimeOfUser(currentUser, estTime);
 			taskDAO.updateTask(task);
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		} catch (InvalidSessionException | UserPersistenceException e) {
 			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | TaskPersistenceException e) {
+		} catch (ProjectPersistenceException | TaskPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (InsufficientRightsException e) {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);

@@ -41,7 +41,7 @@ public class User {
 	private String email;
 	
 	@NotBlank(message="please enter a surname and name.")
-	@RegExp(value="^[\\w]{3,30}[ ]{1,}[\\w]{3,30}$",
+	@RegExp(value="^[\\p{L}]{3,30}[ ]{1,}[\\p{L}]{3,30}$",
 			message="split name and surname with whitespace.")
 	private String name;
 	

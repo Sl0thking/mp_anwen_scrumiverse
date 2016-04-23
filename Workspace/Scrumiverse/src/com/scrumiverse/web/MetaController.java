@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvaldFileSizeException;
 import com.scrumiverse.exception.InvalidSessionException;
@@ -20,9 +21,12 @@ import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.exception.SessionIsNotClearedException;
 import com.scrumiverse.model.account.Right;
+import com.scrumiverse.model.account.Role;
 import com.scrumiverse.model.account.User;
+import com.scrumiverse.model.scrumCore.PlanElement;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumCore.ProjectUser;
+import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.Message;
 import com.scrumiverse.model.scrumFeatures.Notification;
 import com.scrumiverse.persistence.DAO.NotificationDAO;
@@ -34,7 +38,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * on session data
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 17.04.2016
+ * @version 23.04.2016
  *
  */
 public abstract class MetaController {
@@ -106,7 +110,7 @@ public abstract class MetaController {
 	}
 	
 	/**
-	 * Checks whether the current user has the given fitting right for the current project
+	 * Tests whether the current user has the given fitting right for the current project
 	 * @param HttpSession
 	 * @param Right
 	 * @return boolean
@@ -125,6 +129,107 @@ public abstract class MetaController {
 			throw new InsufficientRightsException();
 		}
 		return true;
+	}
+	
+	private boolean testIfProjectNotNull(Project project) throws AccessViolationException {
+		if(project == null) {
+			throw new AccessViolationException();
+		}
+		return true;
+	}
+	
+	/**
+	 * Tests if scrum element is a part of current project. 
+	 * Prevents manipulating foreign elements of another project.
+	 * 
+	 * @param session
+	 * @param element
+	 * @return boolean
+	 * @throws InsufficientRightsException
+	 * @throws ProjectPersistenceException
+	 * @throws UserPersistenceException
+	 * @throws AccessViolationException 
+	 */
+	protected boolean testIsPartOfCurrentProject(HttpSession session, PlanElement element) throws ProjectPersistenceException, UserPersistenceException, AccessViolationException {
+		Project project = this.loadCurrentProject(session);
+		testIfProjectNotNull(project);
+		try {
+			boolean isPart = project.isPartOfProject(element);
+			if(!isPart) {
+				throw new AccessViolationException();
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Tests if scrum element is a part of current project. 
+	 * Prevents manipulating foreign elements of another project.
+	 * 
+	 * @param session
+	 * @param element
+	 * @return boolean
+	 * @throws InsufficientRightsException
+	 * @throws ProjectPersistenceException
+	 * @throws UserPersistenceException
+	 * @throws AccessViolationException 
+	 */
+	protected boolean testIsPartOfCurrentProject(HttpSession session, Category category) throws ProjectPersistenceException, UserPersistenceException, AccessViolationException {
+		Project project = this.loadCurrentProject(session);
+		testIfProjectNotNull(project);
+		boolean isPart = project.isPartOfProject(category);
+		if(!isPart) {
+			throw new AccessViolationException();
+		}
+		return true;
+	}
+	
+	/**
+	 * Tests if scrum element is a part of current project. 
+	 * Prevents manipulating foreign elements of another project.
+	 * 
+	 * @param session
+	 * @param element
+	 * @return boolean
+	 * @throws InsufficientRightsException
+	 * @throws ProjectPersistenceException
+	 * @throws UserPersistenceException
+	 * @throws AccessViolationException 
+	 */
+	protected boolean testIsPartOfCurrentProject(HttpSession session, Role role) throws ProjectPersistenceException, UserPersistenceException, AccessViolationException {
+		Project project = this.loadCurrentProject(session);
+		testIfProjectNotNull(project);
+		boolean isPart = project.isPartOfProject(role);
+		if(!isPart) {
+			throw new AccessViolationException();
+		}
+		return true;
+	}
+	
+	/**
+	 * Tests if scrum element is a part of current project. 
+	 * Prevents manipulating foreign elements of another project.
+	 * 
+	 * @param session
+	 * @param element
+	 * @return boolean
+	 * @throws InsufficientRightsException
+	 * @throws ProjectPersistenceException
+	 * @throws UserPersistenceException
+	 * @throws AccessViolationException 
+	 */
+	protected boolean testIsPartOfCurrentProject(HttpSession session, User user) throws ProjectPersistenceException, UserPersistenceException, AccessViolationException {
+		Project project = this.loadCurrentProject(session);
+		testIfProjectNotNull(project);
+		try {	
+			project.getProjectUserFromUser(user);
+			return true;
+		//user not a project member
+		} catch (UserPersistenceException e) {
+			throw new AccessViolationException();
+		}
 	}
 	
 	/**

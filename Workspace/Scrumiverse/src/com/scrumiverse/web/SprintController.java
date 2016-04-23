@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scrumiverse.binder.DateBinder;
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
@@ -37,7 +38,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 /**
  * Controller for Sprint interactions
  * @author Toni Serfling, Kevin Jolitz
- * @version 31.03.2016
+ * @version 23.04.2016
  */
 
 @Controller
@@ -115,8 +116,9 @@ public class SprintController extends MetaController {
 	public ModelAndView deleteSprint(HttpSession session, @RequestParam int id) {
 		try {
 			checkInvalidSession(session);
-			testRight(session, Right.Delete_Sprint);
 			Sprint sprint = sprintDAO.getSprint(id);
+			testIsPartOfCurrentProject(session, sprint);
+			testRight(session, Right.Delete_Sprint);
 			sprintDAO.deleteSprint(sprint);
 			return new ModelAndView("redirect:sprintOverview.htm");
 		} catch (InvalidSessionException e) {
@@ -124,6 +126,8 @@ public class SprintController extends MetaController {
 		} catch (SprintPersistenceException | ProjectPersistenceException |
 				 UserPersistenceException | InsufficientRightsException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
+		} catch (AccessViolationException  e) {
+			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
 
@@ -172,6 +176,8 @@ public class SprintController extends MetaController {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
 			Sprint choosenSprint = sprintDAO.getSprint(sprintid);
+			testIsPartOfCurrentProject(session, choosenSprint);
+			testRight(session, Right.Update_Sprint);
 			String[] addUserStoryIds = addedStories.split(",");
 			String[] removeUserStoryIds = removedStories.split(",");
 			//load all related user stories, add them to the sprint and remove them from the backlog
@@ -195,11 +201,13 @@ public class SprintController extends MetaController {
 				}
 			}
 			return new ModelAndView("redirect:sprintOverview.htm");		
-		} catch (UserStoryPersistenceException | SprintPersistenceException e) {
+		} catch (UserStoryPersistenceException | SprintPersistenceException | ProjectPersistenceException | InsufficientRightsException e) {
 			return new ModelAndView("redirect:sprintOverview.htm");
+		} catch (AccessViolationException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
 		} catch (UserPersistenceException | InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");
-		} 
+		}
 	}
 	/**
 	 * Removes given UserStory from given Sprint

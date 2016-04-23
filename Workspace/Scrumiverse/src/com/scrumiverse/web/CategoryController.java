@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.CategoryPersistenceException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
@@ -23,7 +24,7 @@ import com.scrumiverse.persistence.DAO.ProjectDAO;
  * Controller for category manipulation
  * 
  * @author Kevin Jolitz
- * @version 29.03.2016
+ * @version 23.04.2016
  */
 @Controller
 public class CategoryController extends MetaController {
@@ -33,6 +34,7 @@ public class CategoryController extends MetaController {
 	
 	@Autowired
 	ProjectDAO projectDAO;
+	
 	/**
 	 * Adds a category to the current project
 	 * @param HttpSession
@@ -74,6 +76,7 @@ public class CategoryController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
+	
 	/**
 	 * Removes category from project by given category id
 	 * @param HttpSession
@@ -84,14 +87,16 @@ public class CategoryController extends MetaController {
 	public ModelAndView removeCategory(HttpSession session, @RequestParam int id) {
 		try {
 			checkInvalidSession(session);
+			Category category = categoryDAO.getCategoryById(id);
+			testIsPartOfCurrentProject(session, category);
 			testRight(session, Right.Update_Project);
 			Project activeProject = this.loadCurrentProject(session);
 			int projectId = activeProject.getProjectID();
-			Category category = categoryDAO.getCategoryById(id);
 			activeProject.removeCategory(category);
 			projectDAO.updateProject(activeProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=category-tab");
-		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | CategoryPersistenceException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | 
+				 UserPersistenceException | CategoryPersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}

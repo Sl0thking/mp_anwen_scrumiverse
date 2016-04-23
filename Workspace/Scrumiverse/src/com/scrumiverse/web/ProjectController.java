@@ -59,7 +59,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * Controller for project interactions
  * 
  * @author Toni Serfling, Kevin Jolitz
- * @version 17.04.2016
+ * @version 23.04.2016
  *
  */
 
@@ -116,7 +116,6 @@ public class ProjectController extends MetaController {
 			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
-		
 	}
 
 	/**

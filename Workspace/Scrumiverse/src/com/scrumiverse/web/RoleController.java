@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
@@ -27,7 +28,7 @@ import com.scrumiverse.persistence.DAO.RoleDAO;
  * Controller for role manipulation
  * 
  * @author Kevin Jolitz
- * @version 04.04.2016
+ * @version 23.04.2016
  */
 @Controller
 public class RoleController extends MetaController {
@@ -95,10 +96,11 @@ public class RoleController extends MetaController {
 	public ModelAndView removeRole(HttpSession session, @RequestParam int id) {
 		try {
 			checkInvalidSession(session);
+			Role role = roleDAO.getRole(id);
+			testIsPartOfCurrentProject(session, role);
 			testRight(session, Right.Update_Project);
 			Project activeProject = this.loadCurrentProject(session);
 			int projectId = activeProject.getProjectID();
-			Role role = roleDAO.getRole(id);
 			int count = activeProject.getUsersWithRoleCount(role);
 			if(count == 0) {
 				activeProject.deleteRole(role);
@@ -107,8 +109,8 @@ public class RoleController extends MetaController {
 			} else {
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=role-tab");
 			}
-		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException | RolePersistenceException e) {
+		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException | RolePersistenceException | AccessViolationException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
-		} 
+		}
 	}
 }
