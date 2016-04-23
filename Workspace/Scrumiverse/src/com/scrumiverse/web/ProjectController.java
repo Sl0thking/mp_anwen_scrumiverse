@@ -286,7 +286,7 @@ public class ProjectController extends MetaController {
 			userDAO.updateUser(user);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (UserPersistenceException e) {
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=4");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=5");
 		} catch (ProjectPersistenceException | InsufficientRightsException e) {
 			if(hasUpdateRight) {
 				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
@@ -478,7 +478,6 @@ public class ProjectController extends MetaController {
 			projectDAO.updateProject(currentProject);
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId);
 		} catch (ProjectPersistenceException | RoleNotInProjectException | TriedToRemoveAdminException | UserPersistenceException e) {
-			e.printStackTrace();
 			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=2");
 		} catch (InvalidSessionException e) {
 			return new ModelAndView("redirect:login.htm");

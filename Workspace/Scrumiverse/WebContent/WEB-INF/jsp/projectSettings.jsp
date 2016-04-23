@@ -82,7 +82,7 @@ function activateButton(btnTab){
 	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
     <c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">can't remove last admin</div></c:if>
     <c:if test="${param.error eq 3}"><div class="alert alert-danger alert-dismissible error" role="alert">you should not shut yourself out</div></c:if>
-    <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
+    <c:if test="${param.error eq 4}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (empty, wrong format or bigger than 4MB)</div></c:if>
 	<c:if test="${param.error eq 5}"><div class="alert alert-danger alert-dismissible error" role="alert">user doesn't exist</div></c:if>
 </div>
 <%-- Userdialog of the projectsettings. Appears when an object would be removed for ever. --%>
@@ -222,7 +222,7 @@ function activateButton(btnTab){
 			<%-- role selection --%>
         	<div class="input-group">
                 <span class="input-group-addon">Role</span>
-                <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}#role-tab">
+                <form:form fid="roleSelect" commandName="roleForm" action="projectSettings.htm?id=${project.projectID}&tab=role-tab">
 		            <form:select fid="roleSelect" class="form-control" path="role">
 						<form:options  itemLabel="name" itemValue="roleID" items="${project.getRoles()}"/>
 					</form:select>
@@ -303,7 +303,7 @@ function activateButton(btnTab){
         	<%-- category selection --%>
              <div class="input-group">
                  <span class="input-group-addon">Category</span>
-                  <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}#category-tab">
+                  <form:form fid="categorySelect" commandName="categoryForm" action="projectSettings.htm?id=${project.projectID}&tab=category-tab">
                   	<form:select fid="categorySelect" class="form-control" path="category" disabled="${project.getCategories().size() < 1}">
 						<form:options itemLabel="name" items="${project.getCategories()}" itemValue="id"/>
 				    </form:select>

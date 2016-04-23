@@ -10,7 +10,7 @@ $(document).ready(function(){
 </script>
 <div class="error-container">
 	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
-	<c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (wrong format or bigger than 4MB)</div></c:if>
+	<c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (empty, wrong format or bigger than 4MB)</div></c:if>
 </div>
 <div id="accountpage">
     <div id="account-img">

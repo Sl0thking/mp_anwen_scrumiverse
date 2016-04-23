@@ -53,7 +53,7 @@ public class RoleController extends MetaController {
 			roleDAO.saveRole(role);
 			activeProject.addRole(role);
 			projectDAO.updateProject(activeProject);
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=role-tab");
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
@@ -78,9 +78,9 @@ public class RoleController extends MetaController {
 				throw new ShutOutException();
 			}
 			roleDAO.updateRole(role);
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=role-tab");
 		} catch (ShutOutException e) {
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=3" + "#role-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&error=3" + "&tab=role-tab");
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		} 
@@ -103,10 +103,9 @@ public class RoleController extends MetaController {
 			if(count == 0) {
 				activeProject.deleteRole(role);
 				projectDAO.updateProject(activeProject);
-				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
+				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=role-tab");
 			} else {
-				//show with error
-				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#role-tab");
+				return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=role-tab");
 			}
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | RoleNotInProjectException | NotChangeableRoleException | RolePersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");

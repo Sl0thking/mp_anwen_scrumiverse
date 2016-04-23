@@ -49,7 +49,7 @@ public class CategoryController extends MetaController {
 			categoryDAO.saveCategory(category);
 			activeProject.addCategory(category);
 			projectDAO.updateProject(activeProject);
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=category-tab");
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
@@ -69,7 +69,7 @@ public class CategoryController extends MetaController {
 			Project activeProject = this.loadCurrentProject(session);
 			int projectId = activeProject.getProjectID();
 			categoryDAO.updateCategory(category);
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=category-tab");
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
@@ -90,7 +90,7 @@ public class CategoryController extends MetaController {
 			Category category = categoryDAO.getCategoryById(id);
 			activeProject.removeCategory(category);
 			projectDAO.updateProject(activeProject);
-			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "#category-tab");
+			return new ModelAndView("redirect:projectSettings.htm?id=" + projectId + "&tab=category-tab");
 		} catch (ProjectPersistenceException | InvalidSessionException | InsufficientRightsException | UserPersistenceException | CategoryPersistenceException e) {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
