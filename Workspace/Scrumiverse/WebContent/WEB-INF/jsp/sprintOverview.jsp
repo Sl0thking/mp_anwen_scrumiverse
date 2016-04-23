@@ -145,6 +145,7 @@
 		}
 	}
 </script>
+<%-- Userdialog of the sprintoverview --%>
 <div id="user-dialog">
 	<div class="dialog-header">
 		<span class="glyphicon glyphicon-alert"></span>

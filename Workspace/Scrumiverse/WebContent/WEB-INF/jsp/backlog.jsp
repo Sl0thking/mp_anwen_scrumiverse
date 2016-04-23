@@ -15,8 +15,9 @@ $(document).ready(function(){
     	setView(getView(),"userstory");
     });
 });
+
+/* returns the cookie for the selected view. If null the cookie will be set to default*/
 function getView(){
-	console.log(document.cookie)
 	if(document.cookie==""){
 		document.cookie="usview=userstory"
 		return "userstory";
@@ -33,6 +34,7 @@ function setView(oldView, newView){
 	document.cookie="usview="+newView;
 }
 </script>
+<%-- Userdialog of the projectsettings. Appears when an object would be removed for ever. --%>
 <div id="user-dialog">
     <div class="dialog-header"><span class="glyphicon glyphicon-alert"></span> <span id="dialog-title"></span></div>
     <div class="dialog-body">
@@ -41,11 +43,14 @@ function setView(oldView, newView){
         <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
     </div>
 </div>
+<%-- Backlog main page --%>
 <div id="backlog">
+	<%-- Settings to set the view. Could be list or note view. --%>
 	<div class="backlog-settings">
 		<a href="#us" class="listview glyphicon glyphicon-align-justify"></a>
 		<a href="#note" class="cardview glyphicon glyphicon-th"></a>
 	</div>
+	<%-- Creation of the userstories --%>
 	<c:forEach items="${userstories}" var = "userstory">
 		<div class="userstory">
 			<div class="userstory-planstate" planstate="${userstory.planState}"></div>
@@ -56,6 +61,7 @@ function setView(oldView, newView){
 		        		<img class="user-img" alt="err" src="${user.getProfileImagePath()}" data-toggle="tooltip" title="${user.name }"></img>
 		        	</c:forEach>
 		        </div>
+		        <%-- Sets the sandclock depending to the remaining days --%>
 		        <div class="timebox">
 		        	<c:if test="${userstory.planState!='Done'}">
 		        		<c:choose>
@@ -76,6 +82,7 @@ function setView(oldView, newView){
 						</c:choose>
 					</div>
 				</div>
+				<%-- Overview of the timestats and the userstory-data --%>
 				<div class="userstory-stats">
 					<div class="userstory-timestats">
 						<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}"
@@ -99,8 +106,8 @@ function setView(oldView, newView){
 					data-target=".modal-detail[userstoryid='${userstory.id}']"></a>
 			</div>
 		</div>
-		<div class="modal-detail modal fade" userstoryid="${userstory.id}"
-			role="dialog">
+		<%-- Userstory detail view --%>
+		<div class="modal-detail modal fade" userstoryid="${userstory.id}" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -114,6 +121,7 @@ function setView(oldView, newView){
 								</a>
 							</c:if>
 						</div>
+						<%-- Navbar tabs --%>
 						<ul class="nav nav-tabs">
 							<li class="active"><a data-toggle="tab"
 								href=".modal-detail[userstoryid='${userstory.id}'] .section-detail">
@@ -126,7 +134,9 @@ function setView(oldView, newView){
 						</ul>
 					</div>
 					<div class="modal-body">
+						<%-- Tabcontent with the detailtab and historytab --%>
 						<div class="tab-content">
+							<%-- Detailtab with the details about the userstory --%>
 							<div class="section-detail tab-pane fade in active">
 								<div class="member-list">
 									<c:forEach items="${userstory.responsibleUsers}" var="user">
@@ -201,6 +211,7 @@ function setView(oldView, newView){
 									</button>
 									<form:hidden path="id"/>
 								</form:form>
+								<%-- List over all tasks of the userstory --%>
 								<div class="info-bar">Tasks</div>
 								<table class="detail-table">
 									<tr>
@@ -225,7 +236,7 @@ function setView(oldView, newView){
 											<td><fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" />h</td>
 											<td>
 												<c:if test="${canDeleteTask}">
-													<a class="dialog_acition" link="./deleteTask.htm?taskID=${task.id}"
+													<a class="dialog_action" link="./deleteTask.htm?taskID=${task.id}"
 														data-toggle="tooltip" title="Delete Task" msg="Do you really want to delete this task?">
 														<span class="glyphicon glyphicon-remove"></span>
 													</a>
@@ -248,6 +259,7 @@ function setView(oldView, newView){
 									</tr>
 								</table>
 							</div>
+							<%-- Historytab of the userstory --%>
 							<div class="modal-body history-tab section-history tab-pane fade in">
 								<c:forEach items="${userstory.getHistory()}" var="history">
 									<div class="history-item">
@@ -265,6 +277,7 @@ function setView(oldView, newView){
 		</div>
 	</c:forEach>
 </div>
+<%-- Quickbutton container of the Backlog --%>
 <div id="quick-button-container">
 	<c:if test="${canCreateUserStory}">
 		<a class="quick-button" href="./newUserStory.htm"> <span

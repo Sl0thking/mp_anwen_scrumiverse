@@ -64,12 +64,14 @@
 		});
 	});
 
+	// deselects all userstories
 	function deselectAll() {
 		$(".userstory").each(function() {
 			$(".selected").removeClass("selected");
 		});
 	}
 </script>
+<%-- Userdialog of the backlog --%>
 <div id="user-dialog">
 	<div class="dialog-header">
 		<span class="glyphicon glyphicon-alert"></span> 
@@ -77,9 +79,11 @@
 	</div>
 	<div class="dialog-body">
 		<div class="dialog-text"></div>
-		<a id="dialog-hide" class="btn btn-danger">No</a> <a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
+		<a id="dialog-hide" class="btn btn-danger">No</a>
+		<a href="#" id="dialog-delete" class="btn btn-success">Yes</a>
 	</div>
 </div>
+<%-- Taskboard main page --%>
 <div>
 	<table class="taskboard-heading">
 		<tr>
