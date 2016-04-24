@@ -22,7 +22,6 @@ import com.scrumiverse.enums.ChangeEvent;
 import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
-
 /**
  * Datamodel of Sprints
  * @author Toni Serfling, Lasse Jacobs, Kevin Jolitz
@@ -40,7 +39,7 @@ public class Sprint extends PlanElement {
 		startDate = new Date();
 		endDate = new Date();
 		setDescription("new Sprint");
-		setHistory(new TreeSet());
+		setHistory(new TreeSet<HistoryEntry>());
 		setPlanState(PlanState.Planning);
 		setAcceptanceCriteria("");
 	}
