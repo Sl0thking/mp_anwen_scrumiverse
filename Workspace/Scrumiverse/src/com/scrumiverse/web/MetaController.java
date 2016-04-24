@@ -57,8 +57,9 @@ public abstract class MetaController {
 	
 	/**
 	 * Returns the currently logged in user in this session
-	 * @param HttpSession
-	 * @return User
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @return current active user of this session
 	 * @throws UserPersistenceException
 	 */
 	protected User loadActiveUser(HttpSession session) throws UserPersistenceException {
@@ -68,8 +69,9 @@ public abstract class MetaController {
 	
 	/**
 	 * Returns the currently loaded project in this session, if it exists
-	 * @param HttpSession
-	 * @return Project
+	 * 
+	 * @param HttpSession current HTTPSession
+	 * @return current active project of this session
 	 * @throws ProjectPersistenceException
 	 */
 	protected Project loadCurrentProject(HttpSession session) throws ProjectPersistenceException {
@@ -82,7 +84,8 @@ public abstract class MetaController {
 	}
 	/**
 	 * Checks if the current Session is still valid
-	 * @param HttpSession
+	 * 
+	 * @param HttpSession Current HTTPSession
 	 * @throws InvalidSessionException
 	 */
 	protected void checkInvalidSession(HttpSession session) throws InvalidSessionException {
@@ -92,7 +95,8 @@ public abstract class MetaController {
 	}
 	/**
 	 * Checks if the current Session is valid
-	 * @param HttpSession
+	 * 
+	 * @param HttpSession Current HTTPSession
 	 * @throws SessionIsNotClearedException
 	 */
 	protected void checkValidSession(HttpSession session) throws SessionIsNotClearedException {
@@ -102,8 +106,9 @@ public abstract class MetaController {
 	}
 	/**
 	 * Returns whether the current session is still valid
-	 * @param session
-	 * @return boolean
+	 * 
+	 * @param session Current HTTPSession
+	 * @return is session valid
 	 */
 	protected boolean isSessionValid(HttpSession session) {
 		return session.getAttribute("userId") != null 
@@ -112,9 +117,10 @@ public abstract class MetaController {
 	
 	/**
 	 * Tests whether the current user has the given fitting right for the current project
-	 * @param HttpSession
-	 * @param Right
-	 * @return boolean
+	 * 
+	 * @param HttpSession Current HTTP
+	 * @param Right Right to check for current user
+	 * @return if user has right
 	 * @throws InsufficientRightsException
 	 * @throws ProjectPersistenceException
 	 * @throws UserPersistenceException
@@ -132,6 +138,13 @@ public abstract class MetaController {
 		return true;
 	}
 	
+	/**
+	 * Checks if a project is not null
+	 * 
+	 * @param project project to check
+	 * @return project is not null
+	 * @throws AccessViolationException
+	 */
 	private boolean testIfProjectNotNull(Project project) throws AccessViolationException {
 		if(project == null) {
 			throw new AccessViolationException();
@@ -143,9 +156,9 @@ public abstract class MetaController {
 	 * Tests if scrum element is a part of current project. 
 	 * Prevents manipulating foreign elements of another project.
 	 * 
-	 * @param session
-	 * @param element
-	 * @return boolean
+	 * @param session Current HTTPSession
+	 * @param element element to check
+	 * @return is element in current project
 	 * @throws InsufficientRightsException
 	 * @throws ProjectPersistenceException
 	 * @throws UserPersistenceException
@@ -166,12 +179,12 @@ public abstract class MetaController {
 	}
 	
 	/**
-	 * Tests if scrum element is a part of current project. 
+	 * Tests if category is a part of current project. 
 	 * Prevents manipulating foreign elements of another project.
 	 * 
-	 * @param session
-	 * @param element
-	 * @return boolean
+	 * @param session Current HTTPSession
+	 * @param category category to check
+	 * @return is element in current project
 	 * @throws InsufficientRightsException
 	 * @throws ProjectPersistenceException
 	 * @throws UserPersistenceException
@@ -188,12 +201,12 @@ public abstract class MetaController {
 	}
 	
 	/**
-	 * Tests if scrum element is a part of current project. 
+	 * Tests if role is a part of current project. 
 	 * Prevents manipulating foreign elements of another project.
 	 * 
-	 * @param session
-	 * @param element
-	 * @return boolean
+	 * @param session Current HTTPSession
+	 * @param role role to check
+	 * @return is element in current project
 	 * @throws InsufficientRightsException
 	 * @throws ProjectPersistenceException
 	 * @throws UserPersistenceException
@@ -210,12 +223,12 @@ public abstract class MetaController {
 	}
 	
 	/**
-	 * Tests if scrum element is a part of current project. 
+	 * Tests if user is a part of current project. 
 	 * Prevents manipulating foreign elements of another project.
 	 * 
-	 * @param session
-	 * @param element
-	 * @return boolean
+	 * @param session Current HTTPSession
+	 * @param user user to check
+	 * @return is element in current project
 	 * @throws InsufficientRightsException
 	 * @throws ProjectPersistenceException
 	 * @throws UserPersistenceException
@@ -235,7 +248,8 @@ public abstract class MetaController {
 	
 	/**
 	 * Prepares a standard Model Map from the session, containing the current user, his projects and his messages
-	 * @param HttpSession
+	 * 
+	 * @param HttpSession Current HTTPSession
 	 * @return ModelMap
 	 * @throws UserPersistenceException
 	 * @throws ProjectPersistenceException
@@ -279,12 +293,14 @@ public abstract class MetaController {
 		map.addAttribute("action", Action.login);
 		return map;
 	}
+	
 	/**
 	 * Uploads a picture to the server
-	 * @param HttpServletRequest
-	 * @param MultipartFile (the picture)
-	 * @param String (serverPath)
-	 * @param int (elementID)
+	 * 
+	 * @param HttpServletRequest Current HTTPRequest
+	 * @param MultipartFile the picture to upload
+	 * @param String the path to saved pictures
+	 * @param int id of user or project
 	 * @throws InvalidContentTypeException
 	 * @throws IOException
 	 * @throws InvaldFileSizeException
@@ -306,7 +322,8 @@ public abstract class MetaController {
 	}
 	/**
 	 * Checks if upload file size is greater than 4 Megabytes
-	 * @param long
+	 * 
+	 * @param long current size in bytes
 	 * @throws InvaldFileSizeException
 	 */
 	private void checkFileSize(long size) throws InvaldFileSizeException {
@@ -318,7 +335,8 @@ public abstract class MetaController {
 	}
 	/**
 	 * Checks if given content is a .png or .jpeg file
-	 * @param String (contentType)
+	 * 
+	 * @param String name of content type
 	 * @throws InvalidContentTypeException
 	 */
 	private void checkContentType(String contentType) throws InvalidContentTypeException {

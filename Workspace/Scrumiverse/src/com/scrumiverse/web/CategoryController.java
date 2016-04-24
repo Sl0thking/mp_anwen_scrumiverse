@@ -36,9 +36,10 @@ public class CategoryController extends MetaController {
 	ProjectDAO projectDAO;
 	
 	/**
-	 * Adds a category to the current project
-	 * @param HttpSession
-	 * @return ModelAndView
+	 * Adds a new category to the current project
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @return ModelAndView 
 	 */
 	@RequestMapping("/addCategory.htm")
 	public ModelAndView addCategory(HttpSession session) {
@@ -59,8 +60,9 @@ public class CategoryController extends MetaController {
 	
 	/**
 	 * Updates given category in current project
-	 * @param HttpSession
-	 * @param Category
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @param Category new category data 
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/updateCategory.htm")
@@ -79,8 +81,9 @@ public class CategoryController extends MetaController {
 	
 	/**
 	 * Removes category from project by given category id
-	 * @param HttpSession
-	 * @param int
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @param int id of category
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeCategory.htm")

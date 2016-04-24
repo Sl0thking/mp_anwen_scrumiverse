@@ -32,6 +32,7 @@ import com.scrumiverse.binder.UserBinder;
 import com.scrumiverse.enums.Action;
 import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.enums.Right;
+import com.scrumiverse.enums.StdRoleNames;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvaldFileSizeException;
 import com.scrumiverse.exception.InvalidSessionException;
@@ -63,7 +64,6 @@ import com.scrumiverse.persistence.DAO.UserDAO;
  * @version 23.04.2016
  *
  */
-
 @Controller
 public class ProjectController extends MetaController {
 	
@@ -92,7 +92,8 @@ public class ProjectController extends MetaController {
 
 	/**
 	 * Overview over all projects of current user
-	 * @param session
+	 * 
+	 * @param session Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/projectOverview.htm")
@@ -114,14 +115,14 @@ public class ProjectController extends MetaController {
 			map.addAttribute("action", Action.projectOverview);
 			return new ModelAndView("index", map);
 		} catch(InvalidSessionException | UserPersistenceException | ProjectPersistenceException e) {
-			e.printStackTrace();
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
 
 	/**
 	 * Add a project and redirect to Overview
-	 * @param session
+	 * 
+	 * @param session Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/addProject.htm")
@@ -141,9 +142,12 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	 }
+	
 	/**
-	 * Adds the three standard roles of Scrum (Product Owner, Scrum Master, Member) to given project
-	 * @param Project
+	 * Adds the three standard roles of Scrum 
+	 *(Product Owner, Scrum Master, Member) to given project
+	 *
+	 * @param Project project to add this three roles
 	 */
 	private void prepareStdRoles(Project project) {
 		Role productOwner = new Role(StdRoleNames.ProductOwner.name());
@@ -188,13 +192,11 @@ public class ProjectController extends MetaController {
 		project.addRole(scrumMaster);
 	}
 	
-
-
-	
 	/**
 	 * select specific project and redirect to its dashboard
-	 * @param id
-	 * @param session
+	 * 
+	 * @param id id of project
+	 * @param session Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/selectProject.htm")
@@ -219,10 +221,11 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Opens the settings of given project by id and recieve its roles and categories
-	 * @param int
-	 * @param RoleForm
-	 * @param CategoryForm
-	 * @param HttpSession
+	 * 
+	 * @param int id of project
+	 * @param RoleForm Given role form (for role selection) 
+	 * @param CategoryForm Given category form (for category selection) 
+	 * @param HttpSession Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/projectSettings.htm")
@@ -264,8 +267,9 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Adds a user given by his email to the current project
-	 * @param HttpSession
-	 * @param String (email)
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @param String email of user
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/addUserToProject.htm")
@@ -301,8 +305,9 @@ public class ProjectController extends MetaController {
 
 	/**
 	 * Removes an user given by id from the project
-	 * @param HttpSession
-	 * @param int
+	 * 
+	 * @param HttpSession Current HTTPSession
+	 * @param int id of user
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeProjectUser.htm")
@@ -331,10 +336,9 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Removes a project and return to Overview
-	 * @param project
+	 * 
+	 * @param project project to remove
 	 * @return ModelAndView
-	 * @throws  
-	 * @throws Exception 
 	 */
 	@RequestMapping("/removeProject.htm")
 	public ModelAndView removeProject(HttpSession session) {
@@ -369,9 +373,9 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Remove user from project and project from internal list in user
-	 * @param user
-	 * @param project
-	 * @param boolean
+	 * 
+	 * @param user user to remove from project
+	 * @param project project to remove a user
 	 * @throws UserPersistenceException
 	 * @throws TriedToRemoveAdminException 
 	 */
@@ -384,8 +388,9 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Updates a project with its current elements
-	 * @param Project
-	 * @param HttpSession
+	 * 
+	 * @param Project Save given project
+	 * @param HttpSession Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/saveProject.htm")
@@ -405,7 +410,8 @@ public class ProjectController extends MetaController {
 
 	/**
 	 * Opens the dashboard
-	 * @param session
+	 * 
+	 * @param session Current HTTPSession
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/dashboard.htm")
@@ -459,10 +465,12 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:projectOverview.htm");
 		}
 	}
+	
 	/**
 	 * Changes the user of a Project
-	 * @param session
-	 * @param pUser
+	 * 
+	 * @param session Current HTTPSession
+	 * @param pUser Current ProjectUser
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/changeProjectUser.htm")
@@ -483,11 +491,13 @@ public class ProjectController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
 	/**
-	 * Change the avatar of current project
-	 * @param HttpServletRequest
-	 * @param HttpSession
-	 * @param MultipartFile (image)
+	 * Change the picture of current project
+	 * 
+	 * @param HttpServletRequest Current HTTPRequest
+	 * @param HttpSession Current HTTPSession
+	 * @param MultipartFile picture for current project
 	 * @return ModelAndView
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/changeProjectPic")
@@ -518,7 +528,8 @@ public class ProjectController extends MetaController {
 	
 	/**
 	 * Generates the chart data of a sprint for the burndown chart
-	 * @param Sprint
+	 * 
+	 * @param Sprint create json objects for this sprint
 	 * @return JSONObject
 	 */
 	private JSONObject createChartData(Sprint s) {
