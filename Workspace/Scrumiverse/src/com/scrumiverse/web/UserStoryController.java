@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +48,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
  * Controller for User Story interactions.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 23.04.16
+ * @version 24.04.16
  *
  */
 @Controller
@@ -79,9 +78,10 @@ public class UserStoryController extends MetaController {
 	}
 	
 	/**
-	 * Create new empty UserStory in database
-	 * @return ModelAndView
-	 * @throws ProjectPersistenceException 
+	 * Creates a new userstory in database.
+	 * @param session The current session
+	 * @return 
+	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/newUserStory.htm")
 	public ModelAndView createNewUserStory(HttpSession session) throws ProjectPersistenceException{
@@ -104,10 +104,10 @@ public class UserStoryController extends MetaController {
 	}
 	
 	/**
-	 * Shows backlog site with all UserStories
-	 * @param session
-	 * @return ModelAndView
-	 * @throws ProjectPersistenceException 
+	 * 
+	 * @param session The current session
+	 * @return
+	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/backlog.htm")
 	public ModelAndView backlog(HttpSession session) throws ProjectPersistenceException{
@@ -142,13 +142,14 @@ public class UserStoryController extends MetaController {
 	}
 	
 	/**
-	 * Updates a UserStory in database
-	 * @param userStory
-	 * @return ModelAndView
-	 * @throws UserStoryPersistenceException 
+	 * Updates a given userstory in the database.
+	 * @param session the current session
+	 * @param userStory the updated userstory
+	 * @return
+	 * @throws UserStoryPersistenceException
 	 */
 	@RequestMapping("changeUserStory.htm")
-	public ModelAndView updateUserStory(HttpSession session, UserStory userStory, BindingResult result) throws UserStoryPersistenceException{
+	public ModelAndView updateUserStory(HttpSession session, UserStory userStory) throws UserStoryPersistenceException{
 		try {
 			checkInvalidSession(session);
 			User user = this.loadActiveUser(session);
@@ -165,6 +166,42 @@ public class UserStoryController extends MetaController {
 		}
 	}
 	
+	/**
+	 * Deletes a userstory with given id in database.
+	 * @param session The current session
+	 * @param id The id from the userstory that needs to be deleted
+	 * @return
+	 */
+	@RequestMapping("/removeUserStory.htm")
+	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {
+		try{
+			checkInvalidSession(session);
+			User user = this.loadActiveUser(session);
+			UserStory userStory = userStoryDAO.getUserStory(id);
+			testIsPartOfCurrentProject(session, userStory);
+			testRight(session, Right.Delete_UserStory);
+			Sprint sprint = userStory.getRelatedSprint();
+			if(sprint != null) {
+				sprint.addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
+				sprintDAO.updateSprint(sprint);
+			}
+			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
+			return new ModelAndView("redirect:backlog.htm");
+		}catch(UserStoryPersistenceException | UserPersistenceException |ProjectPersistenceException e){
+			return new ModelAndView("redirect:backlog.htm");
+		} catch(InsufficientRightsException | AccessViolationException e) {
+			return new ModelAndView("redirect:projectOverview.htm");
+		} catch (InvalidSessionException e){
+			return new ModelAndView("redirect:login.htm");
+		} 
+	}
+	
+	/**
+	 * Checks if a history entry has to be generated for the given sprint and userstory
+	 * @param oldUStory The old userstory
+	 * @param userStory The updated userstory
+	 * @param user The current logged in user
+	 */
 	private void checkSprintChangeEvents(UserStory oldUStory, UserStory userStory, User user) {
 		//Change from Backlog to Sprint (adding or removing)
 		if((oldUStory.getRelatedSprint() == null && userStory.getRelatedSprint() != null) ||
@@ -198,12 +235,22 @@ public class UserStoryController extends MetaController {
 		}
 	}
 	
+	/**
+	 * Generates a notification with given userstory and changeevent.
+	 * @param session The current session
+	 * @param event The event that specified the change
+	 * @param userstory The userstory that has been changed
+	 */
 	private void generateNotification(HttpSession session, ChangeEvent event, UserStory userstory) {
 		try {
 			User user = this.loadActiveUser(session);
 			Project project = this.loadCurrentProject(session);
+			// Loops through all users in project
 			for(User u: project.getAllUsers()){
+				// Checks if the user of the changeEvent isnt the current user u
+				// Checks if there is a relatedSprint in unserstory and whether this is the current one or not.
 				if(!u.equals(user) && project.getCurrentSprint() != null && userstory.getRelatedSprint() != null && project.getCurrentSprint().equals(userstory.getRelatedSprint())){
+					// Checks if the current user u has rights to be notified
 					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && userstory.getResponsibleUsers().contains(u))
 						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
 					){
@@ -218,53 +265,4 @@ public class UserStoryController extends MetaController {
 		}
 	}
 	
-
-	@RequestMapping("/removeUserStory.htm")
-	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {
-		try{
-			checkInvalidSession(session);
-			User user = this.loadActiveUser(session);
-			UserStory userStory = userStoryDAO.getUserStory(id);
-			testIsPartOfCurrentProject(session, userStory);
-			testRight(session, Right.Delete_UserStory);
-			Sprint sprint = userStory.getRelatedSprint();
-			if(sprint != null) {
-				sprint.addHistoryEntry(ChangeEvent.USER_STORY_REMOVED, user);
-				sprintDAO.updateSprint(sprint);
-			}
-			userStoryDAO.deleteUserStory(userStoryDAO.getUserStory(id));
-			return new ModelAndView("redirect:backlog.htm");
-		}catch(UserStoryPersistenceException | UserPersistenceException |ProjectPersistenceException e){
-			return new ModelAndView("redirect:backlog.htm");
-		} catch(InsufficientRightsException | AccessViolationException e) {
-			return new ModelAndView("redirect:projectOverview.htm");
-		} catch (InvalidSessionException e){
-			return new ModelAndView("redirect:login.htm");
-		} 
-	}
-	
-	/**
-	 * Show details for a UserStory
-	 * @param userStoryID id of the UserStory
-	 * @param session
-	 * @return ModelAndView
-	 */
-	@RequestMapping("/showUserStoryDetails.htm")
-	public ModelAndView showUserStoryDetails(@RequestParam int userStoryID, HttpSession session){
-		try {
-			checkInvalidSession(session);
-			ModelMap map = this.prepareModelMap(session);
-			UserStory loadedUserStory = userStoryDAO.getUserStory(userStoryID);
-			testIsPartOfCurrentProject(session, loadedUserStory);
-			testRight(session, Right.Read_UserStory);
-			map.addAttribute("detailUserStory", loadedUserStory);
-		} catch (UserStoryPersistenceException e) {
-			e.printStackTrace();
-		} catch (InvalidSessionException  | UserPersistenceException e) {
-			return new ModelAndView("redirect:login.htm");
-		} catch (ProjectPersistenceException | InsufficientRightsException | AccessViolationException e) {
-			return new ModelAndView("redirect:projectOverview.htm");
-		}
-		return new ModelAndView("redirect:backlog.htm");
-	}
 }
