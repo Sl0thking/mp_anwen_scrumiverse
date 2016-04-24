@@ -16,7 +16,7 @@ public class IndexController {
 	
 	/**
 	 * RequestMapping for the index page
-	 * 
+	 * @param session The current session
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/index.htm")

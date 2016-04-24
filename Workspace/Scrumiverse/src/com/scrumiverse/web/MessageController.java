@@ -47,7 +47,7 @@ public class MessageController extends MetaController {
 	 * @param Message the message to be sent
 	 * @param HttpSession the current session
 	 * @param HttpServletRequest a HttpServletRequest
-	 * @return 
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/sendMessage.htm")
 	public ModelAndView sendMessage(Message message, HttpSession session, HttpServletRequest request) {
@@ -74,7 +74,7 @@ public class MessageController extends MetaController {
 	 * @param int a requested message id
 	 * @param HttpSession the current session
 	 * @param HttpServletRequest a HttpServletRequest
-	 * @return 
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/markAsRead.htm")
 	public ModelAndView markMessageAsRead(@RequestParam int id, HttpSession session, HttpServletRequest request) {
@@ -95,7 +95,7 @@ public class MessageController extends MetaController {
 	 * Marks all messages of an user as read
 	 * @param HttpSession the current session
 	 * @param HttpServletRequest a HttpServletRequest
-	 * @return 
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/markAllAsRead.htm")
 	public ModelAndView markAllAsRead(HttpSession session, HttpServletRequest request) {
@@ -123,7 +123,7 @@ public class MessageController extends MetaController {
 	 * @param int a requested message id
 	 * @param HttpSession the current session
 	 * @param HttpServletRequest a HttpServletRequest
-	 * @return
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/deleteMessage.htm")
 	public ModelAndView deleteMessage(@RequestParam int id, HttpSession session, HttpServletRequest request) {

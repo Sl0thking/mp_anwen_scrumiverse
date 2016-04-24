@@ -80,7 +80,7 @@ public class UserStoryController extends MetaController {
 	/**
 	 * Creates a new userstory in database.
 	 * @param session The current session
-	 * @return 
+	 * @return ModelAndView
 	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/newUserStory.htm")
@@ -106,7 +106,7 @@ public class UserStoryController extends MetaController {
 	/**
 	 * 
 	 * @param session The current session
-	 * @return
+	 * @return ModelAndView
 	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/backlog.htm")
@@ -134,7 +134,7 @@ public class UserStoryController extends MetaController {
 			map.addAttribute("canUpdateSprint", project.getProjectUserFromUser(user).getRole().hasRight(Right.Update_Sprint));
 			return new ModelAndView("index", map);
 		} catch (InvalidSessionException | UserPersistenceException e) {
-			return new ModelAndView("redirect:login.html");
+			return new ModelAndView("redirect:login.htm");
 		} catch (InsufficientRightsException e) {
 			map.addAttribute("action", Action.backlog);
 			return new ModelAndView("index", map);
@@ -143,9 +143,9 @@ public class UserStoryController extends MetaController {
 	
 	/**
 	 * Updates a given userstory in the database.
-	 * @param session the current session
-	 * @param userStory the updated userstory
-	 * @return
+	 * @param session The current session
+	 * @param userStory The updated userstory
+	 * @return ModelAndView
 	 * @throws UserStoryPersistenceException
 	 */
 	@RequestMapping("changeUserStory.htm")
@@ -170,7 +170,7 @@ public class UserStoryController extends MetaController {
 	 * Deletes a userstory with given id in database.
 	 * @param session The current session
 	 * @param id The id from the userstory that needs to be deleted
-	 * @return
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeUserStory.htm")
 	public ModelAndView removeUserStory(HttpSession session, @RequestParam int id) {

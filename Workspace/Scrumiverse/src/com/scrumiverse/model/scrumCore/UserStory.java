@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
 import java.util.List;
-import java.util.Random;
 import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
@@ -31,7 +30,7 @@ import com.scrumiverse.model.scrumFeatures.WorkLog;
  * User Story Model for Scrum Projects.
  * 
  * @author Lasse Jacobs, Kevin Jolitz
- * @version 04.04.16
+ * @version 24.04.16
  *
  */
 @Entity
@@ -45,6 +44,9 @@ public class UserStory extends PlanElement {
 	private Sprint relatedSprint;
 	private int risk;
 	
+	/**
+	 * Constructor to set default values.
+	 */
 	public UserStory(){
 		businessValue = 0;
 		effortValue = 0;
@@ -56,53 +58,8 @@ public class UserStory extends PlanElement {
 		setPlanState(PlanState.Planning);
 		setAcceptanceCriteria("");
 		setHistory(new TreeSet<HistoryEntry>());
-//		generateRandomValues();
 	}
 	
-	/**
-	 * Pls delete this
-	 */
-	public void generateRandomValues(){
-		Random rand = new Random();
-		//((max - min) + 1) + min
-		businessValue = rand.nextInt((100 - 0) + 1) + 0;
-		effortValue = rand.nextInt((100 - 0) + 1) + 0;
-		setRisk(rand.nextInt((100 - 0) + 1) + 0);
-		switch(rand.nextInt((3 - 0) + 1) + 0){
-		case 0:
-			moscow = MoscowState.Could;
-			break;
-		case 1:
-			moscow = MoscowState.Should;
-			break;
-		case 2:
-			moscow = MoscowState.Must;
-			break;
-			
-		default:
-			moscow = MoscowState.Wont;
-		}
-		tasks = new TreeSet<Task>();
-		dueDate = new Date();
-		dueDate.setTime(dueDate.getTime() + (rand.nextInt((20 - 0) + 1)*(1000*60*60*24)));
-		//planelement
-		int descint = +rand.nextInt((100 - 0) + 1);
-		String descstr = descint < 10 ? "00"+descint : descint < 100 ? "0"+descint : ""+descint;
-		setDescription("[US"+descstr+"] Killing Humanity");
-		switch(rand.nextInt((2 - 0) + 1) + 0){
-		case 0:
-			setPlanState(PlanState.Planning);
-			break;
-		case 1:
-			setPlanState(PlanState.Done);
-			break;
-		default:
-			setPlanState(PlanState.InProgress);
-		}
-		setAcceptanceCriteria("Everyone dead");
-		//history
-	}
-
 	public int getBusinessValue() {
 		return businessValue;
 	}
@@ -164,8 +121,8 @@ public class UserStory extends PlanElement {
 		this.relatedSprint = relatedSprint;
 	}
 	/**
-	 * Returns Users working on Tasks in this UserStory
-	 * @return List Users from this UserStory
+	 * Returns Users working on Tasks in this UserStory.
+	 * @return Users from this UserStory
 	 */
 	@Transient
 	public List<User> getResponsibleUsers(){
@@ -180,7 +137,7 @@ public class UserStory extends PlanElement {
 		return userlist;
 	}
 	/**
-	 * Returns all planned minutes from tasks in this UserStory
+	 * Returns all planned minutes from tasks in this UserStory.
 	 * @return Number of planned minutes
 	 */
 	@Transient
@@ -194,7 +151,7 @@ public class UserStory extends PlanElement {
 		return result;
 	}
 	/**
-	 * Returns all remaining minutes from tasks in this UserStory
+	 * Returns all remaining minutes from tasks in this UserStory.
 	 * @return Number of remaining minutes
 	 */
 	@Transient
@@ -211,7 +168,7 @@ public class UserStory extends PlanElement {
 		return result;
 	}
 	/**
-	 * Returns all logged minutes of work from tasks in this UserStory
+	 * Returns all logged minutes of work from tasks in this UserStory.
 	 * @return Number of worked minutes
 	 */
 	@Transient
@@ -236,39 +193,37 @@ public class UserStory extends PlanElement {
 	 * Returns a list of work logs from all tasks in this UserStory
 	 * @return List of work logs sorted by time
 	 */
-	// needs sorting
 	@Transient
 	public List<WorkLog> getWorkLogs(){
 		List<WorkLog> result = new ArrayList<WorkLog>();
 		for(Task task: tasks){
 			for(WorkLog work: task.getWorkLogs()){
-
 				result.add(work);
 			}
 		}
 		return (List<WorkLog>) result;
 	}
 	/**
-	 * Returns remaining days until due date
-	 * @return int
+	 * Returns remaining days until due date.
+	 * @return Number of days
 	 */
 	@Transient
 	public int getRemainingDays(){
 		Date today = new Date();
 		int result = 0;
-		//Nullpinter abfangen
 		try{
 			result = (int) (dueDate.getTime()/(1000*60*60*24)+1 - today.getTime()/(1000*60*60*24));
 			if(result<=0){
 				result=0;
 			}
 		}catch (NullPointerException e){
+			return 0;
 		}
 		return result;
 	}
 	/**
 	 * Returns the due date in the yyyy-MM-dd format
-	 * @return String
+	 * @return formatted String of dueDate
 	 */
 	@Transient
 	public String getFormattedDueDate(){
