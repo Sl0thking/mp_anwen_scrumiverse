@@ -61,6 +61,7 @@ public class SprintController extends MetaController {
 	
 	/**
 	 * Adds a new Sprint 
+	 * 
 	 * @param HttpSession
 	 * @return ModelAndView
 	 * @throws ProjectPersistenceException 
@@ -84,6 +85,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Updates given Sprint
+	 * 
 	 * @param HttpSession
 	 * @param Sprint
 	 * @return ModelAndView
@@ -109,6 +111,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Deletes given sprint by id
+	 * 
 	 * @param HttpSession
 	 * @param int
 	 * @return ModelAndView
@@ -134,6 +137,7 @@ public class SprintController extends MetaController {
 
 	/**
 	 * Shows all sprints
+	 * 
 	 * @param session
 	 * @return ModelAndView
 	 * @throws ProjectPersistenceException
@@ -212,6 +216,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Removes given UserStory from given Sprint
+	 * 
 	 * @param UserStory
 	 * @param Sprint
 	 * @param User

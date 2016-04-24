@@ -23,6 +23,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
  * Controller for User-Message interactions
+ * 
  * @author Toni Serfling, Joshua Ward
  * @version 19.04.2016
  */
@@ -42,6 +43,7 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Sends a Message to the recievers
+	 * 
 	 * @param Message
 	 * @param HttpSession
 	 * @param HttpServletRequest

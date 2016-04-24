@@ -1,4 +1,4 @@
-package com.scrumiverse.web;
+package com.scrumiverse.enums;
 /**
  * Enum of Standard Scrum Role names
  * @author Kevin Jolitz

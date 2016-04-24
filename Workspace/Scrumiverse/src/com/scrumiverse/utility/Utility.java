@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
-
 /**
  * Utility collection.
  * 
@@ -16,6 +15,7 @@ public class Utility {
 	
 	/**
 	 * Returns a md5 hash of a given string
+	 * 
 	 * @param string source string
 	 * @return hashed string
 	 * @throws NoSuchAlgorithmException

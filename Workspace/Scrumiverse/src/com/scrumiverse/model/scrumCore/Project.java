@@ -25,12 +25,12 @@ import org.hibernate.annotations.SortType;
 import com.scrumiverse.exception.UserPersistenceException;
 import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.enums.Right;
+import com.scrumiverse.enums.StdRoleNames;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
 import com.scrumiverse.model.account.*;
 import com.scrumiverse.model.scrumFeatures.Category;
-import com.scrumiverse.web.StdRoleNames;
 
 import javax.persistence.JoinColumn;
 
