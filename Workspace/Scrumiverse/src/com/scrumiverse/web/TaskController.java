@@ -47,7 +47,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 /**
  * Controller for operations with task data model
  * @author Kevin Jolitz, Joshua Ward
- * @version 23.04.2016
+ * @version 24.04.2016
  */
 @Controller
 public class TaskController extends MetaController {
@@ -68,8 +68,8 @@ public class TaskController extends MetaController {
 	
 	/**
 	 * Handles creation of the taskboard
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/showTasks.htm")
 	public ModelAndView showTasks(HttpSession session) {
@@ -130,8 +130,8 @@ public class TaskController extends MetaController {
 	/**
 	 * Handles creation of a task for a specific userstory
 	 * @param id id of the specific userstory
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/addTask.htm")
 	public ModelAndView createNewTask(@RequestParam int id, HttpSession session) {
@@ -160,7 +160,7 @@ public class TaskController extends MetaController {
 	/**
 	 * Handles deletion of specific task
 	 * @param taskID id of specific task
-	 * @param session
+	 * @param session the current session
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/deleteTask.htm")
@@ -184,8 +184,8 @@ public class TaskController extends MetaController {
 	/**
 	 * Handles update of specific task
 	 * @param task id of the specific task
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/updateTask.htm")
 	public ModelAndView updateTask(Task task, HttpSession session) {
@@ -214,8 +214,8 @@ public class TaskController extends MetaController {
 	 * Handles removing of tag from task
 	 * @param taskID id of specific the task
 	 * @param tag tag that shall be removed
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeTagFromTask.htm")
 	public ModelAndView removeTagFromTask(@RequestParam int taskID, @RequestParam String tag, HttpSession session) {
@@ -240,8 +240,8 @@ public class TaskController extends MetaController {
 	 * Handles deletion of a worklog from a specific task
 	 * @param taskID id of the specific task
 	 * @param logId id of the worklog
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeWorkLogFromTask.htm")
 	public ModelAndView removeWorkLogFromTask(@RequestParam int taskID, @RequestParam int logId, HttpSession session) {
@@ -266,8 +266,8 @@ public class TaskController extends MetaController {
 	 * Handles adding of tags to task
 	 * @param taskID id of the task
 	 * @param tags tags that shall be added
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/addTagsToTask.htm")
 	public ModelAndView addTagsToTask(@RequestParam int taskID, @RequestParam String tags, HttpSession session) {
@@ -296,8 +296,8 @@ public class TaskController extends MetaController {
 	 * Handles adding of user to task
 	 * @param taskID id of the task
 	 * @param userID id of the user that shall be added
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/addUserToTask")
 	public ModelAndView addUserToTask(@RequestParam int taskID, @RequestParam int userID, HttpSession session) {
@@ -326,8 +326,8 @@ public class TaskController extends MetaController {
 	 * Handles removal of user from task
 	 * @param taskID id of the task
 	 * @param userID id of the user that shall be removed
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/removeUserFromTask")
 	public ModelAndView removeUserFromTask(@RequestParam int taskID, @RequestParam int userID, HttpSession session) {
@@ -353,7 +353,7 @@ public class TaskController extends MetaController {
 	/**
 	 * Handles logging of work from a user
 	 * @param workLog work that shall be logged
-	 * @param session
+	 * @param session the current session
 	 */
 	@RequestMapping("/logWork.htm")
 	public ModelAndView logWork(@RequestParam int taskID, WorkLog workLog, HttpSession session) {
@@ -380,8 +380,8 @@ public class TaskController extends MetaController {
 	 * Handles the estimation of work time from a user on a specific task
 	 * @param taskID id of the specific task
 	 * @param estTime estimated time from user
-	 * @param session
-	 * @return
+	 * @param session the current session
+	 * @return ModelAndView
 	 */
 	@RequestMapping("/setEstimatedTimeOfUser.htm")
 	public ModelAndView setEstimatedTimeOfUser(@RequestParam int taskID, @RequestParam int estTime, HttpSession session) {
@@ -402,11 +402,12 @@ public class TaskController extends MetaController {
 			return new ModelAndView("redirect:showTasks.htm#" + taskID);
 		}
 	}
+	
 	/**
 	 * Generates a notification for given event at given task
-	 * @param HttpSession
-	 * @param ChangeEvent
-	 * @param Task
+	 * @param session the current session
+	 * @param event event that represents what change has been done
+	 * @param task the task that has been changed
 	 */
 	private void generateNotification(HttpSession session, ChangeEvent event, Task task) {
 		try {
@@ -415,10 +416,9 @@ public class TaskController extends MetaController {
 			Task oldTask = taskDAO.getTask(task.getId());
 			for(User u: project.getAllUsers()){
 				if(!u.equals(user) && isTaskInSprint(task, project.getCurrentSprint())){
-					if(		(project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && task.getResponsibleUsers().contains(u))
-						||	(project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u))
-						|| 	(project.hasUserRight(Right.Notify_PlannedMin_for_Current_Sprint, u) && task.getPlannedMin() != oldTask.getPlannedMin())
-					){
+					if((project.hasUserRight(Right.Notify_Your_UserStory_Task, u) && task.getResponsibleUsers().contains(u)) 
+					|| (project.hasUserRight(Right.Notify_UserStory_Task_for_Current_Sprint, u)) 
+					|| (project.hasUserRight(Right.Notify_PlannedMin_for_Current_Sprint, u) && task.getPlannedMin() != oldTask.getPlannedMin())){
 						Notification notify = new Notification(user, u, event, task);
 						notificationDAO.saveNotification(notify);
 						u.addNotification(notify);
@@ -429,11 +429,12 @@ public class TaskController extends MetaController {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Checks if given task is in given sprint
-	 * @param Task
-	 * @param Sprint
-	 * @return
+	 * @param task the task that shall be checked
+	 * @param sprint the sprint that the task could be in
+	 * @return a boolean that represents if the task is in the sprint 
 	 */
 	public boolean isTaskInSprint(Task task, Sprint sprint){
 		boolean result = false;
