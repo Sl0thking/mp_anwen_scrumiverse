@@ -13,7 +13,9 @@ function checkInputs(){
 	}
 }
 
+/* checks input and enable/disable the register-button */
 $(document).ready(function(){
+	/* Append the dismis-button for the error-container */
 	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
 	$(".form-group").keyup(function(){
 		var password = $("#password").val();
@@ -30,8 +32,9 @@ $(document).ready(function(){
 	});
 }); 
 </script>
-
+<%-- Register main page --%>
 <div class="background">
+	<%-- Register form --%>
 	<div class="login">
         <form:form role="form" action="registerUser.htm" commandName="user">
             <div class="form-group">
@@ -47,6 +50,7 @@ $(document).ready(function(){
                 <form:input path="password" type="password" class="form-control" id="password" placeholder="password"/>
             	<input type="password" class="form-control" id="passwordcheck" placeholder="password"/>
             </div>
+            <%-- Error-container, shown when an error occurred --%>
             <div class="error-container">
             	<c:if test="${regError}">
             		<div class="alert alert-danger alert-dismissible error">email already used.</div>
@@ -55,11 +59,14 @@ $(document).ready(function(){
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="name" element="div"/>
             	<form:errors cssClass="alert alert-danger alert-dismissible error" path="password" element="div"/>
             </div>
+            <%-- Error-container end --%>
             <button type="submit" name="register" class="btn btn-default reg-btn" disabled>register</button>
             <a href="./login.htm" class="btn btn-default reg-btn">go back</a>
         </form:form>
     </div>
+    <%-- Register form end --%>
 </div>
+<%-- Information for the user --%>
 <div class="information">
 	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 	At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
@@ -70,6 +77,9 @@ $(document).ready(function(){
 	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
 	Lorem ipsum dolor sit amet,
 </div>
+<%-- Information end --%>
+<%-- "navbar" at the bottom --%>
 <div class="navbar-inverse navbar-fixed-bottom">
     <p class="center">2016 - Scrumiverse - Team Scrum Mid</p>
 </div>
+<%-- "navbar" end ---%>

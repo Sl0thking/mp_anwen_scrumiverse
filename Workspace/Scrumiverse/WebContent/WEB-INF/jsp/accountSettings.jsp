@@ -5,14 +5,19 @@
 
 <script>
 $(document).ready(function(){
+	/* Append the dismis-button for the error-container */
 	$(".error").append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>")
 })
 </script>
+<%-- error-container of accountsettings --%>
 <div class="error-container">
 	<c:if test="${param.error eq 1}"><div class="alert alert-danger alert-dismissible error" role="alert">unknown error occoured</div></c:if>
 	<c:if test="${param.error eq 2}"><div class="alert alert-danger alert-dismissible error" role="alert">cannot upload file (empty, wrong format or bigger than 4MB)</div></c:if>
 </div>
+<%-- error-container end --%>
+<%-- AccountSettings main page --%>
 <div id="accountpage">
+	<%-- Userpicture --%>
     <div id="account-img">
     	<form method="POST" action="changeUserPic.htm" enctype="multipart/form-data" >
         	<img src="${user.profileImagePath}"/>
@@ -20,6 +25,8 @@ $(document).ready(function(){
         	<button class="btn btn-default" type="submit">Upload</button>
         </form>
     </div>
+    <%-- Userpicture end --%>
+    <%-- Userdetail form --%>
     <div id="editable">
         <form:form action="changeUser.htm" commandName="user">
            <div class="input-group">
@@ -43,4 +50,5 @@ $(document).ready(function(){
             <button class="btn btn-default" type="submit">save</button>
         </form:form>
     </div>
+    <%-- Userdetail end --%>
 </div>

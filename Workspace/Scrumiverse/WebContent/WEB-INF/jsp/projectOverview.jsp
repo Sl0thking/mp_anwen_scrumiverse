@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- ProjectOverview main page --%>
 <div class="projectpage">
+	<%-- Creates project --%>
 	<c:forEach items="${projectList}" var="project">
 		<div class="project">
 			<img class="project-logo" src="${project.picPath }" height="100" width="100"/>
@@ -16,6 +18,7 @@
 			</div>
 		</div>
 	</c:forEach>
+	<%-- Project creation end --%>
 </div>
 <div id="quick-button-container">
     <a class="quick-button" href="./addProject.htm">

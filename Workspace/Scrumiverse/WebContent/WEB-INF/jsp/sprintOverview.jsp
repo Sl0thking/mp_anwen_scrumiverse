@@ -168,6 +168,7 @@
 		<%-- Creation of the data-containers which list up the data-delta digital and with a horizontal bar
 			and contains the time, effort and value of all userstories in the backlog --%>
 		<div class="backlog-data">
+			<%-- Datacontainer Time --%>
 			<div class="data-container">
 				Time</br>
 				<fmt:formatNumber value="${project.getIceBoxWorkedTime()/60}"
@@ -181,6 +182,8 @@
 						style="width:${project.getIceBoxRemainingTime() / project.getIceBoxPlannedTime() * 100}%"></div>
 				</div>
 			</div>
+			<%-- Datacontainer Time end--%>
+			<%-- Datacontainer Effort --%>
 			<div class="data-container">
 				Effort</br>
 				${project.getIceBoxDoneEffort()} / ${project.getIceBoxEffort()}
@@ -189,6 +192,8 @@
 						style="width:${project.getIceBoxDoneEffort() / project.getIceBoxEffort() * 100}%"></div>
 				</div>
 			</div>
+			<%-- Datacontainer Effort end --%>
+			<%-- Datacontainer Value --%>
 			<div class="data-container">
 				Value</br>
 				${project.getIceBoxDoneValue()} / ${project.getIceBoxValue()}
@@ -197,7 +202,9 @@
 						style="width:${project.getIceBoxDoneValue() / project.getIceBoxValue() * 100}%"></div>
 				</div>
 			</div>
+			<%-- Datacontainer Value end --%>
 		</div>
+		<%-- Backlog data end --%>
 		<%-- content contains all userstories of the backlog --%>
 		<div class="content">
 			<c:forEach items="${project.getIceBox()}" var="userstory">
@@ -220,6 +227,7 @@
 				</div>
 			</c:forEach>
 		</div>
+		<%-- backlog content end --%>
 		<%-- create or not create the button depending on the rights of the user --%>
 		<c:if test="${canUpdateSprint }">
 			<a class="addusbtn" href="./syncBacklogAndSprint.htm">Add to Sprint</a>
