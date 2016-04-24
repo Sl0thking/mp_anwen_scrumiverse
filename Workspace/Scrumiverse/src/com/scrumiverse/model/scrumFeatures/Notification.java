@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.scrumiverse.enums.ChangeEvent;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumCore.PlanElement;
 

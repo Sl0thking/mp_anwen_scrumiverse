@@ -8,6 +8,7 @@ import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
  * Binder class for Users
+ * 
  * @author Kevin Jolitz
  * @version 08.04.2016
  */
@@ -35,12 +36,7 @@ public class UserBinder extends PropertyEditorSupport {
 			User user = userDAO.getUserByEmail(arg0);
 			setValue(user);
 		} catch (UserPersistenceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-	
-	
-
 }

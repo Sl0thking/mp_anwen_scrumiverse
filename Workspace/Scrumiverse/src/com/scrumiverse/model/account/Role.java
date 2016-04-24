@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CollectionOfElements;
 
+import com.scrumiverse.enums.Right;
+
 /**
  * Role of a scrumiverse user
  * 
@@ -64,16 +66,27 @@ public class Role implements Comparable<Role> {
 		return rights.contains(right);
 	}
 	
+	/**
+	 * Add a new right to this role
+	 * 
+	 * @param right right to execute different actions on a project 
+	 */
 	public void addRight(Right right) {
 		rights.add(right);
 	}
 	
+	/**
+	 * Delete a right from this role
+	 * 
+	 * @param right right to execute different actions on a project 
+	 */
 	public void deleteRight(Right right) {
 		rights.remove(right);
 	}
 	
 	/**
 	 * Create a deep copy of this role
+	 * 
 	 * @return Copy of this role
 	 */
 	public Role copy() {
@@ -95,10 +108,20 @@ public class Role implements Comparable<Role> {
 		this.rights = rights;
 	}
 
+	/**
+	 * Returns if this role is changeable or static
+	 * 
+	 * @return if this role is changeable
+	 */
 	public boolean isChangeable() {
 		return changeable;
 	}
 
+	/**
+	 * Set if this role is changeable
+	 * 
+	 * @param changeable set this role to changeable
+	 */
 	public void setChangeable(boolean changeable) {
 		this.changeable = changeable;
 	}
@@ -112,8 +135,6 @@ public class Role implements Comparable<Role> {
 		}
 	}
 	
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -140,5 +161,4 @@ public class Role implements Comparable<Role> {
  	public String toString() {
 		return String.valueOf(roleID);
 	}	
-	
 }

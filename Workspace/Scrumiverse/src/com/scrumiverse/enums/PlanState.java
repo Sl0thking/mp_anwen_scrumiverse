@@ -1,4 +1,4 @@
-package com.scrumiverse.model.scrumCore;
+package com.scrumiverse.enums;
 
 /**
  * Enum of different plan states

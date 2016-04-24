@@ -8,6 +8,7 @@ import com.scrumiverse.persistence.DAO.RoleDAO;
 
 /**
  * Binder class for Roles
+ * 
  * @author Kevin Jolitz
  * @version 08.04.2016
  */
@@ -18,7 +19,6 @@ public class RoleBinder extends PropertyEditorSupport {
 	public RoleBinder(RoleDAO roleDAO) {
 		this.roleDAO = roleDAO;
 	}
-	
 	
 	@Override
 	public String getAsText() {

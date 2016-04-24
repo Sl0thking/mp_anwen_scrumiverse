@@ -18,8 +18,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
+import com.scrumiverse.enums.ChangeEvent;
+import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.model.account.User;
-import com.scrumiverse.model.scrumFeatures.ChangeEvent;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 /**
@@ -80,16 +81,23 @@ public abstract class PlanElement implements Comparable<PlanElement>{
 		this.acceptanceCriteria = acceptanceCriteria;
 	}
 	
+	/**
+	 * Adds a new history entry to this planElement
+	 * 
+	 * @param event occured changeEvent
+	 * @param user user who triggered this event
+	 */
 	public void addHistoryEntry(ChangeEvent event, User user){
 		this.history.add(new HistoryEntry(user, event));
 	}
 	
+	/**
+	 * Adds a new history entry to this planElement
+	 * 
+	 * @param entry history entry for this planElement
+	 */
 	public void addHistoryEntry(HistoryEntry entry){
 		this.history.add(entry);
-	}
-	
-	public void setCriteria(String criteria){
-		
 	}
 	
 	@JoinColumn(name = "planState")

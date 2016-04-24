@@ -1,4 +1,4 @@
-package com.scrumiverse.model.scrumFeatures;
+package com.scrumiverse.enums;
 
 /**
  * Events that occur on plan elements

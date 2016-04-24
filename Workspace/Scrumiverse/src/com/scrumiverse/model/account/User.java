@@ -29,7 +29,7 @@ import com.scrumiverse.model.scrumFeatures.Notification;
  * Datamodell for a scrumiverse user account
  * 
  * @author Kevin Jolitz, Toni Serfling
- * @version 08.04.2016
+ * @version 23.04.2016
  */
 @Entity
 public class User {
@@ -122,8 +122,13 @@ public class User {
 		this.password = password;
 	}
 
-	public void leaveProject(Project p) {
-		this.projects.remove(p);
+	/**
+	 * Leaves a given project
+	 * 
+	 * @param project project to leave
+	 */
+	public void leaveProject(Project project) {
+		this.projects.remove(project);
 	}
 
 	@Override
@@ -194,10 +199,9 @@ public class User {
 	public void removeNotification(Notification notify) {
 		this.notifications.remove(notify);
 	}
+	
 	@Override
 	public String toString() {
 		return email;
 	}	
-	
-	
 }

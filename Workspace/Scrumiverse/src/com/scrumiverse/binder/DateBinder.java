@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * Binder class for Dates
+ * 
  * @author Lasse Jacobs
  * @version 08.04.2016
  *
@@ -18,7 +19,6 @@ public class DateBinder extends PropertyEditorSupport {
 	      try {
 			setValue(ft.parse(arg0));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

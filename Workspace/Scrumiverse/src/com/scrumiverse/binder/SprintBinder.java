@@ -8,10 +8,12 @@ import com.scrumiverse.persistence.DAO.SprintDAO;
 
 /**
  * Binder class for Sprints
+ * 
  * @author Lasse Jacobs
  * @version 08.04.2016
  */
 public class SprintBinder extends PropertyEditorSupport {
+	
 	SprintDAO sprintDAO;
 	
 	public SprintBinder(SprintDAO sprintDAO){
@@ -38,7 +40,6 @@ public class SprintBinder extends PropertyEditorSupport {
 				setValue(sprintDAO.getSprint(Integer.parseInt(arg0)));
 			}
 		} catch (SprintPersistenceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

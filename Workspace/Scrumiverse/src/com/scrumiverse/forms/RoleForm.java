@@ -14,10 +14,6 @@ import com.scrumiverse.model.account.Role;
 public class RoleForm {
 	private Role role;
 
-//	public RoleForm() {
-//		role = new Role();
-//	}
-	
 	public Role getRole() {
 		return role;
 	}

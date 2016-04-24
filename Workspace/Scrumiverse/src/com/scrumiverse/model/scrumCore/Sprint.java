@@ -18,7 +18,8 @@ import org.hibernate.annotations.SortType;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.scrumiverse.model.scrumFeatures.ChangeEvent;
+import com.scrumiverse.enums.ChangeEvent;
+import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
 
 

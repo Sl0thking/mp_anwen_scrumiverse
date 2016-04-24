@@ -8,6 +8,7 @@ import com.scrumiverse.persistence.DAO.UserStoryDAO;
 
 /**
  * Binder class for UserStories
+ * 
  * @author Lasse Jacobs
  * @version 08.04.2016
  */

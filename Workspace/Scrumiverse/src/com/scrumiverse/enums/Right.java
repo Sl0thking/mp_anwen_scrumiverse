@@ -1,4 +1,4 @@
-package com.scrumiverse.model.account;
+package com.scrumiverse.enums;
 
 /**
  * Enum of different user rights

@@ -20,6 +20,7 @@ import org.hibernate.annotations.MapKeyManyToMany;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
+import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
 

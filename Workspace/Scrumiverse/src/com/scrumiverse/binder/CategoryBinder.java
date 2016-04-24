@@ -3,17 +3,16 @@ package com.scrumiverse.binder;
 import java.beans.PropertyEditorSupport;
 
 import com.scrumiverse.exception.CategoryPersistenceException;
-import com.scrumiverse.exception.SprintPersistenceException;
 import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.persistence.DAO.CategoryDAO;
 
 /**
  * Binder class for Categories
+ * 
  * @author Lasse Jacobs
  * @version 08.04.2016
  *
  */
-
 public class CategoryBinder extends PropertyEditorSupport {
 
 	CategoryDAO categoryDAO;
@@ -21,7 +20,6 @@ public class CategoryBinder extends PropertyEditorSupport {
 	public CategoryBinder(CategoryDAO categoryDAO) {
 		this.categoryDAO = categoryDAO;
 	}
-	
 	
 	@Override
 	public String getAsText() {
@@ -43,7 +41,6 @@ public class CategoryBinder extends PropertyEditorSupport {
 				setValue(categoryDAO.getCategoryById(Integer.parseInt(id)));
 			}
 		} catch (CategoryPersistenceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

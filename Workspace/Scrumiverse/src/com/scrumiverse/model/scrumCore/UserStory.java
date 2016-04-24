@@ -20,10 +20,11 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
+import com.scrumiverse.enums.MoscowState;
+import com.scrumiverse.enums.PlanState;
 import com.scrumiverse.model.account.User;
 import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.model.scrumFeatures.HistoryEntry;
-import com.scrumiverse.model.scrumFeatures.MoscowState;
 import com.scrumiverse.model.scrumFeatures.WorkLog;
 
 /**

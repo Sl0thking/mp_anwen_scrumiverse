@@ -1,4 +1,4 @@
-package com.scrumiverse.web;
+package com.scrumiverse.enums;
 
 /**
  * Action is a listing of all UI elements that can be used.

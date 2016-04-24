@@ -23,6 +23,8 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import com.scrumiverse.exception.UserPersistenceException;
+import com.scrumiverse.enums.PlanState;
+import com.scrumiverse.enums.Right;
 import com.scrumiverse.exception.NotChangeableRoleException;
 import com.scrumiverse.exception.RoleNotInProjectException;
 import com.scrumiverse.exception.TriedToRemoveAdminException;
@@ -134,8 +136,13 @@ public class Project {
 		return userstories;
 	}
 	
+	public void setUserstories(SortedSet<UserStory> userstories) {
+		this.userstories = userstories;
+	}
+	
 	/**
 	 * Returns all userstories currently not in a sprint
+	 * 
 	 * @return SortedSet<UserStory>
 	 */
 	@Transient
@@ -147,9 +154,6 @@ public class Project {
 			}
 		}
 		return iceBox;
-	}
-	public void setUserstories(SortedSet<UserStory> userstories) {
-		this.userstories = userstories;
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)

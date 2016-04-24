@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scrumiverse.enums.Right;
 import com.scrumiverse.exception.AccessViolationException;
 import com.scrumiverse.exception.CategoryPersistenceException;
 import com.scrumiverse.exception.InsufficientRightsException;
 import com.scrumiverse.exception.InvalidSessionException;
 import com.scrumiverse.exception.ProjectPersistenceException;
 import com.scrumiverse.exception.UserPersistenceException;
-import com.scrumiverse.model.account.Right;
 import com.scrumiverse.model.scrumCore.Project;
 import com.scrumiverse.model.scrumFeatures.Category;
 import com.scrumiverse.persistence.DAO.CategoryDAO;

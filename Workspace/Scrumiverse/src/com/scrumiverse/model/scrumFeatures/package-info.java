@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author Toni Laptop
- *
- */
-package com.scrumiverse.model.scrumFeatures;

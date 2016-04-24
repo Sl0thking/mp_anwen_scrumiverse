@@ -1,4 +1,4 @@
-package com.scrumiverse.model.scrumFeatures;
+package com.scrumiverse.enums;
 
 /**
  * Enum of Moscow (Must, Should, Could, Wont) States
