@@ -191,11 +191,7 @@ public class SprintController extends MetaController {
 				for(String id : addUserStoryIds) {
 					int usid = Integer.parseInt(id);
 					UserStory userStory = userDAO.getUserStory(usid);
-					choosenSprint.addUserStory(userStory);
-					choosenSprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_ASSIGNED));
-					userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_ASSIGNED));
-					userDAO.updateUserStory(userStory);
-					sprintDAO.updateSprint(choosenSprint);
+					addUserStoryToSprint(userStory, choosenSprint, user);
 				}
 			}
 			//load all related user stories, remove them from the sprint and add them to the backlog
@@ -215,12 +211,13 @@ public class SprintController extends MetaController {
 			return new ModelAndView("redirect:login.htm");
 		}
 	}
+	
 	/**
 	 * Removes given UserStory from given Sprint
 	 * 
 	 * @param userstory userstory which should be removed
 	 * @param sprint sprint which contains the userstory that should be removed
-	 * @param user user who trigered the event to remove the userstory
+	 * @param user user who triggered the event to remove the userstory
 	 * @throws UserStoryPersistenceException
 	 */
 	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws UserStoryPersistenceException {
@@ -230,4 +227,21 @@ public class SprintController extends MetaController {
 		userDAO.updateUserStory(userStory);
 		sprintDAO.updateSprint(sprint);
 	}
+	
+	/**
+	 * Adds given UserStory to given Sprint
+	 * 
+	 * @param userstory userstory which should be added
+	 * @param sprint sprint which contains the userstory that should be added
+	 * @param user user who triggered the event to add the userstory
+	 * @throws UserStoryPersistenceException
+	 */
+	private void addUserStoryToSprint(UserStory userStory, Sprint sprint, User user) throws UserStoryPersistenceException {
+		sprint.addUserStory(userStory);
+		sprint.addHistoryEntry(new HistoryEntry(user, ChangeEvent.USER_STORY_ASSIGNED));
+		userStory.addHistoryEntry(new HistoryEntry(user, ChangeEvent.SPRINT_ASSIGNED));
+		userDAO.updateUserStory(userStory);
+		sprintDAO.updateSprint(sprint);
+	}
+	
 }
