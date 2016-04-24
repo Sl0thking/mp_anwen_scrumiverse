@@ -158,6 +158,7 @@
 	</div>
 </div>
 <%-- Creates the backlog on the left side of the sprintpage --%>
+<%-- backlog --%>
 <div class="backlog-placeholder">
 	<div class="backlogbar">
 		<span class="glyphicon glyphicon-menu-right barbtn"></span>
@@ -225,17 +226,19 @@
 		</c:if>
 	</div>
 </div>
-
+<%-- backlog end --%>
+<%-- sprinOverview main page --%>
 <div class="sprintpage">
 	<%-- Build the sprintpage with the sprints of the project --%>
 	<c:forEach items="${sprints}" var="sprint">
+		<%-- Creation of the sprint-entity --%>
 		<div sprintid="${sprint.id}" class="sprint">
 			<div class="sprint-state" planstate="${sprint.planState }" ></div>
 			<div class="sprint-content">
 				<div class="sprint-name">${sprint.description }</div>
 				<div class="sprint-stats">
+					<%-- Show the sandclock-icon depending on the remaining days  --%>
 					<div class="sprint-time-overview">
-						<%-- Show the sandclock-icon depending on the remaining days  --%>
 						<c:choose>
 							<c:when test="${sprint.getRemainingDays() > 3}">
 								<img src="./resources/images/sandclock/SandClock_4.png" alt=""

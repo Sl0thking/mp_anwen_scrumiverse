@@ -129,6 +129,7 @@ function activateButton(btnTab){
                     </a>
                 </li>
             </ul>
+			<%-- Navbar tabs end --%>
 		</div>
 	</div>
 	<%--Tabcontent with the 3 tabs --%>
@@ -166,6 +167,7 @@ function activateButton(btnTab){
 					</button>
 				</fieldset>
 			</form:form>
+			<%-- Projectdetails form end --%>
 			<div class="user-list-title">
 				<span class="glyphicon glyphicon-th-list"></span>
 				MEMBERLIST
@@ -215,6 +217,7 @@ function activateButton(btnTab){
 					</form:form>
 				</c:forEach>
 			</div>
+			<%-- Userlist end --%>
 			<div id="settings-options"></div>
 		</div>
 		<%-- Roletab with the roles of the project--%>
@@ -228,7 +231,7 @@ function activateButton(btnTab){
 					</form:select>
 				</form:form>
 			</div>
-			<%-- build the rights of the selected role, splitted in sections --%>
+			<%-- Role form - build the rights of the selected role, splitted in sections --%>
             <form:form commandName="selectedRole" action="updateRole.htm">
             <form:hidden path="roleID"/>
             	<fieldset>
@@ -296,6 +299,7 @@ function activateButton(btnTab){
                     </c:choose>
                 </fieldset>
            	</form:form>
+            <%-- Role form end --%>
             <div id="settings-options"></div>
         </div>
         <%-- Categorytab --%>
@@ -362,10 +366,12 @@ function activateButton(btnTab){
                  	</c:otherwise>
                  </c:choose>
              </fieldset>
-             </form:form>
+         </form:form>
+         <%-- category form end --%>
          <div id="settings-options"></div>
      </div>
 	</div>
+	<%--Tabcontent end --%>
 </div>
 <%-- Buttoncontainer of the projectsettings. With Javascript the button are hidden when their tab isn't active --%>
 <div id="quick-button-container">

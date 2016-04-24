@@ -84,6 +84,7 @@
 	</div>
 </div>
 <%-- Taskboard main page --%>
+<%-- Heading of the taskboard-table --%>
 <div>
 	<table class="taskboard-heading">
 		<tr>
@@ -94,8 +95,10 @@
 		</tr>
 	</table>
 </div>
+<%-- Content of the taskboard table --%>
 <div class="taskboard-content">
 	<table class="taskboard">
+		<%-- Creation of the usertory in the userstory-section of the table --%>
 		<c:forEach items="${userStories}" var="userStory">
 			<tr>
 				<td class="userstory-section item-section">
@@ -104,6 +107,7 @@
 						<div class="userstory-content">
 							<div class="userstory-titel">${userStory.description}</div>
 							<div class="userstory-stats">
+								<%-- Timecontainer with the sandclock. Sets the sandclock depending to the remaining days  --%>
 								<div class="time-container">
 									<div class="timebox">
 										<c:if test="${userStory.planState!='Done'}">
@@ -126,6 +130,7 @@
 									</div>
 									<div class="duetime">${userStory.getRemainingDays()}d</div>
 								</div>
+								<%-- Infocontainer with overview of the timestats and the userstory-data --%>
 								<div class="info-container">
 									<div class="moscow" data-toggle="tooltip" title="MoSCoW">${userStory.moscow.toString().substring(0,1)}</div>
 									<div class="value" data-toggle="tooltip" title="Value">${userStory.businessValue}</div>
@@ -137,6 +142,7 @@
 										<fmt:formatNumber value="${userStory.getPlannedMinutes()/60}" maxFractionDigits="1" />h
 									</div>
 								</div>
+								<%-- Membercontainer of the userstory --%>
 								<div class="member-container">
 									<c:choose>
 										<c:when test="${userStory.getResponsibleUsers().size() <= 6}">
@@ -156,11 +162,13 @@
 										</c:otherwise>
 									</c:choose>
 								</div>
+								<%-- Mombercontainer end --%>
 							</div>
 						</div>
 						<span class="userstory-link" planstate="${userStory.planState.toString()}"></span>
 					</div>
 				</td>
+				<%-- Tasksection for task with the state "Planning" of the userstory --%>
 				<td class="task-section item-section">
 					<c:forEach items="${tasksOfUserStories[userStory]}" var="task">
 						<c:if test="${task.planState.toString() eq 'Planning'}">
@@ -172,6 +180,7 @@
 										<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
 										<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h
 									</div>
+									<%-- Memberbox of task --%>
 									<div class="task-memberbox">
 										<c:choose>
 											<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -191,9 +200,11 @@
 											</c:otherwise>
 										</c:choose>
 									</div>
+									<%-- Memberbox end --%>
 								</div>
 								<a class="glyphicon glyphicon-triangle-right task-link" planstate="${task.planState.toString()}" data-toggle="modal" data-target=".modal-detail[taskid='${task.getId()}']"></a>
 							</div>
+							<%-- Detailview of task --%>
 							<div class="modal-detail modal fade" taskid="${task.id}" role="dialog">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -440,6 +451,7 @@
 						</c:if>
 					</c:forEach>
 				</td>
+				<%-- Tasksection for task with the state "InProgress" of the userstory --%>
 				<td class="task-section item-section">
 					<c:forEach items="${tasksOfUserStories[userStory]}" var="task">
 						<c:if test="${task.planState.toString() eq 'InProgress'}">
@@ -451,6 +463,7 @@
 										<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
 										<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h
 									</div>
+									<%-- Memberbox of task --%>
 									<div class="task-memberbox">
 										<c:choose>
 											<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -470,9 +483,11 @@
 											</c:otherwise>
 										</c:choose>
 									</div>
+									<%-- Memberbox end --%>
 								</div>
 								<a class="glyphicon glyphicon-triangle-right task-link" planstate="${task.planState.toString()}" data-toggle="modal" data-target=".modal-detail[taskid='${task.id}']"></a>
 							</div>
+							<%-- Detaiview of task --%>
 							<div class="modal-detail modal fade" taskid="${task.id}" role="dialog">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -719,6 +734,7 @@
 						</c:if>
 					</c:forEach>
 				</td>
+				<%-- Tasksection for task with the state "Done" of the userstory --%>
 				<td class="task-section item-section">
 					<c:forEach items="${tasksOfUserStories[userStory]}" var="task">
 						<c:if test="${task.planState.toString() eq 'Done'}">
@@ -730,6 +746,7 @@
 										<fmt:formatNumber value="${task.getRemainingMin()/60}" maxFractionDigits="1" /> / 
 										<fmt:formatNumber value="${task.getPlannedMin()/60}" maxFractionDigits="1" />h
 									</div>
+									<%-- Memberbox of task --%>
 									<div class="task-memberbox">
 										<c:choose>
 											<c:when test="${task.getResponsibleUsers().size() <= 6}">
@@ -749,9 +766,11 @@
 											</c:otherwise>
 										</c:choose>
 									</div>
+									<%-- Memberbox end --%>
 								</div>
 								<a class="glyphicon glyphicon-triangle-right task-link" planstate="${task.planState.toString()}" data-toggle="modal" data-target=".modal-detail[taskid='${task.id}']"></a>
 							</div>
+							<%-- Detailview of task --%>
 							<div class="modal-detail modal fade" taskid="${task.id}" role="dialog">
 								<div class="modal-dialog">
 									<div class="modal-content">

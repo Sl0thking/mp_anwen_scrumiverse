@@ -52,6 +52,7 @@ function setView(oldView, newView){
 	</div>
 	<%-- Creation of the userstories --%>
 	<c:forEach items="${userstories}" var = "userstory">
+		<%-- Creating the userstroy-entity --%>
 		<div class="userstory">
 			<div class="userstory-planstate" planstate="${userstory.planState}"></div>
 	        <div class="userstory-container">
@@ -106,7 +107,7 @@ function setView(oldView, newView){
 					data-target=".modal-detail[userstoryid='${userstory.id}']"></a>
 			</div>
 		</div>
-		<%-- Userstory detail view --%>
+		<%-- Creating userstory detail view --%>
 		<div class="modal-detail modal fade" userstoryid="${userstory.id}" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -132,6 +133,7 @@ function setView(oldView, newView){
 									<span class="glyphicon glyphicon-list-alt"></span> History
 							</a></li>
 						</ul>
+						<%-- Navbar tabs end --%>
 					</div>
 					<div class="modal-body">
 						<%-- Tabcontent with the detailtab and historytab --%>
@@ -271,6 +273,7 @@ function setView(oldView, newView){
 								</c:forEach>
 							</div>
 						</div>
+						<%-- Tabcontent end --%>
 					</div>
 				</div>
 			</div>
