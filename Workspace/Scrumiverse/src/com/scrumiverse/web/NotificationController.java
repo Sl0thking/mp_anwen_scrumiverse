@@ -30,10 +30,10 @@ public class NotificationController extends MetaController {
 	
 	/**
 	 * Deletes a Notification
-	 * @param id
-	 * @param session
-	 * @param request
-	 * @return ModelAndView
+	 * @param int a requested notification id
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return 
 	 */
 	@RequestMapping("/deleteNotification.htm")
 	public ModelAndView deleteNotification(@RequestParam int id, HttpSession session, HttpServletRequest request) {
@@ -53,10 +53,10 @@ public class NotificationController extends MetaController {
 	
 	/**
 	 * Marks a Notification as seen
-	 * @param id
-	 * @param session
-	 * @param request
-	 * @return ModelAndView
+	 * @param int requested notification id
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return 
 	 */
 	@RequestMapping("/markAsSeen.htm")
 	public ModelAndView markAsSeen(@RequestParam int id, HttpSession session, HttpServletRequest request) {
@@ -74,8 +74,8 @@ public class NotificationController extends MetaController {
 	
 	/**
 	 * Marks all notifications of the current user as seen
-	 * @param session
-	 * @param request
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
 	 * @return
 	 */
 	@RequestMapping("/markAllAsSeen.htm")

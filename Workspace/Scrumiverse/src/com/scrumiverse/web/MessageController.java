@@ -42,10 +42,10 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Sends a Message to the recievers
-	 * @param Message
-	 * @param HttpSession
-	 * @param HttpServletRequest
-	 * @return ModelAndView
+	 * @param Message the message to be sent
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return 
 	 */
 	@RequestMapping("/sendMessage.htm")
 	public ModelAndView sendMessage(Message message, HttpSession session, HttpServletRequest request) {
@@ -69,10 +69,10 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Marks a message given by id as read/seen
-	 * @param int
-	 * @param HttpSession
-	 * @param HttpServletRequest
-	 * @return ModelAndView
+	 * @param int a requested message id
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return 
 	 */
 	@RequestMapping("/markAsRead.htm")
 	public ModelAndView markMessageAsRead(@RequestParam int id, HttpSession session, HttpServletRequest request) {
@@ -91,9 +91,9 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Marks all messages of an user as read
-	 * @param HttpSession
-	 * @param HttpServletRequest
-	 * @return ModelAndView
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return 
 	 */
 	@RequestMapping("/markAllAsRead.htm")
 	public ModelAndView markAllAsRead(HttpSession session, HttpServletRequest request) {
@@ -118,10 +118,10 @@ public class MessageController extends MetaController {
 	
 	/**
 	 * Deletes a Message given by id
-	 * @param int
-	 * @param HttpSession
-	 * @param HttpServletRequest
-	 * @return ModelAndView
+	 * @param int a requested message id
+	 * @param HttpSession the current session
+	 * @param HttpServletRequest a HttpServletRequest
+	 * @return
 	 */
 	@RequestMapping("/deleteMessage.htm")
 	public ModelAndView deleteMessage(@RequestParam int id, HttpSession session, HttpServletRequest request) {
@@ -147,8 +147,8 @@ public class MessageController extends MetaController {
 	/**
 	 * Iterates over all recievers of the Message m, and checks if they
 	 * are still attached to it
-	 * @param Message
-	 * @return boolean
+	 * @param Message the messsage to be checked
+	 * @return true/false
 	 */
 	private boolean wasLastRecieverInMessage(Message m) {
 		boolean toReturn = true;

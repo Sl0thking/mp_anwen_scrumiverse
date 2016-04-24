@@ -86,7 +86,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the combined Effort needed for all Userstories in the sprint
-	 * @return int combinedEffort
+	 * @return combined Effort as int
 	 */
 	@Transient
 	public int getCombinedEffort() {
@@ -99,7 +99,7 @@ public class Sprint extends PlanElement {
 	}
 	/**
 	 * Returns the effort of all finished Userstories in the sprint
-	 * @return int completedEffort
+	 * @return completed Effort as int
 	 */
 	@Transient
 	public int getCompletedEffort() {
@@ -113,7 +113,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the combined Businessvalue of all Userstories in the sprint
-	 * @return int combinedBusinessValue
+	 * @return combined Business Value as int
 	 */
 	@Transient
 	public int getCombinedBusinessValue() {
@@ -126,7 +126,7 @@ public class Sprint extends PlanElement {
 	}
 	/**
 	 * Returns the Businessvalue of all finished Userstories in the sprint
-	 * @return int completedBusinessValue
+	 * @return completed Business Value as int
 	 */
 	@Transient
 	public int getCompletedBusinessValue() {
@@ -140,7 +140,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the number of finished User Stories 
-	 * @return int finishedUserStories
+	 * @return finished UserStories as int
 	 */
 	@Transient
 	public int getFinishedUserStories() {
@@ -154,7 +154,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the number of remaining days 
-	 * @return int remainingDays
+	 * @return remaining Days as int
 	 */
 	@Transient
 	public int getRemainingDays(){
@@ -172,8 +172,8 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns all User Stories of the given PlanState
-	 * @param plan
-	 * @return List<UserStory> userStoriesByState;
+	 * @param PlanState planstate which should be checked for
+	 * @return all UserStories with the PlanState as Sorted Set
 	 */
 	public SortedSet<UserStory> getUserStoriesByState(PlanState plan) {
 		SortedSet<UserStory> userStoriesByState = new TreeSet<UserStory>();
@@ -187,7 +187,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the planned time of the sprint in minutes
-	 * @return int plannedMinutes
+	 * @return planned Minutes as int
 	 */
 	@Transient
 	public int getPlannedMinutes() {
@@ -200,7 +200,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the already spent time of the sprint in minutes
-	 * @return int workedMinutes
+	 * @return worked Minutes as int
 	 */
 	@Transient
 	public int getWorkedMinutes() {
@@ -214,7 +214,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns the remaining time of the sprint in minutes
-	 * @return int remainingMinutes
+	 * @return remaining Minutes as int
 	 */
 	@Transient
 	public int getRemainingMinutes() {
@@ -227,7 +227,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns a JSONArray of the ideal amount of User Stories that should be completed by day
-	 * @return JSONArray
+	 * @return JSONArray of ideal Remaining UserStories as ints
 	 */
 	@Transient
 	public JSONArray getIdealRemainingUS() {
@@ -253,7 +253,7 @@ public class Sprint extends PlanElement {
 	
 	/**
 	 * Returns a JSONArray of the amount of items in the Sprint Backlog every day
-	 * @return JSONArray
+	 * @return JSONArray with amount of items as int
 	 */
 	@Transient
 	public JSONArray getBacklogScope() {
@@ -296,7 +296,7 @@ public class Sprint extends PlanElement {
 	}
 	/**
 	 * Returns a JSONArray of the amount of done items in the Sprint every day
-	 * @return JSONArray
+	 * @return JSONArray of amount of done items as int
 	 */
 	@Transient
 	public JSONArray getDoneItems() {
@@ -335,7 +335,7 @@ public class Sprint extends PlanElement {
 	}
 	/**
 	 * Returns a JSONArray of the amount of remaining items in the Sprint each day
-	 * @return JSONArray
+	 * @return JSONArray of amount of remaining items as int
 	 */
 	@Transient
 	public JSONArray getRemainingItems() {

@@ -51,7 +51,7 @@ public class Task extends PlanElement {
 	
 	/**
 	 * Returns the combined planned minutes of all users
-	 * @return int
+	 * @return planned time as int
 	 */
 	@Transient
 	public int getPlannedMin() {
@@ -127,7 +127,7 @@ public class Task extends PlanElement {
 	
 	/**
 	 * Delete a specific worklog entry
-	 * @param log
+	 * @param int the id of the log
 	 */
 	public void deleteWorkLog(int logId) {
 		this.workLogs.removeIf((WorkLog element) -> element.getLogId() == logId);
@@ -155,7 +155,10 @@ public class Task extends PlanElement {
 		}
 		return workTimeInMin;
 	}
-	
+	/**
+	 * Returns the worktime of all users of the task
+	 * @return worktime as int
+	 */
 	@Transient
 	public int getWorkMin() {
 		int workTime = 0;
