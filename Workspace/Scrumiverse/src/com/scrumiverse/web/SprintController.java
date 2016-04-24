@@ -61,6 +61,7 @@ public class SprintController extends MetaController {
 	
 	/**
 	 * Adds a new Sprint 
+	 * 
 	 * @param HttpSession session - current session
 	 * @return ModelAndView
 	 * @throws ProjectPersistenceException 
@@ -84,6 +85,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Updates given Sprint
+	 * 
 	 * @param HttpSession session - current session
 	 * @param Sprint sprint - sprint given from the form
 	 * @return ModelAndView
@@ -109,6 +111,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Deletes given sprint by id
+	 * 
 	 * @param HttpSession session - current session
 	 * @param int id - id of the sprint which should be deleted
 	 * @return ModelAndView
@@ -134,6 +137,7 @@ public class SprintController extends MetaController {
 
 	/**
 	 * Shows all sprints
+	 * 
 	 * @param HttpSession session - current session
 	 * @return ModelAndView
 	 * @throws ProjectPersistenceException
@@ -165,6 +169,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Handles the addition and removal of multiple UserStories to given sprint by id
+	 * 
 	 * @param HttpSession session - current session
 	 * @param int sprintid - the id of the sprint which should be synced
 	 * @param String addedStories - string of the userstory ids, which should be added to the sprint
@@ -212,6 +217,7 @@ public class SprintController extends MetaController {
 	}
 	/**
 	 * Removes given UserStory from given Sprint
+	 * 
 	 * @param UserStory userstory - userstory which should be removed
 	 * @param Sprint sprint - sprint which contains the userstory that should be removed
 	 * @param User user - user who trigered the event to remove the userstory
