@@ -62,9 +62,9 @@ public class SprintController extends MetaController {
 	/**
 	 * Adds a new Sprint 
 	 * 
-	 * @param HttpSession session - current session
+	 * @param session current HTTPSession
 	 * @return ModelAndView
-	 * @throws ProjectPersistenceException 
+	 * @throws ProjectPersistenceException
 	 */
 	@RequestMapping("/addSprint.htm") 
 	public ModelAndView addSprint(HttpSession session) throws ProjectPersistenceException {
@@ -86,8 +86,8 @@ public class SprintController extends MetaController {
 	/**
 	 * Updates given Sprint
 	 * 
-	 * @param HttpSession session - current session
-	 * @param Sprint sprint - sprint given from the form
+	 * @param session current HTTPSession
+	 * @param sprint sprint given from the form
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/updateSprint.htm")
@@ -112,8 +112,8 @@ public class SprintController extends MetaController {
 	/**
 	 * Deletes given sprint by id
 	 * 
-	 * @param HttpSession session - current session
-	 * @param int id - id of the sprint which should be deleted
+	 * @param session current HTTPSession
+	 * @param id id of the sprint which should be deleted
 	 * @return ModelAndView
 	 */
 	@RequestMapping("deleteSprint.htm")
@@ -138,7 +138,7 @@ public class SprintController extends MetaController {
 	/**
 	 * Shows all sprints
 	 * 
-	 * @param HttpSession session - current session
+	 * @param session current HTTPSession
 	 * @return ModelAndView
 	 * @throws ProjectPersistenceException
 	 */
@@ -170,10 +170,10 @@ public class SprintController extends MetaController {
 	/**
 	 * Handles the addition and removal of multiple UserStories to given sprint by id
 	 * 
-	 * @param HttpSession session - current session
-	 * @param int sprintid - the id of the sprint which should be synced
-	 * @param String addedStories - string of the userstory ids, which should be added to the sprint
-	 * @param String removedStories - string of the userstory ids, which should be removed from the sprint  
+	 * @param session current HTTPSession
+	 * @param sprintid the id of the sprint which should be synced
+	 * @param addedStories string of the userstory ids, which should be added to the sprint
+	 * @param removedStories string of the userstory ids, which should be removed from the sprint  
 	 * @return ModelAndView
 	 */
 	@RequestMapping("/syncBacklogAndSprint.htm")
@@ -218,9 +218,9 @@ public class SprintController extends MetaController {
 	/**
 	 * Removes given UserStory from given Sprint
 	 * 
-	 * @param UserStory userstory - userstory which should be removed
-	 * @param Sprint sprint - sprint which contains the userstory that should be removed
-	 * @param User user - user who trigered the event to remove the userstory
+	 * @param userstory userstory which should be removed
+	 * @param sprint sprint which contains the userstory that should be removed
+	 * @param user user who trigered the event to remove the userstory
 	 * @throws UserStoryPersistenceException
 	 */
 	private void removeUserStoryFromSprint(UserStory userStory, Sprint sprint, User user) throws UserStoryPersistenceException {
