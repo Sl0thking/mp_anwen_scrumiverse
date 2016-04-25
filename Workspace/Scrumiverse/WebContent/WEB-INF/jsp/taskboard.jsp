@@ -128,7 +128,6 @@
 											<div class="hourglass-time">${userStory.getRemainingDays()} d</div>
 										</c:if>
 									</div>
-									<div class="duetime">${userStory.getRemainingDays()}d</div>
 								</div>
 								<%-- Infocontainer with overview of the timestats and the userstory-data --%>
 								<div class="info-container">
