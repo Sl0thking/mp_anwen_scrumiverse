@@ -50,7 +50,7 @@ public class User {
 	
 	@NotBlank(message="must enter a valid password.")
 	@RegExp(value="^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])[\\w\\d!@#$%_]{6,40}$",
-			message="must have no spaces, at least 1 digit, at least 1 uppercase and lowercase letter and at least one lowercase letter.")
+			message="must have at least 6 characters, no spaces, at least 1 digit, at least 1 uppercase and 1 lowercase letter.")
 	private String password;
 	private String profileImagePath;
 	private SortedSet<Message> messages;
