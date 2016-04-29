@@ -161,6 +161,7 @@ function activateButton(btnTab){
 						<form:input class="form-control" path="dueDate" type="date" value="${project.getFormattedDueDate()}" />
 					</div>
 					<form:hidden path="projectID"/>
+					<form:hidden path="picPath"/>
 					<button class="btn btn-default" type="submit">
 						<span class="glyphicon glyphicon-save"></span>
 						Save
