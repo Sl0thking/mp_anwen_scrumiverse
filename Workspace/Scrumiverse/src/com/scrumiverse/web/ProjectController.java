@@ -55,6 +55,7 @@ import com.scrumiverse.persistence.DAO.CategoryDAO;
 import com.scrumiverse.persistence.DAO.ProjectDAO;
 import com.scrumiverse.persistence.DAO.RoleDAO;
 import com.scrumiverse.persistence.DAO.SprintDAO;
+import com.scrumiverse.persistence.DAO.TaskDAO;
 import com.scrumiverse.persistence.DAO.UserDAO;
 
 /**
@@ -72,6 +73,9 @@ public class ProjectController extends MetaController {
 	
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private TaskDAO taskDAO;
 	
 	@Autowired
 	private SprintDAO sprintDAO;
@@ -384,6 +388,17 @@ public class ProjectController extends MetaController {
 		project.removeProjectUser(user, forced);
 		projectDAO.updateProject(project);
 		userDAO.updateUser(user);
+		
+		// remove user from all tasks
+		for (UserStory us : project.getUserstories()) {
+			for (Task t : us.getTasks()) {
+				// if user is in task the user will be removed
+				if (t.getResponsibleUsers().contains(user)) {
+					t.removeUser(user);
+					taskDAO.updateTask(t);
+				}
+			}
+		}
 	}
 	
 	/**

@@ -210,10 +210,8 @@ public class Task extends PlanElement {
 	 */
 	public void removeUser(User user) {
 		this.plannedMinOfUsers.remove(user);
-		// remove all worklogs from this user
-		for (WorkLog workLog : this.getWorkLogsOfUser(user)) {
-			workLogs.remove(workLog);
-		}
+		// remove all worklogs that were created from this user
+		this.workLogs.removeIf((WorkLog element) -> element.getUser().getUserID() == user.getUserID());
 	}
 
 	/**
@@ -222,7 +220,6 @@ public class Task extends PlanElement {
 	 */
 	public void addTag(String tag) {
 		this.tags.add(tag);
-		System.out.println();
 	}
 
 	/**
