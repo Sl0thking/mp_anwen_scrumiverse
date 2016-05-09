@@ -384,24 +384,26 @@
 													</table>
 												</div>			
 												<div class="section-worklogs tab-pane fade in">
-													<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Date</span>
-							       							<form:input type="date" class="form-control input-control" path="date"/>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Length (minutes)</span>
-							       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Text</span>
-							       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
-							       						</div>
-							       						<button type="submit" class="btn btn-default btn-submit">
-							                        		<span class="glyphicon glyphicon-save"></span>
-							                        		Log work
-							                    		</button>
-						       						</form:form>
+													<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState == 'InProgress'}">													
+														<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Date</span>
+								       							<form:input type="date" class="form-control input-control" path="date"/>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Length (minutes)</span>
+								       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Text</span>
+								       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
+								       						</div>
+								       						<button type="submit" class="btn btn-default btn-submit">
+								                        		<span class="glyphicon glyphicon-save"></span>
+								                        		Log work
+								                    		</button>
+							       						</form:form>
+													</c:if>
 						       						<div class="info-bar">Worklogs</div>
 						       						<table class="detail-table">
 														<tr>
@@ -667,24 +669,26 @@
 													</table>
 												</div>			
 												<div class="section-worklogs tab-pane fade in">
-													<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Date</span>
-							       							<form:input type="date" class="form-control input-control" path="date"/>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Length (minutes)</span>
-							       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Text</span>
-							       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
-							       						</div>
-							       						<button type="submit" class="btn btn-default btn-submit">
-							                        		<span class="glyphicon glyphicon-save"></span>
-							                        		Log work
-							                    		</button>
-						       						</form:form>
+													<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState == 'InProgress'}">													
+														<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Date</span>
+								       							<form:input type="date" class="form-control input-control" path="date"/>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Length (minutes)</span>
+								       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Text</span>
+								       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
+								       						</div>
+								       						<button type="submit" class="btn btn-default btn-submit">
+								                        		<span class="glyphicon glyphicon-save"></span>
+								                        		Log work
+								                    		</button>
+							       						</form:form>
+													</c:if>
 						       						<div class="info-bar">Worklogs</div>
 						       						<table class="detail-table">
 														<tr>
@@ -950,24 +954,26 @@
 													</table>
 												</div>			
 												<div class="section-worklogs tab-pane fade in">
-													<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Date</span>
-							       							<form:input type="date" class="form-control input-control" path="date"/>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Length (minutes)</span>
-							       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
-							       						</div>
-							       						<div class="input-group">
-							       							<span class="input-group-addon">Text</span>
-							       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
-							       						</div>
-							       						<button type="submit" class="btn btn-default btn-submit">
-							                        		<span class="glyphicon glyphicon-save"></span>
-							                        		Log work
-							                    		</button>
-						       						</form:form>
+													<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState == 'InProgress'}">													
+														<form:form action="logWork.htm?taskID=${task.id}" modelAttribute="worklog">
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Date</span>
+								       							<form:input type="date" class="form-control input-control" path="date"/>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Length (minutes)</span>
+								       							<form:input type="text" class="form-control input-control" path="loggedMinutes"></form:input>
+								       						</div>
+								       						<div class="input-group">
+								       							<span class="input-group-addon">Text</span>
+								       							<form:textarea class="form-control input-control" path="logText"></form:textarea>
+								       						</div>
+								       						<button type="submit" class="btn btn-default btn-submit">
+								                        		<span class="glyphicon glyphicon-save"></span>
+								                        		Log work
+								                    		</button>
+							       						</form:form>
+													</c:if>
 						       						<div class="info-bar">Worklogs</div>
 						       						<table class="detail-table">
 														<tr>
