@@ -247,24 +247,26 @@
 				<div class="sprint-stats">
 					<%-- Show the sandclock-icon depending on the remaining days  --%>
 					<div class="sprint-time-overview">
-						<c:choose>
-							<c:when test="${sprint.getRemainingDays() > 3}">
-								<img src="./resources/images/sandclock/SandClock_4.png" alt=""
-									class="sprint-sandclock"></img>
-							</c:when>
-							<c:when test="${sprint.getRemainingDays() > 1}">
-								<img src="./resources/images/sandclock/SandClock_3.png" alt=""
-									class="sprint-sandclock"></img>
-							</c:when>
-							<c:when test="${sprint.getRemainingDays() == 1}">
-								<img src="./resources/images/sandclock/SandClock_1.png" alt=""
-									class="sprint-sandclock"></img>
-							</c:when>
-							<c:otherwise>
-								<img src="./resources/images/sandclock/SandClock_0.png" alt=""
-									class="sprint-sandclock"></img>
-							</c:otherwise>
-						</c:choose>
+						<c:if test="${sprint.planState.toString()!='Done' }">
+							<c:choose>
+								<c:when test="${sprint.getRemainingDays() > 3}">
+									<img src="./resources/images/sandclock/SandClock_4.png" alt=""
+										class="sprint-sandclock"></img>
+								</c:when>
+								<c:when test="${sprint.getRemainingDays() > 1}">
+									<img src="./resources/images/sandclock/SandClock_3.png" alt=""
+										class="sprint-sandclock"></img>
+								</c:when>
+								<c:when test="${sprint.getRemainingDays() == 1}">
+									<img src="./resources/images/sandclock/SandClock_1.png" alt=""
+										class="sprint-sandclock"></img>
+								</c:when>
+								<c:otherwise>
+									<img src="./resources/images/sandclock/SandClock_0.png" alt=""
+										class="sprint-sandclock"></img>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
 						<div class="sprint-date">${sprint.startDate.toString().substring(0,10)}
 							-</br>${sprint.endDate.toString().substring(0,10)}</div>
 						<div class="sprint-time">
