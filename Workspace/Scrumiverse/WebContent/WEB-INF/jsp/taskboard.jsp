@@ -17,7 +17,7 @@
 		});
 
 		// task-details specific JavaScript    
-		// handles load of modal on pageload 
+		// handles load of modal on pageload
 		var target = document.location.hash.replace("#", "");
 		if (target.length) {
 			var targetModal = $('.modal-detail[taskid="'+ target + '"]');
@@ -55,12 +55,25 @@
 			if (e.which == 13) {
 				var taskID = $(this).closest('.modal-detail').attr('taskid');
 				var estTime = $.trim($(this).val());
-				if (estTime != "") {
+				// checks whether the inserted value is not empty, is a numeric number, is not decimal and is positive
+				if (estTime != "" && $.isNumeric(estTime) && (Math.floor(estTime) == estTime) && estTime >= 0) {
 					var targetUrl = './setEstimatedTimeOfUser.htm?taskID='+ taskID + '&estTime='+ estTime;
 					window.location.href = targetUrl;
 				}
 				return false;
 			}
+		});
+		
+		// checks whether the inserted value in the worklog form is not empty, 
+		// is a numeric number, is not decimal and is positive
+		$('.section-worklogs .input-group:nth-child(2) > input').keyup(function(e) {
+			var estTime = $.trim($(this).val());
+			var button = $(this).closest('form').children('button[type="submit"]');
+			var integerReg = /^\d+$/;
+			if (integerReg.test(estTime))
+				button.prop('disabled', false);
+			else
+				button.prop('disabled', true);
 		});
 	});
 
@@ -313,7 +326,7 @@
 															<th>
 																Estimated
 																<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState eq 'Planning'}">
-																	 (can be changed)
+																	 (can be edited - in minutes)
 																</c:if>
 															</th>
 															<th>Spent</th>
@@ -335,13 +348,14 @@
 																		</c:when>
 																		<c:otherwise>
 																			<fmt:formatNumber value="${userEntry.value / 60}" maxFractionDigits="1" />h																	
-																	</c:otherwise>
+																		</c:otherwise>
 																	</c:choose>
 																</td>
 																<td>
 																	<fmt:formatNumber value="${userWorkedTimeOfTask[task][userEntry.key] / 60}" maxFractionDigits="1" />h
 																</td>
 																<td>
+																	<%-- changes the remaining time to 0 when the remaining time would be below zero --%>
 																	<c:choose>
 																		<c:when test="${((userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60) >= 0}">
 																			<fmt:formatNumber value="${(userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60}" maxFractionDigits="1" />h
@@ -598,7 +612,7 @@
 															<th>
 																Estimated
 																<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState eq 'Planning'}">
-																	 (can be changed)
+																	 (can be edited - in minutes)
 																</c:if>
 															</th>
 															<th>Spent</th>
@@ -620,13 +634,14 @@
 																		</c:when>
 																		<c:otherwise>
 																			<fmt:formatNumber value="${userEntry.value / 60}" maxFractionDigits="1" />h																	
-																	</c:otherwise>
+																		</c:otherwise>
 																	</c:choose>
 																</td>
 																<td>
 																	<fmt:formatNumber value="${userWorkedTimeOfTask[task][userEntry.key] / 60}" maxFractionDigits="1" />h
 																</td>
 																<td>
+																	<%-- changes the remaining time to 0 when the remaining time would be below zero --%>
 																	<c:choose>
 																		<c:when test="${((userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60) >= 0}">
 																			<fmt:formatNumber value="${(userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60}" maxFractionDigits="1" />h
@@ -883,7 +898,7 @@
 															<th>
 																Estimated
 																<c:if test="${task.getResponsibleUsers().contains(currentUser) && task.planState eq 'Planning'}">
-																	 (can be changed)
+																	 (can be edited - in minutes)
 																</c:if>
 															</th>
 															<th>Spent</th>
@@ -905,13 +920,14 @@
 																		</c:when>
 																		<c:otherwise>
 																			<fmt:formatNumber value="${userEntry.value / 60}" maxFractionDigits="1" />h																	
-																	</c:otherwise>
+																		</c:otherwise>
 																	</c:choose>
 																</td>
 																<td>
 																	<fmt:formatNumber value="${userWorkedTimeOfTask[task][userEntry.key] / 60}" maxFractionDigits="1" />h
 																</td>
 																<td>
+																	<%-- changes the remaining time to 0 when the remaining time would be below zero --%>
 																	<c:choose>
 																		<c:when test="${((userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60) >= 0}">
 																			<fmt:formatNumber value="${(userEntry.value - userWorkedTimeOfTask[task][userEntry.key]) / 60}" maxFractionDigits="1" />h
