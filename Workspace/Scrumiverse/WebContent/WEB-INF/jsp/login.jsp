@@ -30,7 +30,7 @@ $(document).ready(function(){
                 <form:input path="password" type="password" class="form-control" id="password" placeholder="Password" />
             </div>
             <button type="submit" id="largebutton" class="btn btn-default">login</button>
-            <p>Haven't an account yet? <a href="./register.htm">Register</a> now!</p>
+            <p>Don't have an account yet? <a href="./register.htm">Register</a> now!</p>
         </form:form>
     </div>
     <%-- Login form end--%>

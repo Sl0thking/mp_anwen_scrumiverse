@@ -298,7 +298,7 @@
 							</div>
 							<div class="progressbar">
 								<div class="progress"
-									style="width:${sprint.getRemainingMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
+									style="width:${sprint.getWorkedMinutes() / sprint.getPlannedMinutes() * 100}%"></div>
 							</div>
 						</div>
 						<div class="data-container">
@@ -334,13 +334,13 @@
 						<div class="userstory-content">
 							Time:
 							<fmt:formatNumber value="${userstory.getWorkedMinutes()/60}"
-								maxFractionDigits="0" />
+								maxFractionDigits="1" />
 							/
 							<fmt:formatNumber value="${userstory.getRemainingMinutes()/60}"
-								maxFractionDigits="0" />
+								maxFractionDigits="1" />
 							/
 							<fmt:formatNumber value="${userstory.getPlannedMinutes()/60}"
-								maxFractionDigits="0" />
+								maxFractionDigits="1" />
 							h</br>
 							Effort: ${userstory.getEffortValue()}</br>
 							Value: ${userstory.getBusinessValue()}
