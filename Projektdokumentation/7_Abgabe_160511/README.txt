@@ -7,6 +7,7 @@ l.   Inhalte der Abgabe
 - Finale Präsentation - Projektpräsentation_Final.pdf
 - (Quelldateien unter src)
 - Datenbank Schema zum importieren (Mysql) - scrumiversedb.sql
+- Exportiertes Projekt (unter .\quellcode\)
 
 ll.  Repository Adresse
 - https://github.com/Sl0thking/mp_anwen_scrumiverse
