@@ -21,10 +21,14 @@
     	<!-- <property name="maxUploadSize" value="100000"/> -->
 	</bean>
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-                <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/scrumiverseDB"/>
-                <property name="username" value="Scrumi"/>
-                <property name="password" value="root"/>
+                <!-- <property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/> 
+				<property name="url" value="jdbc:hsqldb:mem:scrumiverse"/> 
+                <property name="username" value="SA"/>
+                <property name="password" value=""/>  -->
+                <property name="driverClassName" value="com.mysql.jdbc.Driver"/> 
+                <property name="url" value="jdbc:mysql://localhost:3306/scrumiverseDB"/> 
+                <property name="username" value="Scrumi"/> 
+                <property name="password" value="root"/> 
         </bean>
         <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
                 <property name="dataSource" ref="myDataSource" />
@@ -47,6 +51,7 @@
                 <property name="hibernateProperties">
                         <props>
                                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                                <!-- <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>  -->
                                 <prop key="hibernate.show_sql">false</prop>
                                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                                 <prop key="hibernate.connection.CharSet">utf8</prop>
